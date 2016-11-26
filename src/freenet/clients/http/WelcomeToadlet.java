@@ -161,7 +161,7 @@ public class WelcomeToadlet extends Toadlet {
             content.addChild("p").addChild("#", l10n("thanks"));
             writeHTMLReply(ctx, 200, "OK", pageNode.generate());
             Logger.normal(this, "Node is updating/restarting");
-            node.getNodeUpdater().arm();
+            //node.getNodeUpdater().arm();
         } else if (request.getPartAsStringFailsafe("update", 32).length() > 0) {
         	PageNode page = ctx.getPageMaker().getPageNode(l10n("nodeUpdateConfirmTitle"), ctx);
             HTMLNode pageNode = page.outer;

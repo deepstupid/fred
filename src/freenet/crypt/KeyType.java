@@ -19,7 +19,7 @@ public enum KeyType {
     HMACSHA512("HMACSHA512", 512),
     POLY1305AES("POLY1305-AES", 256, 128),
     ChaCha128("CHACHA", 128, 64),
-    //ChaCha256("CHACHA", 256, 64)
+    ChaCha256("CHACHA", 256, 64)
     ;
 
     public final String alg;

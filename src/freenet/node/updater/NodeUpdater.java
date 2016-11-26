@@ -1,37 +1,13 @@
 package freenet.node.updater;
 
-import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
 import freenet.client.FetchContext;
 import freenet.client.FetchException;
 import freenet.client.FetchException.FetchExceptionMode;
 import freenet.client.FetchResult;
-import freenet.client.async.BinaryBlobWriter;
-import freenet.client.async.ClientContext;
-import freenet.client.async.ClientGetCallback;
-import freenet.client.async.ClientGetter;
-import freenet.client.async.PersistenceDisabledException;
-import freenet.client.async.USKCallback;
+import freenet.client.async.*;
 import freenet.keys.FreenetURI;
 import freenet.keys.USK;
-import freenet.node.Node;
-import freenet.node.NodeClientCore;
-import freenet.node.RequestClient;
-import freenet.node.RequestStarter;
-import freenet.node.Version;
+import freenet.node.*;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.Ticker;
@@ -41,6 +17,14 @@ import freenet.support.io.Closer;
 import freenet.support.io.FileBucket;
 import freenet.support.io.FileUtil;
 import freenet.support.io.NullOutputStream;
+
+import java.io.*;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public abstract class NodeUpdater implements ClientGetCallback, USKCallback, RequestClient {
 
@@ -89,43 +73,43 @@ public abstract class NodeUpdater implements ClientGetCallback, USKCallback, Req
 
 	}
 
-	void start() {
-		try {
-			// because of UoM, this version is actually worth having as well
-			USK myUsk = USK.create(URI.setSuggestedEdition(currentVersion));
-			core.uskManager.subscribe(myUsk, this, true, getRequestClient());
-		} catch(MalformedURLException e) {
-			Logger.error(this, "The auto-update URI isn't valid and can't be used");
-			manager.blow("The auto-update URI isn't valid and can't be used", true);
-		}
-	}
-	
-	protected void maybeProcessOldBlob() {
-		File oldBlob = getBlobFile(currentVersion);
-		if(oldBlob.exists()) {
-			File temp;
-			try {
-				temp = File.createTempFile(blobFilenamePrefix + availableVersion + "-", ".fblob.tmp", manager.node.clientCore.getPersistentTempDir());
-			} catch (IOException e) {
-				Logger.error(this, "Unable to process old blob: "+e, e);
-				return;
-			}
-			if(oldBlob.renameTo(temp)) {
-				FreenetURI uri = URI.setSuggestedEdition(currentVersion);
-				uri = uri.sskForUSK();
-				try {
-					manager.uom.processMainJarBlob(temp, null, currentVersion, uri);
-				} catch (Throwable t) {
-					// Don't disrupt startup.
-					Logger.error(this, "Unable to process old blob, caught "+t, t);
-				}
-				temp.delete();
-			} else {
-				Logger.error(this, "Unable to rename old blob file "+oldBlob+" to "+temp+" so can't process it.");
-			}
-		}
-
-	}
+//	void start() {
+//		try {
+//			// because of UoM, this version is actually worth having as well
+//			USK myUsk = USK.create(URI.setSuggestedEdition(currentVersion));
+//			core.uskManager.subscribe(myUsk, this, true, getRequestClient());
+//		} catch(MalformedURLException e) {
+//			Logger.error(this, "The auto-update URI isn't valid and can't be used");
+//			manager.blow("The auto-update URI isn't valid and can't be used", true);
+//		}
+//	}
+//
+//	protected void maybeProcessOldBlob() {
+//		File oldBlob = getBlobFile(currentVersion);
+//		if(oldBlob.exists()) {
+//			File temp;
+//			try {
+//				temp = File.createTempFile(blobFilenamePrefix + availableVersion + "-", ".fblob.tmp", manager.node.clientCore.getPersistentTempDir());
+//			} catch (IOException e) {
+//				Logger.error(this, "Unable to process old blob: "+e, e);
+//				return;
+//			}
+//			if(oldBlob.renameTo(temp)) {
+//				FreenetURI uri = URI.setSuggestedEdition(currentVersion);
+//				uri = uri.sskForUSK();
+//				try {
+//					manager.uom.processMainJarBlob(temp, null, currentVersion, uri);
+//				} catch (Throwable t) {
+//					// Don't disrupt startup.
+//					Logger.error(this, "Unable to process old blob, caught "+t, t);
+//				}
+//				temp.delete();
+//			} else {
+//				Logger.error(this, "Unable to rename old blob file "+oldBlob+" to "+temp+" so can't process it.");
+//			}
+//		}
+//
+//	}
 
 	public RequestClient getRequestClient() {
 		return this;

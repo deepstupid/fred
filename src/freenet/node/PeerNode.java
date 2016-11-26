@@ -1,61 +1,14 @@
 package freenet.node;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.lang.ref.WeakReference;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
-import java.security.interfaces.ECPublicKey;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
-
 import freenet.client.FetchResult;
 import freenet.client.async.USKRetriever;
 import freenet.client.async.USKRetrieverCallback;
-import freenet.crypt.BlockCipher;
-import freenet.crypt.DSAPublicKey;
-import freenet.crypt.ECDSA;
+import freenet.crypt.*;
 import freenet.crypt.ECDSA.Curves;
-import freenet.crypt.Global;
-import freenet.crypt.HMAC;
-import freenet.crypt.KeyAgreementSchemeContext;
-import freenet.crypt.SHA256;
-import freenet.crypt.UnsupportedCipherException;
 import freenet.crypt.ciphers.Rijndael;
 import freenet.io.AddressTracker;
-import freenet.io.comm.AsyncMessageCallback;
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.FreenetInetAddress;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageFilter;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.Peer;
+import freenet.io.comm.*;
 import freenet.io.comm.Peer.LocalAddressException;
-import freenet.io.comm.PeerParseException;
-import freenet.io.comm.ReferenceSignatureVerificationException;
-import freenet.io.comm.SocketHandler;
 import freenet.io.xfer.PacketThrottle;
 import freenet.keys.ClientSSK;
 import freenet.keys.FreenetURI;
@@ -67,16 +20,8 @@ import freenet.node.NodeStats.RunningRequestsSnapshot;
 import freenet.node.OpennetManager.ConnectionType;
 import freenet.node.PeerManager.PeerStatusChangeListener;
 import freenet.support.Base64;
-import freenet.support.BooleanLastTrueTracker;
-import freenet.support.Fields;
-import freenet.support.HexUtil;
-import freenet.support.IllegalBase64Exception;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.SimpleFieldSet;
-import freenet.support.TimeUtil;
-import freenet.support.WeakHashSet;
 import freenet.support.math.MersenneTwister;
 import freenet.support.math.RunningAverage;
 import freenet.support.math.SimpleRunningAverage;
@@ -84,11 +29,18 @@ import freenet.support.math.TimeDecayingRunningAverage;
 import freenet.support.transport.ip.HostnameSyntaxException;
 import freenet.support.transport.ip.IPUtil;
 
-import static java.util.concurrent.TimeUnit.DAYS;
-import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import java.io.*;
+import java.lang.ref.WeakReference;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
+import java.security.interfaces.ECPublicKey;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.zip.DataFormatException;
+import java.util.zip.Inflater;
+
+import static java.util.concurrent.TimeUnit.*;
 
 /**
  * @author amphibian
@@ -1238,7 +1190,7 @@ public abstract class PeerNode implements USKRetrieverCallback, BasePeerNode, Pe
 			node.tracker.onRestartOrDisconnect(this);
 		node.failureTable.onDisconnect(this);
 		node.peers.disconnected(this);
-		node.nodeUpdater.disconnected(this);
+		//node.nodeUpdater.disconnected(this);
 		boolean ret;
 		SessionKey cur, prev, unv;
 		MessageItem[] messagesTellDisconnected = null;
@@ -2358,8 +2310,9 @@ public abstract class PeerNode implements USKRetrieverCallback, BasePeerNode, Pe
 	public void processDiffNoderef(SimpleFieldSet fs) throws FSParseException {
 		processNewNoderef(fs, false, true, false);
 		// Send UOMAnnouncement only *after* we know what the other side's version.
-		if(isRealConnection())
-		    node.nodeUpdater.maybeSendUOMAnnounce(this);
+		/*if(isRealConnection()) {
+			node.nodeUpdater.maybeSendUOMAnnounce(this);
+		}*/
 	}
 
 	/**

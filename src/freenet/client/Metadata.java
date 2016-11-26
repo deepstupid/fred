@@ -3,20 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.security.MessageDigest;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
 import freenet.client.ArchiveManager.ARCHIVE_TYPE;
 import freenet.client.FetchException.FetchExceptionMode;
 import freenet.client.InsertContext.CompatibilityMode;
@@ -40,6 +26,13 @@ import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
 import freenet.support.io.Closer;
 import freenet.support.io.CountedOutputStream;
 import freenet.support.io.NullOutputStream;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.security.MessageDigest;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 /** Metadata parser/writer class. */
 public class Metadata implements Cloneable, Serializable {
@@ -411,9 +404,10 @@ public class Metadata implements Cloneable, Serializable {
 		}
 
 		if(compressed) {
-			compressionCodec = COMPRESSOR_TYPE.getCompressorByMetadataID(dis.readShort());
+			short compID = dis.readShort();
+			compressionCodec = COMPRESSOR_TYPE.getCompressorByMetadataID(compID);
 			if(compressionCodec == null)
-				throw new MetadataParseException("Unrecognized splitfile compression codec "+compressionCodec);
+				throw new MetadataParseException("Unrecognized splitfile compression codec "+ compID + " " + compressionCodec);
 
 			decompressedLength = dis.readLong();
 		}

@@ -3,20 +3,8 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.concurrent.ArrayBlockingQueue;
-
 import freenet.crypt.HMAC;
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.Dispatcher;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageType;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.Peer;
+import freenet.io.comm.*;
 import freenet.keys.Key;
 import freenet.keys.KeyBlock;
 import freenet.keys.NodeCHK;
@@ -31,6 +19,12 @@ import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.ShortBuffer;
 import freenet.support.io.NativeThread;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * @author amphibian
@@ -159,20 +153,20 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 		} else if(spec == DMT.nodeToNodeMessage) {
 			node.receivedNodeToNodeMessage(m, source);
 			return true;
-		} else if(spec == DMT.UOMAnnouncement && source.isRealConnection()) {
-			return node.nodeUpdater.uom.handleAnnounce(m, source);
-		} else if(spec == DMT.UOMRequestRevocation && source.isRealConnection()) {
-			return node.nodeUpdater.uom.handleRequestRevocation(m, source);
-		} else if(spec == DMT.UOMSendingRevocation && source.isRealConnection()) {
-			return node.nodeUpdater.uom.handleSendingRevocation(m, source);
-		} else if(spec == DMT.UOMRequestMainJar && node.nodeUpdater.isEnabled() && source.isRealConnection()) {
-			node.nodeUpdater.uom.handleRequestJar(m, source);
-			return true;
-		} else if(spec == DMT.UOMSendingMainJar && node.nodeUpdater.isEnabled() && source.isRealConnection()) {
-			return node.nodeUpdater.uom.handleSendingMain(m, source);
-		} else if(spec == DMT.UOMFetchDependency && node.nodeUpdater.isEnabled() && source.isRealConnection()) {
-			node.nodeUpdater.uom.handleFetchDependency(m, source);
-			return true;
+//		} else if(spec == DMT.UOMAnnouncement && source.isRealConnection()) {
+//			return node.nodeUpdater.uom.handleAnnounce(m, source);
+//		} else if(spec == DMT.UOMRequestRevocation && source.isRealConnection()) {
+//			return node.nodeUpdater.uom.handleRequestRevocation(m, source);
+//		} else if(spec == DMT.UOMSendingRevocation && source.isRealConnection()) {
+//			return node.nodeUpdater.uom.handleSendingRevocation(m, source);
+//		} else if(spec == DMT.UOMRequestMainJar && node.nodeUpdater.isEnabled() && source.isRealConnection()) {
+//			node.nodeUpdater.uom.handleRequestJar(m, source);
+//			return true;
+//		} else if(spec == DMT.UOMSendingMainJar && node.nodeUpdater.isEnabled() && source.isRealConnection()) {
+//			return node.nodeUpdater.uom.handleSendingMain(m, source);
+//		} else if(spec == DMT.UOMFetchDependency && node.nodeUpdater.isEnabled() && source.isRealConnection()) {
+//			node.nodeUpdater.uom.handleFetchDependency(m, source);
+//			return true;
 		} else if(spec == DMT.FNPOpennetAnnounceRequest) {
 			return handleAnnounceRequest(m, source);
 		} else if(spec == DMT.FNPRoutingStatus) {

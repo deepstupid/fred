@@ -4,86 +4,16 @@
 /* Freenet 0.7 node. */
 package freenet.node;
 
-import static freenet.node.stats.DataStoreKeyType.CHK;
-import static freenet.node.stats.DataStoreKeyType.PUB_KEY;
-import static freenet.node.stats.DataStoreKeyType.SSK;
-import static freenet.node.stats.DataStoreType.CACHE;
-import static freenet.node.stats.DataStoreType.CLIENT;
-import static freenet.node.stats.DataStoreType.SLASHDOT;
-import static freenet.node.stats.DataStoreType.STORE;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.Random;
-import java.util.Set;
-
-////import org.tanukisoftware.wrapper.WrapperManager;
-
 import freenet.client.FetchContext;
 import freenet.clients.fcp.FCPMessage;
 import freenet.clients.fcp.FeedMessage;
 import freenet.clients.http.SecurityLevelsToadlet;
 import freenet.clients.http.SimpleToadletServer;
-import freenet.config.EnumerableOptionCallback;
-import freenet.config.FreenetFilePersistentConfig;
-import freenet.config.InvalidConfigValueException;
-import freenet.config.NodeNeedRestartException;
-import freenet.config.PersistentConfig;
-import freenet.config.SubConfig;
-import freenet.crypt.DSAPublicKey;
-import freenet.crypt.ECDH;
-import freenet.crypt.MasterSecret;
-import freenet.crypt.PersistentRandomSource;
-import freenet.crypt.RandomSource;
-import freenet.crypt.Yarrow;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.FreenetInetAddress;
-import freenet.io.comm.IOStatisticCollector;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageCore;
-import freenet.io.comm.MessageFilter;
-import freenet.io.comm.Peer;
-import freenet.io.comm.PeerParseException;
-import freenet.io.comm.ReferenceSignatureVerificationException;
-import freenet.io.comm.TrafficClass;
-import freenet.io.comm.UdpSocketHandler;
+import freenet.config.*;
+import freenet.crypt.*;
+import freenet.io.comm.*;
 import freenet.io.xfer.PartiallyReceivedBlock;
-import freenet.keys.CHKBlock;
-import freenet.keys.CHKVerifyException;
-import freenet.keys.ClientCHK;
-import freenet.keys.ClientCHKBlock;
-import freenet.keys.ClientKey;
-import freenet.keys.ClientKeyBlock;
-import freenet.keys.ClientSSK;
-import freenet.keys.ClientSSKBlock;
-import freenet.keys.Key;
-import freenet.keys.KeyBlock;
-import freenet.keys.KeyVerifyException;
-import freenet.keys.NodeCHK;
-import freenet.keys.NodeSSK;
-import freenet.keys.SSKBlock;
-import freenet.keys.SSKVerifyException;
+import freenet.keys.*;
 import freenet.l10n.BaseL10n;
 import freenet.l10n.NodeL10n;
 import freenet.node.DarknetPeerNode.FRIEND_TRUST;
@@ -98,56 +28,37 @@ import freenet.node.stats.DataStoreInstanceType;
 import freenet.node.stats.DataStoreStats;
 import freenet.node.stats.NotAvailNodeStoreStats;
 import freenet.node.stats.StoreCallbackStats;
-import freenet.node.updater.NodeUpdateManager;
-import freenet.node.useralerts.JVMVersionAlert;
-import freenet.node.useralerts.MeaningfulNodeNameUserAlert;
-import freenet.node.useralerts.NotEnoughNiceLevelsUserAlert;
-import freenet.node.useralerts.SimpleUserAlert;
-import freenet.node.useralerts.TimeSkewDetectedUserAlert;
-import freenet.node.useralerts.UserAlert;
+import freenet.node.useralerts.*;
 import freenet.pluginmanager.ForwardPort;
 import freenet.pluginmanager.PluginDownLoaderOfficialHTTPS;
 import freenet.pluginmanager.PluginManager;
-import freenet.store.BlockMetadata;
-import freenet.store.CHKStore;
-import freenet.store.FreenetStore;
-import freenet.store.KeyCollisionException;
-import freenet.store.NullFreenetStore;
-import freenet.store.PubkeyStore;
-import freenet.store.RAMFreenetStore;
-import freenet.store.SSKStore;
-import freenet.store.SlashdotStore;
-import freenet.store.StorableBlock;
-import freenet.store.StoreCallback;
+import freenet.store.*;
 import freenet.store.caching.CachingFreenetStore;
 import freenet.store.caching.CachingFreenetStoreTracker;
 import freenet.store.saltedhash.ResizablePersistentIntBuffer;
 import freenet.store.saltedhash.SaltedHashFreenetStore;
-import freenet.support.Executor;
-import freenet.support.Fields;
-import freenet.support.HTMLNode;
-import freenet.support.HexUtil;
-import freenet.support.JVMVersion;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.PooledExecutor;
-import freenet.support.PrioritizedTicker;
-import freenet.support.ShortBuffer;
-import freenet.support.SimpleFieldSet;
-import freenet.support.Ticker;
-import freenet.support.TokenBucket;
-import freenet.support.api.BooleanCallback;
-import freenet.support.api.IntCallback;
-import freenet.support.api.LongCallback;
-import freenet.support.api.ShortCallback;
-import freenet.support.api.StringCallback;
+import freenet.support.api.*;
 import freenet.support.io.ArrayBucketFactory;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
 import freenet.support.io.NativeThread;
 import freenet.support.math.MersenneTwister;
 import freenet.support.transport.ip.HostnameSyntaxException;
+
+import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.security.SecureRandom;
+import java.util.*;
+
+import static freenet.node.stats.DataStoreKeyType.*;
+import static freenet.node.stats.DataStoreType.*;
+import static java.util.concurrent.TimeUnit.*;
+
+////import org.tanukisoftware.wrapper.WrapperManager;
+//import freenet.node.updater.NodeUpdateManager;
 
 /**
  * @author amphibian
@@ -725,7 +636,7 @@ public class Node implements TimeSkewDetectorCallback {
 	public int lastVersion;
 
 	/** NodeUpdater **/
-	public final NodeUpdateManager nodeUpdater;
+	//public final NodeUpdateManager nodeUpdater;
 
 	public final SecurityLevels securityLevels;
 
@@ -1675,13 +1586,13 @@ public class Node implements TimeSkewDetectorCallback {
 		
 		// Node updater support
 
-		System.out.println("Initializing Node Updater");
-		try {
-			nodeUpdater = NodeUpdateManager.maybeCreate(this, config);
-		} catch (InvalidConfigValueException e) {
-			e.printStackTrace();
-			throw new NodeInitException(NodeInitException.EXIT_COULD_NOT_START_UPDATER, "Could not create Updater: "+e);
-		}
+//		System.out.println("Initializing Node Updater");
+//		try {
+//			nodeUpdater = NodeUpdateManager.maybeCreate(this, config);
+//		} catch (InvalidConfigValueException e) {
+//			e.printStackTrace();
+//			throw new NodeInitException(NodeInitException.EXIT_COULD_NOT_START_UPDATER, "Could not create Updater: "+e);
+//		}
 
 		// Opennet
 
@@ -3032,7 +2943,7 @@ public class Node implements TimeSkewDetectorCallback {
 		// Node Updater
 		try{
 			Logger.normal(this, "Starting the node updater");
-			nodeUpdater.start();
+			//nodeUpdater.start();
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new NodeInitException(NodeInitException.EXIT_COULD_NOT_START_UPDATER, "Could not start Updater: "+e);
@@ -3885,9 +3796,9 @@ public class Node implements TimeSkewDetectorCallback {
         }
 	}
 
-	public NodeUpdateManager getNodeUpdater(){
-		return nodeUpdater;
-	}
+//	public NodeUpdateManager getNodeUpdater(){
+//		return nodeUpdater;
+//	}
 
 	public DarknetPeerNode[] getDarknetConnections() {
 		return peers.getDarknetPeers();

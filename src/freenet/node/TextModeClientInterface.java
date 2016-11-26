@@ -1,42 +1,7 @@
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.net.MalformedURLException;
-import java.net.SocketException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.text.NumberFormat;
-import java.util.HashMap;
-
-import freenet.client.ClientMetadata;
-import freenet.client.DefaultMIMETypes;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.FetchResult;
-import freenet.client.FetchWaiter;
-import freenet.client.HighLevelSimpleClient;
-import freenet.client.InsertBlock;
-import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
 import freenet.client.async.ClientGetter;
 import freenet.client.async.DumperSnoopMetadata;
@@ -51,17 +16,20 @@ import freenet.keys.FreenetURI;
 import freenet.keys.InsertableClientSSK;
 import freenet.node.DarknetPeerNode.FRIEND_TRUST;
 import freenet.node.DarknetPeerNode.FRIEND_VISIBILITY;
-import freenet.support.HexUtil;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.SimpleFieldSet;
-import freenet.support.SizeUtil;
 import freenet.support.api.Bucket;
 import freenet.support.io.ArrayBucket;
 import freenet.support.io.BucketTools;
 import freenet.support.io.Closer;
 import freenet.support.io.FileBucket;
+
+import java.io.*;
+import java.net.*;
+import java.text.NumberFormat;
+import java.util.HashMap;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
  * @author amphibian
@@ -429,7 +397,7 @@ public class TextModeClientInterface implements Runnable {
     		@Override
     		public void run() {
     		    freenet.support.Logger.OSThread.logPID(this);
-    			n.getNodeUpdater().arm();
+    			//n.getNodeUpdater().arm();
     		}
     	}, 0);
     	outsb.append("\r\n");
@@ -473,13 +441,13 @@ public class TextModeClientInterface implements Runnable {
     		output.free();
     	}
     	outsb.append("\r\n");
-    }else if(uline.startsWith("BLOW")) {
+    }/*else if(uline.startsWith("BLOW")) {
     	n.getNodeUpdater().blow("caught an  IOException : (Incompetent Operator) :p", true);
     	outsb.append("\r\n");
     	w.write(outsb.toString());
     	w.flush();
     	return false;
-	} else if(uline.startsWith("SHUTDOWN")) {
+	}*/ else if(uline.startsWith("SHUTDOWN")) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Shutting node down.\r\n");
 		w.write(sb.toString());

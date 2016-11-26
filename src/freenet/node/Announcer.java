@@ -3,19 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-
 import freenet.io.comm.PeerParseException;
 import freenet.io.comm.ReferenceSignatureVerificationException;
 import freenet.l10n.NodeL10n;
@@ -23,15 +10,17 @@ import freenet.node.useralerts.AbstractUserEvent;
 import freenet.node.useralerts.SimpleUserAlert;
 import freenet.node.useralerts.UserAlert;
 import freenet.node.useralerts.UserEvent;
-import freenet.support.ByteArrayWrapper;
-import freenet.support.HTMLNode;
-import freenet.support.ListUtils;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.SimpleFieldSet;
-import freenet.support.TimeUtil;
 import freenet.support.io.Closer;
 import freenet.support.transport.ip.IPUtil;
+
+import java.io.*;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -312,10 +301,10 @@ public class Announcer {
 		public HTMLNode getHTMLText() {
 			HTMLNode div = new HTMLNode("div");
 			div.addChild("#", l10n("announceDisabledTooOld"));
-			if(!node.nodeUpdater.isEnabled()) {
-				div.addChild("#", " ");
-				NodeL10n.getBase().addL10nSubstitution(div, "Announcer.announceDisabledTooOldUpdateDisabled", new String[] { "config" }, new HTMLNode[] { HTMLNode.link("/config/node.updater") });
-			}
+//			if(!node.nodeUpdater.isEnabled()) {
+//				div.addChild("#", " ");
+//				NodeL10n.getBase().addL10nSubstitution(div, "Announcer.announceDisabledTooOldUpdateDisabled", new String[] { "config" }, new HTMLNode[] { HTMLNode.link("/config/node.updater") });
+//			}
 			// No point with !armed() or blown() because they have their own messages.
 			return div;
 		}
@@ -325,15 +314,15 @@ public class Announcer {
 			StringBuilder sb = new StringBuilder();
 			sb.append(l10n("announceDisabledTooOld"));
 			sb.append(" ");
-			if(!node.nodeUpdater.isEnabled()) {
-				sb.append(l10n("announceDisabledTooOldUpdateDisabled", new String[] { "config", "/config" }, new String[] { "", "" }));
-			}
+//			if(!node.nodeUpdater.isEnabled()) {
+//				sb.append(l10n("announceDisabledTooOldUpdateDisabled", new String[] { "config", "/config" }, new String[] { "", "" }));
+//			}
 			return sb.toString();
 		}
 		
 		@Override
 		public boolean isValid() {
-			if(node.nodeUpdater.isEnabled()) return false;
+			//if(node.nodeUpdater.isEnabled()) return false;
 			// If it is enabled but not armed there will be a message from the updater.
 			synchronized(Announcer.this) {
 				return killedAnnouncementTooOld;
@@ -359,58 +348,41 @@ public class Announcer {
 			return true;
 		}
 		boolean killAnnouncement = false;
-		if((!node.nodeUpdater.isEnabled()) ||
-				(node.nodeUpdater.canUpdateNow() && !node.nodeUpdater.isArmed())) {
-			// If we also have 10 TOO_NEW peers, we should shut down the announcement,
-			// because we're obviously broken and would only be spamming the seednodes
-			synchronized(this) {
-				// Once we have shut down announcement, this persists until the auto-updater
-				// is enabled.
-				if(killedAnnouncementTooOld) return true;
-			}
-			if(node.peers.getPeerNodeStatusSize(PeerManager.PEER_NODE_STATUS_TOO_NEW, false) > 10) {
-				synchronized(this) {
-					if(killedAnnouncementTooOld) return true;
-					killedAnnouncementTooOld = true;
-					killAnnouncement = true;
-				}
-				Logger.error(this, "Shutting down announcement as we are older than the current mandatory build and auto-update is disabled or waiting for user input.");
-				System.err.println("Shutting down announcement as we are older than the current mandatory build and auto-update is disabled or waiting for user input.");
-				if(node.clientCore != null)
-					node.clientCore.alerts.register(announcementDisabledAlert);
-			}
+//		if((!node.nodeUpdater.isEnabled()) ||
+//				(node.nodeUpdater.canUpdateNow() && !node.nodeUpdater.isArmed())) {
+//			// If we also have 10 TOO_NEW peers, we should shut down the announcement,
+//			// because we're obviously broken and would only be spamming the seednodes
+//			synchronized(this) {
+//				// Once we have shut down announcement, this persists until the auto-updater
+//				// is enabled.
+//				if(killedAnnouncementTooOld) return true;
+//			}
+//			if(node.peers.getPeerNodeStatusSize(PeerManager.PEER_NODE_STATUS_TOO_NEW, false) > 10) {
+//				synchronized(this) {
+//					if(killedAnnouncementTooOld) return true;
+//					killedAnnouncementTooOld = true;
+//					killAnnouncement = true;
+//				}
+//				Logger.error(this, "Shutting down announcement as we are older than the current mandatory build and auto-update is disabled or waiting for user input.");
+//				System.err.println("Shutting down announcement as we are older than the current mandatory build and auto-update is disabled or waiting for user input.");
+//				if(node.clientCore != null)
+//					node.clientCore.alerts.register(announcementDisabledAlert);
+//			}
+//
+//		}
 
-		}
-		
-		if(killAnnouncement) {
-			node.executor.execute(new Runnable() {
+		synchronized(this) {
+            killedAnnouncementTooOld = false;
+        }
+		if(node.clientCore != null)
+            node.clientCore.alerts.unregister(announcementDisabledAlert);
+//		if(node.nodeUpdater.isEnabled() && node.nodeUpdater.isArmed() &&
+//                node.nodeUpdater.uom.fetchingFromTwo() &&
+//                node.peers.getPeerNodeStatusSize(PeerManager.PEER_NODE_STATUS_TOO_NEW, false) > 5) {
+//            // No point announcing at the moment, but we might need to if a transfer falls through.
+//            return true;
+//        }
 
-				@Override
-				public void run() {
-					for(OpennetPeerNode pn : node.peers.getOpennetPeers()) {
-						node.peers.disconnectAndRemove(pn, true, true, true);
-					}
-					for(SeedServerPeerNode pn : node.peers.getSeedServerPeersVector()) {
-						node.peers.disconnectAndRemove(pn, true, true, true);
-					}
-				}
-				
-			});
-			return true;
-		} else {
-			synchronized(this) {
-				killedAnnouncementTooOld = false;
-			}
-			if(node.clientCore != null)
-				node.clientCore.alerts.unregister(announcementDisabledAlert);
-			if(node.nodeUpdater.isEnabled() && node.nodeUpdater.isArmed() &&
-					node.nodeUpdater.uom.fetchingFromTwo() &&
-					node.peers.getPeerNodeStatusSize(PeerManager.PEER_NODE_STATUS_TOO_NEW, false) > 5) {
-				// No point announcing at the moment, but we might need to if a transfer falls through.
-				return true;
-			}
-		}
-		
 		synchronized(timeGotEnoughPeersLock) {
 			timeGotEnoughPeers = -1;
 		}

@@ -3,51 +3,20 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import java.io.BufferedReader;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import freenet.io.comm.AsyncMessageCallback;
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.FreenetInetAddress;
-import freenet.io.comm.Message;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.Peer;
-import freenet.io.comm.PeerParseException;
-import freenet.io.comm.ReferenceSignatureVerificationException;
+import freenet.io.comm.*;
 import freenet.keys.Key;
-import freenet.l10n.NodeL10n;
 import freenet.node.DarknetPeerNode.FRIEND_TRUST;
 import freenet.node.DarknetPeerNode.FRIEND_VISIBILITY;
-import freenet.node.useralerts.AbstractUserAlert;
 import freenet.node.useralerts.DroppedOldPeersUserAlert;
 import freenet.node.useralerts.PeerManagerUserAlert;
-import freenet.node.useralerts.SimpleUserAlert;
-import freenet.node.useralerts.UserAlert;
-import freenet.support.ByteArrayWrapper;
-import freenet.support.HTMLNode;
-import freenet.support.Logger;
-import freenet.support.ShortBuffer;
-import freenet.support.SimpleFieldSet;
-import freenet.support.TimeUtil;
+import freenet.support.*;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
 import freenet.support.io.NativeThread;
+
+import java.io.*;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -1660,7 +1629,7 @@ public class PeerManager {
 	}
 
 	public void start() {
-		ua = new PeerManagerUserAlert(node.nodeStats, node.nodeUpdater);
+		ua = new PeerManagerUserAlert(node.nodeStats);
 		updatePMUserAlert();
 		node.clientCore.alerts.register(ua);
 		node.getTicker().queueTimedJob(writePeersRunnable, 0);

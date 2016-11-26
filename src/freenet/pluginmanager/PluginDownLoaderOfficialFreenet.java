@@ -1,9 +1,7 @@
 package freenet.pluginmanager;
 
 import freenet.client.HighLevelSimpleClient;
-import freenet.keys.FreenetURI;
 import freenet.node.Node;
-import freenet.pluginmanager.OfficialPlugins.OfficialPluginDescription;
 
 public class PluginDownLoaderOfficialFreenet extends PluginDownLoaderFreenet {
 
@@ -11,16 +9,16 @@ public class PluginDownLoaderOfficialFreenet extends PluginDownLoaderFreenet {
 		super(client, node, desperate);
 	}
 
-	@Override
-	public FreenetURI checkSource(String source) throws PluginNotFoundException {
-		OfficialPluginDescription desc = node.getPluginManager().getOfficialPlugin(source);
-		if(desc == null) throw new PluginNotFoundException("Not in the official plugins list: "+source);
-		if(desc.uri != null)
-			return desc.uri;
-		else {
-			return node.nodeUpdater.getURI().setDocName(source).setSuggestedEdition(desc.recommendedVersion).sskForUSK();
-		}
-	}
+//	@Override
+//	public FreenetURI checkSource(String source) throws PluginNotFoundException {
+//		OfficialPluginDescription desc = node.getPluginManager().getOfficialPlugin(source);
+//		if(desc == null) throw new PluginNotFoundException("Not in the official plugins list: "+source);
+//		if(desc.uri != null)
+//			return desc.uri;
+//		else {
+//			return node.nodeUpdater.getURI().setDocName(source).setSuggestedEdition(desc.recommendedVersion).sskForUSK();
+//		}
+//	}
 	
 	@Override
 	String getPluginName(String source) throws PluginNotFoundException {

@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A data compressor. Contains methods to get all data compressors.
@@ -25,10 +27,10 @@ public interface Compressor {
 	    
 		// Codecs will be tried in order: put the less resource consuming first
 		GZIP("GZIP", new GzipCompressor(), (short) 0),
-		BZIP2("BZIP2", new Bzip2Compressor(), (short) 1);
+		BZIP2("BZIP2", new Bzip2Compressor(), (short) 1),
 
-		//LZMA("LZMA", new OldLZMACompressor(), (short)2),
-		//LZMA_NEW("LZMA_NEW", new NewLZMACompressor(), (short)3);
+		LZMA("LZMA", new OldLZMACompressor(), (short)2),
+		LZMA_NEW("LZMA_NEW", new NewLZMACompressor(), (short)3);
 
 		public final String name;
 		public final Compressor compressor;
@@ -44,17 +46,33 @@ public interface Compressor {
 		}
 
 		public static COMPRESSOR_TYPE getCompressorByMetadataID(short id) {
+			if (id < 0)
+				return null;
+
+			int n = values.length;
+			if (id >= n)
+				return null;
+
+			return values[id];
+
+//			for(COMPRESSOR_TYPE current : values)
+//				if(current.metadataID == id)
+//					return current;
+//			return null;
+		}
+
+		static final Map<String, COMPRESSOR_TYPE> byName = new HashMap<>(values.length*2);
+		static {
 			for(COMPRESSOR_TYPE current : values)
-				if(current.metadataID == id)
-					return current;
-			return null;
+				byName.put(current.toString(), current);
 		}
 
 		public static COMPRESSOR_TYPE getCompressorByName(String name) {
-			for(COMPRESSOR_TYPE current : values)
-				if(current.name.equals(name))
-					return current;
-			return null;
+			return byName.get(name);
+//			for(COMPRESSOR_TYPE current : values)
+//				if(current.name.equals(name))
+//					return current;
+//			return null;
 		}
 
 		public static String getHelloCompressorDescriptor() {

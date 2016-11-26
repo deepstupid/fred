@@ -4,8 +4,8 @@ import freenet.io.comm.PeerParseException;
 import freenet.io.comm.ReferenceSignatureVerificationException;
 import freenet.node.OpennetManager.ConnectionType;
 import freenet.node.OpennetManager.LinkLengthClass;
-import freenet.node.updater.NodeUpdateManager;
-import freenet.node.updater.UpdateOverMandatoryManager;
+//import freenet.node.updater.NodeUpdateManager;
+//import freenet.node.updater.UpdateOverMandatoryManager;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
 
@@ -179,10 +179,10 @@ public class OpennetPeerNode extends PeerNode {
 		// FIXME remove, paranoia
 		if(uptime < HOURS.toMillis(1))
 			return false;
-		NodeUpdateManager updater = node.nodeUpdater;
-		if(updater == null) return true; // Not going to UOM.
-		UpdateOverMandatoryManager uom = updater.uom;
-		if(uom == null) return true; // Not going to UOM
+		//NodeUpdateManager updater = node.nodeUpdater;
+		//if(updater == null) return true; // Not going to UOM.
+		//UpdateOverMandatoryManager uom = updater.uom;
+		//if(uom == null) return true; // Not going to UOM
 		if(uptime > HOURS.toMillis(2)) {
 			// UOM transfers can take ages, but there has to be some limit...
 			return true;

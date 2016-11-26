@@ -499,8 +499,8 @@ public class PluginManager {
 			if (store)
 				core.storeConfig();
 		}
-		if(pi != null)
-			node.nodeUpdater.startPluginUpdater(filename);
+		/*if(pi != null)
+			node.nodeUpdater.startPluginUpdater(filename);*/
 		return pi;
 	}
 
@@ -1763,8 +1763,8 @@ public class PluginManager {
 			node.ipDetector.unregisterPortForwardPlugin((FredPluginPortForward)plug);
 		if(wrapper.isBandwidthIndicator())
 			node.ipDetector.unregisterBandwidthIndicatorPlugin((FredPluginBandwidthIndicator)plug);
-		if(!reloading)
-			node.nodeUpdater.stopPluginUpdater(wrapper.getFilename());
+//		if(!reloading)
+//			node.nodeUpdater.stopPluginUpdater(wrapper.getFilename());
 	}
 
     public boolean isEnabled() {

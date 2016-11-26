@@ -178,6 +178,7 @@ dependencies {
     compile group: 'com.db4o', name: 'com.db4o', version: '7.7.67'
     compile group: 'org.apache.commons', name: 'commons-compress', version: '1.12'
     compile group: 'org.e-hoffman.crypto', name: 'CryptoBouncyCastle', version: '1.0.0'
+    compile group: 'org.tukaani', name: 'xz', version: '1.5'
 
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:1.9.5"

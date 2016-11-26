@@ -1,20 +1,10 @@
 package freenet.node.updater;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import freenet.client.FetchContext;
 import freenet.client.FetchException;
 import freenet.client.FetchException.FetchExceptionMode;
 import freenet.client.FetchResult;
-import freenet.client.async.BinaryBlobWriter;
-import freenet.client.async.ClientContext;
-import freenet.client.async.ClientGetCallback;
-import freenet.client.async.ClientGetter;
-import freenet.client.async.PersistenceDisabledException;
+import freenet.client.async.*;
 import freenet.l10n.NodeL10n;
 import freenet.node.NodeClientCore;
 import freenet.node.RequestClient;
@@ -25,12 +15,13 @@ import freenet.support.MediaType;
 import freenet.support.api.Bucket;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.api.RandomAccessBuffer;
-import freenet.support.io.ArrayBucket;
-import freenet.support.io.BucketTools;
-import freenet.support.io.ByteArrayRandomAccessBuffer;
-import freenet.support.io.FileBucket;
-import freenet.support.io.FileUtil;
-import freenet.support.io.FileRandomAccessBuffer;
+import freenet.support.io.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Fetches the revocation key. Each time it starts, it will try to fetch it until it has 3 DNFs. If it ever finds it, it will
@@ -39,10 +30,11 @@ import freenet.support.io.FileRandomAccessBuffer;
 public class RevocationChecker implements ClientGetCallback, RequestClient {
 
 	public final static int REVOCATION_DNF_MIN = 3;
-	
+	private final NodeUpdateManager manager;
+
 	private boolean logMINOR;
 
-	private NodeUpdateManager manager;
+	//private NodeUpdateManager manager;
 	private NodeClientCore core;
 	private int revocationDNFCounter;
 	private FetchContext ctxRevocation;
@@ -90,7 +82,7 @@ public class RevocationChecker implements ClientGetCallback, RequestClient {
 			try {
 				BucketTools.copy(new FileBucket(blobFile, true, false, false, true), bucket);
 				// Allow to free if bogus.
-				manager.uom.processRevocationBlob(bucket, "disk", true);
+				//manager.uom.processRevocationBlob(bucket, "disk", true);
 			} catch (IOException e) {
 				Logger.error(this, "Failed to read old revocation blob: "+e, e);
 				System.err.println("We may have downloaded an old revocation blob before restarting but it cannot be read: "+e);
@@ -159,7 +151,7 @@ public class RevocationChecker implements ClientGetCallback, RequestClient {
 				Logger.error(this, "Cannot start revocation fetcher because recently failed");
 			} else {
 				Logger.error(this, "Cannot start fetch for the auto-update revocation key: "+e, e);
-				manager.blow("Cannot start fetch for the auto-update revocation key: "+e, true);
+				//manager.blow("Cannot start fetch for the auto-update revocation key: "+e, true);
 			}
 			synchronized(this) {
 				if(revocationGetter == cg) {
@@ -310,9 +302,9 @@ public class RevocationChecker implements ClientGetCallback, RequestClient {
 			}
 			revocationGetter = null;
 		}
-		if(completed)
-			manager.noRevocationFound();
-		else {
+		/*if(completed)
+			manager.noRevocationFound();*/
+		if (!completed) {
 			if(errorCode == FetchExceptionMode.RECENTLY_FAILED) {
 				// Try again in 1 second.
 				// This ensures we don't constantly start them, fail them, and start them again.

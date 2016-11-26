@@ -1,19 +1,9 @@
 package freenet.node.probe;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import freenet.config.InvalidConfigValueException;
 import freenet.config.NodeNeedRestartException;
 import freenet.config.SubConfig;
-import freenet.io.comm.AsyncMessageFilterCallback;
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageFilter;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.PeerContext;
+import freenet.io.comm.*;
 import freenet.node.Location;
 import freenet.node.Node;
 import freenet.node.OpennetManager;
@@ -23,12 +13,10 @@ import freenet.support.Logger;
 import freenet.support.api.BooleanCallback;
 import freenet.support.api.LongCallback;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Handles starting, routing, and responding to Metropolis-Hastings corrected probes.
@@ -606,7 +594,7 @@ public class Probe implements ByteCounter {
 			listener.onOutputBandwidth((float)randomNoise((double)node.getOutputBandwidthLimit()/(1 << 10), 0.05));
 			break;
 		case BUILD:
-			listener.onBuild(node.nodeUpdater.getMainVersion());
+			listener.onBuild(node.lastVersion/* MainVersion()*/);
 			break;
 		case IDENTIFIER:
 			/*

@@ -1,18 +1,15 @@
 package freenet.clients.http;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.l10n.NodeL10n;
 import freenet.node.Node;
 import freenet.node.NodeFile;
-import freenet.node.updater.NodeUpdateManager;
 import freenet.support.HTMLNode;
 import freenet.support.SimpleFieldSet;
 import freenet.support.api.HTTPRequest;
-import freenet.support.io.FileBucket;
+
+import java.io.IOException;
+import java.net.URI;
 
 public class DarknetAddRefToadlet extends Toadlet {
 
@@ -29,24 +26,24 @@ public class DarknetAddRefToadlet extends Toadlet {
         if(!ctx.checkFullAccess(this))
             return;
 		
-		String path = uri.getPath();
-		if(path.endsWith(NodeFile.InstallerWindows.getFilename())) {
-			File installer = node.nodeUpdater.getInstallerWindows();
-			if(installer != null) {
-				FileBucket bucket = new FileBucket(installer, true, false, false, false);
-				this.writeReply(ctx, 200, "application/x-msdownload", "OK", bucket);
-				return;
-			}
-		}
-		
-		if(path.endsWith(NodeFile.InstallerNonWindows.getFilename())) {
-			File installer = node.nodeUpdater.getInstallerNonWindows();
-			if(installer != null) {
-				FileBucket bucket = new FileBucket(installer, true, false, false, false);
-				this.writeReply(ctx, 200, "application/x-java-archive", "OK", bucket);
-				return;
-			}
-		}
+//		String path = uri.getPath();
+//		if(path.endsWith(NodeFile.InstallerWindows.getFilename())) {
+//			File installer = node.nodeUpdater.getInstallerWindows();
+//			if(installer != null) {
+//				FileBucket bucket = new FileBucket(installer, true, false, false, false);
+//				this.writeReply(ctx, 200, "application/x-msdownload", "OK", bucket);
+//				return;
+//			}
+//		}
+//
+//		if(path.endsWith(NodeFile.InstallerNonWindows.getFilename())) {
+//			File installer = node.nodeUpdater.getInstallerNonWindows();
+//			if(installer != null) {
+//				FileBucket bucket = new FileBucket(installer, true, false, false, false);
+//				this.writeReply(ctx, 200, "application/x-java-archive", "OK", bucket);
+//				return;
+//			}
+//		}
 		
 		PageMaker pageMaker = ctx.getPageMaker();
 		
@@ -60,29 +57,29 @@ public class DarknetAddRefToadlet extends Toadlet {
 		boxContent.addChild("p", l10n("explainBox1"));
 		boxContent.addChild("p", l10n("explainBox2"));
 				
-		File installer = node.nodeUpdater.getInstallerWindows();
+//		File installer = node.nodeUpdater.getInstallerWindows();
 		String shortFilename = NodeFile.InstallerWindows.getFilename();
 		
 		HTMLNode p = boxContent.addChild("p");
 		
-		if(installer != null)
-			NodeL10n.getBase().addL10nSubstitution(p, "DarknetAddRefToadlet.explainInstallerWindows", new String[] { "filename", "get-windows" },
-					new HTMLNode[] { HTMLNode.text(installer.getCanonicalPath()), HTMLNode.link(path()+shortFilename) });
-		else
-			NodeL10n.getBase().addL10nSubstitution(p, "DarknetAddRefToadlet.explainInstallerWindowsNotYet", new String[] { "link" }, new HTMLNode[] { HTMLNode.link("/"+node.nodeUpdater.getInstallerWindowsURI().toString()) });
-		
-		installer = node.nodeUpdater.getInstallerNonWindows();
+//		if(installer != null)
+//			NodeL10n.getBase().addL10nSubstitution(p, "DarknetAddRefToadlet.explainInstallerWindows", new String[] { "filename", "get-windows" },
+//					new HTMLNode[] { HTMLNode.text(installer.getCanonicalPath()), HTMLNode.link(path()+shortFilename) });
+//		else
+//			NodeL10n.getBase().addL10nSubstitution(p, "DarknetAddRefToadlet.explainInstallerWindowsNotYet", new String[] { "link" }, new HTMLNode[] { HTMLNode.link("/"+node.nodeUpdater.getInstallerWindowsURI().toString()) });
+//
+//		installer = node.nodeUpdater.getInstallerNonWindows();
 		shortFilename = NodeFile.InstallerNonWindows.getFilename();
 		
 		boxContent.addChild("#", " ");
 		
 		p = boxContent.addChild("p");
 		
-		if(installer != null)
-			NodeL10n.getBase().addL10nSubstitution(p, "DarknetAddRefToadlet.explainInstallerNonWindows", new String[] { "filename", "get-nonwindows", "shortfilename" },
-					new HTMLNode[] { HTMLNode.text(installer.getCanonicalPath()), HTMLNode.link(path()+shortFilename), HTMLNode.text(shortFilename) });
-		else
-			NodeL10n.getBase().addL10nSubstitution(p, "DarknetAddRefToadlet.explainInstallerNonWindowsNotYet", new String[] { "link", "shortfilename" }, new HTMLNode[] { HTMLNode.link("/"+node.nodeUpdater.getInstallerNonWindowsURI().toString()), HTMLNode.text(shortFilename) });
+//		if(installer != null)
+//			NodeL10n.getBase().addL10nSubstitution(p, "DarknetAddRefToadlet.explainInstallerNonWindows", new String[] { "filename", "get-nonwindows", "shortfilename" },
+//					new HTMLNode[] { HTMLNode.text(installer.getCanonicalPath()), HTMLNode.link(path()+shortFilename), HTMLNode.text(shortFilename) });
+//		else
+//			NodeL10n.getBase().addL10nSubstitution(p, "DarknetAddRefToadlet.explainInstallerNonWindowsNotYet", new String[] { "link", "shortfilename" }, new HTMLNode[] { HTMLNode.link("/"+node.nodeUpdater.getInstallerNonWindowsURI().toString()), HTMLNode.text(shortFilename) });
 			
 		
 		ConnectionsToadlet.drawAddPeerBox(contentNode, ctx, false, friendsToadlet.path());

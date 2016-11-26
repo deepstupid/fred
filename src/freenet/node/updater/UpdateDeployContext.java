@@ -3,14 +3,10 @@ package freenet.node.updater;
 import freenet.l10n.NodeL10n;
 import freenet.node.NodeInitException;
 import freenet.node.NodeStarter;
-import freenet.node.updater.MainJarDependenciesChecker.Dependency;
-import freenet.node.updater.MainJarDependenciesChecker.MainJarDependencies;
 import freenet.support.Logger;
 import freenet.support.io.Closer;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 ////import org.tanukisoftware.wrapper.WrapperManager;
 
@@ -39,11 +35,11 @@ public class UpdateDeployContext {
 	File newMainJar;
 	File backupMainJar;
 	boolean mainJarAbsolute;
-	final MainJarDependencies deps;
+	//final MainJarDependencies deps;
 	
-	UpdateDeployContext(MainJarDependencies deps) throws UpdaterParserException {
+	UpdateDeployContext(/*MainJarDependencies deps*/) throws UpdaterParserException {
 		//Properties p = WrapperManager.getProperties();
-		this.deps = deps;
+		//this.deps = deps;
 		
 //		for(int propNo=1;true;propNo++) {
 //			String prop = p.getProperty("wrapper.java.classpath."+propNo);
@@ -99,185 +95,185 @@ public class UpdateDeployContext {
 		return newMainJar;
 	}
 
-	void rewriteWrapperConf(boolean writtenNewJar) throws IOException, UpdateCatastropheException, UpdaterParserException {
-		
-		// Rewrite wrapper.conf
-		// Don't just write it out from properties; we want to keep it as close to what it was as possible.
-
-		File oldConfig = new File("wrapper.conf");
-		File newConfig = new File("wrapper.conf.new");
-		
-		if(!oldConfig.exists()) {
-			File wrapperDir = new File("wrapper");
-			if(wrapperDir.exists() && wrapperDir.isDirectory()) {
-				File o = new File(wrapperDir, "wrapper.conf");
-				if(o.exists()) {
-					oldConfig = o;
-					newConfig = new File(wrapperDir, "wrapper.conf.new");
-				}
-			}
-		}
-		
-		FileInputStream fis = new FileInputStream(oldConfig);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		InputStreamReader isr = new InputStreamReader(bis);
-		BufferedReader br = new BufferedReader(isr);
-		
-		FileOutputStream fos = new FileOutputStream(newConfig);
-		OutputStreamWriter osw = new OutputStreamWriter(fos);
-		BufferedWriter bw = new BufferedWriter(osw);
-
-		String line;
-			
-		boolean writtenReload = false;
-		/** On Windows, we need the anchor file option explicitly. */
-		boolean writtenAnchor = false;
-		/** Write the anchor polling interval too if it doesn't exist already */
-		boolean writtenAnchorInterval = false;
-		
-		String newMain = mainJarAbsolute ? newMainJar.getAbsolutePath() : newMainJar.getPath();
-		
-		String mainRHS = null;
-		
-		ArrayList<String> otherLines = new ArrayList<String>();
-		ArrayList<String> classpath = new ArrayList<String>();
-		
-		// We MUST put the ext (and all other dependencies) before the main jar, 
-		// or auto-update of freenet-ext.jar on Windows won't work.
-		// The main jar refers to freenet-ext.jar so that java -jar freenet.jar works.
-		// Therefore, on Windows, if we update freenet-ext.jar, it will use freenet.jar and freenet-ext.jar
-		// and freenet-ext.jar.new as well. The old freenet-ext.jar will take precedence, and we won't be
-		// able to overwrite either of them, so we'll just restart every 5 minutes forever!
-		
-		while((line = br.readLine()) != null) {
-		    /** The values are case sensitive, but the keys aren't */
-		    String lowcaseLine = line.toLowerCase();
-			// The classpath numbers are not reliable.
-			// We have to check the content.
-			
-			boolean dontWrite = false;
-			
-			if(lowcaseLine.startsWith("wrapper.java.classpath.")) {
-				line = line.substring("wrapper.java.classpath.".length());
-				int idx = line.indexOf('=');
-				if(idx != -1) {
-					// Ignore the numbers.
-					String rhs = line.substring(idx+1);
-					dontWrite = true;
-					if(rhs.equals("freenet.jar") || rhs.equals("freenet.jar.new") || 
-							rhs.equals("freenet-stable-latest.jar") || rhs.equals("freenet-stable-latest.jar.new") ||
-							rhs.equals("freenet-testing-latest.jar") || rhs.equals("freenet-testing-latest.jar.new")) {
-						if(writtenNewJar)
-							mainRHS = newMain;
-						else
-							mainRHS = rhs;
-					} else {
-						// Is it on the list of dependencies?
-						Dependency dep = findDependencyByRHSFilename(new File(rhs));
-						if(dep != null) {
-						    if(dep.oldFilename() != null)
-						        System.out.println("Found old dependency "+dep.oldFilename());
-						    else
-						        System.out.println("Found new dependency "+dep.newFilename());
-						} else { // dep == null
-						    System.out.println("Found unknown jar in classpath, will keep: "+rhs);
-							// If not, it's something the user has added, we just keep it.
-							classpath.add(rhs);
-						}
-					}
-				}
-			} else if(lowcaseLine.equals("wrapper.restart.reload_configuration=true")) {
-				writtenReload = true;
-			} else if(lowcaseLine.startsWith("wrapper.anchorfile=")) {
-			    writtenAnchor = true;
-			} else if(lowcaseLine.startsWith("wrapper.anchor.poll_interval=")) {
-			    writtenAnchorInterval = true;
-			}
-			if(!dontWrite)
-				otherLines.add(line);
-		}
-		br.close();
-		
-		// Write classpath first
-		
-		if(mainRHS == null) {
-			throw new UpdaterParserException(l10n("updateFailedNonStandardConfig", 
-					new String[] { "main" }, new String[] { Boolean.toString(mainRHS != null) } ));
-		}
-		
-		// As above, we need to write ALL the dependencies BEFORE we write the main jar.
-		int count = 1; // Classpath is 1-based.
-		for(Dependency d : deps.dependencies) {
-		    System.out.println("Writing dependency "+d.newFilename()+" priority "+d.order());
-			bw.write("wrapper.java.classpath."+count+"="+d.newFilename()+'\n');
-			count++;
-		}
-		
-		// Write the main jar.
-		bw.write("wrapper.java.classpath."+count+"="+mainRHS+'\n');
-		count++;
-		for(String s : classpath) {
-			bw.write("wrapper.java.classpath."+count+"="+s+'\n');
-			count++;
-		}
-		
-		for(String s : otherLines)
-			bw.write(s+'\n');
-
-		if(!writtenReload) {
-			// Add it.
-			bw.write("wrapper.restart.reload_configuration=TRUE\n");
-		}
-		if(!writtenAnchor) {
-		    bw.write("wrapper.anchorfile=Freenet.anchor\n");
-		}
-		if(!writtenAnchorInterval) {
-		    bw.write("wrapper.anchor.poll_interval=1\n");
-		}
-		
-		bw.close();
-
-		if(!newConfig.renameTo(oldConfig)) {
-			if(!oldConfig.delete()) {
-				throw new UpdaterParserException(l10n("updateFailedCannotDeleteOldConfig", "old", oldConfig.toString()));
-			}
-			if(!newConfig.renameTo(oldConfig)) {
-				throw new UpdateCatastropheException(oldConfig, newConfig);
-			}
-		}
-		
-		// New config installed.
-		
-		System.err.println("Rewritten wrapper.conf for build "+deps.build+" and "+deps.dependencies.size()+" dependencies.");
-	}
-
-	private Dependency findDependencyByRHSFilename(File rhs) {
-		String rhsName = rhs.getName().toLowerCase();
-		// Check for files already in use.
-		for(Dependency dep : deps.dependencies) {
-			File f = dep.oldFilename();
-			if(f == null) {
-				// Not in use.
-				continue;
-			}
-			if(rhs.equals(f)) return dep;
-			if(rhsName.equals(f.getName().toLowerCase())) return dep;
-		}
-		// It may be already on the classpath even though it's a new file officially.
-        for(Dependency dep : deps.dependencies) {
-            File f = dep.newFilename();
-            if(rhs.equals(f)) return dep;
-            if(rhsName.equals(f.getName().toLowerCase())) return dep;
-        }
-        // Slightly more expensive test.
-		for(Dependency dep : deps.dependencies) {
-			Pattern p = dep.regex();
-			if(p != null) {
-				if(p.matcher(rhs.getName().toLowerCase()).matches()) return dep;
-			}
-		}
-		return null;
-	}
+//	void rewriteWrapperConf(boolean writtenNewJar) throws IOException, UpdateCatastropheException, UpdaterParserException {
+//
+//		// Rewrite wrapper.conf
+//		// Don't just write it out from properties; we want to keep it as close to what it was as possible.
+//
+//		File oldConfig = new File("wrapper.conf");
+//		File newConfig = new File("wrapper.conf.new");
+//
+//		if(!oldConfig.exists()) {
+//			File wrapperDir = new File("wrapper");
+//			if(wrapperDir.exists() && wrapperDir.isDirectory()) {
+//				File o = new File(wrapperDir, "wrapper.conf");
+//				if(o.exists()) {
+//					oldConfig = o;
+//					newConfig = new File(wrapperDir, "wrapper.conf.new");
+//				}
+//			}
+//		}
+//
+//		FileInputStream fis = new FileInputStream(oldConfig);
+//		BufferedInputStream bis = new BufferedInputStream(fis);
+//		InputStreamReader isr = new InputStreamReader(bis);
+//		BufferedReader br = new BufferedReader(isr);
+//
+//		FileOutputStream fos = new FileOutputStream(newConfig);
+//		OutputStreamWriter osw = new OutputStreamWriter(fos);
+//		BufferedWriter bw = new BufferedWriter(osw);
+//
+//		String line;
+//
+//		boolean writtenReload = false;
+//		/** On Windows, we need the anchor file option explicitly. */
+//		boolean writtenAnchor = false;
+//		/** Write the anchor polling interval too if it doesn't exist already */
+//		boolean writtenAnchorInterval = false;
+//
+//		String newMain = mainJarAbsolute ? newMainJar.getAbsolutePath() : newMainJar.getPath();
+//
+//		String mainRHS = null;
+//
+//		ArrayList<String> otherLines = new ArrayList<String>();
+//		ArrayList<String> classpath = new ArrayList<String>();
+//
+//		// We MUST put the ext (and all other dependencies) before the main jar,
+//		// or auto-update of freenet-ext.jar on Windows won't work.
+//		// The main jar refers to freenet-ext.jar so that java -jar freenet.jar works.
+//		// Therefore, on Windows, if we update freenet-ext.jar, it will use freenet.jar and freenet-ext.jar
+//		// and freenet-ext.jar.new as well. The old freenet-ext.jar will take precedence, and we won't be
+//		// able to overwrite either of them, so we'll just restart every 5 minutes forever!
+//
+//		while((line = br.readLine()) != null) {
+//		    /** The values are case sensitive, but the keys aren't */
+//		    String lowcaseLine = line.toLowerCase();
+//			// The classpath numbers are not reliable.
+//			// We have to check the content.
+//
+//			boolean dontWrite = false;
+//
+//			if(lowcaseLine.startsWith("wrapper.java.classpath.")) {
+//				line = line.substring("wrapper.java.classpath.".length());
+//				int idx = line.indexOf('=');
+//				if(idx != -1) {
+//					// Ignore the numbers.
+//					String rhs = line.substring(idx+1);
+//					dontWrite = true;
+//					if(rhs.equals("freenet.jar") || rhs.equals("freenet.jar.new") ||
+//							rhs.equals("freenet-stable-latest.jar") || rhs.equals("freenet-stable-latest.jar.new") ||
+//							rhs.equals("freenet-testing-latest.jar") || rhs.equals("freenet-testing-latest.jar.new")) {
+//						if(writtenNewJar)
+//							mainRHS = newMain;
+//						else
+//							mainRHS = rhs;
+//					} else {
+//						// Is it on the list of dependencies?
+//						Dependency dep = findDependencyByRHSFilename(new File(rhs));
+//						if(dep != null) {
+//						    if(dep.oldFilename() != null)
+//						        System.out.println("Found old dependency "+dep.oldFilename());
+//						    else
+//						        System.out.println("Found new dependency "+dep.newFilename());
+//						} else { // dep == null
+//						    System.out.println("Found unknown jar in classpath, will keep: "+rhs);
+//							// If not, it's something the user has added, we just keep it.
+//							classpath.add(rhs);
+//						}
+//					}
+//				}
+//			} else if(lowcaseLine.equals("wrapper.restart.reload_configuration=true")) {
+//				writtenReload = true;
+//			} else if(lowcaseLine.startsWith("wrapper.anchorfile=")) {
+//			    writtenAnchor = true;
+//			} else if(lowcaseLine.startsWith("wrapper.anchor.poll_interval=")) {
+//			    writtenAnchorInterval = true;
+//			}
+//			if(!dontWrite)
+//				otherLines.add(line);
+//		}
+//		br.close();
+//
+//		// Write classpath first
+//
+//		if(mainRHS == null) {
+//			throw new UpdaterParserException(l10n("updateFailedNonStandardConfig",
+//					new String[] { "main" }, new String[] { Boolean.toString(mainRHS != null) } ));
+//		}
+//
+//		// As above, we need to write ALL the dependencies BEFORE we write the main jar.
+//		int count = 1; // Classpath is 1-based.
+//		for(Dependency d : deps.dependencies) {
+//		    System.out.println("Writing dependency "+d.newFilename()+" priority "+d.order());
+//			bw.write("wrapper.java.classpath."+count+"="+d.newFilename()+'\n');
+//			count++;
+//		}
+//
+//		// Write the main jar.
+//		bw.write("wrapper.java.classpath."+count+"="+mainRHS+'\n');
+//		count++;
+//		for(String s : classpath) {
+//			bw.write("wrapper.java.classpath."+count+"="+s+'\n');
+//			count++;
+//		}
+//
+//		for(String s : otherLines)
+//			bw.write(s+'\n');
+//
+//		if(!writtenReload) {
+//			// Add it.
+//			bw.write("wrapper.restart.reload_configuration=TRUE\n");
+//		}
+//		if(!writtenAnchor) {
+//		    bw.write("wrapper.anchorfile=Freenet.anchor\n");
+//		}
+//		if(!writtenAnchorInterval) {
+//		    bw.write("wrapper.anchor.poll_interval=1\n");
+//		}
+//
+//		bw.close();
+//
+//		if(!newConfig.renameTo(oldConfig)) {
+//			if(!oldConfig.delete()) {
+//				throw new UpdaterParserException(l10n("updateFailedCannotDeleteOldConfig", "old", oldConfig.toString()));
+//			}
+//			if(!newConfig.renameTo(oldConfig)) {
+//				throw new UpdateCatastropheException(oldConfig, newConfig);
+//			}
+//		}
+//
+//		// New config installed.
+//
+//		System.err.println("Rewritten wrapper.conf for build "+deps.build+" and "+deps.dependencies.size()+" dependencies.");
+//	}
+//
+//	private Dependency findDependencyByRHSFilename(File rhs) {
+//		String rhsName = rhs.getName().toLowerCase();
+//		// Check for files already in use.
+//		for(Dependency dep : deps.dependencies) {
+//			File f = dep.oldFilename();
+//			if(f == null) {
+//				// Not in use.
+//				continue;
+//			}
+//			if(rhs.equals(f)) return dep;
+//			if(rhsName.equals(f.getName().toLowerCase())) return dep;
+//		}
+//		// It may be already on the classpath even though it's a new file officially.
+//        for(Dependency dep : deps.dependencies) {
+//            File f = dep.newFilename();
+//            if(rhs.equals(f)) return dep;
+//            if(rhsName.equals(f.getName().toLowerCase())) return dep;
+//        }
+//        // Slightly more expensive test.
+//		for(Dependency dep : deps.dependencies) {
+//			Pattern p = dep.regex();
+//			if(p != null) {
+//				if(p.matcher(rhs.getName().toLowerCase()).matches()) return dep;
+//			}
+//		}
+//		return null;
+//	}
 
 	public enum CHANGED {
 		ALREADY, // Found the comment, so it has already been changed

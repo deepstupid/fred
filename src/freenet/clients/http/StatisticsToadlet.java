@@ -1,42 +1,15 @@
 package freenet.clients.http;
 
-import static java.util.concurrent.TimeUnit.DAYS;
-import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.IOException;
-import java.net.URI;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import freenet.client.async.ClientRequester;
 import freenet.client.HighLevelSimpleClient;
+import freenet.client.async.ClientRequester;
 import freenet.config.SubConfig;
 import freenet.crypt.ciphers.Rijndael;
 import freenet.io.comm.IncomingPacketFilterImpl;
 import freenet.io.xfer.BlockReceiver;
 import freenet.io.xfer.BlockTransmitter;
-import freenet.l10n.NodeL10n;
 import freenet.keys.FreenetURI;
-import freenet.node.Location;
-import freenet.node.Node;
-import freenet.node.NodeClientCore;
-import freenet.node.NodeStarter;
-import freenet.node.NodeStats;
-import freenet.node.OpennetManager;
-import freenet.node.PeerManager;
-import freenet.node.PeerNodeStatus;
-import freenet.node.RequestClient;
-import freenet.node.RequestStarterGroup;
-import freenet.node.RequestTracker;
-import freenet.node.Version;
+import freenet.l10n.NodeL10n;
+import freenet.node.*;
 import freenet.node.stats.DataStoreInstanceType;
 import freenet.node.stats.DataStoreStats;
 import freenet.node.stats.StatsNotAvailableException;
@@ -47,6 +20,15 @@ import freenet.support.SizeUtil;
 import freenet.support.TimeUtil;
 import freenet.support.api.HTTPRequest;
 import freenet.support.io.NativeThread;
+
+import java.io.IOException;
+import java.net.URI;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.*;
 
 public class StatisticsToadlet extends Toadlet {
 
@@ -585,7 +567,7 @@ public class StatisticsToadlet extends Toadlet {
 		versionInfoboxList.addChild("li", NodeL10n.getBase().getString("WelcomeToadlet.extVersion", new String[] { "build", "rev" },
 				new String[] { Integer.toString(NodeStarter.extBuildNumber), NodeStarter.extRevisionNumber }));
 
-		node.getNodeUpdater().addChangelogLinks(Version.buildNumber(), versionInfobox);
+		//node.getNodeUpdater().addChangelogLinks(Version.buildNumber(), versionInfobox);
 	}
 
 	private void drawJVMStatsBox(HTMLNode jvmStatsInfobox, boolean advancedModeEnabled) {

@@ -3,18 +3,17 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node.useralerts;
 
-import static java.util.concurrent.TimeUnit.DAYS;
-
 import freenet.l10n.NodeL10n;
 import freenet.node.NodeStats;
 import freenet.node.PeerManager;
-import freenet.node.updater.NodeUpdateManager;
 import freenet.support.HTMLNode;
+
+import static java.util.concurrent.TimeUnit.DAYS;
 
 public class PeerManagerUserAlert extends AbstractUserAlert {
 
 	final NodeStats n;
-	final NodeUpdateManager nodeUpdater;
+	//final NodeUpdateManager nodeUpdater;
 	// FIXME see comments in update().
 	public int conns = 0;
 	public int peers = 0;
@@ -59,10 +58,10 @@ public class PeerManagerUserAlert extends AbstractUserAlert {
 	/** How high can oldestNeverConnectedPeerAge be before we alert (in milliseconds)*/
 	public static final long MAX_OLDEST_NEVER_CONNECTED_PEER_AGE_ALERT_THRESHOLD = DAYS.toMillis(14); // 2 weeks
 
-	public PeerManagerUserAlert(NodeStats n, NodeUpdateManager nodeUpdater) {
+	public PeerManagerUserAlert(NodeStats n/*, NodeUpdateManager nodeUpdater*/) {
 		super(false, null, null, null, null, (short) 0, true, NodeL10n.getBase().getString("UserAlert.hide"), false, null);
 		this.n = n;
-		this.nodeUpdater = nodeUpdater;
+		//this.nodeUpdater = nodeUpdater;
 	}
 	
 	@Override
@@ -232,8 +231,8 @@ public class PeerManagerUserAlert extends AbstractUserAlert {
 
 	private boolean calculateIsOutdated() {
 		// Do not show the message if updater is enabled.
-		if(nodeUpdater.isEnabled()) return false;
-		if(nodeUpdater.isBlown()) return false;
+//		if(nodeUpdater.isEnabled()) return false;
+//		if(nodeUpdater.isBlown()) return false;
 		synchronized(this) {
 			if(tooNewPeersDarknet >= PeerManager.OUTDATED_MIN_TOO_NEW_DARKNET)
 				return true;

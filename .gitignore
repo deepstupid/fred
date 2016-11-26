@@ -45,3 +45,15 @@ update.sh*.tmp
 uptime.dat
 wrapper.jar*.tmp
 
+client-throttle.dat.tmp
+datastore/
+node-throttle.dat.tmp
+
+opennet-*
+openpeers-*
+
+packets-*
+peers-*
+plugins/
+prng.seed
+update.sh
