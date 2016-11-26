@@ -247,7 +247,7 @@ public class FECMath {
             return;
         }
 
-        int unroll = 16; // unroll the loop 16 times.
+        final int unroll = 16; // unroll the loop 16 times.
         int i = dstPos;
         int j = srcPos;
         int lim = dstPos + len;
@@ -258,27 +258,12 @@ public class FECMath {
             // be used many times.
             char[] gf_mulc = gf_mul_table[c];
             
-            // Not sure if loop unrolling has any real benefit in Java, but 
-            // what the hey.
-            for (;i < lim && (lim-i) > unroll; i += unroll, j += unroll) {
+
+            for (;i < lim && (lim-i) > unroll; ) {
                 // dst ^= gf_mulc[x] is equal to mult then add (xor == add)
-                
-                dst[i] ^= gf_mulc[src[j]];
-                dst[i+1] ^= gf_mulc[src[j+1]];
-                dst[i+2] ^= gf_mulc[src[j+2]];
-                dst[i+3] ^= gf_mulc[src[j+3]];
-                dst[i+4] ^= gf_mulc[src[j+4]];
-                dst[i+5] ^= gf_mulc[src[j+5]];
-                dst[i+6] ^= gf_mulc[src[j+6]];
-                dst[i+7] ^= gf_mulc[src[j+7]];
-                dst[i+8] ^= gf_mulc[src[j+8]];
-                dst[i+9] ^= gf_mulc[src[j+9]];
-                dst[i+10] ^= gf_mulc[src[j+10]];
-                dst[i+11] ^= gf_mulc[src[j+11]];
-                dst[i+12] ^= gf_mulc[src[j+12]];
-                dst[i+13] ^= gf_mulc[src[j+13]];
-                dst[i+14] ^= gf_mulc[src[j+14]];
-                dst[i+15] ^= gf_mulc[src[j+15]];
+
+                for (int r = 0; r < unroll; r++)
+                    dst[i++] ^= gf_mulc[src[j++]];
             }
             
             // final components
@@ -325,32 +310,18 @@ public class FECMath {
         // be used many times.
         char[] gf_mulc = gf_mul_table[c & 0xff];
         
-        // Not sure if loop unrolling has any real benefit in Java, but 
+        // Not sure if loop unrolling has any real benefit in Java, but
         // what the hey.
-        for (;i < lim && (lim-i) > unroll; i += unroll, j += unroll) {
+        for (;i < lim && (lim-i) > unroll; ) {
             // dst ^= gf_mulc[x] is equal to mult then add (xor == add)
-            
-            dst[i] ^= gf_mulc[src[j] & 0xff];
-            dst[i+1] ^= gf_mulc[src[j+1] & 0xff];
-            dst[i+2] ^= gf_mulc[src[j+2] & 0xff];
-            dst[i+3] ^= gf_mulc[src[j+3] & 0xff];
-            dst[i+4] ^= gf_mulc[src[j+4] & 0xff];
-            dst[i+5] ^= gf_mulc[src[j+5] & 0xff];
-            dst[i+6] ^= gf_mulc[src[j+6] & 0xff];
-            dst[i+7] ^= gf_mulc[src[j+7] & 0xff];
-            dst[i+8] ^= gf_mulc[src[j+8] & 0xff];
-            dst[i+9] ^= gf_mulc[src[j+9] & 0xff];
-            dst[i+10] ^= gf_mulc[src[j+10] & 0xff];
-            dst[i+11] ^= gf_mulc[src[j+11] & 0xff];
-            dst[i+12] ^= gf_mulc[src[j+12] & 0xff];
-            dst[i+13] ^= gf_mulc[src[j+13] & 0xff];
-            dst[i+14] ^= gf_mulc[src[j+14] & 0xff];
-            dst[i+15] ^= gf_mulc[src[j+15] & 0xff];
+
+            for (int r = 0; r<unroll; r++)
+                dst[i++] ^= gf_mulc[src[j++] & 0xff];
         }
         
         // final components
-        for (;i < lim; i++, j++) {
-            dst[i] ^= gf_mulc[src[j] & 0xff];
+        for (;i < lim; ) {
+            dst[i++] ^= gf_mulc[src[j++] & 0xff];
         }
     }
 
@@ -389,8 +360,9 @@ public class FECMath {
         int pos = 0;
         for (int row=0; row<k; row++) {
             for (int col=0; col<k; col++) {
-                if ((row==col && m[pos] != 1) || 
-                    (row!=col && m[pos] != 0)) {
+                char c = m[pos];
+                if ((row==col && c != 1) ||
+                    (row!=col && c != 0)) {
                     return false;
                 } else {
                     pos++ ;
@@ -417,7 +389,7 @@ public class FECMath {
         int[] ipiv = new int[k];
 
         char[] id_row = createGFMatrix(1, k);
-        char[] temp_row = createGFMatrix(1, k);
+        //char[] temp_row = createGFMatrix(1, k);
         
         for (int col = 0; col < k ; col++) {
             /*
@@ -454,14 +426,14 @@ public class FECMath {
             }
 
             // redundant??? I'm too lazy to figure it out -Justin
-            if (!foundPiv && icol == -1) { 
+            if (!foundPiv) {
                 throw new IllegalArgumentException("XXX pivot not found!");
             }
 
             // Ok, we've found a pivot by this point, so we can set the 
             // foundPiv variable back to false.  The reason that this is
             // so shittily laid out is that the original code had goto's :(
-            foundPiv = false;
+            //foundPiv = false;
 
             ipiv[icol] = ipiv[icol] + 1;
             /*
@@ -517,20 +489,22 @@ public class FECMath {
         } // done all columns
         
         for (int col = k-1 ; col >= 0 ; col--) {
-            if (indxr[col] <0 || indxr[col] >= k) {
-                System.err.println("AARGH, indxr[col] "+indxr[col]);
-            } else if (indxc[col] <0 || indxc[col] >= k) {
-                System.err.println("AARGH, indxc[col] "+indxc[col]);
-            } else {
+//            if (indxr[col] <0 || indxr[col] >= k) {
+//                throw new RuntimeException("AARGH, indxr[col] "+indxr[col]);
+//            } else if (indxc[col] <0 || indxc[col] >= k) {
+//                throw new RuntimeException("AARGH, indxc[col] "+indxc[col]);
+//            } else {
                 if (indxr[col] != indxc[col] ) {
                     for (int row = 0 ; row < k ; row++ ) {
                         // swap 'em
-                        char tmp = src[row*k + indxc[col]];
-                        src[row*k + indxc[col]] = src[row*k + indxr[col]];
-                        src[row*k + indxr[col]] = tmp;
+                        int ic = indxc[col];
+                        char tmp = src[row*k + ic];
+                        int ir = indxr[col];
+                        src[row*k + ic] = src[row*k + ir];
+                        src[row*k + ir] = tmp;
                     }
                 }
-            }
+//            }
         }
     }
     

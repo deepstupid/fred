@@ -4,9 +4,9 @@
  */
 package freenet.crypt.ciphers;
 
-import java.security.InvalidKeyException;
-
 import freenet.support.Logger;
+
+import java.security.InvalidKeyException;
 
 //...........................................................................
 /**
@@ -133,7 +133,7 @@ final class Rijndael_Algorithm // implicit no-argument constructor
 		int r = 1;
 		for (int t = 1; t < 30; ) rcon[t++] = (byte)(r = mul(2, r));
 
-		time = System.currentTimeMillis() - time;
+		//time = System.currentTimeMillis() - time;
 
 		if (RDEBUG && (logDEBUG)) {
 			System.out.println("==========");
@@ -239,7 +239,7 @@ final class Rijndael_Algorithm // implicit no-argument constructor
     private static byte[][] generateInvertedGMatrix(byte[][] gMatrix) {
         byte[][] AA = new byte[4][8];
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) AA[i][j] = gMatrix[i][j];
+			System.arraycopy(gMatrix[i], 0, AA[i], 0, 4);
             AA[i][i+4] = 1;
         }
         byte pivot, tmp;
@@ -273,7 +273,7 @@ final class Rijndael_Algorithm // implicit no-argument constructor
                 }
         }
         for (int i = 0; i < 4; i++)
-            for (int j = 0; j < 4; j++) iG[i][j] = AA[i][j + 4];
+			System.arraycopy(AA[i], 4, iG[i], 0, 4);
 
         return iG;
     }
@@ -832,7 +832,7 @@ final class Rijndael_Algorithm // implicit no-argument constructor
 	//a problem the callers should resolve among themselves.
 	//It is a fact that allowing no more than one makeKey on any given
 	//CPU will result in fewer cache misses.  -- ejhuff 2003-10-12
-	static synchronized Object makeKey(byte[] k, int blockSize)
+	static Object makeKey(byte[] k, int blockSize)
 	throws InvalidKeyException {
 		if (RDEBUG) trace(IN, "makeKey("+k+", "+blockSize+ ')');
 		if (k == null)

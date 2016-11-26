@@ -1,7 +1,5 @@
 package com.onionnetworks.fec;
 
-import com.onionnetworks.util.Tuple;
-
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -39,8 +37,8 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
 
     public DefaultFECCodeFactory() {
         // Load in the properties file.
+        fecProperties = new Properties();
         try {
-            fecProperties = new Properties();
             fecProperties.load
                 (DefaultFECCodeFactory.class.getClassLoader().
                  getResourceAsStream
@@ -48,9 +46,8 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
                   ("com.onionnetworks.fec.defaultfeccodefactorypropertiesfile",
                    "com.onionnetworks.fec.properties")));
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new IllegalStateException
-                ("Unable to load com.onionnetworks.fec.properties");
+//            throw new IllegalStateException
+//                ("Unable to load com.onionnetworks.fec.properties");
         }
 
         // Parse the keys
@@ -98,7 +95,7 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
     public synchronized FECCode createFECCode(int k, int n) {
         Integer K = k;
         Integer N = n;
-        Tuple t = new Tuple(K,N);
+        //Tuple t = new Tuple(K,N);
 
         // See if there is a cached code.
         FECCode result = null; //(FECCode) codeCache.get(t);

@@ -263,7 +263,7 @@ public class HTMLNode extends ArrayList<HTMLNode> implements XMLCharacterClasses
 		if (childNode == this)	
 			throw new IllegalArgumentException("A HTMLNode cannot be child of himself");
 		if (children.contains(childNode))
-			throw new IllegalArgumentException("Cannot add twice the same HTMLNode as child");
+			throw new IllegalArgumentException("Cannot add twice the same HTMLNode as child: " + children + " <- " + childNode);
 		children.add(childNode);
 		return childNode;
 	}
@@ -346,6 +346,16 @@ public class HTMLNode extends ArrayList<HTMLNode> implements XMLCharacterClasses
 	 */
 	public HTMLNode addChild(String nodeName, String[] attributeNames, String[] attributeValues, String content) {
 		return addChild(new HTMLNode(nodeName, attributeNames, attributeValues, content));
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		return this==o;
+	}
+
+	@Override
+	public int hashCode() {
+		return System.identityHashCode(this);  //HACK
 	}
 
 	/**

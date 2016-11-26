@@ -17,6 +17,7 @@ import java.lang.ref.WeakReference;
 import java.security.GeneralSecurityException;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -139,7 +140,7 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 		public final boolean migrateToDisk() throws IOException {
 			Bucket toMigrate = null;
 			long size;
-			synchronized(this) {
+			synchronized(tbis) {
 				if(!isRAMBucket() || hasBeenFreed)
 					// Nothing to migrate! We don't want to switch back to ram, do we?					
 					return false;
@@ -253,7 +254,7 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 			
 			@Override
 			public final void write(int b) throws IOException {
-				synchronized(TempBucket.this) {
+				synchronized(tbis) {
                     if(hasBeenFreed) throw new IOException("Already freed");
 					long futureSize = currentSize + 1;
 					_maybeMigrateRamBucket(futureSize);
@@ -266,7 +267,7 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 			
 			@Override
 			public final void write(byte b[], int off, int len) throws IOException {
-				synchronized(TempBucket.this) {
+				synchronized(tbis) {
 				    if(hasBeenFreed) throw new IOException("Already freed");
 					long futureSize = currentSize + len;
 					_maybeMigrateRamBucket(futureSize);
@@ -279,7 +280,7 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 			
 			@Override
 			public final void flush() throws IOException {
-				synchronized(TempBucket.this) {
+				synchronized(tbis) {
 				    if(hasBeenFreed) return;
 					_maybeMigrateRamBucket(currentSize);
 					if(!closed)
@@ -289,7 +290,7 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 			
 			@Override
 			public final void close() throws IOException {
-				synchronized(TempBucket.this) {
+				synchronized(tbis) {
 					if(closed) return;
 					_maybeMigrateRamBucket(currentSize);
 					os.flush();
@@ -306,14 +307,20 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 		}
 
 		@Override
-		public synchronized InputStream getInputStreamUnbuffered() throws IOException {
+		public InputStream getInputStreamUnbuffered() throws IOException {
+
 			if(!hasWritten)
 				throw new IOException("No OutputStream has been openned! Why would you want an InputStream then?");
-			if(hasBeenFreed) throw new IOException("Already freed");
-			TempBucketInputStream is = new TempBucketInputStream(osIndex);
-			tbis.add(is);
-			if(logMINOR)
-				Logger.minor(this, "Got "+is+" for "+this, new Exception());
+
+			if (hasBeenFreed)
+				throw new IOException("Already freed");
+
+				TempBucketInputStream is = new TempBucketInputStream(osIndex);
+			synchronized (tbis) {
+				tbis.add(is);
+			}
+			if (logMINOR)
+				Logger.minor(this, "Got " + is + " for " + this, new Exception());
 			return is;
 		}
 		
@@ -345,8 +352,8 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 			
 			@Override
 			public final int read() throws IOException {
-				synchronized(TempBucket.this) {
-                    if(hasBeenFreed) throw new IOException("Already freed");
+				if(hasBeenFreed) throw new IOException("Already freed");
+				synchronized(tbis) {
 					int toReturn = currentIS.read();
 					if(toReturn != -1)
 						index++;
@@ -356,16 +363,16 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 			
 			@Override
 			public int read(byte b[]) throws IOException {
-				synchronized(TempBucket.this) {
-                    if(hasBeenFreed) throw new IOException("Already freed");
+				if(hasBeenFreed) throw new IOException("Already freed");
+				synchronized(tbis) {
 					return read(b, 0, b.length);
 				}
 			}
 			
 			@Override
 			public int read(byte b[], int off, int len) throws IOException {
-				synchronized(TempBucket.this) {
-                    if(hasBeenFreed) throw new IOException("Already freed");
+				if(hasBeenFreed) throw new IOException("Already freed");
+				synchronized(tbis) {
 					int toReturn = currentIS.read(b, off, len);
 					if(toReturn > 0)
 						index += toReturn;
@@ -375,8 +382,8 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 			
 			@Override
 			public long skip(long n) throws IOException {
-				synchronized(TempBucket.this) {
-                    if(hasBeenFreed) throw new IOException("Already freed");
+				if(hasBeenFreed) throw new IOException("Already freed");
+				synchronized(tbis) {
 					long skipped = currentIS.skip(n);
 					index += skipped;
 					return skipped;
@@ -385,8 +392,8 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 			
 			@Override
 			public int available() throws IOException {
-				synchronized(TempBucket.this) {
-                    if(hasBeenFreed) throw new IOException("Already freed");
+				if(hasBeenFreed) throw new IOException("Already freed");
+				synchronized(tbis) {
 					return currentIS.available();
 				}
 			}
@@ -398,7 +405,7 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 			
 			@Override
 			public final void close() throws IOException {
-				synchronized(TempBucket.this) {
+				synchronized(tbis) {
 					Closer.close(currentIS);
 					tbis.remove(this);
 				}
@@ -426,9 +433,9 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 		}
 
 		@Override
-		public synchronized void free() {
+		public void free() {
 		    Bucket cur;
-		    synchronized(this) {
+		    synchronized(tbis) {
 		        if(hasBeenFreed) return;
 		        hasBeenFreed = true;
 		        
@@ -451,7 +458,7 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 		}
 		
 		/** Called only by TempRandomAccessBuffer */
-		private synchronized void onFreed() {
+		private void onFreed() {
             hasBeenFreed = true;
 		}
 
@@ -498,7 +505,7 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 
         @Override
         public LockableRandomAccessBuffer toRandomAccessBuffer() throws IOException {
-            synchronized(this) {
+            synchronized(tbis) {
                 if(hasBeenFreed) throw new IOException("Already freed");
                 if(os != null) throw new IOException("Can't migrate with open OutputStream's");
                 if(!tbis.isEmpty()) throw new IOException("Can't migrate with open InputStream's");
@@ -606,10 +613,9 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 	 *                I/O error
 	 */
 	public TempBucket makeBucket(long size, float factor, long increment) throws IOException {
-		RandomAccessBucket realBucket = null;
 		boolean useRAMBucket = false;
-		long now = System.currentTimeMillis();
-		
+
+
 		synchronized(this) {
 			if((size > 0) && (size <= maxRAMBucketSize) && (bytesInUse < maxRamUsed) && (bytesInUse + size <= maxRamUsed)) {
 				useRAMBucket = true;
@@ -621,9 +627,10 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 		}
 		
 		// Do we want a RAMBucket or a FileBucket?
-		realBucket = (useRAMBucket ? new ArrayBucket() : _makeFileBucket());
-		
+		RandomAccessBucket realBucket = (useRAMBucket ? new ArrayBucket() : _makeFileBucket());
+		long now = System.currentTimeMillis();
 		TempBucket toReturn = new TempBucket(now, realBucket);
+		
 		if(useRAMBucket) { // No need to consider them for migration if they can't be migrated
 			synchronized(ramBucketQueue) {
 				ramBucketQueue.add(toReturn.getReference());
@@ -638,7 +645,7 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 		return toReturn;
 }
 	
-	boolean runningCleaner = false;
+	private boolean runningCleaner = false;
 	
 	private final Runnable cleaner = new Runnable() {
 
@@ -771,9 +778,10 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 	/** Unlike a TempBucket, the size is fixed, so migrate only happens on the migration thread. */
 	class TempRandomAccessBuffer extends SwitchableProxyRandomAccessBuffer implements Migratable {
 	    
-	    protected boolean hasMigrated = false;
+	    protected final AtomicBoolean hasMigrated = new AtomicBoolean(false);
 	    /** If false, there is in-memory storage that needs to be freed. */
-	    private boolean hasFreedRAM = false;
+		protected final AtomicBoolean hasFreedRAM = new AtomicBoolean(false);
+
 	    private final long creationTime;
 	    /** Kept in RAM so that finalizer is called on the TempBucket when *both* the 
 	     * TempRandomAccessBuffer *and* the TempBucket are no longer reachable, in which case we
@@ -787,7 +795,6 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 	    TempRandomAccessBuffer(int size, long time) throws IOException {
 	        super(new ByteArrayRandomAccessBuffer(size), size);
 	        creationTime = time;
-	        hasMigrated = false;
 	        original = null;
             if (TRACE_BUCKET_LEAKS)
                 tracer = new Throwable();
@@ -798,7 +805,6 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
         public TempRandomAccessBuffer(byte[] initialContents, int offset, int size, long time, boolean readOnly) throws IOException {
             super(new ByteArrayRandomAccessBuffer(initialContents, offset, size, readOnly), size);
             creationTime = time;
-            hasMigrated = false;
             original = null;
             if (TRACE_BUCKET_LEAKS)
                 tracer = new Throwable();
@@ -809,7 +815,11 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
         public TempRandomAccessBuffer(LockableRandomAccessBuffer underlying, long creationTime, boolean migrated, TempBucket tempBucket) throws IOException {
             super(underlying, underlying.size());
             this.creationTime = creationTime;
-            this.hasMigrated = hasFreedRAM = migrated;
+            if (migrated) {
+            	hasMigrated.set(true);
+            	hasFreedRAM.set(true);
+			}
+
             this.original = tempBucket;
             if (TRACE_BUCKET_LEAKS)
                 tracer = new Throwable();
@@ -825,7 +835,7 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
         }
 
         @Override
-        public void free() {
+        public synchronized void free() {
             if(!super.innerFree()) return;
             if(logMINOR) Logger.minor(this, "Freed "+this, new Exception("debug"));
             if(original != null) {
@@ -837,14 +847,12 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
         @Override
         protected void afterFreeUnderlying() {
             // Called when the in-RAM storage has been freed.
-            synchronized(this) {
-                if(hasFreedRAM) return;
-                hasFreedRAM = true;
-            }
-            _hasFreed(size);
-            synchronized(ramBucketQueue) {
-                ramBucketQueue.remove(getReference());
-            }
+			if (hasFreedRAM.compareAndSet(false, true)) {
+				_hasFreed(size);
+				synchronized(ramBucketQueue) {
+					ramBucketQueue.remove(getReference());
+				}
+			}
         }
         
         private WeakReference<Migratable> weakRef = new WeakReference<Migratable>(this);
@@ -860,16 +868,15 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 
         @Override
         public boolean migrateToDisk() throws IOException {
-            synchronized(this) {
-                if(hasMigrated) return false;
-                hasMigrated = true;
-            }
-            migrate();
-            return true;
+			if (hasMigrated.compareAndSet(false, true)) {
+				migrate();
+				return true;
+			}
+			return false;
         }
 
-        public synchronized boolean hasMigrated() {
-            return hasMigrated;
+        public boolean hasMigrated() {
+            return hasMigrated.get();
         }
 
         @Override

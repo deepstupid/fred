@@ -1,5 +1,9 @@
 package freenet.store.saltedhash;
 
+import freenet.support.Fields;
+import freenet.support.Logger;
+import freenet.support.Ticker;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -8,10 +12,6 @@ import java.nio.channels.FileChannel;
 import java.util.Arrays;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import freenet.support.Fields;
-import freenet.support.Logger;
-import freenet.support.Ticker;
 
 /** A large resizable block of int's, which is persisted to disk with a specific policy,
  * which is either to write it on shutdown, immediately, or every X millis.
@@ -85,8 +85,7 @@ public class ResizablePersistentIntBuffer {
 	/** Should be called during startup to fill in an appropriate default value e.g. if the store 
 	 * is completely new. */
 	public void fill(int value) {
-		for(int i=0;i<buffer.length;i++)
-			buffer[i] = value;
+		Arrays.fill(buffer, value);
 	}
 
 	private void readBuffer(int size) throws IOException {

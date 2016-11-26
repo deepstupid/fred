@@ -17,7 +17,7 @@ public class PureCode extends FECCode {
     // Keeping this around because it amuses me.
     public static final int FEC_MAGIC = 0xFECC0DEC;
     protected static final FECMath fecMath = new FECMath(8);
-    protected char[] encMatrix;
+    protected final char[] encMatrix;
     
     //create a new encoder. This contains n,k and the encoding matrix.
     public PureCode(int k, int n) {
@@ -70,10 +70,9 @@ public class PureCode extends FECCode {
         char[] decMatrix = fecMath.createDecodeMatrix(encMatrix,index,k,n);
         
         // do the actual decoding..
-        byte[][] tmpPkts = new byte[k][];
+        byte[][] tmpPkts = new byte[k][packetLength];
         for (int row=0; row<k; row++) {
             if (index[row] >= k) {
-                tmpPkts[row] = new byte[packetLength];
                 for (int col=0 ; col<k ; col++) {
                     fecMath.addMul(tmpPkts[row],0,pkts[col],pktsOff[col], 
                                    (byte) decMatrix[row*k + col],

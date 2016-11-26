@@ -39,7 +39,7 @@ public interface DoublyLinkedList<T extends DoublyLinkedList.Item<?>> extends It
         /** Return the contained list. <strong>For sanity checking only.</strong> */
 		DoublyLinkedList<? super T> getParent();
         /** Set the contained list. <strong>For sanity checking only.</strong>*/
-		DoublyLinkedList<? super T> setParent(DoublyLinkedList<? super T> l);
+		void setParent(DoublyLinkedList<? super T> l);
     }
     
     /** Clear this list */

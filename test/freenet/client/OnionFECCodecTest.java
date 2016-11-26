@@ -22,7 +22,7 @@ public class OnionFECCodecTest extends TestCase {
     
     public void testDecodeRandomSubset() {
         Random r = new Random(19412106);
-        int iterations = TestProperty.EXTENSIVE ? 100 : 10;
+        int iterations = TestProperty.EXTENSIVE ? 30 /* 100 */ : 10;
         for(int i=0;i<iterations;i++)
             inner(128, 128, r);
         for(int i=0;i<iterations;i++)
@@ -167,9 +167,8 @@ public class OnionFECCodecTest extends TestCase {
    }
 
     protected byte[][] createOriginalDataBlocks(Random r, int count) {
-        byte[][] blocks = new byte[count][];
+        byte[][] blocks = new byte[count][BLOCK_SIZE];
         for(int i=0;i<count;i++) {
-            blocks[i] = new byte[BLOCK_SIZE];
             r.nextBytes(blocks[i]);
         }
         return blocks;

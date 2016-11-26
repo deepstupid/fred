@@ -1,6 +1,5 @@
 package com.onionnetworks.fec;
 
-import com.onionnetworks.util.Util;
 import com.onionnetworks.util.Buffer;
 
 /**
@@ -28,7 +27,7 @@ import com.onionnetworks.util.Buffer;
  */
 public abstract class FECCode {
 
-    protected int k,n;
+    protected final int k,n;
     
     /**
      * Construct a new FECCode given <code>k</code> and <code>n</code>

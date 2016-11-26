@@ -34,17 +34,17 @@ public abstract class FECCodeFactory {
      */
     public synchronized static FECCodeFactory getDefault() {
         if (def == null) {
-            try {
-                Class clazz = Class.forName
-                    (System.getProperty
-                     ("com.onionnetworks.fec.defaultcodefactoryclass",
-                      "com.onionnetworks.fec.DefaultFECCodeFactory"));
-                def = (FECCodeFactory) clazz.newInstance();
-            } catch (Exception e) {
-                // krunky structure, but the easiest way to deal with the 
-                // exception.
+//            try {
+//                Class clazz = Class.forName
+//                    (System.getProperty
+//                     ("com.onionnetworks.fec.defaultcodefactoryclass",
+//                      "com.onionnetworks.fec.DefaultFECCodeFactory"));
+//                def = (FECCodeFactory) clazz.newInstance();
+//            } catch (Exception e) {
+//                // krunky structure, but the easiest way to deal with the
+//                // exception.
                 def = new DefaultFECCodeFactory();
-            }
+//            }
         }
         return def;
     }

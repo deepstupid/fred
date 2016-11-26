@@ -1,12 +1,8 @@
 package freenet.support;
 
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
 import freenet.support.Logger.LogLevel;
+
+import java.util.*;
 
 /**
  * An LRU map from K to V. That is, when a mapping is added, it is 
@@ -32,7 +28,7 @@ public class LRUMap<K, V> {
 
 	/** We use our own DoublyLinkedList implementation because it improves 
 	 * performance to be able to inherit from and refer to QItem's directly. */
-	private final DoublyLinkedListImpl<QItem<K, V>> list = new DoublyLinkedListImpl<QItem<K, V>>();
+	private final DoublyLinkedListImpl<QItem<K, V>> list = new DoublyLinkedListImpl<>();
     private final Map<K, QItem<K, V>> hash;
     
     public LRUMap() {
@@ -64,19 +60,22 @@ public class LRUMap<K, V> {
      *       recently used position, but doesn't add
      *       a duplicate entry in the queue.
      */
-    public final synchronized V push(K key, V value) {
-    	if(key == null)
+    public final V push(K key, V value) {
+		if(key == null)
     		throw new NullPointerException();
     	V old = null;
-        QItem<K,V> insert = hash.get(key);
-        if (insert == null) {
-            insert = new QItem<K, V>(key, value);
-            hash.put(key,insert);
-        } else {
-            old = insert.value;
-        	insert.value = value;
-            list.remove(insert);
-        }
+		QItem<K, V> insert;
+    	synchronized(this.hash) {
+			insert = this.hash.computeIfAbsent(key, k -> new QItem<K, V>(key, value));
+		}
+		if (insert!=null) {
+			old = insert.value;
+			insert.value = value;
+			synchronized(list) {
+				list.remove(insert);
+			}
+		}
+
         if(logMINOR)
         	Logger.minor(this, "Pushed "+insert+" ( "+key+ ' ' +value+" )");
 
@@ -87,31 +86,45 @@ public class LRUMap<K, V> {
     /**
      *  @return Least recently pushed key.
      */
-    public final synchronized K popKey() {
-        if ( list.size() > 0 ) {
-			return hash.remove(list.pop().obj).obj;
-        } else {
-            return null;
-        }
+    public final K popKey() {
+    	synchronized(list) {
+			if (list.size() > 0) {
+				QItem<K, V> popped = list.pop();
+				synchronized(hash) {
+					return hash.remove(popped.obj).obj;
+				}
+			}
+		}
+
+		return null;
     }
 
     /**
      * @return Least recently pushed value.
      */
-    public final synchronized V popValue() {
-        if ( list.size() > 0 ) {
-			return hash.remove(list.pop().obj).value;
-        } else {
-            return null;
-        }
+    public final V popValue() {
+		synchronized(list) {
+			if (!list.isEmpty()) {
+				QItem<K, V> popped = list.pop();
+				synchronized (hash) {
+					return hash.remove(popped.obj).value;
+				}
+			}
+		}
+		return null;
     }
     
-	public final synchronized V peekValue() {
-        if ( list.size() > 0 ) {
-			return hash.get(list.tail().obj).value;
-        } else {
-            return null;
-        }
+	public final V peekValue() {
+    	synchronized (list) {
+			if (list.size() > 0) {
+				QItem<K, V> tail = list.tail();
+				synchronized(hash) {
+					return hash.get(tail.obj).value;
+				}
+			} else {
+				return null;
+			}
+		}
 	}
 
 	public final synchronized K peekKey() {
@@ -126,16 +139,20 @@ public class LRUMap<K, V> {
         return list.size();
     }
     
-    public final synchronized boolean removeKey(K key) {
+    public final boolean removeKey(K key) {
     	if(key == null)
     		throw new NullPointerException();
-	QItem<K,V> i = (hash.remove(key));
-	if(i != null) {
-	    list.remove(i);
-	    return true;
-	} else {
-	    return false;
-	}
+    	synchronized(hash) {
+			QItem<K, V> i = (hash.remove(key));
+			if (i != null) {
+				synchronized(list) {
+					list.remove(i);
+				}
+				return true;
+			} else {
+				return false;
+			}
+		}
     }
     
     /**
@@ -188,7 +205,7 @@ public class LRUMap<K, V> {
     }
 
 	private class ValuesEnumeration implements Enumeration<V> {
-		private Enumeration<QItem<K, V>> source = list.reverseElements();
+		private final Enumeration<QItem<K, V>> source = list.reverseElements();
        
         @Override
         public boolean hasMoreElements() {
@@ -206,7 +223,7 @@ public class LRUMap<K, V> {
     }
 
 	public static class QItem<K, V> extends DoublyLinkedListImpl.Item<QItem<K, V>> {
-        public K obj;
+        public final K obj;
         public V value;
 
         public QItem(K key, V val) {

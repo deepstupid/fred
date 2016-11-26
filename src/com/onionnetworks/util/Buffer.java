@@ -10,9 +10,9 @@ package com.onionnetworks.util;
  */
 public class Buffer {
 
-    public byte[] b;
-    public int off;
-    public int len;
+    public final byte[] b;
+    public final int off;
+    public final int len;
 
     public Buffer(int len) {
         this(new byte[len]);

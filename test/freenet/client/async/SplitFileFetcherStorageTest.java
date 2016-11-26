@@ -1,5 +1,25 @@
 package freenet.client.async;
 
+import freenet.client.*;
+import freenet.client.InsertContext.CompatibilityMode;
+import freenet.client.Metadata.SplitfileAlgorithm;
+import freenet.client.events.SimpleEventProducer;
+import freenet.crypt.CRCChecksumChecker;
+import freenet.crypt.ChecksumFailedException;
+import freenet.crypt.DummyRandomSource;
+import freenet.keys.*;
+import freenet.node.BaseSendableGet;
+import freenet.node.KeysFetchingLocally;
+import freenet.node.SendableRequestItemKey;
+import freenet.support.*;
+import freenet.support.api.Bucket;
+import freenet.support.api.BucketFactory;
+import freenet.support.api.LockableRandomAccessBuffer;
+import freenet.support.api.LockableRandomAccessBufferFactory;
+import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
+import freenet.support.io.*;
+import junit.framework.TestCase;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,50 +28,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-
-import freenet.client.ClientMetadata;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
-import freenet.client.HighLevelSimpleClientImpl;
-import freenet.client.InsertContext;
-import freenet.client.InsertContext.CompatibilityMode;
-import freenet.client.Metadata;
-import freenet.client.Metadata.SplitfileAlgorithm;
-import freenet.client.MetadataParseException;
-import freenet.client.MetadataUnresolvedException;
-import freenet.client.OnionFECCodec;
-import freenet.client.events.SimpleEventProducer;
-import freenet.crypt.CRCChecksumChecker;
-import freenet.crypt.ChecksumFailedException;
-import freenet.crypt.DummyRandomSource;
-import freenet.keys.CHKBlock;
-import freenet.keys.CHKEncodeException;
-import freenet.keys.ClientCHK;
-import freenet.keys.ClientCHKBlock;
-import freenet.keys.FreenetURI;
-import freenet.keys.Key;
-import freenet.keys.NodeCHK;
-import freenet.node.BaseSendableGet;
-import freenet.node.KeysFetchingLocally;
-import freenet.node.SendableInsert;
-import freenet.node.SendableRequestItemKey;
-import freenet.support.CheatingTicker;
-import freenet.support.DummyJobRunner;
-import freenet.support.MemoryLimitedJobRunner;
-import freenet.support.PooledExecutor;
-import freenet.support.Ticker;
-import freenet.support.WaitableExecutor;
-import freenet.support.api.Bucket;
-import freenet.support.api.BucketFactory;
-import freenet.support.api.LockableRandomAccessBuffer;
-import freenet.support.api.LockableRandomAccessBufferFactory;
-import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
-import freenet.support.io.ArrayBucketFactory;
-import freenet.support.io.BucketTools;
-import freenet.support.io.ByteArrayRandomAccessBufferFactory;
-import freenet.support.io.NativeThread;
-import freenet.support.io.StorageFormatException;
-import junit.framework.TestCase;
 
 public class SplitFileFetcherStorageTest extends TestCase {
     
@@ -574,18 +550,18 @@ public class SplitFileFetcherStorageTest extends TestCase {
 
     public static byte[][] splitAndPadBlocks(Bucket data, long size) throws IOException {
         int n = (int) ((size + BLOCK_SIZE - 1) / BLOCK_SIZE);
-        byte[][] blocks = new byte[n][];
+        byte[][] blocks = new byte[n][BLOCK_SIZE];
         InputStream is = data.getInputStream();
         DataInputStream dis = new DataInputStream(is);
         for(int i=0;i<n;i++) {
-            blocks[i] = new byte[BLOCK_SIZE];
+            byte[] bi = blocks[i];
             if(i < n-1) {
-                dis.readFully(blocks[i]);
+                dis.readFully(bi);
             } else {
                 int length = (int) (size - i*BLOCK_SIZE);
-                dis.readFully(blocks[i], 0, length);
+                dis.readFully(bi, 0, length);
                 // Now pad it ...
-                blocks[i] = BucketTools.pad(blocks[i], BLOCK_SIZE, length);
+                blocks[i] = BucketTools.pad(bi, BLOCK_SIZE, length);
             }
         }
         return blocks;

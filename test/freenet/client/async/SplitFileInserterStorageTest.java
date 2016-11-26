@@ -1,77 +1,34 @@
 package freenet.client.async;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Random;
-
-import junit.framework.TestCase;
-
-import freenet.client.ClientMetadata;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
-import freenet.client.HighLevelSimpleClientImpl;
-import freenet.client.InsertContext;
+import freenet.client.*;
 import freenet.client.InsertContext.CompatibilityMode;
-import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
-import freenet.client.Metadata;
-import freenet.client.MetadataParseException;
-import freenet.client.MetadataUnresolvedException;
 import freenet.client.async.SplitFileInserterSegmentStorage.BlockInsert;
 import freenet.client.async.SplitFileInserterSegmentStorage.MissingKeyException;
 import freenet.client.async.SplitFileInserterStorage.Status;
 import freenet.client.events.SimpleEventProducer;
-import freenet.crypt.CRCChecksumChecker;
-import freenet.crypt.ChecksumChecker;
-import freenet.crypt.ChecksumFailedException;
-import freenet.crypt.DummyRandomSource;
-import freenet.crypt.HashResult;
-import freenet.crypt.HashType;
-import freenet.crypt.MultiHashInputStream;
-import freenet.crypt.RandomSource;
+import freenet.crypt.*;
 import freenet.keys.CHKBlock;
 import freenet.keys.ClientCHKBlock;
 import freenet.keys.FreenetURI;
 import freenet.keys.Key;
 import freenet.node.BaseSendableGet;
 import freenet.node.KeysFetchingLocally;
-import freenet.node.SendableInsert;
 import freenet.node.SendableRequestItemKey;
-import freenet.support.CheatingTicker;
-import freenet.support.DummyJobRunner;
-import freenet.support.MemoryLimitedJobRunner;
-import freenet.support.PooledExecutor;
-import freenet.support.TestProperty;
-import freenet.support.Ticker;
-import freenet.support.WaitableExecutor;
+import freenet.support.*;
 import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
 import freenet.support.api.LockableRandomAccessBuffer;
 import freenet.support.api.LockableRandomAccessBufferFactory;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
-import freenet.support.io.ArrayBucketFactory;
-import freenet.support.io.BarrierRandomAccessBuffer;
-import freenet.support.io.BucketTools;
-import freenet.support.io.ByteArrayRandomAccessBufferFactory;
-import freenet.support.io.FileUtil;
-import freenet.support.io.FilenameGenerator;
-import freenet.support.io.NativeThread;
-import freenet.support.io.NullOutputStream;
-import freenet.support.io.PersistentFileTracker;
-import freenet.support.io.PooledFileRandomAccessBufferFactory;
-import freenet.support.io.RAFBucket;
-import freenet.support.io.RAFInputStream;
-import freenet.support.io.ReadOnlyRandomAccessBuffer;
-import freenet.support.io.ResumeFailedException;
-import freenet.support.io.StorageFormatException;
-import freenet.support.io.TempBucketFactory;
-import freenet.support.io.TrivialPersistentFileTracker;
+import freenet.support.io.*;
+import junit.framework.TestCase;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Random;
 
 public class SplitFileInserterStorageTest extends TestCase {
     
@@ -788,13 +745,20 @@ public class SplitFileInserterStorageTest extends TestCase {
         fetcherStorage.start(false);
         
         // Fully decode one segment at a time, ignore cross-segment.
-        
+        boolean[] fetched = new boolean[0];
+
         for(int i=0;i<storage.segments.length;i++) {
             SplitFileFetcherSegmentStorage fetcherSegment = fetcherStorage.segments[i];
             SplitFileInserterSegmentStorage inserterSegment = storage.segments[i];
             int minBlocks = inserterSegment.dataBlockCount + inserterSegment.crossCheckBlockCount;
             int totalBlocks = inserterSegment.totalBlockCount;
-            boolean[] fetched = new boolean[totalBlocks];
+
+            if (fetched.length!=totalBlocks) {
+                fetched = new boolean[totalBlocks];
+            } else {
+                Arrays.fill(fetched, false); //recycle
+            }
+
             if(i == storage.segments.length-1 && cmode.ordinal() < CompatibilityMode.COMPAT_1255.ordinal())
                 fetched[inserterSegment.dataBlockCount-1] = true; // We don't use the last block of the last segment for old splitfiles
             for(int j=0;j<minBlocks;j++) {

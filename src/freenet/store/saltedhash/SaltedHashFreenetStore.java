@@ -700,8 +700,8 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 			assert header.length == headerBlockLength;
 			assert data.length == dataBlockLength;
 
-			if (header == null || data == null)
-				return null;
+//			if (header == null || data == null)
+//				return null;
 
 			ByteBuffer out = ByteBuffer.allocate(headerBlockLength + dataBlockLength + hdPadding);
 			out.put(header);
@@ -2033,8 +2033,9 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 			while(true) {
 				boolean clear = true;
 				for(int j=0;j<i;j++) {
-					if(offsets[i] == offsets[j]) {
-						offsets[i] = (offsets[i] + 1) % storeSize;
+                    long oi = offsets[i];
+					if(oi == offsets[j]) {
+						offsets[i] = (oi + 1) % storeSize;
 						clear = false;
 					}
 				}
