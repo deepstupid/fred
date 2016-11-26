@@ -91,7 +91,7 @@ public class EstimatedParameter
   }
 
   /** Name of the parameter */
-  private   String  name;
+  private final String  name;
 
   /** Current value of the parameter */
   protected double  estimate;

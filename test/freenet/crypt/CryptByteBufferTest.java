@@ -71,10 +71,13 @@ public class CryptByteBufferTest {
     public void testRoundOneByte() throws GeneralSecurityException {
         for(int i = 0; i < cipherTypes.length; i++){
             CryptByteBufferType type = cipherTypes[i];
+
             CryptByteBuffer crypt1;
             CryptByteBuffer crypt2;
             
             if(!type.isStreamCipher) continue;
+
+            System.out.println(type + " " + type.keyType.keySize + " ==? " + keys[i].length);
 
             if(ivs[i] == null){
                 crypt1 = new CryptByteBuffer(type, keys[i]);

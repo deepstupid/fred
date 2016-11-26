@@ -43,7 +43,7 @@ public class GeneralSquareMatrix
     super(s);
 
     if (s.permutations != null) {
-      permutations     = (int[]) s.permutations.clone();
+      permutations     = s.permutations.clone();
       evenPermutations = s.evenPermutations;
       lower            = new LowerTriangularMatrix(s.lower);
       upper            = new UpperTriangularMatrix(s.upper);
@@ -141,9 +141,7 @@ public class GeneralSquareMatrix
     int bCols = b.getColumns();
     for (int i = 0; i < rows; ++i) {
       NonNullRange range = b.getRangeForRow(permutations[i]);
-      for (int j = range.begin; j < range.end; ++j) {
-        permData[i * bCols + j] = b.data[permutations[i] * bCols + j];
-      }
+        System.arraycopy(b.data, permutations[i] * bCols + range.begin, permData, i * bCols + range.begin, range.end - range.begin);
     }
     Matrix permB = MatrixFactory.buildMatrix(b.getRows(), bCols, permData);
 
@@ -164,9 +162,7 @@ public class GeneralSquareMatrix
     throws SingularMatrixException {
     // build a working copy of the matrix data
     double[] work = new double[rows * columns];
-    for (int index = 0; index < work.length; ++index) {
-      work[index] = data[index];
-    }
+      System.arraycopy(data, 0, work, 0, work.length);
 
     // initialize the permutations table to identity
     permutations = new int[rows];

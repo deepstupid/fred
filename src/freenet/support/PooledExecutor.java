@@ -3,14 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
+import freenet.node.PrioRunnable;
+import freenet.support.io.NativeThread;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
-import freenet.node.PrioRunnable;
-import freenet.support.Logger.LogLevel;
-import freenet.support.io.NativeThread;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
  * Pooled Executor implementation. Create a thread when we need one, let them die
@@ -18,6 +17,54 @@ import freenet.support.io.NativeThread;
  * @author toad
  */
 public class PooledExecutor implements Executor {
+
+//	final static ForkJoinPool pool = new ForkJoinPool(4);
+//
+//	@Override
+//	public void execute(Runnable job) {
+//		pool.execute(job);
+//	}
+//
+//	@Override
+//	public void execute(Runnable job, String jobName) {
+//		execute(job);
+//	}
+//
+//	@Override
+//	public void execute(Runnable job, String jobName, boolean fromTicker) {
+//		if (fromTicker)
+//			ticker.queueTimedJob(job, jobName, 0, true, false);
+//		else
+//			execute(job, jobName);
+//	}
+//
+//	@Override
+//	public int[] waitingThreads() {
+//		return new int[0];
+//	}
+//
+//	@Override
+//	public int[] runningThreads() {
+//		return new int[0];
+//	}
+//
+//	@Override
+//	public int getWaitingThreadsCount() {
+//		//return 0;
+//		return pool.getQueuedSubmissionCount();
+//	}
+//
+//	// Ticker thread that runs at maximum priority.
+//	private Ticker ticker;
+//
+//	public synchronized void setTicker(Ticker ticker) {
+//		this.ticker = ticker;
+//	}
+//
+//	public void start() {
+//
+//	}
+//
 
 	/** All threads running or waiting */
 	private final int[] runningThreads = new int[NativeThread.JAVA_PRIORITY_RANGE + 1];
@@ -49,7 +96,7 @@ public class PooledExecutor implements Executor {
 	static final long TIMEOUT = MINUTES.toMillis(1);
 
 	public void start() {
-		logMINOR = Logger.shouldLog(LogLevel.MINOR, this);
+		logMINOR = Logger.shouldLog(Logger.LogLevel.MINOR, this);
 	}
 
 	@Override
@@ -181,7 +228,7 @@ public class PooledExecutor implements Executor {
 			threadNo = threadCounter;
 			nextJob = firstJob;
 		}
-		
+
 		@Override
 		public void realRun() {
 			int nativePriority = getNativePriority();
@@ -195,7 +242,7 @@ public class PooledExecutor implements Executor {
 				}
 			}
 		}
-		
+
 		private void innerRun(int nativePriority) {
 			long ranJobs = 0;
 			while(true) {

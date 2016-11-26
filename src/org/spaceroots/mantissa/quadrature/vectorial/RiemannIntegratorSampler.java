@@ -27,7 +27,7 @@ public class RiemannIntegratorSampler
   implements SampledFunctionIterator {
 
   /** Underlying sample iterator. */
-  private SampledFunctionIterator iter;
+  private final SampledFunctionIterator iter;
 
   /** Current point. */
   private VectorialValuedPair current;
@@ -75,7 +75,7 @@ public class RiemannIntegratorSampler
       sum[i] += step * pY[i];
     }
 
-    return new VectorialValuedPair (current.x, (double[]) sum.clone());
+    return new VectorialValuedPair (current.x, sum.clone());
 
   }
 

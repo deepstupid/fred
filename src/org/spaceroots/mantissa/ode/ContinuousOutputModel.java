@@ -351,7 +351,7 @@ public class ContinuousOutputModel
   private int index;
 
   /** Steps table. */
-  private ArrayList steps;
+  private final ArrayList steps;
 
   private static final long serialVersionUID = 2259286184268533249L;
 

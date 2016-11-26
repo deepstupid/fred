@@ -26,7 +26,7 @@ public interface SampledFunctionIntegrator {
    * enough points for the integration scheme
    * @exception FunctionException if the underlying sampled function throws one
    */
-  public double[] integrate(SampledFunctionIterator iter)
+  double[] integrate(SampledFunctionIterator iter)
     throws ExhaustedSampleException, FunctionException;
 
 }

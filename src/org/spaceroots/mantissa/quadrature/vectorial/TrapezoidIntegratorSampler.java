@@ -27,7 +27,7 @@ public class TrapezoidIntegratorSampler
   implements SampledFunctionIterator {
 
   /** Underlying sample iterator. */
-  private SampledFunctionIterator iter;
+  private final SampledFunctionIterator iter;
 
   /** Current point. */
   private VectorialValuedPair current;
@@ -77,7 +77,7 @@ public class TrapezoidIntegratorSampler
       sum[i] += halfDx * (pY[i] + cY[i]);
     }
 
-    return new VectorialValuedPair (current.x, (double[]) sum.clone());
+    return new VectorialValuedPair (current.x, sum.clone());
 
   }
 

@@ -64,7 +64,7 @@ public class CorrelatedRandomVectorGenerator
                                     });
       throw new IllegalArgumentException(message);
     }
-    this.mean = (double[]) mean.clone();
+    this.mean = mean.clone();
 
     factorize(covariance);
 

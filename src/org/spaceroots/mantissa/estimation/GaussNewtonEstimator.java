@@ -203,10 +203,10 @@ public class GaussNewtonEstimator
     return Math.sqrt(criterion / n);
   }
 
-  private int    maxIterations;
-  private double steadyStateThreshold;
-  private double convergence;
-  private double epsilon;
+  private final int    maxIterations;
+  private final double steadyStateThreshold;
+  private final double convergence;
+  private final double epsilon;
 
   private static final long serialVersionUID = -7606628156644194170L;
 

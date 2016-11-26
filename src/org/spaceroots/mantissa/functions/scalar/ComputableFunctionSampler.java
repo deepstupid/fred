@@ -34,16 +34,16 @@ public class ComputableFunctionSampler
   implements SampledFunction, Serializable {
 
   /** Underlying computable function. */
-  private ComputableFunction function;
+  private final ComputableFunction function;
 
   /** Beginning abscissa. */
-  private double begin;
+  private final double begin;
 
   /** Step between points. */
-  private double step;
+  private final double step;
 
   /** Total number of points. */
-  private int n;
+  private final int n;
 
   /**
    * Constructor.

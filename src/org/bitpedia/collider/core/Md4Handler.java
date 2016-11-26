@@ -22,8 +22,8 @@ public class Md4Handler {
     private static final int S32 = 9;
     private static final int S33 = 11;
     private static final int S34 = 15;
-    private static byte P0 = -128;
-    private static byte[] PADDING;
+    private static final byte P0 = -128;
+    private static final byte[] PADDING;
     private int[] state;
     private int[] count;
     private byte[] buffer;

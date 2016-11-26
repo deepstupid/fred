@@ -415,7 +415,7 @@ public abstract class DirectSearchOptimizer {
    * minimizes} has not been called
    */
   public PointCostPair[] getMinima() {
-    return (PointCostPair[]) minima.clone();
+    return minima.clone();
   }
 
   /** Minimizes a cost function.
@@ -535,19 +535,17 @@ public abstract class DirectSearchOptimizer {
   }
 
   /** Comparator for {@link PointCostPair PointCostPair} objects. */
-  private static Comparator pointCostPairComparator = new Comparator() {
-      public int compare(Object o1, Object o2) {
-        if (o1 == null) {
-          return (o2 == null) ? 0 : +1;
-        } else if (o2 == null) {
-          return -1;
-        } else {
-          double cost1 = ((PointCostPair) o1).cost;
-          double cost2 = ((PointCostPair) o2).cost;
-          return (cost1 < cost2) ? -1 : ((o1 == o2) ? 0 : +1);
-        }
-      }
-    };
+  private static final Comparator pointCostPairComparator = (o1, o2) -> {
+    if (o1 == null) {
+      return (o2 == null) ? 0 : +1;
+    } else if (o2 == null) {
+      return -1;
+    } else {
+      double cost1 = ((PointCostPair) o1).cost;
+      double cost2 = ((PointCostPair) o2).cost;
+      return (cost1 < cost2) ? -1 : ((o1 == o2) ? 0 : +1);
+    }
+  };
 
   /** Simplex. */
   protected PointCostPair[] simplex;

@@ -13,7 +13,7 @@ public class PointCostPair {
    * @param cost point cost
    */
   public PointCostPair(double[] point, double cost) {
-    this.point = (double[]) point.clone();
+    this.point = point.clone();
     this.cost = cost;
   }
 

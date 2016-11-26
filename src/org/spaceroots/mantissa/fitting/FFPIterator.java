@@ -66,7 +66,7 @@ class FFPIterator
 
   }
 
-  private AbstractCurveFitter.FitMeasurement[] measurements;
+  private final AbstractCurveFitter.FitMeasurement[] measurements;
   private int nextIndex;
 
   private AbstractCurveFitter.FitMeasurement previous;

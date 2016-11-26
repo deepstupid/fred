@@ -28,7 +28,7 @@ public final class Tiger extends MessageDigest implements Cloneable {
 
     public Object clone() throws CloneNotSupportedException {
         Tiger var1 = (Tiger)super.clone();
-        var1.pad = (byte[])((byte[])this.pad.clone());
+        var1.pad = this.pad.clone();
         return var1;
     }
 

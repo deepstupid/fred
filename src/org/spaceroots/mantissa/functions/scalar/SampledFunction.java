@@ -35,7 +35,7 @@ public interface SampledFunction extends Serializable {
   /** Get the number of points in the sample.
    * @return number of points in the sample
    */
-  public int size();
+  int size();
 
   /** Get the abscissa and value of the sample at the specified index.
    * @param index index in the sample, should be between 0 and
@@ -45,7 +45,7 @@ public interface SampledFunction extends Serializable {
    * @exception FunctionException if an eventual underlying function
    * throws one
    */
-  public ScalarValuedPair samplePointAt(int index)
+  ScalarValuedPair samplePointAt(int index)
     throws ArrayIndexOutOfBoundsException, FunctionException;
 
 }

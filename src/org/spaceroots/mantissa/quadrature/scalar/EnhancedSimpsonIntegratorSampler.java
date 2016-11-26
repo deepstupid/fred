@@ -23,7 +23,7 @@ public class EnhancedSimpsonIntegratorSampler
   implements SampledFunctionIterator {
 
   /** Underlying sampled function iterator. */
-  private SampledFunctionIterator iter;
+  private final SampledFunctionIterator iter;
 
   /** Next point. */
   private ScalarValuedPair next;

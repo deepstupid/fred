@@ -18,6 +18,6 @@ public interface NormalizedRandomGenerator extends Serializable {
    * standard deviation.</p>
    * @return a random scalar
    */
-  public double nextDouble();
+  double nextDouble();
 
 }

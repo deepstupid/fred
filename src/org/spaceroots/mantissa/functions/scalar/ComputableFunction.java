@@ -34,7 +34,7 @@ public interface ComputableFunction extends Serializable {
    * @return function value
    * @exception FunctionException if something goes wrong
    */
-  public double valueAt(double x)
+  double valueAt(double x)
     throws FunctionException;
 
 }

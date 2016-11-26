@@ -117,16 +117,16 @@ public class ComputableFunctionSampler
   }
 
   /** Underlying computable function. */
-  private ComputableFunction function;
+  private final ComputableFunction function;
 
   /** Beginning abscissa. */
-  private double begin;
+  private final double begin;
 
   /** Step between points. */
-  private double step;
+  private final double step;
 
   /** Total number of points. */
-  private int n;
+  private final int n;
 
   private static final long serialVersionUID = 1368582688313212821L;
 

@@ -305,7 +305,7 @@ public abstract class Polynomial
      * index a.length-1 is the leading degree coefficient
      */
     public RationalNumber[] getCoefficients() {
-      return (RationalNumber[]) a.clone();
+      return a.clone();
     }
 
     /** Add a polynomial to the instance
@@ -781,7 +781,7 @@ public abstract class Polynomial
      * index a.length-1 is the leading degree coefficient
      */
     public double[] getCoefficients() {
-      return (double[]) a.clone();
+      return a.clone();
     }
 
     /** Add a polynomial to the instance

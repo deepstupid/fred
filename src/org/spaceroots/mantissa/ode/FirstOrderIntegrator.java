@@ -22,19 +22,19 @@ public interface FirstOrderIntegrator {
   /** Get the name of the method.
    * @return name of the method
    */
-  public String getName();
+  String getName();
 
   /** Set the step handler for this integrator.
    * The handler will be called by the integrator for each accepted
    * step.
    * @param handler handler for the accepted steps
    */
-  public void setStepHandler (StepHandler handler);
+  void setStepHandler(StepHandler handler);
 
   /** Get the step handler for this integrator.
    * @return the step handler for this integrator
    */
-  public StepHandler getStepHandler();
+  StepHandler getStepHandler();
 
   /** Add a switching function to the integrator.
    * @param function switching function
@@ -43,9 +43,9 @@ public interface FirstOrderIntegrator {
    * case the integration steps becomes very large)
    * @param convergence convergence threshold in the event time search
    */
-  public void addSwitchingFunction(SwitchingFunction function,
-                                   double maxCheckInterval,
-                                   double convergence);
+  void addSwitchingFunction(SwitchingFunction function,
+                            double maxCheckInterval,
+                            double convergence);
 
   /** Integrate the differential equations up to the given time.
    * <p>This method solves an Initial Value Problem (IVP).</p>
@@ -63,9 +63,9 @@ public interface FirstOrderIntegrator {
    * @throws DerivativeException this exception is propagated to the caller if
    * the underlying user function triggers one
    */
-  public void integrate (FirstOrderDifferentialEquations equations,
-                         double t0, double[] y0,
-                         double t, double[] y)
+  void integrate(FirstOrderDifferentialEquations equations,
+                 double t0, double[] y0,
+                 double t, double[] y)
     throws DerivativeException, IntegratorException;
 
   /** Get the current value of the step start time t<sub>i</sub>.
@@ -77,7 +77,7 @@ public interface FirstOrderIntegrator {
    * calls to {@link #integrate}</p>
    * @return current value of the step start time t<sub>i</sub>
    */
-  public double getCurrentStepStart();
+  double getCurrentStepStart();
 
   /** Get the current value of the integration stepsize.
    * <p>This method can be called during integration (typically by
@@ -88,6 +88,6 @@ public interface FirstOrderIntegrator {
    * calls to {@link #integrate}</p>
    * @return current value of the stepsize
    */
-  public double getCurrentStepsize();
+  double getCurrentStepsize();
 
 }

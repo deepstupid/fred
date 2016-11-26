@@ -87,7 +87,7 @@ public class StepNormalizer
       interpolator.setInterpolatedTime(lastTime);
 
       double[] state = interpolator.getInterpolatedState();
-      lastState = (double[]) state.clone();
+      lastState = state.clone();
 
       // take the integration direction into account
       forward = (interpolator.getCurrentTime() >= lastTime);
@@ -127,7 +127,7 @@ public class StepNormalizer
   private double h;
 
   /** Underlying step handler. */
-  private FixedStepHandler handler;
+  private final FixedStepHandler handler;
 
   /** Last step time. */
   private double lastTime;

@@ -15,7 +15,7 @@ public class TigerTree extends MessageDigest {
     private final byte[] buffer = new byte[1024];
     private int bufferOffset = 0;
     private long byteCount = 0L;
-    private MessageDigest tiger = new Tiger();
+    private final MessageDigest tiger = new Tiger();
     private LinkedList nodes = new LinkedList();
     long blockCount = 0L;
 
@@ -105,8 +105,8 @@ public class TigerTree extends MessageDigest {
     }
 
     protected void composeNodes() {
-        byte[] var1 = (byte[])((byte[])this.nodes.removeLast());
-        byte[] var2 = (byte[])((byte[])this.nodes.removeLast());
+        byte[] var1 = (byte[]) this.nodes.removeLast();
+        byte[] var2 = (byte[]) this.nodes.removeLast();
         this.tiger.reset();
         this.tiger.update((byte)1);
         this.tiger.update(var2);

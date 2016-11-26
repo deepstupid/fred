@@ -16,13 +16,13 @@ package org.spaceroots.mantissa.roots;
 public interface ConvergenceChecker {
 
   /** Indicator for no convergence. */
-  public static final int NONE = 0;
+  int NONE = 0;
 
   /** Indicator for convergence on the lower bound of the interval. */
-  public static final int LOW  = 1;
+  int LOW  = 1;
 
   /** Indicator for convergence on the higher bound of the interval. */
-  public static final int HIGH = 2;
+  int HIGH = 2;
 
   /** Check if the root-finding algorithm has converged on the interval.
    * The interval defined by the arguments contains one root (if there
@@ -35,6 +35,6 @@ public interface ConvergenceChecker {
    * @return convergence indicator, must be one of {@link #NONE},
    * {@link #LOW} or {@link #HIGH}
    */
-  public int converged (double xLow, double fLow, double xHigh, double fHigh);
+  int converged(double xLow, double fLow, double xHigh, double fHigh);
 
 }

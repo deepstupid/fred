@@ -133,7 +133,7 @@ public class MemoryLimitedJobRunnerTest extends TestCase {
     private void waitForZero(MemoryLimitedJobRunner runner) {
         while(runner.used() > 0) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(5);
             } catch (InterruptedException e) {
                 // Ignore.
             }

@@ -98,9 +98,9 @@ public class MultiDirectional
   }
 
   /** Expansion coefficient. */
-  private double khi;
+  private final double khi;
 
   /** Contraction coefficient. */
-  private double gamma;
+  private final double gamma;
 
 }

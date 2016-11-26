@@ -162,7 +162,7 @@ public class SwitchingFunctionsHandler {
   }
 
   /** Switching functions. */
-  private ArrayList functions;
+  private final ArrayList functions;
 
   /** First active switching function. */
   private SwitchState first;

@@ -120,7 +120,7 @@ public class HarmonicCoefficientsGuesser
 
   public HarmonicCoefficientsGuesser(AbstractCurveFitter.FitMeasurement[] measurements) {
     this.measurements =
-      (AbstractCurveFitter.FitMeasurement[]) measurements.clone();
+            measurements.clone();
     a                 = Double.NaN;
     omega             = Double.NaN;
   }
@@ -242,7 +242,7 @@ public class HarmonicCoefficientsGuesser
     return phi;
   }
 
-  private AbstractCurveFitter.FitMeasurement[] measurements;
+  private final AbstractCurveFitter.FitMeasurement[] measurements;
   private double a;
   private double omega;
   private double phi;

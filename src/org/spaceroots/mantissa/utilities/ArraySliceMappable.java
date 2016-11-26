@@ -47,18 +47,18 @@ public interface ArraySliceMappable {
     /** Get the dimension of the object.
      * @return dimension of the object
      */
-    public int getStateDimension();
+    int getStateDimension();
     
     /** Reinitialize internal state from the specified array slice data.
      * @param start start index in the array
      * @param array array holding the data to extract
      */
-    public void mapStateFromArray(int start, double[] array);
+    void mapStateFromArray(int start, double[] array);
     
     /** Store internal state data into the specified array slice.
      * @param start start index in the array
      * @param array array where data should be stored
      */
-    public void mapStateToArray(int start, double[] array);
+    void mapStateToArray(int start, double[] array);
     
 }

@@ -7,6 +7,7 @@ import freenet.keys.FreenetURI;
 import freenet.node.Node;
 import freenet.node.NodeInitException;
 import freenet.node.NodeStarter;
+import freenet.support.Executor;
 import freenet.support.Logger.LogLevel;
 import freenet.support.LoggerHook.InvalidThresholdException;
 import freenet.support.PooledExecutor;
@@ -91,7 +92,7 @@ public class BootstrapPullTest {
         fis = new FileInputStream(seednodes);
         FileUtil.writeTo(fis, new File(secondInnerDir, "seednodes.fref"));
         fis.close();
-        PooledExecutor executor = new PooledExecutor();
+        Executor executor = new PooledExecutor();
         secondNode = NodeStarter.createTestNode(DARKNET_PORT, OPENNET_PORT, dir.getPath(), false, Node.DEFAULT_MAX_HTL, 0, random, executor, 1000, 5*1024*1024, true, true, true, true, true, true, true, 12*1024, false, true, false, false, ipOverride);
         secondNode.start(true);
 

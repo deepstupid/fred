@@ -23,15 +23,15 @@ public interface RootsFinder {
    * @param f1 value of the function the higher bound of the interval
    * @return true if a root has been found in the given interval
    */
-  public boolean findRoot(ComputableFunction function,
-                          ConvergenceChecker checker,
-                          int maxIter,
-                          double x0, double f0, double x1, double f1)
+  boolean findRoot(ComputableFunction function,
+                   ConvergenceChecker checker,
+                   int maxIter,
+                   double x0, double f0, double x1, double f1)
     throws FunctionException;
 
   /** Get the abscissa of the root.
    * @return abscissa of the root
    */
-  public double getRoot();
+  double getRoot();
 
 }

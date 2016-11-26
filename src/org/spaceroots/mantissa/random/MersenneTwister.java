@@ -234,7 +234,7 @@ public class MersenneTwister
   private static final int   M     = 397;
   private static final int[] MAG01 = { 0x0, 0x9908b0df };
 
-  private int[] mt;
+  private final int[] mt;
   private int   mti;
 
   private static final long serialVersionUID = 7666069655872848609L;

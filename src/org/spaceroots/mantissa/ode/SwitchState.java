@@ -28,13 +28,13 @@ class SwitchState
   private static final long serialVersionUID = 6944466361876662425L;
 
   /** Switching function. */
-  private SwitchingFunction function;
+  private final SwitchingFunction function;
 
   /** Maximal time interval between switching function checks. */
-  private double maxCheckInterval;
+  private final double maxCheckInterval;
 
   /** Convergence threshold for event localisation. */
-  private double convergence;
+  private final double convergence;
 
   /** Time at the beginning of the step. */
   private double t0;

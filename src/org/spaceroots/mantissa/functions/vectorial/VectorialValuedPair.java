@@ -27,7 +27,7 @@ public class VectorialValuedPair
    */
   public VectorialValuedPair(double x, double[] y) {
     this.x = x;
-    this.y = (double[]) y.clone();
+    this.y = y.clone();
   }
 
   /** Abscissa of the point. */

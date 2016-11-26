@@ -289,10 +289,10 @@ public abstract class AdaptiveStepsizeIntegrator
   }
 
   /** Minimal step. */
-  private double minStep;
+  private final double minStep;
 
   /** Maximal step. */
-  private double maxStep;
+  private final double maxStep;
 
   /** User supplied initial step. */
   private double initialStep;

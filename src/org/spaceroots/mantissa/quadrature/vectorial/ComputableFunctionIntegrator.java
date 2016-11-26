@@ -26,7 +26,7 @@ public interface ComputableFunctionIntegrator {
    * @return value of the integral over the range
    * @exception FunctionException if the underlying function throws one
    */
-  public double[] integrate(ComputableFunction f, double a, double b)
+  double[] integrate(ComputableFunction f, double a, double b)
     throws FunctionException;
 
 }

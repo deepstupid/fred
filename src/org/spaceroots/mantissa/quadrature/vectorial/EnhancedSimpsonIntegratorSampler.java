@@ -23,7 +23,7 @@ public class EnhancedSimpsonIntegratorSampler
   implements SampledFunctionIterator {
 
   /** Underlying sample iterator. */
-  private SampledFunctionIterator iter;
+  private final SampledFunctionIterator iter;
 
   /** Next point. */
   private VectorialValuedPair next;
@@ -93,7 +93,7 @@ public class EnhancedSimpsonIntegratorSampler
       return new VectorialValuedPair(current.x, sum);
     }
 
-    return new VectorialValuedPair(next.x, (double[]) sum.clone());
+    return new VectorialValuedPair(next.x, sum.clone());
 
   }
 

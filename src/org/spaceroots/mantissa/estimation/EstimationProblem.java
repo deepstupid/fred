@@ -29,16 +29,16 @@ public interface EstimationProblem {
   /** Get the measurements of an estimation problem.
    * @return measurements
    */
-  public WeightedMeasurement[] getMeasurements();
+  WeightedMeasurement[] getMeasurements();
 
   /** Get the unbound parameters of the problem.
    * @return unbound parameters
    */
-  public EstimatedParameter[] getUnboundParameters();
+  EstimatedParameter[] getUnboundParameters();
 
   /** Get all the parameters of the problem.
    * @return parameters
    */
-  public EstimatedParameter[] getAllParameters();
+  EstimatedParameter[] getAllParameters();
 
 }

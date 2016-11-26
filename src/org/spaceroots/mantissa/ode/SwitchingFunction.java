@@ -37,12 +37,12 @@ public interface SwitchingFunction extends Serializable {
    * #eventOccurred eventOccurred} method when the integration should be
    * stopped after the event ending the current step.</p>
    */
-  public static final int STOP = 0;
+  int STOP = 0;
 
   /** Reset state indicator.
    * @deprecated replaced by {@link #RESET_STATE} as of mantissa 6.4
    */
-  public static final int RESET = 1;
+  int RESET = 1;
 
   /** Reset state indicator.
    * <p>This value should be used as the return value of the {@link
@@ -51,7 +51,7 @@ public interface SwitchingFunction extends Serializable {
    * vector (which will be retrieved thanks to the {@link #resetState
    * resetState} method).</p>
    */
-  public static final int RESET_STATE = 1;
+  int RESET_STATE = 1;
 
   /** Reset derivatives indicator.
    * <p>This value should be used as the return value of the {@link
@@ -60,14 +60,14 @@ public interface SwitchingFunction extends Serializable {
    * vector (which will be retrieved thanks to the {@link
    * FirstOrderDifferentialEquations#computeDerivatives} method).</p>
    */
-  public static final int RESET_DERIVATIVES = 2;
+  int RESET_DERIVATIVES = 2;
 
   /** Continue indicator.
    * <p>This value should be used as the return value of the {@link
    * #eventOccurred eventOccurred} method when the integration should go
    * on after the event ending the current step.</p>
    */
-  public static final int CONTINUE = 3;
+  int CONTINUE = 3;
 
   /** Compute the value of the switching function.
 
@@ -81,7 +81,7 @@ public interface SwitchingFunction extends Serializable {
    * @param y array containing the current value of the state vector
    * @return value of the g function
    */
-  public double g(double t, double[] y);
+  double g(double t, double[] y);
 
   /** Handle an event and choose what to do next.
 
@@ -117,7 +117,7 @@ public interface SwitchingFunction extends Serializable {
    * value must be one of {@link #STOP}, {@link #RESET_STATE},
    * {@link #RESET_DERIVATIVES} or {@link #CONTINUE}
    */
-  public int eventOccurred(double t, double[] y);
+  int eventOccurred(double t, double[] y);
   
   /** Reset the state prior to continue the integration.
 
@@ -134,6 +134,6 @@ public interface SwitchingFunction extends Serializable {
    * @param y array containing the current value of the state vector
    * the new state should be put in the same array
    */
-  public void resetState(double t, double[] y);
+  void resetState(double t, double[] y);
 
 }

@@ -15,6 +15,6 @@ public interface RandomVectorGenerator {
    * save the allocation time, so the user should keep a copy by
    * himself if he needs so.
    */
-  public double[] nextVector();
+  double[] nextVector();
 
 }

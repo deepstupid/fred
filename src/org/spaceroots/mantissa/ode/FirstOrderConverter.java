@@ -74,18 +74,18 @@ public class FirstOrderConverter
   }
 
   /** Underlying second order equations set. */
-  private SecondOrderDifferentialEquations equations;
+  private final SecondOrderDifferentialEquations equations;
 
   /** second order problem dimension. */
-  private int dimension;
+  private final int dimension;
 
   /** state vector. */
-  private double[] z;
+  private final double[] z;
 
   /** first time derivative of the state vector. */
-  private double[] zDot;
+  private final double[] zDot;
 
   /** second time derivative of the state vector. */
-  private double[] zDDot;
+  private final double[] zDDot;
 
 }

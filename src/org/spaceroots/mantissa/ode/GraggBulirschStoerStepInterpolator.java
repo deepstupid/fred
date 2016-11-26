@@ -60,18 +60,18 @@ class GraggBulirschStoerStepInterpolator
   extends AbstractStepInterpolator {
 
   /** Slope at the beginning of the step. */
-  private double[] y0Dot;
+  private final double[] y0Dot;
 
   /** State at the end of the step. */
-  private double[] y1;
+  private final double[] y1;
 
   /** Slope at the end of the step. */
-  private double[] y1Dot;
+  private final double[] y1Dot;
 
   /** Derivatives at the middle of the step.
    * element 0 is state at midpoint, element 1 is first derivative ...
    */
-  private double[][] yMidDots;
+  private final double[][] yMidDots;
 
   /** Interpolation polynoms. */
   private double[][] polynoms;
@@ -375,9 +375,8 @@ class GraggBulirschStoerStepInterpolator
       // we can now set the interpolated time and state
       setInterpolatedTime(t);
     } catch (DerivativeException e) {
-      IOException ioe = new IOException();
-      ioe.initCause(e);
-      throw ioe;
+      IOException ioe = new IOException(e);
+        throw ioe;
     }
 
   }

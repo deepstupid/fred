@@ -15,7 +15,7 @@ public class MessagesResources_fr
   }
 
   public Object[][] getContents() {
-    return (Object[][]) contents.clone();
+    return contents.clone();
   }
 
   static final Object[][] contents = {

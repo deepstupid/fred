@@ -20,19 +20,19 @@ public interface SecondOrderIntegrator {
   /** Get the name of the method.
    * @return name of the method
    */
-  public String getName();
+  String getName();
 
   /** Set the step handler for this integrator.
    * The handler will be called by the integrator for each accepted
    * step.
    * @param handler handler for the accepted steps
    */
-  public void setStepHandler (StepHandler handler);
+  void setStepHandler(StepHandler handler);
 
   /** Get the step handler for this integrator.
    * @return the step handler for this integrator
    */
-  public StepHandler getStepHandler();
+  StepHandler getStepHandler();
 
   /** Integrate the differential equations up to the given time
    * @param equations differential equations to integrate
@@ -51,9 +51,9 @@ public interface SecondOrderIntegrator {
    * @throws DerivativeException this exception is propagated to the caller if the
    * underlying user function triggers one
    */
-  public void integrate(SecondOrderDifferentialEquations equations,
-                        double t0, double[] y0, double[] yDot0,
-                        double t, double[] y, double[] yDot)
-  throws DerivativeException, IntegratorException;
+  void integrate(SecondOrderDifferentialEquations equations,
+                 double t0, double[] y0, double[] yDot0,
+                 double t, double[] y, double[] yDot)
+  ;
 
 }

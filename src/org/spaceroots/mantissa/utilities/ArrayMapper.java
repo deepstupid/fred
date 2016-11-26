@@ -67,7 +67,7 @@ public class ArrayMapper {
     if (internalData == null) {
       internalData = new double [size];
     }
-    return (double[]) internalData.clone();
+    return internalData.clone();
   }
 
   /** Map data from the internal array to the domain objects.
@@ -83,8 +83,8 @@ public class ArrayMapper {
    * @param data flat array holding the data to dispatch
    */
   public void updateObjects(double[] data) {
-    for (Iterator iter = domainObjects.iterator(); iter.hasNext();) {
-      ArrayMapperEntry entry = (ArrayMapperEntry) iter.next();
+    for (Object domainObject : domainObjects) {
+      ArrayMapperEntry entry = (ArrayMapperEntry) domainObject;
       entry.object.mapStateFromArray(entry.offset, data);
     }
   }
@@ -109,7 +109,7 @@ public class ArrayMapper {
   }
 
   /** Container for all handled objects. */
-  private ArrayList domainObjects;
+  private final ArrayList domainObjects;
 
   /** Total number of scalar elements handled.
    * (size of the array)

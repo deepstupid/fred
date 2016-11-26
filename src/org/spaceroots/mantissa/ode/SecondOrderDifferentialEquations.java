@@ -35,7 +35,7 @@ public interface SecondOrderDifferentialEquations {
   /** Get the dimension of the problem.
    * @return dimension of the problem
    */
-  public int getDimension();
+  int getDimension();
     
   /** Get the current time derivative of the state vector.
    * @param t current value of the independant <I>time</I> variable
@@ -47,8 +47,8 @@ public interface SecondOrderDifferentialEquations {
    * @throws DerivativeException this exception is propagated to the caller if the
    * underlying user function triggers one
    */
-  public void computeSecondDerivatives(double t, double[] y, double[] yDot,
-                                       double[] yDDot)
-  throws DerivativeException;
+  void computeSecondDerivatives(double t, double[] y, double[] yDot,
+                                double[] yDDot)
+  ;
 
 }

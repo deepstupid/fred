@@ -24,7 +24,7 @@ public class MantissaException
   extends Exception {
 
   private static final long serialVersionUID = 1L;
-  private static ResourceBundle resources
+  private static final ResourceBundle resources
   = ResourceBundle.getBundle("org.spaceroots.mantissa.MessagesResources");
 
   /** Translate a string.

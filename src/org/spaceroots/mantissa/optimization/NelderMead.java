@@ -142,15 +142,15 @@ public class NelderMead
   }
 
   /** Reflection coefficient. */
-  private double rho;
+  private final double rho;
 
   /** Expansion coefficient. */
-  private double khi;
+  private final double khi;
 
   /** Contraction coefficient. */
-  private double gamma;
+  private final double gamma;
 
   /** Shrinkage coefficient. */
-  private double sigma;
+  private final double sigma;
 
 }

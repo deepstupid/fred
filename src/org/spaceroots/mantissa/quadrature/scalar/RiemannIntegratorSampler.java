@@ -27,7 +27,7 @@ public class RiemannIntegratorSampler
   implements SampledFunctionIterator {
 
   /** Underlying sample iterator. */
-  private SampledFunctionIterator iter;
+  private final SampledFunctionIterator iter;
 
   /** Current point. */
   private ScalarValuedPair current;

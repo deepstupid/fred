@@ -31,14 +31,14 @@ public interface ComputableFunction extends Serializable {
   /** Get the dimension of the vectorial values of the function.
    * @return dimension
    */
-  public int getDimension();
+  int getDimension();
 
   /** Get the value of the function at the specified abscissa.
    * @param x current abscissa
    * @return function value
    * @exception FunctionException if something goes wrong
    */
-  public double[] valueAt(double x)
-    throws FunctionException;
+  double[] valueAt(double x)
+  ;
 
 }

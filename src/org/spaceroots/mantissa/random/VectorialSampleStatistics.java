@@ -8,6 +8,7 @@ import org.spaceroots.mantissa.linalg.SymetricalMatrix;
  */
 public class VectorialSampleStatistics {
 
+  public static final double[] ZERO_DOUBLES = new double[0];
   /** Dimension of the vectors to handle. */
   private int dimension;
 
@@ -59,9 +60,9 @@ public class VectorialSampleStatistics {
       dimension  = x.length;
       minIndices = new int[dimension];
       maxIndices = new int[dimension];
-      min        = (double[]) x.clone();
-      max        = (double[]) x.clone();
-      sum        = (double[]) x.clone();
+      min        = x.clone();
+      max        = x.clone();
+      sum        = x.clone();
       sum2       = new double[dimension * (dimension + 1) / 2];
 
       int k = 0;
@@ -123,12 +124,12 @@ public class VectorialSampleStatistics {
     if (n == 0) {
 
       dimension = s.dimension;
-      min        = (double[]) s.min.clone();
-      minIndices = (int[])    s.minIndices.clone();
-      max        = (double[]) s.max.clone();
-      maxIndices = (int[])    s.maxIndices.clone();
-      sum        = (double[]) s.sum.clone();
-      sum2       = (double[]) s.sum2.clone();
+      min        = s.min.clone();
+      minIndices = s.minIndices.clone();
+      max        = s.max.clone();
+      maxIndices = s.maxIndices.clone();
+      sum        = s.sum.clone();
+      sum2       = s.sum2.clone();
 
     } else {
       int k = 0;
@@ -176,7 +177,7 @@ public class VectorialSampleStatistics {
    * @see #getMinIndices
    */
   public double[] getMin() {
-    return (double[]) min.clone();
+    return min.clone();
   }
 
   /** Get the indices at which the minimal value occurred in the sample.
@@ -186,7 +187,7 @@ public class VectorialSampleStatistics {
    * @see #getMin
    */
   public int[] getMinIndices() {
-    return (int[]) minIndices.clone();
+    return minIndices.clone();
   }
 
   /** Get the maximal value in the sample.
@@ -201,7 +202,7 @@ public class VectorialSampleStatistics {
    * @see #getMaxIndices
    */
   public double[] getMax() {
-    return (double[]) max.clone();
+    return max.clone();
   }
 
   /** Get the indices at which the maximal value occurred in the sample.
@@ -211,7 +212,7 @@ public class VectorialSampleStatistics {
    * @see #getMax
    */
   public int[] getMaxIndices() {
-    return (int[]) maxIndices.clone();
+    return maxIndices.clone();
   }
 
   /** Get the mean value of the sample.
@@ -221,7 +222,7 @@ public class VectorialSampleStatistics {
    */
   public double[] getMean() {
     if (n == 0) {
-      return new double[0];
+      return ZERO_DOUBLES;
     }
     double[] mean = new double[dimension];
     for (int i = 0; i < dimension; ++i) {

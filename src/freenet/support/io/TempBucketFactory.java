@@ -307,20 +307,14 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 		}
 
 		@Override
-		public InputStream getInputStreamUnbuffered() throws IOException {
-
+		public synchronized InputStream getInputStreamUnbuffered() throws IOException {
 			if(!hasWritten)
 				throw new IOException("No OutputStream has been openned! Why would you want an InputStream then?");
-
-			if (hasBeenFreed)
-				throw new IOException("Already freed");
-
-				TempBucketInputStream is = new TempBucketInputStream(osIndex);
-			synchronized (tbis) {
-				tbis.add(is);
-			}
-			if (logMINOR)
-				Logger.minor(this, "Got " + is + " for " + this, new Exception());
+			if(hasBeenFreed) throw new IOException("Already freed");
+			TempBucketInputStream is = new TempBucketInputStream(osIndex);
+			tbis.add(is);
+			if(logMINOR)
+				Logger.minor(this, "Got "+is+" for "+this, new Exception());
 			return is;
 		}
 		

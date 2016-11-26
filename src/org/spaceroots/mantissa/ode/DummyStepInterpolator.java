@@ -76,9 +76,8 @@ public class DummyStepInterpolator
       // we can now set the interpolated time and state
       setInterpolatedTime(t);
     } catch (DerivativeException e) {
-      IOException ioe = new IOException();
-      ioe.initCause(e);
-      throw ioe;
+      IOException ioe = new IOException(e);
+        throw ioe;
     }
 
   }

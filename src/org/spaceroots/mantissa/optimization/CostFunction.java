@@ -13,6 +13,6 @@ public interface CostFunction {
    * @exception CostException if no cost can be computed for the parameters
    * @see PointCostPair
    */
-  public double cost(double[] x) throws CostException;
+  double cost(double[] x);
 
 }

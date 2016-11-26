@@ -28,14 +28,14 @@ public class MappableArray
    * @param array array to use
    */
   public MappableArray(double[] array) {
-    internalArray = (double[]) array.clone();
+    internalArray = array.clone();
   }
 
   /** Get the array stored in the instance.
    * @return array stored in the instance
    */
   public double[] getArray () {
-    return (double[]) internalArray.clone();
+    return internalArray.clone();
   }
 
   /** Get the dimension of the internal array.

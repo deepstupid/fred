@@ -38,6 +38,7 @@ import freenet.store.caching.CachingFreenetStoreTracker;
 import freenet.store.saltedhash.ResizablePersistentIntBuffer;
 import freenet.store.saltedhash.SaltedHashFreenetStore;
 import freenet.support.*;
+import freenet.support.Executor;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.*;
 import freenet.support.io.ArrayBucketFactory;
@@ -1403,7 +1404,7 @@ public class Node implements TimeSkewDetectorCallback {
 		dnsr = new DNSRequester(this);
 		ps = new PacketSender(this);
 		ticker = new PrioritizedTicker(executor, getDarknetPortNumber());
-		if(executor instanceof PooledExecutor)
+		if(executor instanceof java.util.concurrent.Executor)
 			((PooledExecutor)executor).setTicker(ticker);
 
 		Logger.normal(Node.class, "Creating node...");

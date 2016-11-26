@@ -51,7 +51,7 @@ class F2FP2Iterator
 
   }
 
-  private FFPIterator ffpIterator;
+  private final FFPIterator ffpIterator;
 
   private static final long serialVersionUID = -8113110433795298072L;
 

@@ -92,14 +92,14 @@ public abstract class AbstractCurveFitter
    * @return unbound parameters
    */
   public EstimatedParameter[] getUnboundParameters() {
-   return (EstimatedParameter[]) coefficients.clone();
+   return coefficients.clone();
   }
 
   /** Get all the parameters of the problem.
    * @return parameters
    */
   public EstimatedParameter[] getAllParameters() {
-   return (EstimatedParameter[]) coefficients.clone();
+   return coefficients.clone();
   }
 
   /** Utility method to sort the measurements with respect to the abscissa.
@@ -200,6 +200,6 @@ public abstract class AbstractCurveFitter
   protected List measurements;
 
   /** Estimator for the fitting problem. */
-  private Estimator estimator;
+  private final Estimator estimator;
 
 }

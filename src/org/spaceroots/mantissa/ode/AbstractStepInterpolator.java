@@ -114,8 +114,8 @@ public abstract class AbstractStepInterpolator
     interpolatedTime  = interpolator.interpolatedTime;
 
     if (interpolator.currentState != null) {
-      currentState      = (double[]) interpolator.currentState.clone();
-      interpolatedState = (double[]) interpolator.interpolatedState.clone();
+      currentState      = interpolator.currentState.clone();
+      interpolatedState = interpolator.interpolatedState.clone();
     } else {
       currentState      = null;
       interpolatedState = null;
@@ -274,7 +274,7 @@ public abstract class AbstractStepInterpolator
    * @return state vector at time {@link #getInterpolatedTime}
    */
   public double[] getInterpolatedState() {
-    return (double[]) interpolatedState.clone();
+    return interpolatedState.clone();
   }
 
 
@@ -373,9 +373,8 @@ public abstract class AbstractStepInterpolator
     try {
       finalizeStep();
     } catch (DerivativeException e) {
-      IOException ioe = new IOException();
-      ioe.initCause(e);
-      throw ioe;
+      IOException ioe = new IOException(e);
+        throw ioe;
     }
 
   }

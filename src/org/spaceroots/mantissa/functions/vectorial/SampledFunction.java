@@ -35,12 +35,12 @@ public interface SampledFunction extends Serializable {
   /** Get the number of points in the sample.
    * @return number of points in the sample
    */
-  public int size();
+  int size();
 
   /** Get the dimension of the vectorial values of the function.
    * @return dimension
    */
-  public int getDimension();
+  int getDimension();
 
   /** Get the abscissa and value of the sample at the specified index.
    * @param index index in the sample, should be between 0 and
@@ -50,7 +50,7 @@ public interface SampledFunction extends Serializable {
    * @exception FunctionException if an eventual underlying function
    * throws one
    */
-  public VectorialValuedPair samplePointAt(int index)
+  VectorialValuedPair samplePointAt(int index)
     throws ArrayIndexOutOfBoundsException, FunctionException;
 
 }

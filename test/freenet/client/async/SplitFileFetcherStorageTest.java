@@ -814,7 +814,7 @@ public class SplitFileFetcherStorageTest extends TestCase {
         while(!segment.isFinished()) {
             assertFalse(segment.hasFailed());
             try {
-                Thread.sleep(1);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 // Ignore.
             }
@@ -825,7 +825,7 @@ public class SplitFileFetcherStorageTest extends TestCase {
         while(!segment.hasSucceeded()) {
             assertFalse(segment.hasFailed());
             try {
-                Thread.sleep(1);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 // Ignore.
             }

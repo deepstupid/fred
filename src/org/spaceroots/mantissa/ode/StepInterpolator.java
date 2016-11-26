@@ -28,13 +28,13 @@ public interface StepInterpolator
    * Get the previous grid point time.
    * @return previous grid point time
    */
-  public double getPreviousTime();
+  double getPreviousTime();
     
   /**
    * Get the current grid point time.
    * @return current grid point time
    */
-  public double getCurrentTime();
+  double getCurrentTime();
     
   /**
    * Get the time of the interpolated point.
@@ -42,7 +42,7 @@ public interface StepInterpolator
    * the current grid point time.
    * @return interpolation point time
    */
-  public double getInterpolatedTime();
+  double getInterpolatedTime();
     
   /**
    * Set the time of the interpolated point.
@@ -56,14 +56,14 @@ public interface StepInterpolator
    * @throws DerivativeException if this call induces an automatic
    * step finalization that throws one
    */
-  public void setInterpolatedTime(double time)
+  void setInterpolatedTime(double time)
     throws DerivativeException;
 
   /**
    * Get the state vector of the interpolated point.
    * @return state vector at time {@link #getInterpolatedTime}
    */
-  public double[] getInterpolatedState();
+  double[] getInterpolatedState();
 
   /** Check if the natural integration direction is forward.
    * <p>This method provides the integration direction as specified by
@@ -74,6 +74,6 @@ public interface StepInterpolator
    * @return true if the integration variable (time) increases during
    * integration
    */
-  public boolean isForward();
+  boolean isForward();
 
 }

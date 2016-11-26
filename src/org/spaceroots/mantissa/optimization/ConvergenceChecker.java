@@ -20,6 +20,6 @@ public interface ConvergenceChecker {
    * been eavluated and are sorted from lowest to largest cost)
    * @return true if the algorithm is considered to have converged
    */
-  public boolean converged (PointCostPair[] simplex);
+  boolean converged(PointCostPair[] simplex);
 
 }

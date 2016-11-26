@@ -32,7 +32,7 @@ public interface Estimator {
    * @exception EstimationException if the problem cannot be solved
 
    */
-  public void estimate(EstimationProblem problem)
+  void estimate(EstimationProblem problem)
     throws EstimationException;
 
   /** Get the Root Mean Square value.
@@ -44,6 +44,6 @@ public interface Estimator {
    * @param problem estimation problem
    * @return RMS value
    */
-  public double getRMS(EstimationProblem problem);
+  double getRMS(EstimationProblem problem);
  
 }

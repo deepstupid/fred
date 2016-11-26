@@ -32,13 +32,13 @@ public interface StepHandler {
    * than a custom interpolator.</p>
    * @return true if the handler needs dense output
    */
-  public boolean requiresDenseOutput();
+  boolean requiresDenseOutput();
 
   /** Reset the step handler.
    * Initialize the internal data as required before the first step is
    * handled.
    */
-  public void reset();
+  void reset();
 
   /**
    * Handle the last accepted step
@@ -56,7 +56,7 @@ public interface StepHandler {
    * @throws DerivativeException this exception is propagated to the
    * caller if the underlying user function triggers one
    */
-  public void handleStep(StepInterpolator interpolator, boolean isLast)
+  void handleStep(StepInterpolator interpolator, boolean isLast)
     throws DerivativeException;
     
 }

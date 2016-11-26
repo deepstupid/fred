@@ -253,22 +253,22 @@ public abstract class RungeKuttaIntegrator
   }
 
   /** Indicator for <i>fsal</i> methods. */
-  private boolean fsal;
+  private final boolean fsal;
 
   /** Time steps from Butcher array (without the first zero). */
-  private double[] c;
+  private final double[] c;
 
   /** Internal weights from Butcher array (without the first empty row). */
-  private double[][] a;
+  private final double[][] a;
 
   /** External weights for the high order method from Butcher array. */
-  private double[] b;
+  private final double[] b;
 
   /** Prototype of the step interpolator. */
-  private RungeKuttaStepInterpolator prototype;
+  private final RungeKuttaStepInterpolator prototype;
                                          
   /** Integration step. */
-  private double step;
+  private final double step;
 
   /** Step handler. */
   private StepHandler handler;

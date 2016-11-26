@@ -17,14 +17,14 @@ public interface SampledFunctionIterator {
   /** Check if the iterator can provide another point.
    * @return true if the iterator can provide another point.
    */
-  public boolean hasNext();
+  boolean hasNext();
 
   /** Get the next point of a sampled function.
    * @return the next point of the sampled function
    * @exception ExhaustedSampleException if the sample has been exhausted
    * @exception FunctionException if the underlying function throws one
    */
-  public ScalarValuedPair nextSamplePoint()
+  ScalarValuedPair nextSamplePoint()
     throws ExhaustedSampleException, FunctionException;
 
 }

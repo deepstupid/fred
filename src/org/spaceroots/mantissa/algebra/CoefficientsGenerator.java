@@ -121,7 +121,7 @@ public abstract class CoefficientsGenerator {
   }
   
   /** List holding the coefficients of the polynomials computed so far. */
-  private ArrayList l;
+  private final ArrayList l;
 
   /** Maximal degree of the polynomials computed so far. */
   private int maxDegree;
