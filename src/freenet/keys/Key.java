@@ -3,14 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.MessageDigest;
-import java.util.Arrays;
-
 import freenet.crypt.CryptFormatException;
 import freenet.crypt.DSAPublicKey;
 import freenet.crypt.SHA256;
@@ -18,16 +10,20 @@ import freenet.io.WritableToDataOutputStream;
 import freenet.support.Fields;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
-import freenet.support.SimpleReadOnlyArrayBucket;
 import freenet.support.Logger.LogLevel;
+import freenet.support.SimpleReadOnlyArrayBucket;
 import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
 import freenet.support.compress.CompressionOutputSizeException;
-import freenet.support.compress.InvalidCompressionCodecException;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
+import freenet.support.compress.InvalidCompressionCodecException;
 import freenet.support.io.ArrayBucket;
 import freenet.support.io.ArrayBucketFactory;
 import freenet.support.io.BucketTools;
+
+import java.io.*;
+import java.security.MessageDigest;
+import java.util.Arrays;
 
 /**
  * @author amphibian
@@ -258,6 +254,8 @@ public abstract class Key implements WritableToDataOutputStream, Comparable<Key>
 					// Determine the best algorithm
         			COMPRESSOR_TYPE[] comps = COMPRESSOR_TYPE.getCompressorsArray(compressordescriptor, pre1254);
 					for (COMPRESSOR_TYPE comp : comps) {
+						if (comp == null)
+							continue;
 						ArrayBucket compressedData;
 						try {
 							compressedData = (ArrayBucket) comp.compress(

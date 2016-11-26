@@ -248,7 +248,7 @@ public class ClientCHKBlock implements ClientKeyBlock {
         if(cryptoKey.length < Node.SYMMETRIC_KEY_LENGTH)
             throw new CHKDecodeException("Crypto key too short");
 		try {
-        Cipher cipher = Cipher.getInstance("AES/CTR/NOPADDING", Rijndael.AesCtrProvider);
+        Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding", Rijndael.AesCtrProvider);
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(cryptoKey, "AES"), new IvParameterSpec(hash, 0, 16));
         byte[] plaintext = new byte[data.length + 2];
 		int moved = cipher.update(data, 0, data.length, plaintext);
@@ -462,7 +462,7 @@ public class ClientCHKBlock implements ClientKeyBlock {
         SecretKey ckey = new SecretKeySpec(encKey, "AES");
         // CTR mode IV is only 16 bytes.
         // That's still plenty though. It will still be unique.
-        Cipher cipher = Cipher.getInstance("AES/CTR/NOPADDING", Rijndael.AesCtrProvider);
+        Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding", Rijndael.AesCtrProvider);
         cipher.init(Cipher.ENCRYPT_MODE, ckey, new IvParameterSpec(hash, 0, 16));
         byte[] cdata = new byte[data.length];
 		int moved = cipher.update(data, 0, data.length, cdata);

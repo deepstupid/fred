@@ -57,3 +57,4 @@ peers-*
 plugins/
 prng.seed
 update.sh
+temp/

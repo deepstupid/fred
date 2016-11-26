@@ -1,23 +1,17 @@
 package freenet.crypt;
 
+import freenet.crypt.ciphers.Rijndael;
+import freenet.support.HexUtil;
+import freenet.support.math.MersenneTwister;
+import junit.framework.TestCase;
+
+import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.ShortBufferException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
-import junit.framework.TestCase;
-
-import freenet.crypt.ciphers.Rijndael;
-import freenet.support.HexUtil;
-import freenet.support.math.MersenneTwister;
 
 public class CTRBlockCipherTest extends TestCase {
 
@@ -176,7 +170,7 @@ public class CTRBlockCipherTest extends TestCase {
 		// First test it with JCA.
 		if (TEST_JCA) {
 			SecretKeySpec k = new SecretKeySpec(key, "AES");
-			Cipher c = Cipher.getInstance("AES/CTR/NOPADDING", Rijndael.AesCtrProvider);
+			Cipher c = Cipher.getInstance("AES/CTR/NoPadding", Rijndael.AesCtrProvider);
 			c.init(Cipher.ENCRYPT_MODE, k, new IvParameterSpec(iv));
 			byte[] output = c.doFinal(plaintext);
 			assertTrue(Arrays.equals(output, ciphertext));
@@ -202,7 +196,7 @@ public class CTRBlockCipherTest extends TestCase {
 			long seed = mt.nextLong();
 			if (TEST_JCA) {
 				SecretKeySpec k = new SecretKeySpec(key, "AES");
-				Cipher c = Cipher.getInstance("AES/CTR/NOPADDING", Rijndael.AesCtrProvider);
+				Cipher c = Cipher.getInstance("AES/CTR/NoPadding", Rijndael.AesCtrProvider);
 				c.init(Cipher.ENCRYPT_MODE, k, new IvParameterSpec(iv));
 				MersenneTwister random = new MersenneTwister(seed);
 				byte[] output = new byte[plaintext.length];
@@ -252,10 +246,10 @@ public class CTRBlockCipherTest extends TestCase {
 			mt.nextBytes(key);
 			mt.nextBytes(iv);
 			SecretKeySpec k = new SecretKeySpec(key, "AES");
-			Cipher c = Cipher.getInstance("AES/CTR/NOPADDING", Rijndael.AesCtrProvider);
+			Cipher c = Cipher.getInstance("AES/CTR/NoPadding", Rijndael.AesCtrProvider);
 			c.init(Cipher.ENCRYPT_MODE, k, new IvParameterSpec(iv));
 			byte[] output = c.doFinal(plaintext);
-			c = Cipher.getInstance("AES/CTR/NOPADDING", Rijndael.AesCtrProvider);
+			c = Cipher.getInstance("AES/CTR/NoPadding", Rijndael.AesCtrProvider);
 			c.init(Cipher.DECRYPT_MODE, k, new IvParameterSpec(iv));
 			byte[] decrypted = c.doFinal(output);
 			assertTrue(Arrays.equals(decrypted, plaintext));
@@ -285,11 +279,11 @@ public class CTRBlockCipherTest extends TestCase {
 			assertTrue(Arrays.equals(finalPlaintext, plaintext));
 			if(TEST_JCA) {
 				SecretKeySpec k = new SecretKeySpec(key, "AES");
-				Cipher c = Cipher.getInstance("AES/CTR/NOPADDING", Rijndael.AesCtrProvider);
+				Cipher c = Cipher.getInstance("AES/CTR/NoPadding", Rijndael.AesCtrProvider);
 				c.init(Cipher.ENCRYPT_MODE, k, new IvParameterSpec(iv));
 				byte[] output = c.doFinal(plaintext);
 				assertTrue(Arrays.equals(output, ciphertext));
-				c = Cipher.getInstance("AES/CTR/NOPADDING", Rijndael.AesCtrProvider);
+				c = Cipher.getInstance("AES/CTR/NoPadding", Rijndael.AesCtrProvider);
 				c.init(Cipher.DECRYPT_MODE, k, new IvParameterSpec(iv));
 				byte[] decrypted = c.doFinal(output);
 				assertTrue(Arrays.equals(decrypted, plaintext));

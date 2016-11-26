@@ -245,7 +245,6 @@ public final class EncryptedRandomAccessBuffer implements LockableRandomAccessBu
         System.arraycopy(headerEncIV, 0, header, offset, ivLen);
         offset += ivLen;
 
-        System.out.println(type.encryptType + " " + unencryptedBaseKey.getEncoded().length);
 
         byte[] encryptedKey = null;
         try {

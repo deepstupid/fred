@@ -21,7 +21,7 @@ public enum CryptByteBufferType implements Serializable{
     RijndaelECB128(2, KeyType.Rijndael256, 128),
     @Deprecated
     RijndaelPCFB(8, 32, KeyType.Rijndael256),
-    AESCTR(16, 16, "AES/CTR/NOPADDING", KeyType.AES256),
+    AESCTR(16, 16, "AES/CTR/NoPadding", KeyType.AES256),
     ChaCha128(32, 8, "CHACHA", KeyType.ChaCha128),
     ChaCha256(64, 8, "CHACHA", KeyType.ChaCha256);
 

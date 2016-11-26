@@ -1074,7 +1074,7 @@ public class RijndaelTest extends TestCase {
 		for (int i = 0; i < TEST_VK128.length; i++) {
 			SecretKeySpec k = 
 				new SecretKeySpec(TEST_VK128[i][0], "AES");
-			Cipher c = Cipher.getInstance("AES/ECB/NOPADDING");
+			Cipher c = Cipher.getInstance("AES/ECB/NoPadding");
 			c.init(Cipher.ENCRYPT_MODE, k);
 			
 			byte[] output = c.doFinal(TEST_VK_PT);
@@ -1085,7 +1085,7 @@ public class RijndaelTest extends TestCase {
 		for (int i = 0; i < TEST_VK192.length; i++) {
 			SecretKeySpec k = 
 				new SecretKeySpec(TEST_VK192[i][0], "AES");
-			Cipher c = Cipher.getInstance("AES/ECB/NOPADDING");
+			Cipher c = Cipher.getInstance("AES/ECB/NoPadding");
 			c.init(Cipher.ENCRYPT_MODE, k);
 			
 			byte[] output = c.doFinal(TEST_VK_PT);
@@ -1986,7 +1986,7 @@ public class RijndaelTest extends TestCase {
 									// Encrypt.
 									SecretKeySpec k = 
 										new SecretKeySpec(key, "AES");
-									Cipher c = Cipher.getInstance("AES/ECB/NOPADDING");
+									Cipher c = Cipher.getInstance("AES/ECB/NoPadding");
 									c.init(Cipher.ENCRYPT_MODE, k);
 									output = c.doFinal(plaintext);
 									assertTrue(Arrays.equals(output, ciphertext));

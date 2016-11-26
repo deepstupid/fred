@@ -3,13 +3,25 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import freenet.client.async.ClientContext;
+import freenet.keys.FreenetURI;
+import freenet.support.ExceptionWrapper;
+import freenet.support.LRUMap;
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
+import freenet.support.MutableBoolean;
+import freenet.support.api.Bucket;
+import freenet.support.api.BucketFactory;
+import freenet.support.compress.CompressionOutputSizeException;
+import freenet.support.compress.Compressor;
+import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
+import freenet.support.io.BucketTools;
+import freenet.support.io.Closer;
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,26 +31,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 //import net.contrapunctus.lzma.LzmaInputStream;
-
-
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-
-import freenet.client.async.ClientContext;
-import freenet.keys.FreenetURI;
-import freenet.support.ExceptionWrapper;
-import freenet.support.LRUMap;
-import freenet.support.Logger;
-import freenet.support.MutableBoolean;
-import freenet.support.Logger.LogLevel;
-import freenet.support.api.Bucket;
-import freenet.support.api.BucketFactory;
-import freenet.support.compress.CompressionOutputSizeException;
-import freenet.support.compress.Compressor;
-import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
-import freenet.support.io.BucketTools;
-import freenet.support.io.Closer;
 
 /**
  * Cache of recently decoded archives:
@@ -308,7 +300,7 @@ public class ArchiveManager {
 				if(logMINOR) Logger.minor(this, "dealing with GZIP");
 				is = new GZIPInputStream(data.getInputStream());
 				wrapper = null;
-			} /*else if(ctype == COMPRESSOR_TYPE.LZMA_NEW) {
+			} else if(ctype == COMPRESSOR_TYPE.LZMA_NEW) {
 				// LZMA internally uses pipe streams, so we may as well do it here.
 				// In fact we need to for LZMA_NEW, because of the properties bytes.
 				PipedInputStream pis = new PipedInputStream();
@@ -341,12 +333,12 @@ public class ArchiveManager {
 					
 				});
 				is = pis;
-//			} else if(ctype == COMPRESSOR_TYPE.LZMA) {
-//				throw new RuntimeException("dealing with lzma");
-////				if(logMINOR) Logger.minor(this, "dealing with LZMA");
-////				is = new LzmaInputStream(data.getInputStream());
-////				wrapper = null;
-			} */ else {
+			} else if(ctype == COMPRESSOR_TYPE.LZMA) {
+				throw new RuntimeException("dealing with lzma");
+//				if(logMINOR) Logger.minor(this, "dealing with LZMA");
+//				is = new LzmaInputStream(data.getInputStream());
+//				wrapper = null;
+			} else {
 				wrapper = null;
 			}
 

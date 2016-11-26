@@ -1,26 +1,26 @@
 package freenet.support;
 
-import java.util.Arrays;
-
 import freenet.client.async.ClientContext;
 import freenet.client.async.ClientRequestSelector;
 import freenet.client.async.RequestSelectionTreeNode;
 
+import java.util.Arrays;
+
 /**
  * Like RandomGrabArray, but there is an equal chance of any given client's requests being
  * returned. Again, not persistent; this is reconstructed on restart.
- * 
- * LOCKING: There is a single lock for the entire tree, the ClientRequestSelector. This must be 
+ *
+ * LOCKING: There is a single lock for the entire tree, the ClientRequestSelector. This must be
  * taken before calling any methods on RGA or SRGA. See the javadocs there for deeper explanation.
- * 
+ *
  * A lot of this is over-complicated and over-expensive because of db4o. A lot of it is O(n).
- * This is all kept in RAM now so we can change it at will, plus there is only one object 
- * queued per splitfile now, so memory pressure is much less of an issue. 
+ * This is all kept in RAM now so we can change it at will, plus there is only one object
+ * queued per splitfile now, so memory pressure is much less of an issue.
  * FIXME Simplify and improve performance!
  */
 public class SectoredRandomGrabArray<T, C extends RemoveRandomWithObject<T>> implements RemoveRandom, RemoveRandomParent, RequestSelectionTreeNode {
 	private static volatile boolean logMINOR;
-	
+
 	static {
 		Logger.registerClass(SectoredRandomGrabArray.class);
 	}
@@ -44,7 +44,7 @@ public class SectoredRandomGrabArray<T, C extends RemoveRandomWithObject<T>> imp
 
 		grabArrays = Arrays.copyOf(grabArrays, len+1);
 		grabArrays[len] = rga;
-		
+
 		grabClients = Arrays.copyOf(grabClients, len+1);
 		grabClients[len] = client;
 	    }
@@ -70,7 +70,7 @@ public class SectoredRandomGrabArray<T, C extends RemoveRandomWithObject<T>> imp
 		else return (C)grabArrays[idx];
 	    }
 	}
-	
+
 	public T getClient(int x) {
 	    synchronized(root) {
 		return grabClients[x];
@@ -131,7 +131,7 @@ public class SectoredRandomGrabArray<T, C extends RemoveRandomWithObject<T>> imp
 			}
 			if(logMINOR)
 				Logger.minor(this, "Picked "+x+" of "+grabArrays.length+" : "+rga+" on "+this);
-			
+
 			RandomGrabArrayItem item = null;
 			RemoveRandomReturn val = rga.removeRandom(excluding, context, now);
 			if(val != null) {
@@ -189,7 +189,7 @@ public class SectoredRandomGrabArray<T, C extends RemoveRandomWithObject<T>> imp
 			}
 			if(logMINOR)
 				Logger.minor(this, "Picked "+x+" of "+grabArrays.length+" : "+rga+" on "+this);
-			
+
 			RandomGrabArrayItem item = null;
 			RemoveRandomReturn val = rga.removeRandom(excluding, context, now);
 			if(val != null && val.item != null) item = val.item;
@@ -364,7 +364,7 @@ public class SectoredRandomGrabArray<T, C extends RemoveRandomWithObject<T>> imp
 		if(x < grabArraysLength-1)
 			System.arraycopy(grabArrays, x+1, newArray, x, grabArraysLength - (x+1));
 		grabArrays = newArray;
-		
+
 		T[] newClients = newClientArray(newLen);
 		if(x > 0)
 			System.arraycopy(grabClients, 0, newClients, 0, x);
@@ -379,13 +379,13 @@ public class SectoredRandomGrabArray<T, C extends RemoveRandomWithObject<T>> imp
 		return grabArrays.length == 0;
 	    }
 	}
-	
+
 	public int size() {
 	    synchronized(root) {
 		return grabArrays.length;
 	    }
 	}
-	
+
 	@Override
 	public void maybeRemove(RemoveRandom r, ClientContext context) {
 		int count = 0;
@@ -432,7 +432,7 @@ public class SectoredRandomGrabArray<T, C extends RemoveRandomWithObject<T>> imp
             return parent;
         }
     }
-	
+
     @Override
     public long getWakeupTime(ClientContext context, long now) {
         synchronized(root) {
@@ -440,7 +440,7 @@ public class SectoredRandomGrabArray<T, C extends RemoveRandomWithObject<T>> imp
             return wakeupTime;
         }
     }
-    
+
     @Override
     public boolean reduceWakeupTime(long wakeupTime, ClientContext context) {
         if(logMINOR) Logger.minor(this, "reduceCooldownTime("+(wakeupTime-System.currentTimeMillis())+") on "+this);
@@ -456,7 +456,7 @@ public class SectoredRandomGrabArray<T, C extends RemoveRandomWithObject<T>> imp
             root.wakeUp(context);
         return true;
     }
-    
+
     @Override
     public void clearWakeupTime(ClientContext context) {
         if(logMINOR) Logger.minor(this, "clearCooldownTime() on "+this);

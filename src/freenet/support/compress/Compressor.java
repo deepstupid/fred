@@ -46,19 +46,19 @@ public interface Compressor {
 		}
 
 		public static COMPRESSOR_TYPE getCompressorByMetadataID(short id) {
-			if (id < 0)
-				return null;
+//			if (id < 0)
+//				return null;
+//
+//			int n = values.length;
+//			if (id >= n)
+//				return null;
+//
+//			return values[id];
 
-			int n = values.length;
-			if (id >= n)
-				return null;
-
-			return values[id];
-
-//			for(COMPRESSOR_TYPE current : values)
-//				if(current.metadataID == id)
-//					return current;
-//			return null;
+			for(COMPRESSOR_TYPE current : values)
+				if(current.metadataID == id)
+					return current;
+			return null;
 		}
 
 		static final Map<String, COMPRESSOR_TYPE> byName = new HashMap<>(values.length*2);
@@ -118,8 +118,8 @@ public interface Compressor {
 				COMPRESSOR_TYPE[] ret = new COMPRESSOR_TYPE[values.length];
 				int x = 0;
 				for(COMPRESSOR_TYPE v: values) {
-//					if((v == LZMA) && !pre1254) continue;
-//					if((v == LZMA_NEW) && pre1254) continue;
+					if((v == LZMA) && !pre1254) continue;
+					if((v == LZMA_NEW) && pre1254) continue;
 					ret[x++] = v;
 				}
 				result = ret;

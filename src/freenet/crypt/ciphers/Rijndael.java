@@ -1,7 +1,6 @@
 package freenet.crypt.ciphers;
 
 import freenet.crypt.BlockCipher;
-import freenet.crypt.JceLoader;
 import freenet.crypt.UnsupportedCipherException;
 import freenet.support.Logger;
 
@@ -26,7 +25,7 @@ public class Rijndael implements BlockCipher {
 	private Object sessionKey;
 	private final int keysize, blocksize;
 
-	public static final Provider AesCtrProvider = getAesCtrProvider();
+	public static final Provider AesCtrProvider = null; //getAesCtrProvider();
 	
 	public static String getProviderName() {
 		return AesCtrProvider != null ? AesCtrProvider.getName() : null;
@@ -69,10 +68,11 @@ public class Rijndael implements BlockCipher {
 		byte[] iv = new byte[16];
 //		aes.init(true, new ParametersWithIV(new KeyParameter(k), iv));
 
+		final String algo = "AES/CTR/NoPadding";
 
 		//CipherParameters ivAndKey = new ParametersWithIV(new KeyParameter(k), iv);
 		try {
-			Cipher c = Cipher.getInstance("AES", JceLoader.BouncyCastle);
+			Cipher c = Cipher.getInstance(algo, "BC");
 			c.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(k,"AES"), new IvParameterSpec(iv));
 			return c.getProvider();
 		}
@@ -84,7 +84,7 @@ public class Rijndael implements BlockCipher {
 
 //		//return JceLoader.BouncyCastle;
 //
-//		final String algo = "AES/CTR/NOPADDING";
+//		final String algo = "AES/CTR/NoPadding";
 //		Cipher c = null;
 //		try {
 //			byte[] key = k; // Test for whether 256-bit works.
