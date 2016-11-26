@@ -19,7 +19,7 @@ public interface LockableRandomAccessBufferFactory {
      * @throws IOException If an I/O error prevented the operation.
      * @throws IllegalArgumentException If size < 0.
      */
-    public LockableRandomAccessBuffer makeRAF(long size) throws IOException;
+    LockableRandomAccessBuffer makeRAF(long size) throws IOException;
     
     /**
      * Create a bucket with specified initial contents.
@@ -30,6 +30,6 @@ public interface LockableRandomAccessBufferFactory {
      * @return
      * @throws IOException If an I/O error prevented the operation.
      */
-    public LockableRandomAccessBuffer makeRAF(byte[] initialContents, int offset, int size, boolean readOnly) throws IOException;
+    LockableRandomAccessBuffer makeRAF(byte[] initialContents, int offset, int size, boolean readOnly) throws IOException;
 
 }

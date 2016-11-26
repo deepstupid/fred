@@ -11,6 +11,6 @@ public interface DiskSpaceChecker {
      * the last check exceeds this value.
      * @return True if there is sufficient disk space
      */
-    public boolean checkDiskSpace(File file, int toWrite, int bufferSize);
+    boolean checkDiskSpace(File file, int toWrite, int bufferSize);
 
 }

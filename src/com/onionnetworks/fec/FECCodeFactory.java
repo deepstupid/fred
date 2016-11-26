@@ -3,7 +3,7 @@ package com.onionnetworks.fec;
 /**
  * This is the abstract class is subclassed in order to plug in new FEC 
  * implementations.  If you wish to use the default implementation defined by 
- * the property "com.onionnetworks.fec.defaultcodefactoryclass" you should 
+ * the property "com.onionnetworks.com.onionnetworks.fec.defaultcodefactoryclass" you should
  * simply call:
  *
  * <code>
@@ -25,11 +25,11 @@ public abstract class FECCodeFactory {
      * @return An FECCode for the appropriate <code>k</code> and <code>n</code>
      * values.
      */
-    public abstract FECCode createFECCode(int k, int n);
+    public abstract com.onionnetworks.fec.FECCode createFECCode(int k, int n);
 
     /**
      * @return The default FECCodeFactory which is defined by the property
-     * "com.onionnetworks.fec.defaultcodefactoryclass".  If this property is
+     * "com.onionnetworks.com.onionnetworks.fec.defaultcodefactoryclass".  If this property is
      * not defined then DefaultFECCodeFactory will be used by default.
      */
     public synchronized static FECCodeFactory getDefault() {

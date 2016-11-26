@@ -1,5 +1,9 @@
 package freenet.client.filter;
 
+import freenet.support.api.Bucket;
+import freenet.support.io.ArrayBucket;
+import freenet.support.io.BucketTools;
+import freenet.support.io.NullOutputStream;
 import junit.framework.TestCase;
 
 import java.io.IOException;
@@ -7,13 +11,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-import freenet.support.api.Bucket;
-import freenet.support.io.ArrayBucket;
-import freenet.support.io.BucketTools;
-import freenet.support.io.NullOutputStream;
-
 public class GIFFilterTest extends TestCase {
-    private static final String RESOURCE_PATH = "gif/";
+    private static final String RESOURCE_PATH = "org/freenet/client/filter/gif/";
 
     /** Known good files, should pass filter unaltered. */
     private static final String[] GOOD = {

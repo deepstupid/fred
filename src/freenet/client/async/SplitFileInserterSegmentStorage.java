@@ -1,13 +1,5 @@
 package freenet.client.async;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Random;
-
 import freenet.client.FECCodec;
 import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
@@ -27,9 +19,12 @@ import freenet.support.MemoryLimitedJob;
 import freenet.support.MemoryLimitedJobRunner;
 import freenet.support.api.LockableRandomAccessBuffer.RAFLock;
 import freenet.support.io.CountedOutputStream;
-import freenet.support.io.NativeThread;
 import freenet.support.io.NullOutputStream;
 import freenet.support.io.StorageFormatException;
+
+import java.io.*;
+import java.util.Arrays;
+import java.util.Random;
 
 /** A single segment within a splitfile to be inserted. */
 public class SplitFileInserterSegmentStorage {
@@ -451,10 +446,10 @@ public class SplitFileInserterSegmentStorage {
             if(logMINOR) Logger.minor(this, "Encoding "+this+" for "+parent);
             byte[][] dataBlocks = readDataAndCrossCheckBlocks();
             generateKeys(dataBlocks, 0);
-            byte[][] checkBlocks = new byte[checkBlockCount][];
-            for(int i=0;i<checkBlocks.length;i++)
-                checkBlocks[i] = new byte[CHKBlock.DATA_LENGTH];
-            if(dataBlocks == null || checkBlocks == null) return; // Failed with disk error.
+
+            byte[][] checkBlocks = new byte[checkBlockCount][CHKBlock.DATA_LENGTH];
+
+            if(dataBlocks == null) return; // Failed with disk error.
             parent.codec.encode(dataBlocks, checkBlocks, new boolean[checkBlocks.length], CHKBlock.DATA_LENGTH);
             for(int i=0;i<checkBlocks.length;i++)
                 writeCheckBlock(i, checkBlocks[i]);

@@ -3,39 +3,22 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.io;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.ref.WeakReference;
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Queue;
-import java.util.Random;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import freenet.client.async.ClientContext;
 import freenet.crypt.EncryptedRandomAccessBucket;
 import freenet.crypt.EncryptedRandomAccessBuffer;
 import freenet.crypt.EncryptedRandomAccessBufferType;
 import freenet.crypt.MasterSecret;
-import freenet.support.Executor;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.SizeUtil;
-import freenet.support.TimeUtil;
-import freenet.support.api.Bucket;
-import freenet.support.api.BucketFactory;
-import freenet.support.api.LockableRandomAccessBuffer;
-import freenet.support.api.LockableRandomAccessBufferFactory;
-import freenet.support.api.RandomAccessBucket;
+import freenet.support.api.*;
+
+import java.io.*;
+import java.lang.ref.WeakReference;
+import java.security.GeneralSecurityException;
+import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
  * Temporary Bucket Factory
@@ -96,9 +79,9 @@ public class TempBucketFactory implements BucketFactory, LockableRandomAccessBuf
 
         boolean migrateToDisk() throws IOException;
 	    
-	};
-	
-	public class TempBucket implements Bucket, Migratable, RandomAccessBucket {
+	}
+
+    public class TempBucket implements Bucket, Migratable, RandomAccessBucket {
 		/** The underlying bucket itself */
 		private RandomAccessBucket currentBucket;
 		/** We have to account the size of the underlying bucket ourself in order to be able to access it fast */

@@ -230,10 +230,7 @@ public class TempFileBucket extends BaseFileBucket implements Bucket, Serializab
         if (filenameID != other.filenameID) {
             return false;
         }
-        if (readOnly != other.readOnly) {
-            return false;
-        }
-        return true;
+        return readOnly == other.readOnly;
     }
 
 }

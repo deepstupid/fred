@@ -13,6 +13,8 @@ import java.io.Serializable;
  *
  */
 public enum CryptByteBufferType implements Serializable{
+
+
     @Deprecated
     RijndaelECB(1, KeyType.Rijndael256),
     @Deprecated
@@ -21,7 +23,8 @@ public enum CryptByteBufferType implements Serializable{
     RijndaelPCFB(8, 32, KeyType.Rijndael256),
     AESCTR(16, 16, "AES/CTR/NOPADDING", KeyType.AES256),
     ChaCha128(32, 8, "CHACHA", KeyType.ChaCha128),
-    ChaCha256(64, 8, "CHACHA", KeyType.ChaCha256);
+    ChaCha256(64, 8, "CHACHA", KeyType.ChaCha256)
+    ;
 
     /** Bitmask for aggregation. */
     public final int bitmask;

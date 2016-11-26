@@ -1,12 +1,10 @@
 package freenet.client;
 
+import freenet.support.TestProperty;
+import junit.framework.TestCase;
+
 import java.util.Arrays;
 import java.util.Random;
-
-import freenet.support.TestProperty;
-
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
 /** Test the new (post db4o) high level FEC API */
 public class OnionFECCodecTest extends TestCase {
@@ -178,19 +176,16 @@ public class OnionFECCodecTest extends TestCase {
     }
     
     protected byte[][] setupCheckBlocks(int count) {
-        byte[][] blocks = new byte[count][];
-        for(int i=0;i<count;i++) {
-            blocks[i] = new byte[BLOCK_SIZE];
-        }
-        return blocks;
+        return new byte[count][BLOCK_SIZE];
     }
     
     protected byte[][] copy(byte[][] blocks) {
-        byte[][] ret = new byte[blocks.length][]; // FIXME would blocks.clone() shallow or deep copy?
-        for(int i=0;i<ret.length;i++) {
-            ret[i] = blocks[i].clone();
-        }
-        return ret;
+//        byte[][] ret = new byte[blocks.length][]; // FIXME would blocks.clone() shallow or deep copy?
+//        for(int i=0;i<ret.length;i++) {
+//            ret[i] = blocks[i].clone();
+//        }
+//        return ret;
+        return blocks.clone();
     }
     
     private void assertEquals(byte[][] blocks1, byte[][] blocks2) {

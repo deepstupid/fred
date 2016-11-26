@@ -1,7 +1,6 @@
 package com.onionnetworks.fec;
 
 import com.onionnetworks.util.Util;
-import com.onionnetworks.util.Buffer;
 /**
  * This class, along with FECMath, provides the implementation of the pure
  * Java 8 bit FEC codes.  This is heavily dervied from Luigi Rizzos original
@@ -32,7 +31,7 @@ public class PureCode extends FECCode {
 
     /**
      * encode accepts as input pointers to n data packets of size sz,
-     * and produces as output a packet pointed to by fec, computed
+     * and produces as output a packet pointed to by com.onionnetworks.fec, computed
      * with index "index".
      */
     protected void encode(byte[][] src, int[] srcOff, byte[][] repair, 

@@ -141,9 +141,9 @@ public class PrioritizedSerialExecutor implements Executor {
 			return null;
 		}
 
-	};
+	}
 
-	/**
+    /**
 	 *
 	 * @param priority
 	 * @param internalPriorityCount

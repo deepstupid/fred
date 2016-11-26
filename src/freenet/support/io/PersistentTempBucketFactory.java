@@ -108,10 +108,8 @@ public class PersistentTempBucketFactory implements BucketFactory, PersistentFil
 				if(!pathname.exists() || pathname.isDirectory())
 					return false;
 				String name = pathname.getName();
-				if(name.startsWith(prefix))
-					return true;
-				return false;
-			}
+                return name.startsWith(prefix);
+            }
 		});
 		for(File f : files) {
 			f = FileUtil.getCanonicalFile(f);

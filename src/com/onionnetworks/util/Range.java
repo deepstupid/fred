@@ -71,12 +71,12 @@ public class Range {
 	    throw new IllegalArgumentException
 	      ("min cannot be greater than max");
 	}
-	// very common bug, its worth reporting for now.
-	if (min == 0 && max == 0) {
-	    System.err.println("Range.debug: 0-0 range detected. "+
-			       "Did you intend to this? :");
-	    new Exception().printStackTrace();
-	}
+//	// very common bug, its worth reporting for now.
+//	if (min == 0 && max == 0) {
+//	    System.err.println("Range.debug: 0-0 range detected. "+
+//			       "Did you intend to this? :");
+//	    new Exception().printStackTrace();
+//	}
         this.min = min;
         this.max = max;
         this.negInf = negInf;

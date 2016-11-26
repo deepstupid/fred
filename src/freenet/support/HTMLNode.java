@@ -10,11 +10,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-public class HTMLNode implements XMLCharacterClasses, Cloneable {
+public class HTMLNode extends ArrayList<HTMLNode> implements XMLCharacterClasses, Cloneable {
 	
 	private static final Pattern namePattern = Pattern.compile("^[" + NAME + "]*$");
 	private static final Pattern simpleNamePattern = Pattern.compile("^[A-Za-z][A-Za-z0-9]*$");
-	public static HTMLNode STRONG = new HTMLNode("strong").setReadOnly();
+	public static final HTMLNode STRONG = new HTMLNode("strong").setReadOnly();
 
 	protected final String name;
 	
@@ -32,10 +32,12 @@ public class HTMLNode implements XMLCharacterClasses, Cloneable {
 
 	private final Map<String, String> attributes = new HashMap<String, String>();
 
-	protected final List<HTMLNode> children = new ArrayList<HTMLNode>();
+	protected final List<HTMLNode> children = this;
+
+
 
 	public HTMLNode(String name) {
-		this(name, null);
+		this(name, nothing, nothing);
 	}
 
 	private static final ArrayList<String> EmptyTag = new ArrayList<String>(10);
@@ -144,8 +146,10 @@ public class HTMLNode implements XMLCharacterClasses, Cloneable {
 		return indentLine.toString();
 	}
 
+	private static final String[] nothing = new String[0];
+
 	public HTMLNode(String name, String content) {
-		this(name, (String[]) null, (String[]) null, content);
+		this(name, nothing, nothing, content);
 	}
 
 	public HTMLNode(String name, String attributeName, String attributeValue) {
@@ -209,10 +213,11 @@ public class HTMLNode implements XMLCharacterClasses, Cloneable {
 				throw new IllegalArgumentException("attribute names and values differ in length");
 			}
 			for (int attributeIndex = 0, attributeCount = attributeNames.length; attributeIndex < attributeCount; attributeIndex++) {
-				if ((attributeNames[attributeIndex] == null) || !checkNamePattern(attributeNames[attributeIndex])) {
-					throw new IllegalArgumentException("attributeName is not legal");
+				String n = attributeNames[attributeIndex];
+				if ((n == null) || !checkNamePattern(n)) {
+					throw new IllegalArgumentException("attributeName is not legal: " + n);
 				}
-				addAttribute(attributeNames[attributeIndex], attributeValues[attributeIndex]);
+				addAttribute(n, attributeValues[attributeIndex]);
 			}
 		}
 		this.name = name.toLowerCase(Locale.ENGLISH);
@@ -287,7 +292,7 @@ public class HTMLNode implements XMLCharacterClasses, Cloneable {
 	 * tag in its output. 
 	 */
 	public HTMLNode addChild(String nodeName, String content) {
-		return addChild(nodeName, (String[]) null, (String[]) null, content);
+		return addChild(new HTMLNode(nodeName, content) );
 	}
 
 	/** Add a tag with one attribute inside/under this node.
@@ -299,7 +304,7 @@ public class HTMLNode implements XMLCharacterClasses, Cloneable {
 	 * tag in its output. 
 	 */
 	public HTMLNode addChild(String nodeName, String attributeName, String attributeValue) {
-		return addChild(nodeName, attributeName, attributeValue, null);
+		return addChild(new HTMLNode(nodeName, attributeName, attributeValue, null));
 	}
 
 	/**
@@ -313,7 +318,7 @@ public class HTMLNode implements XMLCharacterClasses, Cloneable {
 	 * tag in its output. 
 	 */
 	public HTMLNode addChild(String nodeName, String attributeName, String attributeValue, String content) {
-		return addChild(nodeName, new String[] { attributeName }, new String[] { attributeValue }, content);
+		return addChild(new HTMLNode(nodeName, new String[] { attributeName }, new String[] { attributeValue }, content));
 	}
 
 	/**
@@ -326,7 +331,7 @@ public class HTMLNode implements XMLCharacterClasses, Cloneable {
 	 * tag in its output. 
 	 */
 	public HTMLNode addChild(String nodeName, String[] attributeNames, String[] attributeValues) {
-		return addChild(nodeName, attributeNames, attributeValues, null);
+		return addChild(new HTMLNode(nodeName, attributeNames, attributeValues, null));
 	}
 
 	/**

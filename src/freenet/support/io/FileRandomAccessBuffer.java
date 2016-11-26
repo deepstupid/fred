@@ -190,10 +190,7 @@ public class FileRandomAccessBuffer implements LockableRandomAccessBuffer, Seria
         if (readOnly != other.readOnly) {
             return false;
         }
-        if (secureDelete != other.secureDelete) {
-            return false;
-        }
-        return true;
+        return secureDelete == other.secureDelete;
     }
 
 }

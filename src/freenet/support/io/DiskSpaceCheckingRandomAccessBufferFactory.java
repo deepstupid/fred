@@ -96,10 +96,7 @@ public class DiskSpaceCheckingRandomAccessBufferFactory implements LockableRando
         }
         lock.lock();
         try {
-            if(dir.getUsableSpace() - (toWrite + bufferSize) < minDiskSpace)
-                return false;
-            else
-                return true;
+            return dir.getUsableSpace() - (toWrite + bufferSize) >= minDiskSpace;
         } finally {
             lock.unlock();
         }

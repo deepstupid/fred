@@ -101,10 +101,7 @@ public class PaddedRandomAccessBuffer implements LockableRandomAccessBuffer, Ser
         if (!raf.equals(other.raf)) {
             return false;
         }
-        if (realSize != other.realSize) {
-            return false;
-        }
-        return true;
+        return realSize == other.realSize;
     }
 
 }

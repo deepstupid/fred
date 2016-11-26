@@ -416,10 +416,7 @@ public class PooledFileRandomAccessBuffer implements LockableRandomAccessBuffer,
         if (readOnly != other.readOnly) {
             return false;
         }
-        if (secureDelete != other.secureDelete) {
-            return false;
-        }
-        return true;
+        return secureDelete == other.secureDelete;
     }
 
 }

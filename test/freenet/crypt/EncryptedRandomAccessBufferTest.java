@@ -3,22 +3,8 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
-import static org.junit.Assert.*;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.security.GeneralSecurityException;
-import java.security.Security;
-import java.util.Random;
-
+import freenet.client.async.ClientContext;
+import freenet.support.io.*;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.After;
 import org.junit.Before;
@@ -26,13 +12,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import freenet.client.async.ClientContext;
-import freenet.support.io.BucketTools;
-import freenet.support.io.ByteArrayRandomAccessBuffer;
-import freenet.support.io.FileUtil;
-import freenet.support.io.FileRandomAccessBuffer;
-import freenet.support.io.ResumeFailedException;
-import freenet.support.io.StorageFormatException;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.security.GeneralSecurityException;
+import java.security.Security;
+import java.util.Random;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class EncryptedRandomAccessBufferTest {
     private final static EncryptedRandomAccessBufferType[] types = 

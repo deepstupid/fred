@@ -77,7 +77,7 @@ final public class FileUtil {
 	    return lis;
 	}
 
-	public static enum OperatingSystem {
+	public enum OperatingSystem {
 		Unknown(false, false, false), // Special-cased in filename sanitising code.
 		MacOS(false, true, true), // OS/X in that it can run scripts.
 		Linux(false, false, true),
@@ -92,10 +92,10 @@ final public class FileUtil {
 			this.isWindows = win;
 			this.isMac = mac;
 			this.isUnix = unix;
-		};
-	};
-	
-	public static enum CPUArchitecture {
+		}
+    }
+
+    public enum CPUArchitecture {
 	    Unknown,
 	    X86,
 	    X86_64,
@@ -256,9 +256,8 @@ final public class FileUtil {
 		if(isParentInner(poss, filename)) return true;
 		if(isParentInner(poss, canonFile)) return true;
 		if(isParentInner(canon, filename)) return true;
-		if(isParentInner(canon, canonFile)) return true;
-		return false;
-	}
+        return isParentInner(canon, canonFile);
+    }
 
 	private static boolean isParentInner(File possParent, File filename) {
 		while(true) {
@@ -296,7 +295,7 @@ final public class FileUtil {
      * @throws FileNotFoundException if <code>file</code> cannot be opened
      * @throws IOException if an I/O error occurs
      */
-    public static StringBuilder readUTF(File file) throws FileNotFoundException, IOException {
+    public static StringBuilder readUTF(File file) throws IOException {
         return readUTF(file, 0);
     }
 
@@ -308,7 +307,7 @@ final public class FileUtil {
      * @throws FileNotFoundException if <code>file</code> cannot be opened
      * @throws IOException if an I/O error occurs
      */
-	public static StringBuilder readUTF(File file, long offset) throws FileNotFoundException, IOException {
+	public static StringBuilder readUTF(File file, long offset) throws IOException {
 		StringBuilder result = new StringBuilder();
 		FileInputStream fis = null;
 		BufferedInputStream bis = null;
@@ -381,7 +380,7 @@ final public class FileUtil {
 		}
 	}
 
-	public static boolean writeTo(InputStream input, File target) throws FileNotFoundException, IOException {
+	public static boolean writeTo(InputStream input, File target) throws IOException {
 		DataInputStream dis = null;
 		FileOutputStream fos = null;
 		File file = File.createTempFile("temp", ".tmp", target.getParentFile());

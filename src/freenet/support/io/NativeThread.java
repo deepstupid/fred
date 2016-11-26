@@ -30,7 +30,7 @@ public class NativeThread extends Thread {
 
 	
 	// TODO: Wire in.
-	public static enum PriorityLevel {
+	public enum PriorityLevel {
 		MIN_PRIORITY(1),
 		LOW_PRIORITY(3),
 		NORM_PRIORITY(5),
@@ -196,7 +196,7 @@ public class NativeThread extends Thread {
 				" and shouldn't ever occur in our code. (asked="+prio+':'+linuxPriority+" currentMax="+
 				+currentPriority+':'+NATIVE_PRIORITY_BASE+") SHOUDLN'T HAPPEN, please report!");
 		Logger.minor(this, "Setting native priority to "+linuxPriority+" (base="+NATIVE_PRIORITY_BASE+") for "+this);
-		return (LinuxNativeThread.setpriority(0, 0, linuxPriority) > -1 ? true : false);
+		return (LinuxNativeThread.setpriority(0, 0, linuxPriority) > -1);
 	}
 	
 	public int getNativePriority() {

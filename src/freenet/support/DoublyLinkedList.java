@@ -16,7 +16,7 @@ public interface DoublyLinkedList<T extends DoublyLinkedList.Item<?>> extends It
     /**
      * List element
      */
-	public interface Item<T extends DoublyLinkedList.Item<?>> {
+    interface Item<T extends DoublyLinkedList.Item<?>> {
 		/**
 		 * Get next {@link Item}. May or may not return
 		 * <code>null</code> if this is the last <code>Item</code>.
@@ -54,7 +54,7 @@ public interface DoublyLinkedList<T extends DoublyLinkedList.Item<?>> extends It
     /**
      * Returns true if the list contains an item i where <code>i.equals(item)</code> is true.
      */
-	public boolean contains(T item);
+    boolean contains(T item);
     
     /**
      * Returns the first item.

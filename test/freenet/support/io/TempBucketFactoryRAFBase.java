@@ -320,7 +320,7 @@ public abstract class TempBucketFactoryRAFBase extends RandomAccessBufferTestBas
 
     private File getFile(TempBucket bucket) {
         if(!this.enableCrypto())
-            return ((TempFileBucket)(((TempBucket) bucket).getUnderlying())).getFile();
+            return ((TempFileBucket)(bucket.getUnderlying())).getFile();
         else {
             EncryptedRandomAccessBucket erab = (EncryptedRandomAccessBucket) bucket.getUnderlying();
             RandomAccessBucket b = erab.getUnderlying();

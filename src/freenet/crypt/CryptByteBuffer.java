@@ -3,6 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
+import freenet.crypt.ciphers.Rijndael;
+import freenet.support.Fields;
+
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.ShortBufferException;
+import javax.crypto.spec.IvParameterSpec;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
@@ -10,16 +18,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.BitSet;
-
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.ShortBufferException;
-import javax.crypto.spec.IvParameterSpec;
-
-import freenet.crypt.ciphers.Rijndael;
-import freenet.support.Fields;
 
 /**
  * CryptByteBuffer will encrypt and decrypt both byte[]s and BitSets with a specified
@@ -90,12 +88,8 @@ public final class CryptByteBuffer implements Serializable{
                 encryptCipher.init(Cipher.ENCRYPT_MODE, this.key, this.iv);
                 decryptCipher.init(Cipher.DECRYPT_MODE, this.key, this.iv);
             }
-        } catch (UnsupportedCipherException e) {
+        } catch (UnsupportedCipherException | NoSuchAlgorithmException | NoSuchPaddingException e) {
             throw new Error(e); // Should be impossible as we bundle BC
-        } catch (NoSuchAlgorithmException e) {
-            throw new Error(e); // Should be impossible as we bundle BC
-        } catch (NoSuchPaddingException e) {
-            throw new Error(e); // Should be impossible as we don't use padded modes
         }
     }
 

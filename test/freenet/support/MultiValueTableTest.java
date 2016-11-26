@@ -226,7 +226,7 @@ public class MultiValueTableTest extends TestCase {
 			createSampleKeyMultiVal(sampleKeyNumber,sampleMaxValueNumber,sampleIsRandom);
 		methodMVTable = fillMultiValueTable(sampleObjects);
 		for(int i=0;i<sampleObjects.length;i++)
-			assertEquals(methodMVTable.getSync(sampleObjects[i][0]),((List<Object>)sampleObjects[i][1]));
+			assertEquals(methodMVTable.getSync(sampleObjects[i][0]), sampleObjects[i][1]);
 	}
 
 	/**

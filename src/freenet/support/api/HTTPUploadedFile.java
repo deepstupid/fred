@@ -10,20 +10,20 @@ public interface HTTPUploadedFile {
 	 * 
 	 * @return The MIME type of the file
 	 */
-	public String getContentType();
+    String getContentType();
 
 	/**
 	 * Returns the data of the file.
 	 * 
 	 * @return The data of the file
 	 */
-	public Bucket getData();
+    Bucket getData();
 
 	/**
 	 * Returns the name of the file.
 	 * 
 	 * @return The name of the file
 	 */
-	public String getFilename();
+    String getFilename();
 
 }

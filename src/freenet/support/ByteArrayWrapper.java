@@ -13,14 +13,17 @@ import java.util.Comparator;
 public class ByteArrayWrapper implements Comparable<ByteArrayWrapper> {
 	
 	private final byte[] buf;
-	private int hashCode;
+	private final int hashCode;
 	
 	public static final Comparator<ByteArrayWrapper> FAST_COMPARATOR = new Comparator<ByteArrayWrapper>() {
 
 		@Override
 		public int compare(ByteArrayWrapper o1, ByteArrayWrapper o2) {
-			if(o1.hashCode > o2.hashCode) return 1;
-			if(o1.hashCode < o2.hashCode) return -1;
+			if (o1==o2) return 0;
+			int h1 = o1.hashCode;
+			int h2 = o2.hashCode;
+			if(h1 > h2) return 1;
+			if(h1 < h2) return -1;
 			return o1.compareTo(o2);
 		}
 		
@@ -34,9 +37,7 @@ public class ByteArrayWrapper implements Comparable<ByteArrayWrapper> {
 	@Override
 	public boolean equals(Object o) {
 		if(o instanceof ByteArrayWrapper) {
-			ByteArrayWrapper b = (ByteArrayWrapper) o;
-			if(b.buf == buf) return true;
-			return Arrays.equals(b.buf, buf);
+			return Arrays.equals(((ByteArrayWrapper) o).buf, buf);
 		}
 		return false;
 	}

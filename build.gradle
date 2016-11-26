@@ -100,8 +100,8 @@ jar {
     manifest {
         attributes("Permissions": "all-permissions")
         attributes("Application-Name": "Freenet REference Daemon")
-        attributes("Required-Ext-Version": 29)
-        attributes("Recommended-Ext-Version": 29)
+        attributes("Required-Ext-Version": 0)
+        attributes("Recommended-Ext-Version": 0)
         attributes("Compiled-With": "${System.getProperty('java.version')} (${System.getProperty('java.vendor')})")
         attributes([
                        "Specification-Title": "Freenet",
@@ -156,8 +156,7 @@ compileTestJava.dependsOn copyResourcesToClasses2
 compileTestJava.dependsOn copyTestResourcesToClasses2
 
 test {
-    minHeapSize = "128m"
-    maxHeapSize = "512m"
+
     // no inner class
     include 'freenet/**/*Test.class'
     exclude 'freenet/**/*$*Test.class'
@@ -178,6 +177,7 @@ dependencies {
     compile "net.java.dev.jna:jna:4.2.2"
     compile group: 'com.db4o', name: 'com.db4o', version: '7.7.67'
     compile group: 'org.apache.commons', name: 'commons-compress', version: '1.12'
+    compile group: 'org.e-hoffman.crypto', name: 'CryptoBouncyCastle', version: '1.0.0'
 
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:1.9.5"

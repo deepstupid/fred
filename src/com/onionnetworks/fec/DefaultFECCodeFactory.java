@@ -1,17 +1,20 @@
 package com.onionnetworks.fec;
 
-import java.util.*;
-import java.io.IOException;
-import java.lang.reflect.*;
 import com.onionnetworks.util.Tuple;
-import com.onionnetworks.util.TimedSoftHashMap;
+
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 /**
  * This is the default FECCodeFactory that wraps all of the FECCode 
  * implementations.  It provides a way to customize the codes through
  * a properties file specified by the property 
  * "com.onionnetworks.fec.defaultfeccodefactorypropertiesfile".  By default
- * it will use the "lib/fec.properties" file distributed with the JAR.
+ * it will use the "lib/com.onionnetworks.fec.properties" file distributed with the JAR.
  * Please consult this file for an example of how this should be done.
  *
  * The properties in this file can also be passed manually to the 
@@ -30,8 +33,8 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
     public static final int DEFAULT_CACHE_TIME = 2*60*1000;
 
     //protected TimedSoftHashMap codeCache = new HashMap();
-    protected ArrayList eightBitCodes = new ArrayList();
-    protected ArrayList sixteenBitCodes = new ArrayList();
+    protected final ArrayList eightBitCodes = new ArrayList();
+    protected final ArrayList sixteenBitCodes = new ArrayList();
     protected Properties fecProperties;
 
     public DefaultFECCodeFactory() {
@@ -43,11 +46,11 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
                  getResourceAsStream
                  (System.getProperty
                   ("com.onionnetworks.fec.defaultfeccodefactorypropertiesfile",
-                   "lib/fec.properties")));
+                   "com.onionnetworks.fec.properties")));
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalStateException
-                ("Unable to load /lib/fec.properties");
+                ("Unable to load com.onionnetworks.fec.properties");
         }
 
         // Parse the keys
@@ -60,7 +63,7 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
             try {
                 Constructor con = Class.forName
                     (getProperty("com.onionnetworks.fec."+key+".class")).
-                    getConstructor(new Class[] {int.class, int.class});
+                    getConstructor(int.class, int.class);
                 String numBits = getProperty("com.onionnetworks.fec."+key+".bits");
                 if ("8".equals(numBits)) {
                     eightBitCodes.add(con);
@@ -80,7 +83,7 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
      * Get a value, trying the System properties first and then checking
      * the fecProperties.
      */
-    protected synchronized String getProperty(String key) {
+    protected  String getProperty(String key) {
         String result = System.getProperty(key);
         if (result == null) {
             result = fecProperties.getProperty(key);
@@ -93,39 +96,36 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
      * one.
      */
     public synchronized FECCode createFECCode(int k, int n) {
-        Integer K = new Integer(k);
-        Integer N = new Integer(n);
+        Integer K = k;
+        Integer N = n;
         Tuple t = new Tuple(K,N);
 
         // See if there is a cached code.
         FECCode result = null; //(FECCode) codeCache.get(t);
-        if (result == null) {
-            if (k < 1 || k > 65536 || n < k || n > 65536) {
-                throw new IllegalArgumentException
-                    ("k and n must be between 1 and 65536 and n must not be "+
-                     "smaller than k: k="+k+",n="+n);
-            }
+        if (k < 1 || k > 65536 || n < k || n > 65536) {
+            throw new IllegalArgumentException
+                ("k and n must be between 1 and 65536 and n must not be "+
+                 "smaller than k: k="+k+",n="+n);
+        }
 
-            Iterator it;
-            if (n <= 256 && !eightBitCodes.isEmpty()) {
-                it = eightBitCodes.iterator();
-            } else {
-                it = sixteenBitCodes.iterator();
+        Iterator it;
+        if (n <= 256 && !eightBitCodes.isEmpty()) {
+            it = eightBitCodes.iterator();
+        } else {
+            it = sixteenBitCodes.iterator();
+        }
+        while (it.hasNext()) {
+            try {
+                result = (FECCode) ((Constructor) it.next()).newInstance(K, N);
+                break;
+            } catch (Throwable doh) {
+                doh.printStackTrace();
             }
-            while (it.hasNext()) {
-                try {
-                    result = (FECCode) ((Constructor) it.next()).newInstance
-                        (new Object[] {K, N});
-                    break;
-                } catch (Throwable doh) {
-                    doh.printStackTrace();
-                }
-            }
-                        
-            //if (result != null) {
-            //    codeCache.put(t,result,DEFAULT_CACHE_TIME);
-            // }
-        } 
+        }
+
+        //if (result != null) {
+        //    codeCache.put(t,result,DEFAULT_CACHE_TIME);
+        // }
         return result;
     }
 }

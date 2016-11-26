@@ -15,17 +15,15 @@ public interface RandomGrabArrayItem extends RequestSelectionTreeNode {
 	 * reasonably possible, called inside RGA lock.
 	 * @param excluding Can be null.
 	 * @param container Database handle.
-	 */
-	public long getWakeupTime(ClientContext context, long now);
+	 */ long getWakeupTime(ClientContext context, long now);
 	
 	/** Does this RandomGrabArrayItem support remembering where it is registered? */
-	public boolean knowsParentGrabArray();
+    boolean knowsParentGrabArray();
 	
 	/** Notify the item that it has been registered on a specific RandomGrabArray */
-	public void setParentGrabArray(RandomGrabArray parent);
+    void setParentGrabArray(RandomGrabArray parent);
 	
 	@Override
-	/** If the item remembers its parent RandomGrabArray, return it */
-	public RandomGrabArray getParentGrabArray();
+	/** If the item remembers its parent RandomGrabArray, return it */ RandomGrabArray getParentGrabArray();
 	
 }

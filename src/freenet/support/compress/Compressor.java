@@ -17,9 +17,9 @@ import java.util.ArrayList;
  */
 public interface Compressor {
 	
-	public static final String DEFAULT_COMPRESSORDESCRIPTOR = null;
+	String DEFAULT_COMPRESSORDESCRIPTOR = null;
 
-	public enum COMPRESSOR_TYPE implements Compressor {
+	enum COMPRESSOR_TYPE implements Compressor {
 	    // WARNING: Changing non-transient members on classes that are Serializable can result in 
 	    // restarting downloads or losing uploads.
 	    
@@ -97,7 +97,7 @@ public interface Compressor {
 		public static COMPRESSOR_TYPE[] getCompressorsArray(String compressordescriptor, boolean pre1254) throws InvalidCompressionCodecException {
 			COMPRESSOR_TYPE[] result = getCompressorsArrayNoDefault(compressordescriptor);
 			if (result == null) {
-				COMPRESSOR_TYPE[] ret = new COMPRESSOR_TYPE[values.length-1];
+				COMPRESSOR_TYPE[] ret = new COMPRESSOR_TYPE[values.length];
 				int x = 0;
 				for(COMPRESSOR_TYPE v: values) {
 //					if((v == LZMA) && !pre1254) continue;
@@ -137,17 +137,17 @@ public interface Compressor {
 		}
 
 		@Override
-		public Bucket compress(Bucket data, BucketFactory bf, long maxReadLength, long maxWriteLength) throws IOException, CompressionOutputSizeException {
+		public Bucket compress(Bucket data, BucketFactory bf, long maxReadLength, long maxWriteLength) throws IOException {
 			return compressor.compress(data, bf, maxReadLength, maxWriteLength);
 		}
 
 		@Override
-		public long compress(InputStream is, OutputStream os, long maxReadLength, long maxWriteLength) throws IOException, CompressionOutputSizeException {
+		public long compress(InputStream is, OutputStream os, long maxReadLength, long maxWriteLength) throws IOException {
 			return compressor.compress(is, os, maxReadLength, maxWriteLength);
 		}
 
 		@Override
-		public long decompress(InputStream input, OutputStream output, long maxLength, long maxEstimateSizeLength) throws IOException, CompressionOutputSizeException {
+		public long decompress(InputStream input, OutputStream output, long maxLength, long maxEstimateSizeLength) throws IOException {
 			return compressor.decompress(input, output, maxLength, maxEstimateSizeLength);
 		}
 
@@ -172,7 +172,7 @@ public interface Compressor {
 	 * @throws IOException If an error occurs reading or writing data.
 	 * @throws CompressionOutputSizeException If the compressed data is larger than maxWriteLength. 
 	 */
-	public abstract Bucket compress(Bucket data, BucketFactory bf, long maxReadLength, long maxWriteLength) throws IOException, CompressionOutputSizeException;
+    Bucket compress(Bucket data, BucketFactory bf, long maxReadLength, long maxWriteLength) throws IOException;
 
 	/**
 	 * Compress the data.
@@ -184,7 +184,7 @@ public interface Compressor {
 	 * @throws IOException If an error occurs reading or writing data.
 	 * @throws CompressionOutputSizeException If the compressed data is larger than maxWriteLength. 
 	 */
-	public abstract long compress(InputStream input, OutputStream output, long maxReadLength, long maxWriteLength) throws IOException, CompressionOutputSizeException;
+    long compress(InputStream input, OutputStream output, long maxReadLength, long maxWriteLength) throws IOException;
 
 	/**
 	 * Decompress data.
@@ -196,7 +196,7 @@ public interface Compressor {
 	 * @throws IOException
 	 * @throws CompressionOutputSizeException
 	 */
-	public abstract long decompress(InputStream input, OutputStream output, long maxLength, long maxEstimateSizeLength) throws IOException, CompressionOutputSizeException;
+    long decompress(InputStream input, OutputStream output, long maxLength, long maxEstimateSizeLength) throws IOException;
 
 	/** Decompress in RAM only.
 	 * @param dbuf Input buffer.
@@ -207,5 +207,5 @@ public interface Compressor {
 	 * @throws CompressionOutputSizeException 
 	 * @returns The number of bytes actually written.
 	 */
-	public abstract int decompress(byte[] dbuf, int i, int j, byte[] output) throws CompressionOutputSizeException;
+    int decompress(byte[] dbuf, int i, int j, byte[] output) throws CompressionOutputSizeException;
 }

@@ -196,7 +196,7 @@ public class PaddedEphemerallyEncryptedBucket implements Bucket, Serializable {
 					byte[] buf = new byte[sz];
 					long writtenPadding = 0;
 					while(writtenPadding < padding) {
-						int left = (int) Math.min((long) (padding - writtenPadding), (long) buf.length);
+						int left = (int) Math.min(padding - writtenPadding, (long) buf.length);
 						random.nextBytes(buf);
 						out.write(buf, 0, left);
 						writtenPadding += left;

@@ -736,7 +736,7 @@ public class SimpleFieldSetTest extends TestCase {
 		
         for(int i=0; i<3; i++) {
             assertTrue(itr.hasNext());
-            assertTrue(isAKey(SAMPLE_STRING_PAIRS, "", (String)itr.next()));
+            assertTrue(isAKey(SAMPLE_STRING_PAIRS, "", itr.next()));
         }
         assertFalse(itr.hasNext());
 	}

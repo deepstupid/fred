@@ -17,9 +17,9 @@ public interface LockableRandomAccessBuffer extends RandomAccessBuffer {
 	
     /** Keep the RAF open. Does not prevent others from writing to it. Will block until a slot is available 
      * if necessary. Hence can deadlock. */
-	public RAFLock lockOpen() throws IOException;
+    RAFLock lockOpen() throws IOException;
 	
-	public abstract class RAFLock {
+	abstract class RAFLock {
 	    
 	    private boolean locked;
 	    
@@ -42,23 +42,23 @@ public interface LockableRandomAccessBuffer extends RandomAccessBuffer {
 
 	/** Called on resuming, i.e. after serialization. Use to e.g. register with the list of 
 	 * temporary files. */
-    public void onResume(ClientContext context) throws ResumeFailedException;
+    void onResume(ClientContext context) throws ResumeFailedException;
 
     /** Write enough data to reconstruct the Bucket, or throw UnsupportedOperationException. Used
      * for recovering in emergencies, should be versioned if necessary. To make this work, write
      * a fixed, unique integer magic value for the class, and add a clause to 
      * BucketTools.restoreRAFFrom().
      * @throws IOException */
-    public void storeTo(DataOutputStream dos) throws IOException;
+    void storeTo(DataOutputStream dos) throws IOException;
     
     /** Must reimplement equals(). Sometimes we will need to compare two RAFs to see if they 
      * represent the same stored object, notably during resuming a splitfile insert. */
     @Override
-    public abstract boolean equals(Object o);
+    boolean equals(Object o);
     
     /** Must reimplement hashCode() if we change equals(). */
     @Override
-    public abstract int hashCode();
+    int hashCode();
 	
 }
 

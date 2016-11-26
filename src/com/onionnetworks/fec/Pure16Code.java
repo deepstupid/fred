@@ -33,7 +33,7 @@ public class Pure16Code extends PureCode {
 
     /**
      * encode accepts as input pointers to n data packets of size sz,
-     * and produces as output a packet pointed to by fec, computed
+     * and produces as output a packet pointed to by com.onionnetworks.fec, computed
      * with index "index".
      */
     protected void encode(byte[][] src, int[] srcOff, byte[][] repair, 

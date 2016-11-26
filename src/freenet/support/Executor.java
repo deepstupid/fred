@@ -14,15 +14,15 @@ public interface Executor extends java.util.concurrent.Executor {
 
 	/** Execute a job. */
 	@Override
-	public void execute(Runnable job);
-	public void execute(Runnable job, String jobName);
-	public void execute(Runnable job, String jobName, boolean fromTicker);
+    void execute(Runnable job);
+	void execute(Runnable job, String jobName);
+	void execute(Runnable job, String jobName, boolean fromTicker);
 
 	/** Count the number of threads waiting for work at each priority level */
-	public int[] waitingThreads();
+    int[] waitingThreads();
 	/** Count the number of threads running at each priority level */
-	public int[] runningThreads();
+    int[] runningThreads();
 
 	/** Fast method returning how many threads are waiting */
-	public int getWaitingThreadsCount();
+    int getWaitingThreadsCount();
 }

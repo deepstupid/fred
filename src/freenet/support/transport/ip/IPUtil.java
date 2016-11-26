@@ -62,19 +62,14 @@ public class IPUtil {
 			return false;
 		} else if(i.isLinkLocalAddress() || i.isLoopbackAddress() ||
 				isSiteLocalAddress(i)) {
-			if(includeLocalAddressesInNoderefs) {
-				return true;
-			} else return false;
+            return includeLocalAddressesInNoderefs;
 		} else if(i.isMulticastAddress()) {
 			// Ignore
 			return false;
 		} else {
 			byte[] ipAddressBytes = i.getAddress();
-			if(ipAddressBytes.length == 4 && ipAddressBytes[0] == 0) {
-				return false;  // First octet of IPv4 address cannot be zero as 0.0.0.0/8 has been reserved since at least RFC790 (also, Java throws an IOException when they're used)
-			}
-			return true;
-		}
+            return !(ipAddressBytes.length == 4 && ipAddressBytes[0] == 0);
+        }
 	}
 
 

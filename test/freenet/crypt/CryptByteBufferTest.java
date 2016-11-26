@@ -3,13 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.util.encoders.Hex;
+import org.junit.Test;
 
+import javax.crypto.spec.IvParameterSpec;
 import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
@@ -18,11 +16,7 @@ import java.security.Security;
 import java.util.Arrays;
 import java.util.Random;
 
-import javax.crypto.spec.IvParameterSpec;
-
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.util.encoders.Hex;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class CryptByteBufferTest {
     private static final CryptByteBufferType[] cipherTypes = CryptByteBufferType.values();
@@ -37,7 +31,8 @@ public class CryptByteBufferTest {
         ivPlainText, ivPlainText, ivPlainText, ivPlainText};
 
     private static final byte[][] keys = 
-        { Hex.decode("deadbeefcafebabe0123456789abcdefcafebabedeadbeefcafebabe01234567"),
+        {
+            Hex.decode("deadbeefcafebabe0123456789abcdefcafebabedeadbeefcafebabe01234567"),
         Hex.decode("deadbeefcafebabe0123456789abcdefcafebabedeadbeefcafebabe01234567"),
         Hex.decode("603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4"),
         Hex.decode("603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4"),
@@ -440,6 +435,7 @@ public class CryptByteBufferTest {
             CryptByteBufferType type = cipherTypes[i];
             CryptByteBuffer crypt;
             byte[] plain = Hex.decode(plainText[i]);
+            System.out.println("testing: " + type);
             if(ivs[i] == null){
                 crypt = new CryptByteBuffer(type, keys[i]);
             } else {

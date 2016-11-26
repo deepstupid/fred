@@ -151,12 +151,8 @@ public class Buffer implements WritableToDataOutputStream {
 		if (_start != buffer._start) {
 			return false;
 		}
-		if (!Arrays.equals(_data, buffer._data)) {
-			return false;
-		}
-
-		return true;
-	}
+        return Arrays.equals(_data, buffer._data);
+    }
 
 	@Override
 	public int hashCode() {

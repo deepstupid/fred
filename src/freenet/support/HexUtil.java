@@ -126,9 +126,8 @@ public class HexUtil {
 			short s = 0;
 			for(int j=0;j<8;j++) {
 				int idx = i*8+j;
-				boolean val = 
-					idx > size - 1 ? false :
-						ba.get(idx);
+				boolean val =
+                        idx <= size - 1 && ba.get(idx);
 				s |= val ? (1<<j) : 0;
 				if(logDEBUG) sb.append(val ? '1' : '0');
 			}

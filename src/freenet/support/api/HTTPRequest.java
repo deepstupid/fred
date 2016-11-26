@@ -22,13 +22,13 @@ public interface HTTPRequest {
 	 * The path of this request, where the part of the path the specified the
 	 * plugin has already been removed..
 	 */
-	public String getPath();
+    String getPath();
 
 	/**
 	 * 
 	 * @return false if the query string was totally empty
 	 */
-	public boolean hasParameters();
+    boolean hasParameters();
 
 	/**
 	 * Check if a parameter was set in the request at all, either with or
@@ -39,7 +39,7 @@ public interface HTTPRequest {
 	 * @return true if the parameter was set in the request, not regarding if
 	 *         the value is empty
 	 */
-	public boolean isParameterSet(String name);
+    boolean isParameterSet(String name);
 
 	/**
 	 * Get the value of a request parameter, using an empty string as default
@@ -57,7 +57,7 @@ public interface HTTPRequest {
 	 * @return the parameter value as String, or an empty String if the value
 	 *         was missing or empty
 	 */
-	public String getParam(String name);
+    String getParam(String name);
 
 	/**
 	 * Get the value of a request parameter, using the specified default value
@@ -70,7 +70,7 @@ public interface HTTPRequest {
 	 *            or empty
 	 * @return either the parameter value as String, or the default value
 	 */
-	public String getParam(String name, String defaultValue);
+    String getParam(String name, String defaultValue);
 
 	/**
 	 * Get the value of a request parameter converted to an int, using 0 as
@@ -82,7 +82,7 @@ public interface HTTPRequest {
 	 * @return either the parameter value as int, or 0 if the parameter is
 	 *         missing, empty or invalid
 	 */
-	public int getIntParam(String name);
+    int getIntParam(String name);
 
 	/**
 	 * Get the value of a request parameter converted to an <code>int</code>,
@@ -96,10 +96,10 @@ public interface HTTPRequest {
 	 *            empty or invalid
 	 * @return either the parameter value as int, or the default value
 	 */
-	public int getIntParam(String name, int defaultValue);
+    int getIntParam(String name, int defaultValue);
 
 	/** Get a part as an integer with a default value if it is not set. */
-	public int getIntPart(String name, int defaultValue);
+    int getIntPart(String name, int defaultValue);
 
 	/**
 	 * Get all values of a request parameter as a string array. If the parameter
@@ -110,7 +110,7 @@ public interface HTTPRequest {
 	 *            the name of the parameter to get
 	 * @return an array of all parameter values that might include empty values
 	 */
-	public String[] getMultipleParam(String name);
+    String[] getMultipleParam(String name);
 
 	/**
 	 * Get all values of a request parameter as int array, ignoring all values
@@ -121,17 +121,17 @@ public interface HTTPRequest {
 	 *            the name of the parameter to get
 	 * @return an int array of all parameter values that could be parsed as int
 	 */
-	public int[] getMultipleIntParam(String name);
+    int[] getMultipleIntParam(String name);
 
 	/** Get a file uploaded in the HTTP request. */
-	public HTTPUploadedFile getUploadedFile(String name);
+    HTTPUploadedFile getUploadedFile(String name);
 
 	/** Get a part as a Bucket. Parts can be very large, as they are POST
 	 * data from multipart/form-data and can include uploaded files. */
-	public RandomAccessBucket getPart(String name);
+    RandomAccessBucket getPart(String name);
 
 	/** Is a part set with the given name? */
-	public boolean isPartSet(String name);
+    boolean isPartSet(String name);
 
 	/**
 	 * Get a request part as a String. Parts are passed in through attached
@@ -140,65 +140,65 @@ public interface HTTPRequest {
 	 * Returns an empty String if the length limit is exceeded and therefore is deprecated.
 	 */
 	@Deprecated
-	public String getPartAsString(String name, int maxlength);
+    String getPartAsString(String name, int maxlength);
 	
-	public String getPartAsStringThrowing(String name, int maxlength) throws NoSuchElementException, SizeLimitExceededException;
+	String getPartAsStringThrowing(String name, int maxlength) throws NoSuchElementException, SizeLimitExceededException;
 	
 	/**
 	 * Gets up to maxLength characters from the part, ignores any characters after the limit.
 	 * If no such part exists, an empty String is returned.
 	 */
-	public String getPartAsStringFailsafe(String name, int maxlength);
+    String getPartAsStringFailsafe(String name, int maxlength);
 
 	/**
 	 * Get a request part as bytes.
 	 * Returns an empty array if the length limit is exceeded and therefore is deprecated.
 	 */
 	@Deprecated
-	public byte[] getPartAsBytes(String name, int maxlength);
+    byte[] getPartAsBytes(String name, int maxlength);
 	
-	public byte[] getPartAsBytesThrowing(String name, int maxlength) throws NoSuchElementException, SizeLimitExceededException;
+	byte[] getPartAsBytesThrowing(String name, int maxlength) throws NoSuchElementException, SizeLimitExceededException;
 	
 	/**
 	 * Gets up to maxLength bytes from the part, ignores any bytes after the limit.
 	 * If no such part exists, a byte[] with size 0 is returned. 
 	 */
-	public byte[] getPartAsBytesFailsafe(String name, int maxlength);
+    byte[] getPartAsBytesFailsafe(String name, int maxlength);
 	
 
 	/** Free all the parts. They may be stored on disk so it is important
 	 * that this be called at some point. */
-	public void freeParts();
+    void freeParts();
 
 	/** Get a part as a long, with a default value if it is not set. */
-	public long getLongParam(String name, long defaultValue);
+    long getLongParam(String name, long defaultValue);
 
 	/** Get the HTTP method, typically GET or POST. */
-	public String getMethod();
+    String getMethod();
 
 	/** Get the original uploaded raw data for a POST. */
-	public Bucket getRawData();
+    Bucket getRawData();
 	
 	/** Get the value of a specific header on the request. */
-	public String getHeader(String name);
+    String getHeader(String name);
 
 	/** Get the length of the original uploaded raw data for a POST. */
-	public int getContentLength();
+    int getContentLength();
 
-	public String[] getParts();
+	String[] getParts();
 
 	/**
 	 * Returns the names of all parameters.
 	 *
 	 * @return The names of all parameters
 	 */
-	public Collection<String> getParameterNames();
+    Collection<String> getParameterNames();
 
 	/** Is the incognito=true boolean set? Sadly this does not prove that
 	 * it is actually running incognito mode... */
-	public boolean isIncognito();
+    boolean isIncognito();
 
 	/** Is the browser Chrome according to User-Agent? */
-	public boolean isChrome();
+    boolean isChrome();
 
 }

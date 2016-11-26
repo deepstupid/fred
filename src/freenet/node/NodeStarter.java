@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.UUID;
 
-import static freenet.node.ExtVersion.buildNumber;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
@@ -42,13 +41,13 @@ public class NodeStarter /*implements WrapperListener*/ {
 	(File.separatorChar == '\\') &&
 	(System.getProperty("os.arch").toLowerCase().matches("(i?[x0-9]86_64|amd64)")) ? 6 : 2;
 	 */
-	public static final int extBuildNumber;
-	public static final String extRevisionNumber;
+	public static final int extBuildNumber = 0;
+	public static final String extRevisionNumber = "0";
 
-	static {
-		extBuildNumber = 0;//ExtVersion.extBuildNumber();
-		extRevisionNumber = "0"; //ExtVersion.extRevisionNumber();
-	}
+//	static {
+//		extBuildNumber = 0;//ExtVersion.extBuildNumber();
+//		extRevisionNumber = "0"; //ExtVersion.extRevisionNumber();
+//	}
 
 	private FreenetFilePersistentConfig cfg;
 
@@ -103,7 +102,7 @@ public class NodeStarter /*implements WrapperListener*/ {
 			System.out.println("Usage: $ java freenet.node.Node <configFile>");
 			return Integer.valueOf(-1);
 		}
-		String builtWithMessage = "freenet.jar built with freenet-ext.jar Build #" + buildNumber + " r" + freenet.node.ExtVersion.cvsRevision+" running with ext build "+extBuildNumber+" r" + extRevisionNumber;
+		String builtWithMessage = "freenet.jar built with freenet-ext.jar Build #" + 0 + " r" + 0+" running with ext build "+extBuildNumber+" r" + extRevisionNumber;
 		Logger.normal(this, builtWithMessage);
 		System.out.println(builtWithMessage);
 

@@ -1,14 +1,13 @@
 package freenet.l10n;
 
-import junit.framework.TestCase;
-
-import java.io.File;
-import java.util.Iterator;
-
 import freenet.l10n.BaseL10n.LANGUAGE;
 import freenet.support.HTMLNode;
 import freenet.support.SimpleFieldSet;
 import freenet.support.TestProperty;
+import junit.framework.TestCase;
+
+import java.io.File;
+import java.util.Iterator;
 
 public class BaseL10nTest extends TestCase {
     
@@ -213,8 +212,24 @@ public class BaseL10nTest extends TestCase {
     }
 
     public static final BaseL10n createTestL10n(LANGUAGE lang) {
-        File overrideFile = new File(TestProperty.L10nPath_test, "freenet.l10n.${lang}.override.properties");
+//        String overrideFile;
+//        try {
+//
+//            overrideFile =
+//                    "./freenet/l10n/freenet.l10n." + lang + ".override.properties"
+//            ;
+//        } catch (URISyntaxException e) {
+//            //throw new RuntimeException(e);
+//            e.printStackTrace();
+//            overrideFile =
+//                    "./freenet/l10n/freenet.l10n." + lang + ".override.properties"
+//            ;
+//        }
+
+        String overrideFile =
+                "./freenet/l10n/freenet.l10n." + lang + ".override.properties";
         return new BaseL10n(TestProperty.L10nPath_test, "freenet.l10n.${lang}.properties",
-                overrideFile.getPath(), lang);
+                overrideFile, lang);
+
     }
 }

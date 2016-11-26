@@ -165,7 +165,7 @@ public class DelayedFreeBucket implements Bucket, Serializable, DelayedFree {
     throws StorageFormatException, IOException, ResumeFailedException {
         int version = dis.readInt();
         if(version != VERSION) throw new StorageFormatException("Bad version");
-        bucket = (RandomAccessBucket) BucketTools.restoreFrom(dis, fg, persistentFileTracker, masterKey);
+        bucket = BucketTools.restoreFrom(dis, fg, persistentFileTracker, masterKey);
     }
     
     /** Convert to a RandomAccessBucket if it can be done quickly. Otherwise return null. 
