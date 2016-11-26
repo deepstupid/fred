@@ -3,34 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.store.saltedhash;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.EOFException;
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Random;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import org.tanukisoftware.wrapper.WrapperManager;
-
 import freenet.crypt.BlockCipher;
 import freenet.crypt.DSAPublicKey;
 import freenet.crypt.UnsupportedCipherException;
@@ -44,23 +16,25 @@ import freenet.node.stats.StoreAccessStats;
 import freenet.node.useralerts.AbstractUserAlert;
 import freenet.node.useralerts.UserAlert;
 import freenet.node.useralerts.UserAlertManager;
-import freenet.store.BlockMetadata;
-import freenet.store.FreenetStore;
-import freenet.store.KeyCollisionException;
-import freenet.store.StorableBlock;
-import freenet.store.StoreCallback;
-import freenet.support.Fields;
-import freenet.support.HTMLNode;
-import freenet.support.HexUtil;
-import freenet.support.Logger;
+import freenet.store.*;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.Ticker;
-import freenet.support.WrapperKeepalive;
 import freenet.support.io.Closer;
-import freenet.support.io.Fallocate;
 import freenet.support.io.FileUtil;
 import freenet.support.io.NativeThread;
-import freenet.support.math.MersenneTwister;
+
+import java.io.EOFException;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.*;
+
+//import org.tanukisoftware.wrapper.WrapperManager;
 
 /**
  * Index-less data store based on salted hash.
@@ -1069,8 +1043,8 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 				try (WrapperKeepalive wrapperKeepalive = new WrapperKeepalive();)
 				{
 					wrapperKeepalive.start();
-					Fallocate.forChannel(metaFC, newMetaLen).fromOffset(oldMetaLen).execute();
-					Fallocate.forChannel(hdFC, newHdLen).fromOffset(currentHdLen).execute();
+					//Fallocate.forChannel(metaFC, newMetaLen).fromOffset(oldMetaLen).execute();
+					//Fallocate.forChannel(hdFC, newHdLen).fromOffset(currentHdLen).execute();
 				}
 			}
 			storeFileOffsetReady = 1 + storeMaxEntries;
@@ -1387,7 +1361,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 						configLock.writeLock().unlock();
 					}
 
-					WrapperManager.signalStarting((int) (RESIZE_MEMORY_ENTRIES * SECONDS.toMillis(30) + SECONDS.toMillis(1)));
+					//WrapperManager.signalStarting((int) (RESIZE_MEMORY_ENTRIES * SECONDS.toMillis(30) + SECONDS.toMillis(1)));
 				}
 
 				@Override
@@ -1429,7 +1403,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 				int i = 0;
 				@Override
 				public boolean batch(long entriesLeft) {
-					WrapperManager.signalStarting((int) (RESIZE_MEMORY_ENTRIES * SECONDS.toMillis(30) + SECONDS.toMillis(1)));
+					//WrapperManager.signalStarting((int) (RESIZE_MEMORY_ENTRIES * SECONDS.toMillis(30) + SECONDS.toMillis(1)));
 
 					if (i++ % 16 == 0)
 						writeConfigFile();
@@ -1500,7 +1474,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 						configLock.writeLock().unlock();
 					}
 
-					WrapperManager.signalStarting((int) (RESIZE_MEMORY_ENTRIES * SECONDS.toMillis(5) + SECONDS.toMillis(1)));
+					//WrapperManager.signalStarting((int) (RESIZE_MEMORY_ENTRIES * SECONDS.toMillis(5) + SECONDS.toMillis(1)));
 				}
 				
 				@Override
@@ -1527,7 +1501,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 				int i = 0;
 				@Override
 				public boolean batch(long entriesLeft) {
-					WrapperManager.signalStarting((int) (RESIZE_MEMORY_ENTRIES * SECONDS.toMillis(5) + SECONDS.toMillis(1)));
+					//WrapperManager.signalStarting((int) (RESIZE_MEMORY_ENTRIES * SECONDS.toMillis(5) + SECONDS.toMillis(1)));
 
 					if (i++ % 16 == 0)
 						writeConfigFile();

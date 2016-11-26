@@ -68,7 +68,9 @@ public final class CryptByteBuffer implements Serializable{
             this.iv = iv;
         }
         else if(type.hasIV()){
-            genIV();
+            this.iv = genIV();
+        } else {
+            this.iv = null;
         }
 
         this.type = type;
@@ -498,7 +500,7 @@ public final class CryptByteBuffer implements Serializable{
         if(!type.hasIV()){
             throw new UnsupportedTypeException(type);
         }
-        this.iv = KeyGenUtils.genIV(type.ivSize);
+        IvParameterSpec iv = KeyGenUtils.genIV(type.ivSize);
         try {
             encryptCipher.init(Cipher.ENCRYPT_MODE, this.key, this.iv);
             decryptCipher.init(Cipher.DECRYPT_MODE, this.key, this.iv);

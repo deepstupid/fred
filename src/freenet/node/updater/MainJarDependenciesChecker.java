@@ -3,41 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node.updater;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.net.MalformedURLException;
-import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.jar.Attributes;
-import java.util.jar.Manifest;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
-import org.tanukisoftware.wrapper.WrapperManager;
-
 import freenet.client.FetchException;
 import freenet.crypt.SHA256;
 import freenet.keys.FreenetURI;
@@ -53,6 +18,19 @@ import freenet.support.io.FileUtil;
 import freenet.support.io.FileUtil.CPUArchitecture;
 import freenet.support.io.FileUtil.OperatingSystem;
 import freenet.support.io.NativeThread;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.security.MessageDigest;
+import java.util.*;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+//import org.tanukisoftware.wrapper.WrapperManager;
 
 /**
  * Parses the dependencies.properties file and ensures we have all the 
@@ -1450,7 +1428,7 @@ outer:	for(String propName : props.stringPropertyNames()) {
         
         @Override
         protected boolean deployMultiFileUpdate() {
-            if(!WrapperManager.isControlledByNativeWrapper()) return false;
+            //if(!WrapperManager.isControlledByNativeWrapper()) return false;
             File restartScript;
             try {
                 restartScript = createRestartScript();
@@ -1474,7 +1452,7 @@ outer:	for(String propName : props.stringPropertyNames()) {
                     return false;
                 }
                 System.out.println("Shutting down Freenet for hard restart after deploying multi-file update for "+name+". The script "+restartScript+" should start it back up.");
-                WrapperManager.stop(0);
+                //WrapperManager.stop(0);
                 return true;
             } else return false;
         }
@@ -1515,7 +1493,7 @@ outer:	for(String propName : props.stringPropertyNames()) {
                 OutputStreamWriter osw = new OutputStreamWriter(os, "ISO-8859-1"); // Right???
                 osw.write("#!/bin/sh\n"); // FIXME exec >/dev/null 2>&1 ???? Believed to be portable.
                 //osw.write("trap true PIPE\n"); - should not be necessary
-                osw.write("while kill -0 "+WrapperManager.getWrapperPID()+" > /dev/null 2>&1; do sleep 1; done\n");
+                //osw.write("while kill -0 "+WrapperManager.getWrapperPID()+" > /dev/null 2>&1; do sleep 1; done\n");
                 osw.write("./"+runshNoNice+" start > /dev/null 2>&1\n");
                 osw.write("rm "+RESTART_SCRIPT_NAME+"\n");
                 osw.write("rm "+runshNoNice+"\n");

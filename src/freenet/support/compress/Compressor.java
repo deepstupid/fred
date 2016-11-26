@@ -3,13 +3,13 @@
 * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.compress;
 
+import freenet.support.api.Bucket;
+import freenet.support.api.BucketFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-
-import freenet.support.api.Bucket;
-import freenet.support.api.BucketFactory;
 
 /**
  * A data compressor. Contains methods to get all data compressors.
@@ -25,9 +25,10 @@ public interface Compressor {
 	    
 		// Codecs will be tried in order: put the less resource consuming first
 		GZIP("GZIP", new GzipCompressor(), (short) 0),
-		BZIP2("BZIP2", new Bzip2Compressor(), (short) 1),
-		LZMA("LZMA", new OldLZMACompressor(), (short)2),
-		LZMA_NEW("LZMA_NEW", new NewLZMACompressor(), (short)3);
+		BZIP2("BZIP2", new Bzip2Compressor(), (short) 1);
+
+		//LZMA("LZMA", new OldLZMACompressor(), (short)2),
+		//LZMA_NEW("LZMA_NEW", new NewLZMACompressor(), (short)3);
 
 		public final String name;
 		public final Compressor compressor;
@@ -99,8 +100,8 @@ public interface Compressor {
 				COMPRESSOR_TYPE[] ret = new COMPRESSOR_TYPE[values.length-1];
 				int x = 0;
 				for(COMPRESSOR_TYPE v: values) {
-					if((v == LZMA) && !pre1254) continue;
-					if((v == LZMA_NEW) && pre1254) continue;
+//					if((v == LZMA) && !pre1254) continue;
+//					if((v == LZMA_NEW) && pre1254) continue;
 					ret[x++] = v;
 				}
 				result = ret;

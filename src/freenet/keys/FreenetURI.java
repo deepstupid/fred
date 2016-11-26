@@ -3,37 +3,20 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
 import freenet.support.Base64;
-import freenet.support.Fields;
-import freenet.support.HexUtil;
-import freenet.support.IllegalBase64Exception;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.URLDecoder;
-import freenet.support.URLEncodedFormatException;
-import freenet.support.URLEncoder;
 import freenet.support.io.FileUtil;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Note that the metadata pairs below are not presently supported. They are supported
@@ -829,13 +812,13 @@ public class FreenetURI implements Cloneable, Comparable<FreenetURI>, Serializab
 	}
 
 	/** Get the meta strings as an ArrayList. */
-	public ArrayList<String> listMetaStrings() {
+	public List<String> listMetaStrings() {
 		if(metaStr != null) {
-			ArrayList<String> l = new ArrayList<String>(metaStr.length);
-			for(int i = 0; i < metaStr.length; i++)
-				l.add(metaStr[i]);
+			List<String> l = new ArrayList<String>(metaStr.length);
+			Collections.addAll(l, metaStr);
 			return l;
-		} else return new ArrayList<String>(0);
+		} else
+			return Collections.emptyList(); //new ArrayList<String>(0);
 	}
 	static final byte CHK = 1;
 	static final byte SSK = 2;

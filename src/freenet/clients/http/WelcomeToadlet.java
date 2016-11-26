@@ -3,13 +3,7 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http;
 
-import org.tanukisoftware.wrapper.WrapperManager;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.HashSet;
-import java.util.List;
+//import org.tanukisoftware.wrapper.WrapperManager;
 
 import freenet.client.ClientMetadata;
 import freenet.client.HighLevelSimpleClient;
@@ -27,17 +21,19 @@ import freenet.node.Node;
 import freenet.node.NodeStarter;
 import freenet.node.Version;
 import freenet.node.useralerts.UserAlert;
-import freenet.support.HTMLNode;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.MultiValueTable;
-import freenet.support.URLDecoder;
 import freenet.support.api.HTTPRequest;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
 import freenet.support.io.LineReadingInputStream;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.HashSet;
+import java.util.List;
 
 public class WelcomeToadlet extends Toadlet {
 
@@ -181,12 +177,12 @@ public class WelcomeToadlet extends Toadlet {
             PageNode page = ctx.getPageMaker().getPageNode(l10n("threadDumpTitle"), ctx);
             HTMLNode pageNode = page.outer;
             HTMLNode contentNode = page.content;
-            if (node.isUsingWrapper()) {
+            /*if (node.isUsingWrapper()) {
             	ctx.getPageMaker().getInfobox("#", l10n("threadDumpSubTitle"), contentNode, "thread-dump-generation", true).
             		addChild("#", l10n("threadDumpWithFilename", "filename", WrapperManager.getProperties().getProperty("wrapper.logfile")));
                 System.out.println("Thread Dump:");
                 WrapperManager.requestThreadDump();
-            } else {
+            } else */{
             	ctx.getPageMaker().getInfobox("infobox-error", l10n("threadDumpSubTitle"), contentNode, "thread-dump-generation", true).
             		addChild("#", l10n("threadDumpNotUsingWrapper"));
             }

@@ -1,22 +1,5 @@
 package freenet.support.io;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.Closeable;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.Vector;
-
-import org.tanukisoftware.wrapper.WrapperManager;
-
 import freenet.client.async.ClientContext;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
@@ -24,6 +7,12 @@ import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.api.LockableRandomAccessBuffer;
 import freenet.support.api.RandomAccessBucket;
+
+import java.io.*;
+import java.util.Arrays;
+import java.util.Vector;
+
+//import org.tanukisoftware.wrapper.WrapperManager;
 
 public abstract class BaseFileBucket implements RandomAccessBucket {
     private static volatile boolean logMINOR;
@@ -78,9 +67,9 @@ public abstract class BaseFileBucket implements RandomAccessBucket {
 		try {
 			file.deleteOnExit();
 		} catch (NullPointerException e) {
-			if(WrapperManager.hasShutdownHookBeenTriggered()) {
+			/*if(WrapperManager.hasShutdownHookBeenTriggered()) {
 				Logger.normal(this, "NullPointerException setting deleteOnExit while shutting down - buggy JVM code: "+e, e);
-			} else {
+			} else*/ {
 				Logger.error(this, "Caught "+e+" doing deleteOnExit() for "+file+" - JVM bug ????");
 			}
 		}

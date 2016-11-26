@@ -37,7 +37,7 @@ import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.Set;
 
-import org.tanukisoftware.wrapper.WrapperManager;
+////import org.tanukisoftware.wrapper.WrapperManager;
 
 import freenet.client.FetchContext;
 import freenet.clients.fcp.FCPMessage;
@@ -934,9 +934,9 @@ public class Node implements TimeSkewDetectorCallback {
 	}
 
 	public boolean isUsingWrapper(){
-		if(nodeStarter!=null && WrapperManager.isControlledByNativeWrapper())
-			return true;
-		else
+//		if(nodeStarter!=null && WrapperManager.isControlledByNativeWrapper())
+//			return true;
+//		else
 			return false;
 	}
 
@@ -1084,7 +1084,7 @@ public class Node implements TimeSkewDetectorCallback {
 				long extend = target - now;
 				assert(extend < Integer.MAX_VALUE);
 				assert(extend > 0);
-				WrapperManager.signalStarting((int)extend);
+				//WrapperManager.signalStarting((int)extend);
 				tLastAdded = now;
 			}
 
@@ -2508,7 +2508,7 @@ public class Node implements TimeSkewDetectorCallback {
 		// it's likely (on reports so far) that a restart will fix it.
 		// And we have to get a build out because ALL plugins are now failing to load,
 		// including the absolutely essential (for most nodes) JSTUN and UPnP.
-		WrapperManager.signalStarting((int) MINUTES.toMillis(2));
+		//WrapperManager.signalStarting((int) MINUTES.toMillis(2));
 
 		FetchContext ctx = clientCore.makeClient((short)0, true, false).getFetchContext();
 
@@ -4573,7 +4573,7 @@ public class Node implements TimeSkewDetectorCallback {
 	}
 
 	public void finishPanic() {
-		WrapperManager.restart();
+		//WrapperManager.restart();
 		System.exit(0);
 	}
 

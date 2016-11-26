@@ -1,18 +1,13 @@
 package freenet.support.io;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
+import freenet.support.LogThresholdCallback;
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
+import freenet.support.TimeUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-
-import org.tanukisoftware.wrapper.WrapperManager;
-
-import freenet.support.Fields;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.TimeUtil;
-import freenet.support.Logger.LogLevel;
 
 /** Tracks the current temporary files settings (dir and prefix), and translates between ID's and 
  * filenames. Also provides functions for creating tempfiles (which should be safe against symlink
@@ -66,7 +61,7 @@ public class FilenameGenerator {
 			File[] filenames = tmpDir.listFiles();
 			if(filenames != null) {
 				for(int i=0;i<filenames.length;i++) {
-					WrapperManager.signalStarting((int) MINUTES.toMillis(5));
+					//WrapperManager.signalStarting((int) MINUTES.toMillis(5));
 					if(i % 1024 == 0 && i > 0)
 						// User may want some feedback during startup
 						System.err.println("Deleted "+wipedFiles+" temp files ("+(i - wipeableFiles)+" non-temp files in temp dir)");

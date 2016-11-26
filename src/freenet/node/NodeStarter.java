@@ -3,14 +3,8 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import org.tanukisoftware.wrapper.WrapperListener;
-import org.tanukisoftware.wrapper.WrapperManager;
-
-import java.io.File;
-import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.Properties;
-import java.util.UUID;
+//import org.tanukisoftware.wrapper.WrapperListener;
+//import org.tanukisoftware.wrapper.WrapperManager;
 
 import freenet.config.FreenetFilePersistentConfig;
 import freenet.config.InvalidConfigValueException;
@@ -20,16 +14,17 @@ import freenet.crypt.JceLoader;
 import freenet.crypt.RandomSource;
 import freenet.crypt.SSL;
 import freenet.crypt.Yarrow;
-import freenet.support.Executor;
-import freenet.support.JVMVersion;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
 import freenet.support.LoggerHook.InvalidThresholdException;
-import freenet.support.PooledExecutor;
-import freenet.support.ProcessPriority;
-import freenet.support.SimpleFieldSet;
 import freenet.support.io.NativeThread;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.UUID;
+
+import static freenet.node.ExtVersion.buildNumber;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
@@ -39,7 +34,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
  *  
  *  There will only ever be one instance of NodeStarter.
  */
-public class NodeStarter implements WrapperListener {
+public class NodeStarter /*implements WrapperListener*/ {
 
 	private Node node;
 	private static LoggingConfigHandler logConfigHandler;
@@ -51,8 +46,8 @@ public class NodeStarter implements WrapperListener {
 	public static final String extRevisionNumber;
 
 	static {
-		extBuildNumber = ExtVersion.extBuildNumber();
-		extRevisionNumber = ExtVersion.extRevisionNumber();
+		extBuildNumber = 0;//ExtVersion.extBuildNumber();
+		extRevisionNumber = "0"; //ExtVersion.extRevisionNumber();
 	}
 
 	private FreenetFilePersistentConfig cfg;
@@ -98,7 +93,6 @@ public class NodeStarter implements WrapperListener {
 	 *         of the start method.  If there were no problems then this
 	 *         method should return null.
 	 */
-	@Override
 	public Integer start(String[] args) {
 		synchronized(NodeStarter.class) {
 			if(isStarted) throw new IllegalStateException();
@@ -109,7 +103,7 @@ public class NodeStarter implements WrapperListener {
 			System.out.println("Usage: $ java freenet.node.Node <configFile>");
 			return Integer.valueOf(-1);
 		}
-		String builtWithMessage = "freenet.jar built with freenet-ext.jar Build #" + ExtVersion.buildNumber + " r" + ExtVersion.cvsRevision+" running with ext build "+extBuildNumber+" r" + extRevisionNumber;
+		String builtWithMessage = "freenet.jar built with freenet-ext.jar Build #" + buildNumber + " r" + freenet.node.ExtVersion.cvsRevision+" running with ext build "+extBuildNumber+" r" + extRevisionNumber;
 		Logger.normal(this, builtWithMessage);
 		System.out.println(builtWithMessage);
 
@@ -152,7 +146,7 @@ public class NodeStarter implements WrapperListener {
 		executor.start();
 
 		// Prevent timeouts for a while. The DiffieHellman init for example could take some time on a very slow system.
-		WrapperManager.signalStarting(500000);
+		//WrapperManager.signalStarting(500000);
 
 		// Thread to keep the node up.
 		// JVM deadlocks losing a lock when two threads of different types (daemon|app)
@@ -219,18 +213,17 @@ public class NodeStarter implements WrapperListener {
 	 *         the option of changing the exit code if there are any problems
 	 *         during shutdown.
 	 */
-	@Override
 	public int stop(int exitCode) {
 		System.err.println("Shutting down with exit code " + exitCode);
 		node.park();
 		// see #354
-		WrapperManager.signalStopping(120000);
+		//WrapperManager.signalStopping(120000);
 
 		return exitCode;
 	}
 
 	public void restart() {
-		WrapperManager.restart();
+		//WrapperManager.restart();
 	}
 
 	/**
@@ -242,9 +235,8 @@ public class NodeStarter implements WrapperListener {
 	 *
 	 * @param event The system control signal.
 	 */
-	@Override
 	public void controlEvent(int event) {
-		if(WrapperManager.isControlledByNativeWrapper()) {
+		/*if(WrapperManager.isControlledByNativeWrapper()) {
 			// The Wrapper will take care of this event
 		} else
 			// We are not being controlled by the Wrapper, so
@@ -253,6 +245,7 @@ public class NodeStarter implements WrapperListener {
 				(event == WrapperManager.WRAPPER_CTRL_CLOSE_EVENT) ||
 				(event == WrapperManager.WRAPPER_CTRL_SHUTDOWN_EVENT))
 				WrapperManager.stop(0);
+				*/
 	}
 
 	/*---------------------------------------------------------------
@@ -267,7 +260,7 @@ public class NodeStarter implements WrapperListener {
 		//  Wrapper then the application will wait for the native Wrapper to
 		//  call the application's start method.  Otherwise the start method
 		//  will be called immediately.
-		WrapperManager.start(new NodeStarter(), args);
+		//WrapperManager.start(new NodeStarter(), args);
 	}
 
 	static SemiOrderedShutdownHook shutdownHook;
@@ -628,8 +621,8 @@ public class NodeStarter implements WrapperListener {
 	 * On Windows this will be always true (the wrapper we deploy is 32bits)
 	 */
 	public final static boolean isSomething32bits() {
-		Properties wrapperProperties = WrapperManager.getProperties();
-		return !JVMVersion.is32Bit() && !wrapperProperties.getProperty("wrapper.java.additional.auto_bits").startsWith("32");
+		/*Properties wrapperProperties = WrapperManager.getProperties(); */
+		return !JVMVersion.is32Bit(); // && !wrapperProperties.getProperty("wrapper.java.additional.auto_bits").startsWith("32");
 	}
 	
 	/** Static instance of SecureRandom, as opposed to Node's copy. @see getSecureRandom() */

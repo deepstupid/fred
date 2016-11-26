@@ -1,20 +1,5 @@
 package freenet.node.updater;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.regex.Pattern;
-
-import org.tanukisoftware.wrapper.WrapperManager;
-
 import freenet.l10n.NodeL10n;
 import freenet.node.NodeInitException;
 import freenet.node.NodeStarter;
@@ -22,6 +7,12 @@ import freenet.node.updater.MainJarDependenciesChecker.Dependency;
 import freenet.node.updater.MainJarDependenciesChecker.MainJarDependencies;
 import freenet.support.Logger;
 import freenet.support.io.Closer;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+
+////import org.tanukisoftware.wrapper.WrapperManager;
 
 /**
  * Handles the wrapper.conf, essentially.
@@ -51,37 +42,37 @@ public class UpdateDeployContext {
 	final MainJarDependencies deps;
 	
 	UpdateDeployContext(MainJarDependencies deps) throws UpdaterParserException {
-		Properties p = WrapperManager.getProperties();
+		//Properties p = WrapperManager.getProperties();
 		this.deps = deps;
 		
-		for(int propNo=1;true;propNo++) {
-			String prop = p.getProperty("wrapper.java.classpath."+propNo);
-			if(prop == null) break;
-			File f = new File(prop);
-			boolean isAbsolute = f.isAbsolute();
-			String name = f.getName().toLowerCase();
-			if(mainJar == null) {
-				if(name.equals("freenet-ext.jar") || name.equals("freenet-ext.jar.new") || (name.startsWith("freenet-ext") && name.endsWith(".jar")))
-					// Don't match freenet-ext.jar!
-					continue;
-				// Try to match it
-				if((name.startsWith("freenet") && (name.endsWith(".jar")))) {
-					mainJar = f;
-					newMainJar = new File(mainJar.getParent(), "freenet.jar.new");
-					mainJarAbsolute = isAbsolute;
-					mainClasspathNo = propNo;
-					continue;
-				} else if((name.startsWith("freenet") && (name.endsWith(".jar.new")))) {
-					mainJar = f;
-					newMainJar = new File(mainJar.getParent(), "freenet.jar");
-					mainJarAbsolute = isAbsolute;
-					mainClasspathNo = propNo;
-					continue;
-				}
-			}
-			// Else try to match from dependencies.
-			
-		}
+//		for(int propNo=1;true;propNo++) {
+//			String prop = p.getProperty("wrapper.java.classpath."+propNo);
+//			if(prop == null) break;
+//			File f = new File(prop);
+//			boolean isAbsolute = f.isAbsolute();
+//			String name = f.getName().toLowerCase();
+//			if(mainJar == null) {
+//				if(name.equals("freenet-ext.jar") || name.equals("freenet-ext.jar.new") || (name.startsWith("freenet-ext") && name.endsWith(".jar")))
+//					// Don't match freenet-ext.jar!
+//					continue;
+//				// Try to match it
+//				if((name.startsWith("freenet") && (name.endsWith(".jar")))) {
+//					mainJar = f;
+//					newMainJar = new File(mainJar.getParent(), "freenet.jar.new");
+//					mainJarAbsolute = isAbsolute;
+//					mainClasspathNo = propNo;
+//					continue;
+//				} else if((name.startsWith("freenet") && (name.endsWith(".jar.new")))) {
+//					mainJar = f;
+//					newMainJar = new File(mainJar.getParent(), "freenet.jar");
+//					mainJarAbsolute = isAbsolute;
+//					mainClasspathNo = propNo;
+//					continue;
+//				}
+//			}
+//			// Else try to match from dependencies.
+//
+//		}
 		
 		if(mainJar == null)
 			throw new UpdaterParserException(l10n("cannotUpdateNoMainJar"));

@@ -1,22 +1,12 @@
 package freenet.config;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.HashMap;
-
-import org.tanukisoftware.wrapper.WrapperManager;
-
 import freenet.node.NodeInitException;
 import freenet.support.Logger;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
+
+import java.io.*;
+import java.util.HashMap;
 
 /**
  * Class to allow us to easily change wrapper properties.
@@ -32,14 +22,15 @@ public class WrapperConfig {
 			if(override != null)
 				return override;
 		}
-		return WrapperManager.getProperties().getProperty(name, null);
+		return null;
+		//return WrapperManager.getProperties().getProperty(name, null);
 	}
 	
 	public static boolean canChangeProperties() {
-		if(!WrapperManager.isControlledByNativeWrapper()) {
+		/*if(!WrapperManager.isControlledByNativeWrapper()) {
 			Logger.normal(WrapperConfig.class, "Cannot alter properties: not running under wrapper");
 			return false;
-		}
+		}*/
 		File f = new File("wrapper.conf");
 		if(!f.exists()) {
 			Logger.normal(WrapperConfig.class, "Cannot alter properties: wrapper.conf does not exist");

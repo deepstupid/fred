@@ -3,54 +3,29 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.io.BufferedInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import freenet.client.ArchiveContext;
-import freenet.client.ArchiveExtractCallback;
-import freenet.client.ArchiveFailureException;
-import freenet.client.ArchiveHandler;
-import freenet.client.ArchiveManager;
-import freenet.client.ArchiveRestartException;
-import freenet.client.ClientMetadata;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.FetchResult;
-import freenet.client.Metadata;
-import freenet.client.MetadataParseException;
 import freenet.client.InsertContext.CompatibilityMode;
 import freenet.crypt.HashResult;
 import freenet.crypt.MultiHashInputStream;
-import freenet.keys.BaseClientKey;
-import freenet.keys.ClientCHK;
-import freenet.keys.ClientKey;
-import freenet.keys.ClientKeyBlock;
-import freenet.keys.ClientSSK;
-import freenet.keys.FreenetURI;
-import freenet.keys.USK;
+import freenet.keys.*;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.compress.Compressor;
-import freenet.support.compress.DecompressorThreadManager;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
+import freenet.support.compress.DecompressorThreadManager;
 import freenet.support.io.BucketTools;
 import freenet.support.io.Closer;
 import freenet.support.io.InsufficientDiskSpaceException;
-import freenet.support.io.TempBucketFactory;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Does most of the complicated metadata handling for fetching single files.
@@ -691,14 +666,8 @@ public class SingleFileFetcher extends SimpleSingleFileFetcher {
 				} catch (MalformedURLException e) {
 					throw new FetchException(FetchExceptionMode.INVALID_URI, e);
 				}
-				ArrayList<String> newMetaStrings = newURI.listMetaStrings();
-				
-				// Move any new meta strings to beginning of our list of remaining meta strings
-				while(!newMetaStrings.isEmpty()) {
-					String o = newMetaStrings.remove(newMetaStrings.size()-1);
-					metaStrings.add(0, o);
-					addedMetaStrings++;
-				}
+
+				metaStrings.addAll(newURI.listMetaStrings());
 
 				final SingleFileFetcher f = new SingleFileFetcher(parent, rcb, clientMetadata, redirectedKey, metaStrings, this.uri, addedMetaStrings, ctx, deleteFetchContext, realTimeFlag, actx, ah, archiveMetadata, maxRetries, recursionLevel, false, token, true, isFinal, topDontCompress, topCompatibilityMode, context, false);
 				this.deleteFetchContext = false;
@@ -1176,13 +1145,13 @@ public class SingleFileFetcher extends SimpleSingleFileFetcher {
 				key instanceof ClientKey && (!hasInitialMetadata))
 			return new SimpleSingleFileFetcher((ClientKey)key, maxRetries, ctx, requester, cb, isEssential, false, l, context, false, realTimeFlag);
 		if(key instanceof ClientKey || hasInitialMetadata)
-			return new SingleFileFetcher(requester, cb, null, (ClientKey)key, new ArrayList<String>(uri.listMetaStrings()), uri, 0, ctx, false, realTimeFlag, actx, null, null, maxRetries, recursionLevel, dontTellClientGet, l, isEssential, isFinal, false, (short)0, context, hasInitialMetadata);
+			return new SingleFileFetcher(requester, cb, null, (ClientKey)key, uri.listMetaStrings(), uri, 0, ctx, false, realTimeFlag, actx, null, null, maxRetries, recursionLevel, dontTellClientGet, l, isEssential, isFinal, false, (short)0, context, hasInitialMetadata);
 		else {
-			return uskCreate(requester, realTimeFlag, cb, (USK)key, new ArrayList<String>(uri.listMetaStrings()), ctx, actx, maxRetries, recursionLevel, dontTellClientGet, l, isEssential, isFinal, context);
+			return uskCreate(requester, realTimeFlag, cb, (USK)key, uri.listMetaStrings(), ctx, actx, maxRetries, recursionLevel, dontTellClientGet, l, isEssential, isFinal, context);
 		}
 	}
 
-	private static ClientGetState uskCreate(ClientRequester requester, boolean realTimeFlag, GetCompletionCallback cb, USK usk, ArrayList<String> metaStrings, FetchContext ctx, ArchiveContext actx, int maxRetries, int recursionLevel, boolean dontTellClientGet, long l, boolean isEssential, boolean isFinal, ClientContext context) throws FetchException {
+	private static ClientGetState uskCreate(ClientRequester requester, boolean realTimeFlag, GetCompletionCallback cb, USK usk, List<String> metaStrings, FetchContext ctx, ArchiveContext actx, int maxRetries, int recursionLevel, boolean dontTellClientGet, long l, boolean isEssential, boolean isFinal, ClientContext context) throws FetchException {
 		if(usk.suggestedEdition >= 0) {
 			// Return the latest known version but at least suggestedEdition.
 			long edition = context.uskManager.lookupKnownGood(usk);
@@ -1235,7 +1204,7 @@ public class SingleFileFetcher extends SimpleSingleFileFetcher {
         final ClientRequester parent;
 		final GetCompletionCallback cb;
 		final USK usk;
-		final ArrayList<String> metaStrings;
+		final List<String> metaStrings;
 		final FetchContext ctx;
 		final ArchiveContext actx;
 		final int maxRetries;
@@ -1253,7 +1222,7 @@ public class SingleFileFetcher extends SimpleSingleFileFetcher {
 			this.tag = tag;
 		}
 		
-		public MyUSKFetcherCallback(ClientRequester requester, GetCompletionCallback cb, USK usk, ArrayList<String> metaStrings, FetchContext ctx, ArchiveContext actx, boolean realTimeFlag, int maxRetries, int recursionLevel, boolean dontTellClientGet, long l, boolean persistent, boolean datastoreOnly) {
+		public MyUSKFetcherCallback(ClientRequester requester, GetCompletionCallback cb, USK usk, List<String> metaStrings, FetchContext ctx, ArchiveContext actx, boolean realTimeFlag, int maxRetries, int recursionLevel, boolean dontTellClientGet, long l, boolean persistent, boolean datastoreOnly) {
 			this.parent = requester;
 			this.cb = cb;
 			this.usk = usk;

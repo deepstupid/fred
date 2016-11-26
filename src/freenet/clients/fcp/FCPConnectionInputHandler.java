@@ -3,19 +3,19 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
+import freenet.support.LogThresholdCallback;
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
+import freenet.support.SimpleFieldSet;
+import freenet.support.io.Closer;
+import freenet.support.io.LineReadingInputStream;
+import freenet.support.io.TooLongException;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.tanukisoftware.wrapper.WrapperManager;
-
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.SimpleFieldSet;
-import freenet.support.Logger.LogLevel;
-import freenet.support.io.Closer;
-import freenet.support.io.LineReadingInputStream;
-import freenet.support.io.TooLongException;
+//import org.tanukisoftware.wrapper.WrapperManager;
 
 public class FCPConnectionInputHandler implements Runnable {
 	private static volatile boolean logMINOR;
@@ -69,12 +69,12 @@ public class FCPConnectionInputHandler implements Runnable {
 
 		while(true) {
 			SimpleFieldSet fs;
-			if(WrapperManager.hasShutdownHookBeenTriggered()) {
+			/*if(WrapperManager.hasShutdownHookBeenTriggered()) {
 				FCPMessage msg = new ProtocolErrorMessage(ProtocolErrorMessage.SHUTTING_DOWN,true,"The node is shutting down","Node",false);
 				handler.outputHandler.queue(msg);
 				Closer.close(is);
 				return;
-			}
+			}*/
 			// Read a message
 			String messageType = lis.readLine(128, 128, true);
 			if(messageType == null) {

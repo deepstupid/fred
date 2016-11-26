@@ -3,37 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.pluginmanager;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.concurrent.Semaphore;
-import java.util.jar.Attributes;
-import java.util.jar.JarException;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
-import java.util.zip.ZipException;
-
-import org.tanukisoftware.wrapper.WrapperManager;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.clients.fcp.ClientPut;
 import freenet.clients.http.PageMaker.THEME;
@@ -47,27 +16,31 @@ import freenet.crypt.SHA256;
 import freenet.keys.FreenetURI;
 import freenet.l10n.BaseL10n.LANGUAGE;
 import freenet.l10n.NodeL10n;
-import freenet.node.Node;
-import freenet.node.NodeClientCore;
-import freenet.node.RequestClient;
-import freenet.node.RequestClientBuilder;
-import freenet.node.RequestStarter;
+import freenet.node.*;
 import freenet.node.useralerts.AbstractUserAlert;
 import freenet.node.useralerts.UserAlert;
 import freenet.pluginmanager.OfficialPlugins.OfficialPluginDescription;
-import freenet.support.HTMLNode;
-import freenet.support.HexUtil;
-import freenet.support.JarClassLoader;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.SerialExecutor;
-import freenet.support.Ticker;
 import freenet.support.api.BooleanCallback;
 import freenet.support.api.HTTPRequest;
 import freenet.support.api.StringArrCallback;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
 import freenet.support.io.NativeThread;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.security.MessageDigest;
+import java.util.*;
+import java.util.concurrent.Semaphore;
+import java.util.jar.Attributes;
+import java.util.jar.JarException;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
+import java.util.zip.ZipException;
+
+//import org.tanukisoftware.wrapper.WrapperManager;
 
 public class PluginManager {
 
@@ -1266,7 +1239,7 @@ public class PluginManager {
 				try {
 					downloaded = true;
 					System.err.println("Downloading plugin "+name);
-					WrapperManager.signalStarting((int) MINUTES.toMillis(5));
+					//WrapperManager.signalStarting((int) MINUTES.toMillis(5));
 					File tempPluginFile = null;
 					OutputStream pluginOutputStream = null;
 					InputStream pluginInputStream = null;

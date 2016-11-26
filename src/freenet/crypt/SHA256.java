@@ -42,7 +42,7 @@ import java.security.Provider;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.tanukisoftware.wrapper.WrapperManager;
+//import org.tanukisoftware.wrapper.WrapperManager;
 
 import freenet.node.Node;
 import freenet.node.NodeInitException;
@@ -100,7 +100,7 @@ public class SHA256 {
 			System.err.println("Check your JVM settings especially the JCE!" + e2);
 			e2.printStackTrace();
 		}
-		WrapperManager.stop(NodeInitException.EXIT_CRAPPY_JVM);
+		//WrapperManager.stop(NodeInitException.EXIT_CRAPPY_JVM);
 		throw new RuntimeException();
 	}
 

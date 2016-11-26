@@ -18,7 +18,8 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import net.contrapunctus.lzma.LzmaInputStream;
+//import net.contrapunctus.lzma.LzmaInputStream;
+
 
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.archivers.ArchiveEntry;
@@ -307,7 +308,7 @@ public class ArchiveManager {
 				if(logMINOR) Logger.minor(this, "dealing with GZIP");
 				is = new GZIPInputStream(data.getInputStream());
 				wrapper = null;
-			} else if(ctype == COMPRESSOR_TYPE.LZMA_NEW) {
+			} /*else if(ctype == COMPRESSOR_TYPE.LZMA_NEW) {
 				// LZMA internally uses pipe streams, so we may as well do it here.
 				// In fact we need to for LZMA_NEW, because of the properties bytes.
 				PipedInputStream pis = new PipedInputStream();
@@ -340,11 +341,12 @@ public class ArchiveManager {
 					
 				});
 				is = pis;
-			} else if(ctype == COMPRESSOR_TYPE.LZMA) {
-				if(logMINOR) Logger.minor(this, "dealing with LZMA");
-				is = new LzmaInputStream(data.getInputStream());
-				wrapper = null;
-			} else {
+//			} else if(ctype == COMPRESSOR_TYPE.LZMA) {
+//				throw new RuntimeException("dealing with lzma");
+////				if(logMINOR) Logger.minor(this, "dealing with LZMA");
+////				is = new LzmaInputStream(data.getInputStream());
+////				wrapper = null;
+			} */ else {
 				wrapper = null;
 			}
 
