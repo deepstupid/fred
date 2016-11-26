@@ -1,17 +1,5 @@
 package freenet.node.simulator;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.InetAddress;
-import java.net.Socket;
-
-import freenet.support.math.MersenneTwister;
-
 import freenet.client.FetchException;
 import freenet.client.HighLevelSimpleClient;
 import freenet.crypt.RandomSource;
@@ -19,13 +7,18 @@ import freenet.keys.FreenetURI;
 import freenet.node.Node;
 import freenet.node.NodeInitException;
 import freenet.node.NodeStarter;
+import freenet.support.Logger.LogLevel;
+import freenet.support.LoggerHook.InvalidThresholdException;
 import freenet.support.PooledExecutor;
 import freenet.support.SimpleFieldSet;
 import freenet.support.TimeUtil;
-import freenet.support.Logger.LogLevel;
-import freenet.support.LoggerHook.InvalidThresholdException;
 import freenet.support.io.FileUtil;
 import freenet.support.io.LineReadingInputStream;
+import freenet.support.math.MersenneTwister;
+
+import java.io.*;
+import java.net.InetAddress;
+import java.net.Socket;
 
 /**
  * Insert a random block of data to an established node via FCP, then
@@ -142,7 +135,7 @@ public class BootstrapPullTest {
         System.out.println("Connected to node.");
         LineReadingInputStream lis = new LineReadingInputStream(sockIS);
         OutputStreamWriter osw = new OutputStreamWriter(sockOS, "UTF-8");
-        osw.write("ClientHello\nExpectedVersion=0.7\nName=BootstrapPullTest-"+System.currentTimeMillis()+"\nEnd\n");
+        osw.write("ClientHello\nExpectedVersion=0.0\nName=BootstrapPullTest-"+System.currentTimeMillis()+"\nEnd\n");
         osw.flush();
        	String name = lis.readLine(65536, 128, true);
        	SimpleFieldSet fs = new SimpleFieldSet(lis, 65536, 128, true, false, true);

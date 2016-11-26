@@ -3,11 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bouncycastle.crypto.SkippingStreamCipher;
 import org.bouncycastle.crypto.engines.ChaChaEngine;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Stores information about the algorithms used, the version number, and the footer length for a
@@ -16,8 +16,9 @@ import org.bouncycastle.crypto.engines.ChaChaEngine;
  *
  */
 public enum EncryptedRandomAccessBufferType {
-    ChaCha128(1, 12, CryptByteBufferType.ChaCha128, MACType.HMACSHA256, 32),
-    ChaCha256(2, 12, CryptByteBufferType.ChaCha256, MACType.HMACSHA256, 32);
+    ChaCha128(1, 12, CryptByteBufferType.ChaCha128, MACType.HMACSHA256, 32)
+    //ChaCha256(2, 12, CryptByteBufferType.ChaCha256, MACType.HMACSHA256, 32);
+    ;
 
     public final int bitmask;
     public final int headerLen;//bytes

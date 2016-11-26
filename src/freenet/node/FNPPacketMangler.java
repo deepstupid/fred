@@ -3,6 +3,20 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
+import freenet.crypt.*;
+import freenet.crypt.ECDSA.Curves;
+import freenet.crypt.ciphers.Rijndael;
+import freenet.io.AddressTracker;
+import freenet.io.AddressTracker.Status;
+import freenet.io.comm.*;
+import freenet.io.comm.IncomingPacketFilter.DECODED;
+import freenet.io.comm.Peer.LocalAddressException;
+import freenet.node.OpennetManager.ConnectionType;
+import freenet.support.*;
+import freenet.support.io.FileUtil;
+import freenet.support.io.InetAddressComparator;
+import freenet.support.io.NativeThread;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
@@ -12,45 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import freenet.crypt.BlockCipher;
-import freenet.crypt.ECDH;
-import freenet.crypt.ECDHLightContext;
-import freenet.crypt.ECDSA;
-import freenet.crypt.ECDSA.Curves;
-import freenet.crypt.HMAC;
-import freenet.crypt.KeyAgreementSchemeContext;
-import freenet.crypt.PCFBMode;
-import freenet.crypt.SHA256;
-import freenet.crypt.UnsupportedCipherException;
-import freenet.crypt.Util;
-import freenet.crypt.ciphers.Rijndael;
-import freenet.io.AddressTracker;
-import freenet.io.AddressTracker.Status;
-import freenet.io.comm.FreenetInetAddress;
-import freenet.io.comm.IncomingPacketFilter.DECODED;
-import freenet.io.comm.PacketSocketHandler;
-import freenet.io.comm.Peer;
-import freenet.io.comm.Peer.LocalAddressException;
-import freenet.io.comm.PeerContext;
-import freenet.io.comm.PeerParseException;
-import freenet.io.comm.ReferenceSignatureVerificationException;
-import freenet.io.comm.SocketHandler;
-import freenet.node.OpennetManager.ConnectionType;
-import freenet.support.ByteArrayWrapper;
-import freenet.support.Fields;
-import freenet.support.HexUtil;
-import freenet.support.LRUMap;
-import freenet.support.Logger;
-import freenet.support.SerialExecutor;
-import freenet.support.SimpleFieldSet;
-import freenet.support.TimeUtil;
-import freenet.support.io.FileUtil;
-import freenet.support.io.InetAddressComparator;
-import freenet.support.io.NativeThread;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.*;
 
 /**
  * @author amphibian
@@ -750,10 +726,10 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		    	return;
 		    }
 
-		long t2=System.currentTimeMillis();
-		if((t2-t1)>500) {
-			Logger.error(this,"Message1 timeout error:Processing packet for "+pn);
-		}
+//		long t2=System.currentTimeMillis();
+//		if((t2-t1)>500) {
+//			Logger.error(this,"Message1 timeout error:Processing packet for "+pn);
+//		}
 	}
 	
 	private long lastLoggedNoContexts = -1;
@@ -865,10 +841,10 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		} else {
 			sendAuthPacket(1,negType,0,message1,pn,replyTo);
 		}
-		long t2=System.currentTimeMillis();
-		if((t2-now)>500) {
-			Logger.error(this,"Message1 timeout error:Sending packet for "+pn.getPeer());
-		}
+//		long t2=System.currentTimeMillis();
+//		if((t2-now)>500) {
+//			Logger.error(this,"Message1 timeout error:Sending packet for "+pn.getPeer());
+//		}
 	}
 
 	/*
@@ -1042,10 +1018,10 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 
 		sendJFKMessage3(1, negType, 3, myNi, nonceResponder, hisExponential, authenticator, pn, replyTo, unknownInitiator, setupType);
 
-		long t2=System.currentTimeMillis();
-		if((t2-t1)>500) {
-			Logger.error(this,"Message2 timeout error:Processing packet for "+pn.getPeer());
-		}
+//		long t2=System.currentTimeMillis();
+//		if((t2-t1)>500) {
+//			Logger.error(this,"Message2 timeout error:Processing packet for "+pn.getPeer());
+//		}
 	}
 
 	/*
@@ -1588,9 +1564,9 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 			pn.jfkNoncesSent.clear();
 		}
 
-		final long t2=System.currentTimeMillis();
-		if((t2-t1)>500)
-			Logger.error(this,"Message4 timeout error:Processing packet from "+pn.getPeer());
+//		final long t2=System.currentTimeMillis();
+//		if((t2-t1)>500)
+//			Logger.error(this,"Message4 timeout error:Processing packet from "+pn.getPeer());
 		return true;
 	}
 
@@ -1760,9 +1736,9 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 				}
 			}
 		}, SECONDS.toMillis(5));
-		long t2=System.currentTimeMillis();
-		if((t2-t1)>MILLISECONDS.toMillis(500))
-			Logger.error(this,"Message3 timeout error:Sending packet for "+pn.getPeer());
+//		long t2=System.currentTimeMillis();
+//		if((t2-t1)>MILLISECONDS.toMillis(500))
+//			Logger.error(this,"Message3 timeout error:Sending packet for "+pn.getPeer());
 	}
 
 	private int getInitialMessageID(byte[] identity) {
@@ -1871,9 +1847,9 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		} else {
 			sendAuthPacket(1, negType, 3, message4, pn, replyTo);
 		}
-		long t2=System.currentTimeMillis();
-		if((t2-t1)>500)
-			Logger.error(this,"Message4 timeout error:Sending packet for "+pn.getPeer());
+//		long t2=System.currentTimeMillis();
+//		if((t2-t1)>500)
+//			Logger.error(this,"Message4 timeout error:Sending packet for "+pn.getPeer());
 	}
 
 	/**

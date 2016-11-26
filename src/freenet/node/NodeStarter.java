@@ -71,6 +71,7 @@ public class NodeStarter /*implements WrapperListener*/ {
 	private NodeStarter() {
 		// Force it to load right now, and log what exactly is loaded.
 		JceLoader.dumpLoaded();
+
 	}
 
 	public NodeStarter get() {
@@ -260,6 +261,7 @@ public class NodeStarter /*implements WrapperListener*/ {
 		//  call the application's start method.  Otherwise the start method
 		//  will be called immediately.
 		//WrapperManager.start(new NodeStarter(), args);
+		new NodeStarter().start(args);
 	}
 
 	static SemiOrderedShutdownHook shutdownHook;

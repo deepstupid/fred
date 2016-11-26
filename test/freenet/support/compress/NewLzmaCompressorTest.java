@@ -92,7 +92,7 @@ public class NewLzmaCompressorTest extends TestCase {
 
 		for(int rounds=0;rounds<100;rounds++) {
 			int scale = random.nextInt(19) + 1;
-			int size = random.nextInt(1 << scale);
+			int size = Math.max(1, random.nextInt(1 << scale));
 
 			// build 5k array
 			byte[] originalUncompressedData = new byte[size];

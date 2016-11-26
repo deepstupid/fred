@@ -3,6 +3,16 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
+import freenet.client.async.ClientContext;
+import freenet.support.Fields;
+import freenet.support.Logger;
+import freenet.support.api.LockableRandomAccessBuffer;
+import freenet.support.io.*;
+import org.bouncycastle.crypto.SkippingStreamCipher;
+import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.params.ParametersWithIV;
+
+import javax.crypto.SecretKey;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -12,22 +22,6 @@ import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.util.concurrent.locks.ReentrantLock;
-
-import javax.crypto.SecretKey;
-
-import org.bouncycastle.crypto.SkippingStreamCipher;
-import org.bouncycastle.crypto.params.KeyParameter;
-import org.bouncycastle.crypto.params.ParametersWithIV;
-
-import freenet.client.async.ClientContext;
-import freenet.support.Fields;
-import freenet.support.Logger;
-import freenet.support.api.LockableRandomAccessBuffer;
-import freenet.support.io.BucketTools;
-import freenet.support.io.FilenameGenerator;
-import freenet.support.io.PersistentFileTracker;
-import freenet.support.io.ResumeFailedException;
-import freenet.support.io.StorageFormatException;
 /**
  * EncryptedRandomAccessBuffer is a encrypted RandomAccessBuffer implementation using a 
  * SkippingStreamCipher. 
@@ -251,17 +245,16 @@ public final class EncryptedRandomAccessBuffer implements LockableRandomAccessBu
         System.arraycopy(headerEncIV, 0, header, offset, ivLen);
         offset += ivLen;
 
+        System.out.println(type.encryptType + " " + unencryptedBaseKey.getEncoded().length);
+
         byte[] encryptedKey = null;
         try {
-            CryptByteBuffer crypt = new CryptByteBuffer(type.encryptType, headerEncKey, 
+            CryptByteBuffer crypt = new CryptByteBuffer(type.encryptType, headerEncKey,
                     headerEncIV);
             encryptedKey = crypt.encryptCopy(unencryptedBaseKey.getEncoded());
-        } catch (InvalidKeyException e) {
-            throw new GeneralSecurityException("Something went wrong with key generation. please "
-                    + "report", e.fillInStackTrace());
-        } catch (InvalidAlgorithmParameterException e) {
-            throw new GeneralSecurityException("Something went wrong with key generation. please "
-                    + "report", e.fillInStackTrace());
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+            throw new GeneralSecurityException("Something went wrong with key generation", e);
         }
         System.arraycopy(encryptedKey, 0, header, offset, encryptedKey.length);
         offset += encryptedKey.length;

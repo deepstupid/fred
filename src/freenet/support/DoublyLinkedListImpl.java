@@ -110,8 +110,7 @@ public class DoublyLinkedListImpl<T extends DoublyLinkedList.Item<? extends T>> 
      */
     @Override
     public final boolean isEmpty() {
-        assert size != 0 || (_firstItem == null && _lastItem == null);
-        return size == 0;
+        return size() == 0;
     }
 
     /**

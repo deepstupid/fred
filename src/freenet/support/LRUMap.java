@@ -88,6 +88,7 @@ public class LRUMap<K, V> {
      */
     public final K popKey() {
     	synchronized(list) {
+
 			if (list.size() > 0) {
 				QItem<K, V> popped = list.pop();
 				synchronized(hash) {
