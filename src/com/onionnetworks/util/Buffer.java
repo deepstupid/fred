@@ -3,6 +3,8 @@
 
 package com.onionnetworks.util;
 
+import java.util.Arrays;
+
 /**
  * A class (struct) for holding the offset and length of a byte[] buffer
  *
@@ -48,17 +50,19 @@ public class Buffer {
      * method will return true, otherwise false.
      */
     public boolean equals(Object o) {
+
         if (o instanceof Buffer) {
             Buffer buf = (Buffer) o;
-            if (buf.len != len) {
-                return false;
-            }
-            for (int i=0;i<len;i++) {
-                if (buf.b[buf.off+i] != b[off+i]) {
-                    return false;
-                }
-            }
-            return true;
+            return Arrays.equals(b, buf.b);
+//            if (buf.len != len) {
+//                return false;
+//            }
+//            for (int i=0;i<len;i++) {
+//                if (buf.b[buf.off+i] != b[off+i]) {
+//                    return false;
+//                }
+//            }
+//            return true;
         } else {
             return false;
         }

@@ -14,7 +14,7 @@ import com.onionnetworks.util.Util;
 
 public class CodeTest extends TestCase {
 
-	public static FECMath fecMath = new FECMath(8);
+	public static final FECMath fecMath = new FECMath(8);
 
 	public static final int KK = 192;
 	public static final int PACKET_SIZE = 4096;
@@ -47,7 +47,7 @@ public class CodeTest extends TestCase {
 		if(!TestProperty.BENCHMARK) return;
 
 		int lim = fecMath.gfSize + 1;
-		FECCode maybeNative = FECCodeFactory.getDefault().createFECCode(KK, lim);
+		FECCode maybeNative = FECCodeFactory.the.createFECCode(KK, lim);
 		FECCode pureCode = new PureCode(KK, lim);
 		int[] index = new int[KK];
 
@@ -99,7 +99,7 @@ public class CodeTest extends TestCase {
 
 	public void testSimpleRev() {
 		int lim = fecMath.gfSize + 1;
-		FECCode code = FECCodeFactory.getDefault().createFECCode(KK, lim);
+		FECCode code = FECCodeFactory.the.createFECCode(KK, lim);
 		FECCode code2 = new PureCode(KK, lim);
 		int[] index = new int[KK];
 
@@ -112,7 +112,7 @@ public class CodeTest extends TestCase {
 
 	public void testSimple() {
 		int lim = fecMath.gfSize + 1;
-		FECCode code = FECCodeFactory.getDefault().createFECCode(KK, lim);
+		FECCode code = FECCodeFactory.the.createFECCode(KK, lim);
 		FECCode code2 = new PureCode(KK, lim);
 		int[] index = new int[KK];
 
@@ -124,7 +124,7 @@ public class CodeTest extends TestCase {
 
 	public void testShifted() {
 		int lim = fecMath.gfSize + 1;
-		FECCode code = FECCodeFactory.getDefault().createFECCode(KK, lim);
+		FECCode code = FECCodeFactory.the.createFECCode(KK, lim);
 		FECCode code2 = new PureCode(KK, lim);
 		int[] index = new int[KK];
 

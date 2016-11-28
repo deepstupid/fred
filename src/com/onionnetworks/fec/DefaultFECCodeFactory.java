@@ -3,7 +3,6 @@ package com.onionnetworks.fec;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -31,9 +30,9 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
     public static final int DEFAULT_CACHE_TIME = 2*60*1000;
 
     //protected TimedSoftHashMap codeCache = new HashMap();
-    protected final ArrayList eightBitCodes = new ArrayList();
-    protected final ArrayList sixteenBitCodes = new ArrayList();
-    protected Properties fecProperties;
+    protected final ArrayList<Constructor> eightBitCodes = new ArrayList<>();
+    protected final ArrayList<Constructor> sixteenBitCodes = new ArrayList<>();
+    protected final Properties fecProperties;
 
     public DefaultFECCodeFactory() {
         // Load in the properties file.
@@ -92,7 +91,7 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
      * If you're only asking for an 8 bit code we will NOT give you a 16 bit
      * one.
      */
-    public synchronized FECCode createFECCode(int k, int n) {
+    public FECCode createFECCode(int k, int n) {
         Integer K = k;
         Integer N = n;
         //Tuple t = new Tuple(K,N);
@@ -105,20 +104,29 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
                  "smaller than k: k="+k+",n="+n);
         }
 
-        Iterator it;
-        if (n <= 256 && !eightBitCodes.isEmpty()) {
-            it = eightBitCodes.iterator();
-        } else {
-            it = sixteenBitCodes.iterator();
+        ArrayList<Constructor> it = null;
+        if (n <= 256) {
+//            synchronized (eightBitCodes) {
+                if (!eightBitCodes.isEmpty())
+                    it = eightBitCodes;  //should be read only
+//            }
         }
-        while (it.hasNext()) {
+        if (it == null) {
+//            synchronized (sixteenBitCodes) {
+                it = sixteenBitCodes; //should be read only
+//            }
+        }
+
+        for (int i = 0, itSize = it.size(); i < itSize; i++) {
+            Constructor f = it.get(i);
             try {
-                result = (FECCode) ((Constructor) it.next()).newInstance(K, N);
+                result = (FECCode) ((Constructor) f).newInstance(K, N);
                 break;
             } catch (Throwable doh) {
                 doh.printStackTrace();
             }
         }
+
 
         //if (result != null) {
         //    codeCache.put(t,result,DEFAULT_CACHE_TIME);

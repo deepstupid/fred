@@ -17,6 +17,8 @@ public class OnionFECCodecTest extends TestCase {
     private byte[][] dataBlocks;
     private byte[][] originalCheckBlocks;
     private byte[][] checkBlocks;
+
+    //TODO BitSet checkBlocksPresent, dataBlocksPresent;
     private boolean[] checkBlocksPresent;
     private boolean[] dataBlocksPresent;
     

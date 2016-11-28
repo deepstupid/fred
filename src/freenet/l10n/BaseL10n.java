@@ -3,18 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.l10n;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.NoSuchElementException;
-
 import freenet.clients.http.TranslationToadlet;
 import freenet.support.HTMLEncoder;
 import freenet.support.HTMLNode;
@@ -22,6 +10,12 @@ import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * This is the core of all the localization stuff. This method can get
@@ -220,25 +214,21 @@ public class BaseL10n {
 	private SimpleFieldSet currentTranslation = null;
 	private SimpleFieldSet fallbackTranslation = null;
 	private SimpleFieldSet translationOverride;
-	private ClassLoader cl;
 
-	private static ClassLoader getClassLoaderFallback() {
-		ClassLoader _cl;
-		// getClassLoader() can return null on some implementations if the boot classloader was used.
-		_cl = BaseL10n.class.getClassLoader();
-		if (_cl == null) {
-			_cl = ClassLoader.getSystemClassLoader();
-		}
-		return _cl;
-	}
+//	private static ClassLoader getClassLoaderFallback() {
+//		ClassLoader _cl;
+//		// getClassLoader() can return null on some implementations if the boot classloader was used.
+//		_cl = BaseL10n.class.getClassLoader();
+//		if (_cl == null) {
+//			_cl = ClassLoader.getSystemClassLoader();
+//		}
+//		return _cl;
+//	}
 
 	public BaseL10n(String l10nFilesBasePath, String l10nFilesMask, String l10nOverrideFilesMask) {
 		this(l10nFilesBasePath, l10nFilesMask, l10nOverrideFilesMask, LANGUAGE.getDefault());
 	}
 
-	public BaseL10n(String l10nFilesBasePath, String l10nFilesMask, String l10nOverrideFilesMask, final LANGUAGE lang) {
-		this(l10nFilesBasePath, l10nFilesMask, l10nOverrideFilesMask, lang, getClassLoaderFallback());
-	}
 
 	/**
 	 * Create a new BaseL10n object.
@@ -250,7 +240,7 @@ public class BaseL10n {
 	 * @param lang Language to use.
 	 * @param cl ClassLoader to use.
 	 */
-	public BaseL10n(String l10nFilesBasePath, String l10nFilesMask, String l10nOverrideFilesMask, final LANGUAGE lang, final ClassLoader cl) {
+	public BaseL10n(String l10nFilesBasePath, String l10nFilesMask, String l10nOverrideFilesMask, final LANGUAGE lang) {
 		if (!l10nFilesBasePath.endsWith("/")) {
 			l10nFilesBasePath += "/";
 		}
@@ -258,7 +248,6 @@ public class BaseL10n {
 		this.l10nFilesBasePath = l10nFilesBasePath;
 		this.l10nFilesMask = l10nFilesMask;
 		this.l10nOverrideFilesMask = l10nOverrideFilesMask;
-		this.cl = cl;
 		this.setLanguage(lang);
 	}
 
@@ -267,7 +256,7 @@ public class BaseL10n {
 	 * @return String
 	 */
 	public String getL10nFileName(LANGUAGE lang) {
-		return this.l10nFilesBasePath + this.l10nFilesMask.replace("${lang}", lang.shortCode);
+		return /*this.l10nFilesBasePath + */this.l10nFilesMask.replace("${lang}", lang.shortCode);
 	}
 
 	/**
@@ -339,7 +328,7 @@ public class BaseL10n {
 
 		try {
 			// Returns null on lookup failures:
-			in = this.cl.getResourceAsStream(this.getL10nFileName(lang));
+			in = BaseL10n.class.getResourceAsStream(this.getL10nFileName(lang));
 			if (in != null) {
 				result = SimpleFieldSet.readFrom(in, false, false);
 			} else {
@@ -572,7 +561,6 @@ public class BaseL10n {
 
         if (result == null) {
             Logger.error(this.getClass(), "The default translation for " + key + " hasn't been found!");
-            System.err.println("The default translation for " + key + " hasn't been found!");
             new Exception().printStackTrace();
         }
         return result;

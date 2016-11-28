@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 public class GIFFilterTest extends TestCase {
-    private static final String RESOURCE_PATH = "org/freenet/client/filter/gif/";
+    private static final String RESOURCE_PATH = "gif/";
 
     /** Known good files, should pass filter unaltered. */
     private static final String[] GOOD = {

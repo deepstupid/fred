@@ -1937,9 +1937,9 @@ public class RijndaelTest extends TestCase {
 				for(int i=0;i<7;i++) br.readLine(); // Skip header
 				String line = br.readLine();
 				int blockSize = Integer.parseInt(line.substring("BLOCKSIZE=".length()));
+				assert(blockSize == 128 || blockSize == 192 || blockSize == 256);
 				line = br.readLine();
 				int keySize = Integer.parseInt(line.substring("KEYSIZE=  ".length()));
-				assert(blockSize == 128 || blockSize == 192 || blockSize == 256);
 				assert(keySize == 128 || keySize == 192 || keySize == 256);
 				br.readLine();
 				byte[] plaintext = null;

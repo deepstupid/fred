@@ -227,7 +227,9 @@ public class BaseL10nTest extends TestCase {
 //        }
 
         String overrideFile =
-                "./freenet/l10n/freenet.l10n." + lang + ".override.properties";
+                "freenet.l10n." + lang.shortCode + ".properties";
+//        System.out.println(BaseL10n.class.getResource("./"));
+//        System.out.println(BaseL10n.class.getResource(overrideFile));
         return new BaseL10n(TestProperty.L10nPath_test, "freenet.l10n.${lang}.properties",
                 overrideFile, lang);
 
