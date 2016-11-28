@@ -1,8 +1,5 @@
 package freenet.clients.http;
 
-import java.io.IOException;
-import java.net.URI;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.client.InsertContext;
 import freenet.client.InsertContext.CompatibilityMode;
@@ -13,6 +10,9 @@ import freenet.node.NodeClientCore;
 import freenet.node.SecurityLevels.NETWORK_THREAT_LEVEL;
 import freenet.support.HTMLNode;
 import freenet.support.api.HTTPRequest;
+
+import java.io.IOException;
+import java.net.URI;
 
 public class FileInsertWizardToadlet extends Toadlet implements LinkEnabledCallback {
 

@@ -1,15 +1,14 @@
 package freenet.client.async;
 
+import com.onionnetworks.util.FileUtil;
+import freenet.keys.Key;
+import freenet.keys.KeyBlock;
+import freenet.keys.KeyVerifyException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
-
-import com.onionnetworks.util.FileUtil;
-
-import freenet.keys.Key;
-import freenet.keys.KeyBlock;
-import freenet.keys.KeyVerifyException;
 
 public abstract class BinaryBlob {
 

@@ -3,21 +3,21 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
+import freenet.clients.fcp.ClientRequest.Persistence;
+import freenet.node.Node;
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
+import freenet.support.SimpleFieldSet;
+import freenet.support.api.BucketFactory;
+import freenet.support.api.ManifestElement;
+import freenet.support.io.PersistentTempBucketFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-
-import freenet.clients.fcp.ClientRequest.Persistence;
-import freenet.node.Node;
-import freenet.support.Logger;
-import freenet.support.SimpleFieldSet;
-import freenet.support.Logger.LogLevel;
-import freenet.support.api.BucketFactory;
-import freenet.support.api.ManifestElement;
-import freenet.support.io.PersistentTempBucketFactory;
 
 /**
  * <pre>

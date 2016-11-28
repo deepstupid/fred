@@ -1,32 +1,7 @@
 package freenet.node.simulator;
 
-import static java.util.concurrent.TimeUnit.DAYS;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TimeZone;
-import java.util.TreeMap;
-
-import freenet.client.ClientMetadata;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.HighLevelSimpleClient;
-import freenet.client.InsertBlock;
-import freenet.client.InsertException;
 import freenet.client.async.ClientContext;
 import freenet.client.events.ClientEvent;
 import freenet.client.events.ClientEventListener;
@@ -40,6 +15,14 @@ import freenet.support.Logger.LogLevel;
 import freenet.support.PooledExecutor;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.io.FileUtil;
+
+import java.io.*;
+import java.text.ParseException;
+import java.util.*;
+import java.util.Map.Entry;
+
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * Push / Pull test over long period of time

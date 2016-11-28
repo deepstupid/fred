@@ -3,13 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.pluginmanager;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import freenet.pluginmanager.PluginManager.PluginProgress;
+import freenet.support.api.Bucket;
+import freenet.support.io.ArrayBucket;
+import freenet.support.io.Closer;
+import freenet.support.io.FileBucket;
+import freenet.support.io.FileUtil;
+
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -18,13 +19,6 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.util.Collection;
 import java.util.Iterator;
-
-import freenet.pluginmanager.PluginManager.PluginProgress;
-import freenet.support.api.Bucket;
-import freenet.support.io.ArrayBucket;
-import freenet.support.io.Closer;
-import freenet.support.io.FileBucket;
-import freenet.support.io.FileUtil;
 
 public class PluginDownLoaderOfficialHTTPS extends PluginDownLoaderURL {
 	private static final String certurlNew = "freenet/clients/http/staticfiles/globalsign.pem";

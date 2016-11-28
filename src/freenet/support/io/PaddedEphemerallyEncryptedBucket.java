@@ -3,17 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.io;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Random;
-
 import freenet.client.async.ClientContext;
 import freenet.crypt.MasterSecret;
 import freenet.crypt.PCFBMode;
@@ -25,6 +14,10 @@ import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.math.MersenneTwister;
+
+import java.io.*;
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  * A proxy Bucket which adds:

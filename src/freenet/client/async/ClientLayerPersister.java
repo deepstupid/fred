@@ -1,44 +1,21 @@
 package freenet.client.async;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 import freenet.clients.fcp.ClientRequest;
 import freenet.clients.fcp.RequestIdentifier;
 import freenet.crypt.CRCChecksumChecker;
 import freenet.crypt.ChecksumChecker;
 import freenet.crypt.ChecksumFailedException;
-import freenet.node.DatabaseKey;
-import freenet.node.MasterKeysWrongPasswordException;
-import freenet.node.Node;
-import freenet.node.NodeClientCore;
-import freenet.node.NodeInitException;
-import freenet.node.RequestStarterGroup;
+import freenet.node.*;
 import freenet.support.Executor;
 import freenet.support.Logger;
 import freenet.support.Ticker;
 import freenet.support.api.Bucket;
-import freenet.support.io.DelayedFree;
-import freenet.support.io.FileBucket;
-import freenet.support.io.FileUtil;
-import freenet.support.io.PersistentTempBucketFactory;
-import freenet.support.io.PrependLengthOutputStream;
-import freenet.support.io.StorageFormatException;
-import freenet.support.io.TempBucketFactory;
+import freenet.support.io.*;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 

@@ -1,15 +1,15 @@
 package freenet.client.async;
 
+import freenet.client.InsertContext;
+import freenet.client.InsertContext.CompatibilityMode;
+import freenet.support.Logger;
+import freenet.support.io.StorageFormatException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
-
-import freenet.client.InsertContext;
-import freenet.client.InsertContext.CompatibilityMode;
-import freenet.support.Logger;
-import freenet.support.io.StorageFormatException;
 
 public class CompatibilityAnalyser implements Serializable {
 

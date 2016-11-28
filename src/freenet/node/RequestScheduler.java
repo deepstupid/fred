@@ -3,12 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
 import freenet.client.async.ChosenBlock;
 import freenet.client.async.ClientContext;
 import freenet.client.async.ClientRequestSelector;
 import freenet.keys.Key;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 public interface RequestScheduler {
 

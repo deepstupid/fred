@@ -1,26 +1,21 @@
 package freenet.clients.http;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.Comparator;
-import java.util.HashMap;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.l10n.NodeL10n;
-import freenet.node.DarknetPeerNode;
+import freenet.node.*;
 import freenet.node.DarknetPeerNode.FRIEND_TRUST;
 import freenet.node.DarknetPeerNode.FRIEND_VISIBILITY;
-import freenet.node.DarknetPeerNodeStatus;
-import freenet.node.Node;
-import freenet.node.NodeClientCore;
-import freenet.node.PeerManager;
-import freenet.node.PeerNodeStatus;
 import freenet.support.HTMLNode;
 import freenet.support.Logger;
 import freenet.support.MultiValueTable;
 import freenet.support.SimpleFieldSet;
 import freenet.support.api.HTTPRequest;
 import freenet.support.io.FileUtil;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.Comparator;
+import java.util.HashMap;
 
 public class DarknetConnectionsToadlet extends ConnectionsToadlet {
 	

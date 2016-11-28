@@ -3,8 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.IOException;
-
 import freenet.clients.fcp.FCPPluginConnection.SendDirection;
 import freenet.node.FSParseException;
 import freenet.node.Node;
@@ -12,6 +10,8 @@ import freenet.pluginmanager.PluginManager;
 import freenet.pluginmanager.PluginNotFoundException;
 import freenet.pluginmanager.PluginTalker;
 import freenet.support.SimpleFieldSet;
+
+import java.io.IOException;
 
 /**
  * This class parses the network format for a FCP message which is send from a FCP client

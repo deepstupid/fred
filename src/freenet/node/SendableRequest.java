@@ -1,16 +1,16 @@
 package freenet.node;
 
-import java.io.Serializable;
-
 import freenet.client.async.ClientContext;
 import freenet.client.async.ClientRequestScheduler;
 import freenet.client.async.ClientRequestSchedulerGroup;
 import freenet.client.async.ClientRequester;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
 import freenet.support.RandomGrabArray;
 import freenet.support.RandomGrabArrayItem;
-import freenet.support.Logger.LogLevel;
+
+import java.io.Serializable;
 
 /**
  * A low-level request which can be sent immediately. These are registered

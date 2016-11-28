@@ -1,7 +1,5 @@
 package freenet.node.useralerts;
 
-import java.lang.ref.WeakReference;
-
 import freenet.clients.fcp.FCPMessage;
 import freenet.clients.fcp.URIFeedMessage;
 import freenet.keys.FreenetURI;
@@ -9,6 +7,8 @@ import freenet.l10n.NodeL10n;
 import freenet.node.DarknetPeerNode;
 import freenet.node.PeerNode;
 import freenet.support.HTMLNode;
+
+import java.lang.ref.WeakReference;
 
 public class DownloadFeedUserAlert extends AbstractUserAlert {
 	private final WeakReference<PeerNode> peerRef;

@@ -1,13 +1,13 @@
 package freenet.client.async;
 
-import java.io.Serializable;
-
 import freenet.client.FetchContext;
 import freenet.keys.USK;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.io.NativeThread;
+
+import java.io.Serializable;
 
 /**
  * Not the actual fetcher. Just a tag associating a USK with the client that should be called when

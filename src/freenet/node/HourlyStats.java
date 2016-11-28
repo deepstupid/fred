@@ -1,10 +1,10 @@
 package freenet.node;
 
+import freenet.support.HTMLNode;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
-import freenet.support.HTMLNode;
 
 /** Statistics tracking for performance analysis. */
 public class HourlyStats {

@@ -3,11 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.store;
 
-import java.io.IOException;
-
 import freenet.crypt.DSAPublicKey;
 import freenet.keys.KeyVerifyException;
 import freenet.node.stats.StoreAccessStats;
+
+import java.io.IOException;
 
 /**
  * @author toad

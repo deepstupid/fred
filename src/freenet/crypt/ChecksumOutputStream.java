@@ -1,11 +1,11 @@
 package freenet.crypt;
 
+import freenet.support.Fields;
+
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.Checksum;
-
-import freenet.support.Fields;
 
 public class ChecksumOutputStream extends FilterOutputStream {
     

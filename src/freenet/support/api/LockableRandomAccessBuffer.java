@@ -1,10 +1,10 @@
 package freenet.support.api;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import freenet.client.async.ClientContext;
 import freenet.support.io.ResumeFailedException;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 /** A RandomAccessBuffer which allows you to lock it open for a brief period to indicate that you are
  * using it and it would be a bad idea to close the pooled fd. Locking the RAF open does not provide

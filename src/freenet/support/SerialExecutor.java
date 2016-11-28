@@ -1,13 +1,13 @@
 package freenet.support;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
+import freenet.node.PrioRunnable;
+import freenet.support.Logger.LogLevel;
+import freenet.support.io.NativeThread;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import freenet.node.PrioRunnable;
-import freenet.support.Logger.LogLevel;
-import freenet.support.io.NativeThread;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 public class SerialExecutor implements Executor {
 

@@ -3,13 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.net.MalformedURLException;
-
 import freenet.keys.FreenetURI;
 import freenet.keys.USK;
 import freenet.node.Node;
 import freenet.node.RequestStarter;
 import freenet.support.SimpleFieldSet;
+
+import java.net.MalformedURLException;
 
 /**
  * Sent by a client to subscribe to a USK. The client will then be notified by a SubscribedUSKMessage that his

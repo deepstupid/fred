@@ -3,11 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.security.MessageDigest;
-import java.util.Arrays;
-
 import freenet.crypt.DSAPublicKey;
 import freenet.crypt.SHA256;
 import freenet.crypt.UnsupportedCipherException;
@@ -15,6 +10,11 @@ import freenet.crypt.ciphers.Rijndael;
 import freenet.support.Fields;
 import freenet.support.HexUtil;
 import freenet.support.Logger;
+
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.security.MessageDigest;
+import java.util.Arrays;
 
 /** Client-level SSK, i.e. a low level SSK with the decryption key needed to
  * decrypt the data once it is fetched. Note that you can only use this to

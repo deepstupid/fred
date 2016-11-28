@@ -3,16 +3,16 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node.useralerts;
 
-import java.lang.ref.WeakReference;
-import java.text.DateFormat;
-import java.util.Date;
-
 import freenet.clients.fcp.FCPMessage;
 import freenet.clients.fcp.TextFeedMessage;
 import freenet.l10n.NodeL10n;
 import freenet.node.DarknetPeerNode;
 import freenet.node.PeerNode;
 import freenet.support.HTMLNode;
+
+import java.lang.ref.WeakReference;
+import java.text.DateFormat;
+import java.util.Date;
 
 // Node To Node Text Message User Alert
 public class N2NTMUserAlert extends AbstractUserAlert {

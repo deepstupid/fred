@@ -1,5 +1,10 @@
 package freenet.clients.http.geoip;
 
+import freenet.clients.http.StaticToadlet;
+import freenet.node.Node;
+import freenet.support.HTMLNode;
+import freenet.support.Logger;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,11 +15,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import freenet.clients.http.StaticToadlet;
-import freenet.node.Node;
-import freenet.support.HTMLNode;
-import freenet.support.Logger;
 
 public class IPConverter {
 	// Regex indicating ipranges start

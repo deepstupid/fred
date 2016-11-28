@@ -3,16 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.pluginmanager;
 
-import java.io.IOException;
-import java.util.UUID;
-
 import freenet.clients.fcp.FCPPluginConnection;
 import freenet.clients.fcp.FCPPluginConnection.SendDirection;
 import freenet.clients.fcp.FCPPluginMessage;
 import freenet.support.Logger;
-import freenet.support.SimpleFieldSet;
-import freenet.support.api.Bucket;
 import freenet.support.io.NativeThread;
+
+import java.io.IOException;
+import java.util.UUID;
 
 /**
  * <i>NOTICE: This API is a rewrite of the whole code for plugin communication. It was added

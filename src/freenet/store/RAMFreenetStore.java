@@ -1,9 +1,5 @@
 package freenet.store;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Enumeration;
-
 import freenet.keys.KeyVerifyException;
 import freenet.node.stats.StoreAccessStats;
 import freenet.node.useralerts.UserAlertManager;
@@ -11,6 +7,10 @@ import freenet.support.ByteArrayWrapper;
 import freenet.support.LRUMap;
 import freenet.support.Logger;
 import freenet.support.Ticker;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Enumeration;
 
 /**
  * LRU in memory store.

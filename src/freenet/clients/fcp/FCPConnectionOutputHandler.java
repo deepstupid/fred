@@ -3,16 +3,15 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
+import freenet.support.LogThresholdCallback;
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
-
-import freenet.support.LogThresholdCallback;
-
-import freenet.support.Logger;
-import freenet.support.Logger.LogLevel;
 
 public class FCPConnectionOutputHandler implements Runnable {
 

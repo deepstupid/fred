@@ -1,8 +1,5 @@
 package freenet.node.updater;
 
-import java.io.File;
-import java.io.IOException;
-
 import freenet.client.FetchContext;
 import freenet.client.FetchException;
 import freenet.client.FetchResult;
@@ -18,6 +15,9 @@ import freenet.node.RequestStarter;
 import freenet.support.Logger;
 import freenet.support.io.FileBucket;
 import freenet.support.io.FileUtil;
+
+import java.io.File;
+import java.io.IOException;
 
 /** Fetches the old freenet-ext.jar and freenet-stable-latest.jar. In other
  * words it fetches the transitional versions.

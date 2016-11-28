@@ -3,14 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.File;
-import java.net.MalformedURLException;
-
 import freenet.keys.FreenetURI;
 import freenet.node.Node;
 import freenet.pluginmanager.PluginInfoWrapper;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
+
+import java.io.File;
+import java.net.MalformedURLException;
 
 /**
  * load a plugin

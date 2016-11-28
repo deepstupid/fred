@@ -1,10 +1,10 @@
 package freenet.node;
 
-import java.util.HashMap;
-import java.util.List;
-
 import freenet.support.Logger;
 import freenet.support.WeakHashSet;
+
+import java.util.HashMap;
+import java.util.List;
 
 /** Track a collection of PeerNode's for each status. */
 class PeerStatusTracker<K extends Object> {

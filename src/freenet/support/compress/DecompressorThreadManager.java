@@ -3,25 +3,18 @@
 * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.compress;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
 import freenet.support.LogThresholdCallback;
-import freenet.support.TimeUtil;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.util.List;
-import java.util.ArrayDeque;
-import java.util.Queue;
-
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
+import freenet.support.TimeUtil;
 import freenet.support.io.Closer;
+
+import java.io.*;
+import java.util.ArrayDeque;
+import java.util.List;
+import java.util.Queue;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 /** Creates and manages decompressor threads. This class is 
  * given all decompressors which should be applied to an

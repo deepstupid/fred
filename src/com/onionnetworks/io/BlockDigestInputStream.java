@@ -1,9 +1,13 @@
 package com.onionnetworks.io;
 
 import com.onionnetworks.util.Buffer;
-import java.io.*;
+
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.security.*;
 
 /**
  * @author Justin F. Chapweske

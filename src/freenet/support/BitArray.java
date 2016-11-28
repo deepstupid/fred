@@ -19,13 +19,13 @@
 
 package freenet.support;
 
+import freenet.io.WritableToDataOutputStream;
+
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.BitSet;
-
-import freenet.io.WritableToDataOutputStream;
 
 public class BitArray implements WritableToDataOutputStream {
 

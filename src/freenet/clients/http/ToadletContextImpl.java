@@ -1,13 +1,21 @@
 package freenet.clients.http;
 
-import static java.util.concurrent.TimeUnit.DAYS;
+import freenet.clients.http.FProxyFetchInProgress.REFILTER_POLICY;
+import freenet.clients.http.annotation.AllowData;
+import freenet.clients.http.bookmark.BookmarkManager;
+import freenet.l10n.NodeL10n;
+import freenet.node.useralerts.UserAlertManager;
+import freenet.support.*;
+import freenet.support.Logger.LogLevel;
+import freenet.support.api.Bucket;
+import freenet.support.api.BucketFactory;
+import freenet.support.api.HTTPRequest;
+import freenet.support.io.BucketTools;
+import freenet.support.io.FileUtil;
+import freenet.support.io.LineReadingInputStream;
+import freenet.support.io.TooLongException;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -17,32 +25,9 @@ import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
-import freenet.clients.http.FProxyFetchInProgress.REFILTER_POLICY;
-import freenet.clients.http.annotation.AllowData;
-import freenet.clients.http.bookmark.BookmarkManager;
-import freenet.l10n.NodeL10n;
-import freenet.node.useralerts.UserAlertManager;
-import freenet.support.HTMLEncoder;
-import freenet.support.HTMLNode;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.Logger.LogLevel;
-import freenet.support.MultiValueTable;
-import freenet.support.TimeUtil;
-import freenet.support.URIPreEncoder;
-import freenet.support.api.Bucket;
-import freenet.support.api.BucketFactory;
-import freenet.support.api.HTTPRequest;
-import freenet.support.io.BucketTools;
-import freenet.support.io.FileUtil;
-import freenet.support.io.LineReadingInputStream;
-import freenet.support.io.TooLongException;
+import static java.util.concurrent.TimeUnit.DAYS;
 /**
  * ToadletContext implementation, including all the icky HTTP parsing etc.
  * An actual ToadletContext object represents a request, after we have parsed the 

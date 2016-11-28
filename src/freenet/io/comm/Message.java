@@ -19,6 +19,9 @@
 
 package freenet.io.comm;
 
+import freenet.support.*;
+import freenet.support.Logger.LogLevel;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -28,14 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-import freenet.support.ByteBufferInputStream;
-import freenet.support.Fields;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.Serializer;
-import freenet.support.ShortBuffer;
-import freenet.support.Logger.LogLevel;
 
 /**
  * A Message which can be read from and written to a DatagramPacket.

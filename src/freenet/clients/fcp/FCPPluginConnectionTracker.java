@@ -3,6 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
+import freenet.clients.fcp.FCPPluginConnection.SendDirection;
+import freenet.pluginmanager.FredPluginFCPMessageHandler.ClientSideFCPMessageHandler;
+import freenet.pluginmanager.FredPluginFCPMessageHandler.ServerSideFCPMessageHandler;
+import freenet.pluginmanager.PluginRespirator;
+import freenet.support.Logger;
+import freenet.support.io.NativeThread;
+
 import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
@@ -11,13 +18,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import freenet.clients.fcp.FCPPluginConnection.SendDirection;
-import freenet.pluginmanager.FredPluginFCPMessageHandler.ClientSideFCPMessageHandler;
-import freenet.pluginmanager.FredPluginFCPMessageHandler.ServerSideFCPMessageHandler;
-import freenet.pluginmanager.PluginRespirator;
-import freenet.support.Logger;
-import freenet.support.io.NativeThread;
 
 /**
  * Keeps a list of all {@link FCPPluginConnectionImpl}s which are connected to server plugins

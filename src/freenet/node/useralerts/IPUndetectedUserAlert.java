@@ -3,13 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node.useralerts;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
 import freenet.config.Option;
 import freenet.config.SubConfig;
 import freenet.l10n.NodeL10n;
 import freenet.node.Node;
 import freenet.support.HTMLNode;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 public class IPUndetectedUserAlert extends AbstractUserAlert {
 	

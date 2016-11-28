@@ -1,10 +1,10 @@
 package freenet.support.io;
 
+import freenet.support.api.RandomAccessBuffer;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-
-import freenet.support.api.RandomAccessBuffer;
 
 public class RAFInputStream extends InputStream {
     

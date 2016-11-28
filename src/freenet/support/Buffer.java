@@ -19,12 +19,12 @@
 
 package freenet.support;
 
+import freenet.io.WritableToDataOutputStream;
+
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
-
-import freenet.io.WritableToDataOutputStream;
 
 /**
  * Wrapper for a byte array which handles serialisation/deserialisation

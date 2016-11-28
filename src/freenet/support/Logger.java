@@ -1,21 +1,14 @@
 package freenet.support;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import freenet.support.FileLoggerHook.IntervalParseException;
+import freenet.support.LoggerHook.InvalidThresholdException;
+import freenet.support.io.Closer;
+
+import java.io.*;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.regex.PatternSyntaxException;
-
-import freenet.support.FileLoggerHook.IntervalParseException;
-import freenet.support.LoggerHook.InvalidThresholdException;
-import freenet.support.io.Closer;
 
 /**
  * @author Iakin

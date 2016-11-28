@@ -15,12 +15,12 @@
  */
 package freenet.io;
 
-import java.net.UnknownHostException;
-
 import freenet.io.comm.Peer;
 import freenet.io.comm.PeerParseException;
 import freenet.node.FSParseException;
 import freenet.support.SimpleFieldSet;
+
+import java.net.UnknownHostException;
 
 public class PeerAddressTrackerItem extends AddressTrackerItem {
 	

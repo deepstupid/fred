@@ -3,25 +3,17 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import freenet.crypt.DSAPublicKey;
 import freenet.crypt.SHA256;
-import freenet.io.comm.AsyncMessageCallback;
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageFilter;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.PeerContext;
-import freenet.io.comm.SlowAsyncMessageFilterCallback;
+import freenet.io.comm.*;
 import freenet.keys.NodeSSK;
 import freenet.keys.SSKBlock;
 import freenet.keys.SSKVerifyException;
 import freenet.support.Logger;
 import freenet.support.ShortBuffer;
 import freenet.support.io.NativeThread;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * SSKs require separate logic for inserts and requests, for various reasons:

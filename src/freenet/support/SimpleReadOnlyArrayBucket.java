@@ -1,17 +1,13 @@
 package freenet.support;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Arrays;
-
 import freenet.client.async.ClientContext;
 import freenet.support.api.Bucket;
 import freenet.support.api.LockableRandomAccessBuffer;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.io.ByteArrayRandomAccessBuffer;
+
+import java.io.*;
+import java.util.Arrays;
 
 /**
  * Simple read-only array bucket. Just an adapter class to save some RAM.

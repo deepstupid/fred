@@ -1,8 +1,8 @@
 package org.spaceroots.mantissa.utilities;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 /** This class represents an intervals list.
  * <p>An interval list represent a list of contiguous regions on the

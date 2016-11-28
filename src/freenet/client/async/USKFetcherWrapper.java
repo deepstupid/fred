@@ -3,8 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.util.List;
-
 import freenet.client.ClientMetadata;
 import freenet.client.FetchException;
 import freenet.client.InsertContext.CompatibilityMode;
@@ -14,6 +12,8 @@ import freenet.keys.USK;
 import freenet.node.RequestClient;
 import freenet.support.compress.Compressor;
 import freenet.support.io.ResumeFailedException;
+
+import java.util.List;
 
 /**
  * Wrapper for a backgrounded USKFetcher.

@@ -4,13 +4,14 @@ import freenet.io.comm.PeerParseException;
 import freenet.io.comm.ReferenceSignatureVerificationException;
 import freenet.node.OpennetManager.ConnectionType;
 import freenet.node.OpennetManager.LinkLengthClass;
-//import freenet.node.updater.NodeUpdateManager;
-//import freenet.node.updater.UpdateOverMandatoryManager;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
+//import freenet.node.updater.NodeUpdateManager;
+//import freenet.node.updater.UpdateOverMandatoryManager;
 
 public class OpennetPeerNode extends PeerNode {
 

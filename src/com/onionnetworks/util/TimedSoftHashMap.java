@@ -1,7 +1,8 @@
 package com.onionnetworks.util;
 
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
 import java.util.*;
-import java.lang.ref.*;
 
 public class TimedSoftHashMap extends HashMap {
 

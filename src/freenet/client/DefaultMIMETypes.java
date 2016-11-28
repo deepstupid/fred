@@ -5,12 +5,12 @@
  * which is public information and public domain software. */
 package freenet.client;
 
+import freenet.support.Logger;
+import freenet.support.MediaType;
+
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.regex.Pattern;
-
-import freenet.support.Logger;
-import freenet.support.MediaType;
 
 /**
  * Holds the default MIME types.

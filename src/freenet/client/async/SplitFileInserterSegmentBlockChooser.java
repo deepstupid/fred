@@ -1,13 +1,13 @@
 package freenet.client.async;
 
+import freenet.client.async.SplitFileInserterSegmentStorage.BlockInsert;
+import freenet.node.KeysFetchingLocally;
+import freenet.support.io.StorageFormatException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Random;
-
-import freenet.client.async.SplitFileInserterSegmentStorage.BlockInsert;
-import freenet.node.KeysFetchingLocally;
-import freenet.support.io.StorageFormatException;
 
 /** Tracks retry count and completion status for blocks in an insert segment. */
 public class SplitFileInserterSegmentBlockChooser extends SimpleBlockChooser {

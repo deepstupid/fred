@@ -1,30 +1,15 @@
 package freenet.node;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.util.Arrays;
-import java.util.Random;
-
-import freenet.crypt.BlockCipher;
-import freenet.crypt.MasterSecret;
-import freenet.crypt.PCFBMode;
-import freenet.crypt.RandomSource;
-import freenet.crypt.SHA256;
-import freenet.crypt.UnsupportedCipherException;
+import freenet.crypt.*;
 import freenet.crypt.ciphers.Rijndael;
 import freenet.support.Fields;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
+
+import java.io.*;
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.Random;
 
 /** Keys read from the master keys file */
 public class MasterKeys {

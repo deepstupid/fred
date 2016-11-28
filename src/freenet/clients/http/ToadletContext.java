@@ -1,10 +1,5 @@
 package freenet.clients.http;
 
-import java.io.IOException;
-import java.net.URI;
-import java.text.ParseException;
-import java.util.Date;
-
 import freenet.clients.http.FProxyFetchInProgress.REFILTER_POLICY;
 import freenet.clients.http.bookmark.BookmarkManager;
 import freenet.node.useralerts.UserAlertManager;
@@ -13,6 +8,11 @@ import freenet.support.MultiValueTable;
 import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
 import freenet.support.api.HTTPRequest;
+
+import java.io.IOException;
+import java.net.URI;
+import java.text.ParseException;
+import java.util.Date;
 
 /**
  * Object represents context for a single request. Is used as a token,

@@ -1,7 +1,7 @@
 package org.spaceroots.mantissa.quadrature.vectorial;
 
-import org.spaceroots.mantissa.functions.FunctionException;
 import org.spaceroots.mantissa.functions.ExhaustedSampleException;
+import org.spaceroots.mantissa.functions.FunctionException;
 import org.spaceroots.mantissa.functions.vectorial.SampledFunctionIterator;
 
 /** This class implements an enhanced Simpson-like integrator.

@@ -3,14 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.io.comm;
 
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
+
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import freenet.support.Logger;
-import freenet.support.Logger.LogLevel;
 
 public class IOStatisticCollector {
 	public static final int STATISTICS_ENTRIES = 10;

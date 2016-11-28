@@ -1,8 +1,8 @@
 package freenet.clients.http.wizardsteps;
 
-import javax.naming.OperationNotSupportedException;
-
 import freenet.l10n.NodeL10n;
+
+import javax.naming.OperationNotSupportedException;
 
 /**
  * A static utility class for performing l10n from wizard steps.

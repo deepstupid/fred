@@ -1,17 +1,5 @@
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-
-import java.net.InetAddress;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import freenet.clients.http.ConnectivityToadlet;
 import freenet.clients.http.ExternalLinkToadlet;
 import freenet.io.AddressTracker;
@@ -23,17 +11,17 @@ import freenet.node.useralerts.AbstractUserAlert;
 import freenet.node.useralerts.ProxyUserAlert;
 import freenet.node.useralerts.SimpleUserAlert;
 import freenet.node.useralerts.UserAlert;
-import freenet.pluginmanager.DetectedIP;
-import freenet.pluginmanager.ForwardPort;
-import freenet.pluginmanager.ForwardPortCallback;
-import freenet.pluginmanager.ForwardPortStatus;
-import freenet.pluginmanager.FredPlugin;
-import freenet.pluginmanager.FredPluginIPDetector;
-import freenet.pluginmanager.FredPluginPortForward;
+import freenet.pluginmanager.*;
 import freenet.support.HTMLEncoder;
 import freenet.support.HTMLNode;
 import freenet.support.Logger;
 import freenet.support.transport.ip.IPUtil;
+
+import java.net.InetAddress;
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
  * Tracks all known IP address detection plugins, and runs them when appropriate.

@@ -3,26 +3,9 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
-import java.util.Date;
-import java.util.HashMap;
-
-import freenet.client.DefaultMIMETypes;
-import freenet.client.FetchException;
-import freenet.client.FetchResult;
-import freenet.client.InsertContext;
-import freenet.client.InsertException;
+import freenet.client.*;
 import freenet.client.InsertException.InsertExceptionMode;
-import freenet.client.async.BaseClientPutter;
-import freenet.client.async.ClientContext;
-import freenet.client.async.ClientGetter;
-import freenet.client.async.ClientRequester;
-import freenet.client.async.ContainerInserter;
-import freenet.client.async.DefaultManifestPutter;
-import freenet.client.async.ManifestPutter;
-import freenet.client.async.TooManyFilesInsertException;
+import freenet.client.async.*;
 import freenet.clients.fcp.RequestIdentifier.RequestType;
 import freenet.keys.FreenetURI;
 import freenet.node.NodeClientCore;
@@ -33,6 +16,12 @@ import freenet.support.Logger.LogLevel;
 import freenet.support.api.ManifestElement;
 import freenet.support.io.FileBucket;
 import freenet.support.io.ResumeFailedException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.util.Date;
+import java.util.HashMap;
 
 public class ClientPutDir extends ClientPutBase {
 

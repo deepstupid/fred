@@ -1,36 +1,10 @@
 package freenet.client.async;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
-import freenet.client.ClientMetadata;
-import freenet.client.FailureCodeTracker;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
 import freenet.client.InsertContext.CompatibilityMode;
-import freenet.client.Metadata;
 import freenet.client.Metadata.SplitfileAlgorithm;
-import freenet.client.MetadataParseException;
-import freenet.client.MetadataUnresolvedException;
-import freenet.client.FECCodec;
-import freenet.crypt.ChecksumChecker;
-import freenet.crypt.ChecksumFailedException;
-import freenet.crypt.HashType;
-import freenet.crypt.MultiHashOutputStream;
-import freenet.crypt.RandomSource;
+import freenet.crypt.*;
 import freenet.keys.CHKBlock;
 import freenet.keys.ClientKey;
 import freenet.keys.FreenetURI;
@@ -45,15 +19,18 @@ import freenet.support.Ticker;
 import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
 import freenet.support.api.LockableRandomAccessBuffer;
-import freenet.support.api.LockableRandomAccessBufferFactory;
 import freenet.support.api.LockableRandomAccessBuffer.RAFLock;
+import freenet.support.api.LockableRandomAccessBufferFactory;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
-import freenet.support.io.ArrayBucketFactory;
-import freenet.support.io.BucketTools;
-import freenet.support.io.FileRandomAccessBufferFactory;
-import freenet.support.io.NativeThread;
-import freenet.support.io.StorageFormatException;
+import freenet.support.io.*;
 import freenet.support.math.MersenneTwister;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /** <p>Stores the state for a SplitFileFetcher, persisted to a LockableRandomAccessBuffer (i.e. a 
  * single random access file), but with most of the metadata in memory. The data, and the larger

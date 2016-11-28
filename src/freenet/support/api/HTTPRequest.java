@@ -3,10 +3,9 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.api;
 
+import javax.naming.SizeLimitExceededException;
 import java.util.Collection;
 import java.util.NoSuchElementException;
-
-import javax.naming.SizeLimitExceededException;
 
 
 /** A parsed HTTP request (GET or POST). Request parameters are parameters

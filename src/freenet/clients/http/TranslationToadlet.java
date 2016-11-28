@@ -3,10 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.l10n.BaseL10n;
 import freenet.l10n.NodeL10n;
@@ -20,6 +16,10 @@ import freenet.support.SimpleFieldSet;
 import freenet.support.SimpleFieldSet.KeyIterator;
 import freenet.support.api.HTTPRequest;
 import freenet.support.io.BucketTools;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
 
 /**
  * A toadlet dedicated to translations ... and easing the work of translators

@@ -1,9 +1,5 @@
 package freenet.clients.fcp;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import freenet.client.ClientMetadata;
 import freenet.client.FetchException.FetchExceptionMode;
 import freenet.client.InsertContext;
@@ -16,6 +12,10 @@ import freenet.support.Logger;
 import freenet.support.MultiValueTable;
 import freenet.support.api.Bucket;
 import freenet.support.io.NoFreeBucket;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /** Per-PersistentRequestClient cache of status of requests. */
 public class RequestStatusCache {

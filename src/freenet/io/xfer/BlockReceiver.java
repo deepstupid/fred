@@ -18,30 +18,15 @@
  */
 package freenet.io.xfer;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import freenet.io.comm.AsyncMessageFilterCallback;
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageCore;
-import freenet.io.comm.MessageFilter;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.PeerContext;
-import freenet.io.comm.RetrievalException;
-import freenet.io.comm.SlowAsyncMessageFilterCallback;
+import freenet.io.comm.*;
 import freenet.node.PeerNode;
 import freenet.node.SyncSendWaitedTooLongException;
-import freenet.support.BitArray;
-import freenet.support.Buffer;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.Ticker;
-import freenet.support.TimeUtil;
 import freenet.support.io.NativeThread;
 import freenet.support.math.MedianMeanRunningAverage;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * IMPORTANT: The receiver can cancel the incoming transfer. This may or may not, 

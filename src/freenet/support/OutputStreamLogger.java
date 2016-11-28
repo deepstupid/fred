@@ -1,9 +1,9 @@
 package freenet.support;
 
+import freenet.support.Logger.LogLevel;
+
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-
-import freenet.support.Logger.LogLevel;
 
 public class OutputStreamLogger extends OutputStream {
 

@@ -3,8 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import java.net.UnknownHostException;
-
 import freenet.config.InvalidConfigValueException;
 import freenet.config.NodeNeedRestartException;
 import freenet.config.SubConfig;
@@ -14,6 +12,8 @@ import freenet.support.Logger;
 import freenet.support.api.BooleanCallback;
 import freenet.support.api.IntCallback;
 import freenet.support.api.StringCallback;
+
+import java.net.UnknownHostException;
 
 /**
  * Tracks config parameters related to a NodeCrypto. The NodeCrypto may or may not exist. If it exists,

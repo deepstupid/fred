@@ -5,13 +5,6 @@
  */
 package freenet.support.io;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
-
 import freenet.client.async.ClientContext;
 import freenet.crypt.MasterSecret;
 import freenet.support.LogThresholdCallback;
@@ -19,6 +12,8 @@ import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.api.RandomAccessBucket;
+
+import java.io.*;
 
 public class DelayedFreeBucket implements Bucket, Serializable, DelayedFree {
 

@@ -85,7 +85,7 @@ public abstract class FilteringIterator implements Iterator {
     /** Test and example. */
     public static void main(String[] args) {
 	java.util.List l = new java.util.LinkedList(java.util.Arrays.asList
-	    (new String[] {"a",null,"was",null})); // the test array
+	    ("a",null,"was",null)); // the test array
 	Iterator i = l.iterator();
 	Iterator f = new FilteringIterator(i) {
 	    public boolean accept(Object o) {

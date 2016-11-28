@@ -1,10 +1,10 @@
 package freenet.clients.http.bookmark;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import freenet.node.FSParseException;
 import freenet.support.SimpleFieldSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookmarkCategory extends Bookmark {
     public static final String NAME = "BookmarkCategory";

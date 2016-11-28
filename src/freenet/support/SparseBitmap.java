@@ -1,11 +1,6 @@
 package freenet.support;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NavigableSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class SparseBitmap implements Iterable<int[]> {
 	// Ranges ordered by start time. Invariant: ranges do not overlap and do not touch.

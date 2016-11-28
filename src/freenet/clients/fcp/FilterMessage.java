@@ -1,18 +1,11 @@
 package freenet.clients.fcp;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import freenet.client.DefaultMIMETypes;
 import freenet.client.async.ClientContext;
 import freenet.client.filter.ContentFilter;
+import freenet.client.filter.ContentFilter.FilterStatus;
 import freenet.client.filter.FilterOperation;
 import freenet.client.filter.UnsafeContentTypeException;
-import freenet.client.filter.ContentFilter.FilterStatus;
 import freenet.node.FSParseException;
 import freenet.node.Node;
 import freenet.support.Logger;
@@ -21,6 +14,13 @@ import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
 import freenet.support.io.Closer;
 import freenet.support.io.FileBucket;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Message for testing the content filter on a file.  Server will respond with a FilterResultMessage.

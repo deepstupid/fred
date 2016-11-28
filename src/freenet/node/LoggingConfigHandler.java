@@ -3,20 +3,8 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import freenet.config.EnumerableOptionCallback;
-import freenet.config.InvalidConfigValueException;
-import freenet.config.NodeNeedRestartException;
-import freenet.config.OptionFormatException;
-import freenet.config.SubConfig;
-import freenet.support.Executor;
-import freenet.support.FileLoggerHook;
-import freenet.support.Logger;
-import freenet.support.LoggerHook;
-import freenet.support.LoggerHookChain;
+import freenet.config.*;
+import freenet.support.*;
 import freenet.support.FileLoggerHook.IntervalParseException;
 import freenet.support.Logger.LogLevel;
 import freenet.support.LoggerHook.InvalidThresholdException;
@@ -24,6 +12,10 @@ import freenet.support.api.BooleanCallback;
 import freenet.support.api.IntCallback;
 import freenet.support.api.LongCallback;
 import freenet.support.api.StringCallback;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class LoggingConfigHandler {
 	private static class PriorityCallback extends StringCallback implements EnumerableOptionCallback {

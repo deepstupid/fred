@@ -1,7 +1,7 @@
 package com.onionnetworks.util;
 
 import java.io.*;
-import java.util.*;
+import java.util.Properties;
 
 /**
  * @author Justin F. Chapweske

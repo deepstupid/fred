@@ -3,12 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
-import java.util.HashMap;
-
 import freenet.client.filter.DataFilterException;
 import freenet.keys.FreenetURI;
 import freenet.l10n.NodeL10n;
 import freenet.support.Logger;
+
+import java.util.HashMap;
 
 /**
  * Thrown when a high-level request (fetch) fails. Indicates why, whether it is worth retrying, and may give a 

@@ -3,9 +3,9 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.filter;
 
-import java.net.URI;
-
 import freenet.keys.FreenetURI;
+
+import java.net.URI;
 
 public interface FoundURICallback {
 

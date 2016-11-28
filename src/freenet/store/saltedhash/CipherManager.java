@@ -3,12 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.store.saltedhash;
 
-import java.security.MessageDigest;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
-
 import freenet.crypt.BlockCipher;
 import freenet.crypt.PCFBMode;
 import freenet.crypt.SHA256;
@@ -17,6 +11,12 @@ import freenet.crypt.ciphers.Rijndael;
 import freenet.node.MasterKeys;
 import freenet.support.ByteArrayWrapper;
 import freenet.support.Logger;
+
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Cipher Manager

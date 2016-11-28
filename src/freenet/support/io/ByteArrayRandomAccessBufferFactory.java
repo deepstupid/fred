@@ -1,10 +1,10 @@
 package freenet.support.io;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 import freenet.support.api.LockableRandomAccessBuffer;
 import freenet.support.api.LockableRandomAccessBufferFactory;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 public class ByteArrayRandomAccessBufferFactory implements LockableRandomAccessBufferFactory {
 

@@ -1,8 +1,5 @@
 package freenet.client.async;
 
-import java.io.IOException;
-import java.io.Serializable;
-
 import freenet.client.ArchiveManager.ARCHIVE_TYPE;
 import freenet.client.ClientMetadata;
 import freenet.client.InsertContext;
@@ -13,12 +10,14 @@ import freenet.client.async.SplitFileInserterSegmentStorage.MissingKeyException;
 import freenet.crypt.CRCChecksumChecker;
 import freenet.crypt.ChecksumFailedException;
 import freenet.crypt.HashResult;
-import freenet.node.SendableInsert;
 import freenet.support.Logger;
 import freenet.support.api.LockableRandomAccessBuffer;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
 import freenet.support.io.ResumeFailedException;
 import freenet.support.io.StorageFormatException;
+
+import java.io.IOException;
+import java.io.Serializable;
 
 /** Top level class for a splitfile insert. Note that Storage is not persistent, it will be 
  * recreated here on resume, like in splitfile fetches. The actual status is stored in a RAF.

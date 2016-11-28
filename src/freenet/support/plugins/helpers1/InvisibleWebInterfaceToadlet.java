@@ -3,14 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.plugins.helpers1;
 
-import java.io.IOException;
-import java.net.URI;
-
 import freenet.clients.http.RedirectException;
 import freenet.clients.http.Toadlet;
 import freenet.clients.http.ToadletContext;
 import freenet.clients.http.ToadletContextClosedException;
 import freenet.support.api.HTTPRequest;
+
+import java.io.IOException;
+import java.net.URI;
 
 public class InvisibleWebInterfaceToadlet extends WebInterfaceToadlet {
 

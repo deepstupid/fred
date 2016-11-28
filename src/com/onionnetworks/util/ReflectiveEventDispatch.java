@@ -1,7 +1,7 @@
 package com.onionnetworks.util;
 
-import java.util.*;
 import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * @author Justin Chapweske

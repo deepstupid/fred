@@ -3,15 +3,7 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.io;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-
 import freenet.crypt.EncryptedRandomAccessBucket;
-import freenet.crypt.EncryptedRandomAccessBufferType;
 import freenet.crypt.MasterSecret;
 import freenet.crypt.RandomSource;
 import freenet.keys.CHKBlock;
@@ -20,6 +12,13 @@ import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.BucketFactory;
 import freenet.support.api.RandomAccessBucket;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 
 /**
  * Handles persistent temp files. These are used for e.g. persistent downloads. These are 

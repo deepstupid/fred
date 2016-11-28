@@ -1,10 +1,10 @@
 package freenet.client.async;
 
+import freenet.support.api.Bucket;
+
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import freenet.support.api.Bucket;
 
 public class ReadBucketAndFreeInputStream extends FilterInputStream {
     

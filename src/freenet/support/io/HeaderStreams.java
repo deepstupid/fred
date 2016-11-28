@@ -3,11 +3,7 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.io;
 
-import java.io.InputStream;
-import java.io.FilterInputStream;
-import java.io.OutputStream;
-import java.io.FilterOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
 ** Utilities for manipulating headers on streams.

@@ -1,12 +1,12 @@
 package freenet.clients.http.updateableelements;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import freenet.clients.http.SimpleToadletServer;
 import freenet.clients.http.ToadletContext;
 import freenet.support.Base64;
 import freenet.support.HTMLNode;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /** A pushed element that counts up every second. Only for testing purposes. */
 public class TesterElement extends BaseUpdateableElement {

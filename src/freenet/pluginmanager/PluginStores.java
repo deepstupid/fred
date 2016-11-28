@@ -1,11 +1,5 @@
 package freenet.pluginmanager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import freenet.config.SubConfig;
 import freenet.crypt.AEADCryptBucket;
 import freenet.node.FSParseException;
@@ -18,6 +12,8 @@ import freenet.support.api.Bucket;
 import freenet.support.io.FileBucket;
 import freenet.support.io.FileUtil;
 import freenet.support.io.PaddedBucket;
+
+import java.io.*;
 
 public class PluginStores {
     

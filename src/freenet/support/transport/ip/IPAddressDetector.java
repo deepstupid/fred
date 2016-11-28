@@ -1,22 +1,18 @@
 /* -*- Mode: java; c-basic-indent: 4; tab-width: 4 -*- */
 package freenet.support.transport.ip;
 
-import java.net.DatagramSocket;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.List;
-
 import freenet.io.AddressIdentifier;
 import freenet.node.NodeIPDetector;
 import freenet.support.Executor;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.io.InetAddressComparator;
+
+import java.net.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * A class to autodetect our IP address(es)

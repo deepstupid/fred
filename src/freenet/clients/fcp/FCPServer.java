@@ -3,28 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import java.util.WeakHashMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-////import org.tanukisoftware.wrapper.WrapperManager;
-
 import freenet.client.ClientMetadata;
 import freenet.client.DefaultMIMETypes;
 import freenet.client.FetchContext;
 import freenet.client.FetchResult;
-import freenet.client.async.CacheFetchResult;
-import freenet.client.async.ClientContext;
-import freenet.client.async.DownloadCache;
-import freenet.client.async.PersistenceDisabledException;
-import freenet.client.async.PersistentJob;
+import freenet.client.async.*;
 import freenet.clients.fcp.ClientGet.ReturnType;
 import freenet.clients.fcp.ClientRequest.Persistence;
 import freenet.clients.fcp.FCPPluginConnection.SendDirection;
@@ -54,6 +37,15 @@ import freenet.support.api.StringCallback;
 import freenet.support.io.BucketTools;
 import freenet.support.io.NativeThread;
 import freenet.support.io.NoFreeBucket;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+////import org.tanukisoftware.wrapper.WrapperManager;
 
 /**
  * FCP server process.

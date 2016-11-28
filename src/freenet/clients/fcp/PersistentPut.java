@@ -3,8 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.File;
-
 import freenet.client.InsertContext;
 import freenet.clients.fcp.ClientPutBase.UploadFrom;
 import freenet.clients.fcp.ClientRequest.Persistence;
@@ -12,6 +10,8 @@ import freenet.keys.FreenetURI;
 import freenet.node.Node;
 import freenet.support.HexUtil;
 import freenet.support.SimpleFieldSet;
+
+import java.io.File;
 
 public class PersistentPut extends FCPMessage {
 

@@ -1,23 +1,12 @@
 package freenet.crypt;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.util.Arrays;
-
 import freenet.client.async.ClientContext;
 import freenet.node.NodeStarter;
 import freenet.support.api.Bucket;
-import freenet.support.io.BucketTools;
-import freenet.support.io.FilenameGenerator;
-import freenet.support.io.PersistentFileTracker;
-import freenet.support.io.ResumeFailedException;
-import freenet.support.io.StorageFormatException;
+import freenet.support.io.*;
+
+import java.io.*;
+import java.util.Arrays;
 
 /** Encrypted and authenticated Bucket implementation using AES cipher and OCB mode. Warning: 
  * Avoid using Closer.close() on InputStream's opened on this Bucket. The MAC is only checked when 

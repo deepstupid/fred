@@ -3,19 +3,18 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
-import org.bouncycastle.crypto.params.DSAPublicKeyParameters;
-import org.bouncycastle.crypto.signers.DSASigner;
-
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.util.Arrays;
-
 import freenet.crypt.DSAPublicKey;
 import freenet.crypt.Global;
 import freenet.crypt.SHA256;
 import freenet.support.Fields;
 import freenet.support.HexUtil;
 import freenet.support.Logger;
+import org.bouncycastle.crypto.params.DSAPublicKeyParameters;
+import org.bouncycastle.crypto.signers.DSASigner;
+
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.util.Arrays;
 
 /**
  * SSKBlock. Contains a full fetched key. Can do a node-level verification. Can 

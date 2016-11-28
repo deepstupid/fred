@@ -3,16 +3,8 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.pluginmanager;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.FetchResult;
-import freenet.client.FetchWaiter;
-import freenet.client.HighLevelSimpleClient;
 import freenet.client.async.ClientContext;
 import freenet.client.async.ClientGetter;
 import freenet.client.async.PersistenceDisabledException;
@@ -23,6 +15,10 @@ import freenet.keys.FreenetURI;
 import freenet.node.Node;
 import freenet.pluginmanager.PluginManager.PluginProgress;
 import freenet.support.Logger;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 
 public class PluginDownLoaderFreenet extends PluginDownLoader<FreenetURI> {
 	final HighLevelSimpleClient hlsc;

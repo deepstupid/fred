@@ -2,13 +2,14 @@
  * Public License, version 2 (or at your option any later version). See
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.api;
+
+import freenet.client.async.ClientContext;
+import freenet.support.io.ResumeFailedException;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import freenet.client.async.ClientContext;
-import freenet.support.io.ResumeFailedException;
 /**
  * A bucket is any arbitrary object can temporarily store data. In other 
  * words, it is the equivalent of a temporary file, but it could be in RAM,

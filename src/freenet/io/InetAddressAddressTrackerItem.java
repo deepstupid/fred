@@ -15,11 +15,11 @@
  */
 package freenet.io;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import freenet.node.FSParseException;
 import freenet.support.SimpleFieldSet;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class InetAddressAddressTrackerItem extends AddressTrackerItem {
 

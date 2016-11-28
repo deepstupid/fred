@@ -3,16 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.io;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-
 import freenet.client.async.ClientContext;
 import freenet.support.Logger;
 import freenet.support.api.Bucket;
 import freenet.support.api.RandomAccessBucket;
+
+import java.io.*;
 
 /**
  * A file Bucket is an implementation of Bucket that writes to a file.

@@ -3,17 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.io.xfer;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageFilter;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.PeerContext;
-import freenet.io.comm.RetrievalException;
+import freenet.io.comm.*;
 import freenet.support.ShortBuffer;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Bulk (not block) data transfer - receiver class. Bulk transfer is designed for largish files, much

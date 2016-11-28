@@ -1,11 +1,11 @@
 package freenet.support.io;
 
+import freenet.support.api.LockableRandomAccessBuffer;
+import freenet.support.api.LockableRandomAccessBufferFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-
-import freenet.support.api.LockableRandomAccessBuffer;
-import freenet.support.api.LockableRandomAccessBufferFactory;
 
 /** Creates temporary RAFs using a FilenameGenerator. */
 public class PooledFileRandomAccessBufferFactory implements LockableRandomAccessBufferFactory {

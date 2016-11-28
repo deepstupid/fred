@@ -3,19 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 
 package freenet.client.filter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import freenet.support.Fields;
 import freenet.support.Logger;
@@ -23,10 +10,10 @@ import freenet.support.api.Bucket;
 import freenet.support.io.Closer;
 import freenet.support.io.FileBucket;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URI;
+import java.nio.charset.Charset;
+import java.util.*;
 
 /** Comprehensive CSS2.1 filter. The old jflex-based filter was very far
  * from comprehensive.

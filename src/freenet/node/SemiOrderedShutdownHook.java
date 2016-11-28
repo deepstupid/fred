@@ -1,8 +1,8 @@
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import java.util.ArrayList;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class SemiOrderedShutdownHook extends Thread {
 

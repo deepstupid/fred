@@ -1,14 +1,10 @@
 package freenet.client.async;
 
+import freenet.keys.*;
+import freenet.support.Logger;
+
 import java.util.HashMap;
 import java.util.Set;
-
-import freenet.keys.ClientKey;
-import freenet.keys.ClientKeyBlock;
-import freenet.keys.Key;
-import freenet.keys.KeyBlock;
-import freenet.keys.KeyVerifyException;
-import freenet.support.Logger;
 
 /** 
  * Simple BlockSet implementation, keeps all keys in RAM.

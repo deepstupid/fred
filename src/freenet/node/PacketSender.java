@@ -3,13 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.util.ArrayList;
-
 import freenet.l10n.NodeL10n;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
@@ -17,6 +10,10 @@ import freenet.support.Logger.LogLevel;
 import freenet.support.TimeUtil;
 import freenet.support.io.NativeThread;
 import freenet.support.math.MersenneTwister;
+
+import java.util.ArrayList;
+
+import static java.util.concurrent.TimeUnit.*;
 
 /**
  * @author amphibian

@@ -1,8 +1,9 @@
 package org.spaceroots.mantissa.quadrature.scalar;
 
-import org.spaceroots.mantissa.functions.scalar.*;
-import org.spaceroots.mantissa.functions.FunctionException;
 import org.spaceroots.mantissa.functions.ExhaustedSampleException;
+import org.spaceroots.mantissa.functions.FunctionException;
+import org.spaceroots.mantissa.functions.scalar.SampledFunctionIterator;
+import org.spaceroots.mantissa.functions.scalar.ScalarValuedPair;
 
 /** This class implements a trapezoid integrator as a sample.
 

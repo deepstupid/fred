@@ -1,57 +1,28 @@
 package freenet.node;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.zip.DeflaterOutputStream;
-import java.util.zip.InflaterInputStream;
-
 import freenet.client.DefaultMIMETypes;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.FreenetInetAddress;
-import freenet.io.comm.Message;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.Peer;
-import freenet.io.comm.PeerParseException;
-import freenet.io.comm.ReferenceSignatureVerificationException;
-import freenet.io.comm.RetrievalException;
+import freenet.io.comm.*;
 import freenet.io.xfer.BulkReceiver;
 import freenet.io.xfer.BulkTransmitter;
 import freenet.io.xfer.PartiallyReceivedBulk;
 import freenet.keys.FreenetURI;
 import freenet.l10n.NodeL10n;
-import freenet.node.useralerts.AbstractUserAlert;
-import freenet.node.useralerts.BookmarkFeedUserAlert;
-import freenet.node.useralerts.DownloadFeedUserAlert;
-import freenet.node.useralerts.N2NTMUserAlert;
-import freenet.node.useralerts.UserAlert;
-import freenet.support.Base64;
-import freenet.support.HTMLNode;
-import freenet.support.IllegalBase64Exception;
-import freenet.support.Logger;
-import freenet.support.SimpleFieldSet;
-import freenet.support.SizeUtil;
+import freenet.node.useralerts.*;
+import freenet.support.*;
 import freenet.support.api.HTTPUploadedFile;
 import freenet.support.api.RandomAccessBuffer;
 import freenet.support.io.BucketTools;
 import freenet.support.io.ByteArrayRandomAccessBuffer;
 import freenet.support.io.FileRandomAccessBuffer;
 import freenet.support.io.FileUtil;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterInputStream;
 
 import static java.util.concurrent.TimeUnit.DAYS;
 

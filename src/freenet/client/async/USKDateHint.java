@@ -1,14 +1,14 @@
 package freenet.client.async;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
-
 import freenet.keys.ClientSSK;
 import freenet.keys.FreenetURI;
 import freenet.keys.InsertableUSK;
 import freenet.keys.USK;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /** Utility class for date-based edition hints */
 public class USKDateHint {

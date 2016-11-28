@@ -1,7 +1,5 @@
 package org.spaceroots.mantissa.ode;
 
-import org.spaceroots.mantissa.ode.DerivativeException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 

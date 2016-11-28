@@ -3,26 +3,22 @@
  */
 package freenet.node;
 
-import java.io.UnsupportedEncodingException;
-import java.net.UnknownHostException;
-
 import freenet.client.InsertContext;
 import freenet.client.InsertException;
-import freenet.client.async.BaseClientPutter;
-import freenet.client.async.ClientContext;
-import freenet.client.async.ClientPutCallback;
-import freenet.client.async.ClientPutter;
-import freenet.client.async.PersistenceDisabledException;
+import freenet.client.async.*;
 import freenet.io.comm.Peer;
 import freenet.io.comm.PeerParseException;
 import freenet.keys.FreenetURI;
 import freenet.keys.InsertableClientSSK;
 import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
 import freenet.support.SimpleFieldSet;
 import freenet.support.SimpleReadOnlyArrayBucket;
-import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.api.RandomAccessBucket;
+
+import java.io.UnsupportedEncodingException;
+import java.net.UnknownHostException;
 
 public class NodeARKInserter implements ClientPutCallback, RequestClient {
 

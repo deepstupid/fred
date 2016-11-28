@@ -1,9 +1,9 @@
 package freenet.support.io;
 
+import freenet.support.Fields;
+
 import java.net.InetAddress;
 import java.util.Comparator;
-
-import freenet.support.Fields;
 
 /** Fast non-lexical Comparator for IP addresses for cases where an 
  * attacker might forge IP addresses to try to exhaust a hashtable, so we 

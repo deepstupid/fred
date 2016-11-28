@@ -3,13 +3,7 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.util.Random;
-
-import freenet.client.ArchiveManager;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
-import freenet.client.InsertContext;
-import freenet.client.InsertException;
+import freenet.client.*;
 import freenet.client.events.SimpleEventProducer;
 import freenet.client.filter.LinkFilterExceptionProvider;
 import freenet.clients.fcp.PersistentRequestRoot;
@@ -26,13 +20,9 @@ import freenet.support.Ticker;
 import freenet.support.api.BucketFactory;
 import freenet.support.api.LockableRandomAccessBufferFactory;
 import freenet.support.compress.RealCompressor;
-import freenet.support.io.DiskSpaceCheckingRandomAccessBufferFactory;
-import freenet.support.io.FileRandomAccessBufferFactory;
-import freenet.support.io.FilenameGenerator;
-import freenet.support.io.NativeThread;
-import freenet.support.io.PersistentFileTracker;
-import freenet.support.io.PersistentTempBucketFactory;
-import freenet.support.io.TempBucketFactory;
+import freenet.support.io.*;
+
+import java.util.Random;
 
 /**
  * Object passed in to client-layer operations, containing references to essential but mostly transient 

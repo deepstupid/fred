@@ -1,10 +1,10 @@
 package freenet.support;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 import freenet.node.PrioRunnable;
 import freenet.support.io.NativeThread;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /** Start jobs as long as there is sufficient memory (or other limited resource) available, then 
  * queue them. FIXME I bet there is something like this in the standard libraries?

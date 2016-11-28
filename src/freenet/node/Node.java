@@ -38,7 +38,6 @@ import freenet.store.caching.CachingFreenetStoreTracker;
 import freenet.store.saltedhash.ResizablePersistentIntBuffer;
 import freenet.store.saltedhash.SaltedHashFreenetStore;
 import freenet.support.*;
-import freenet.support.Executor;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.*;
 import freenet.support.io.ArrayBucketFactory;

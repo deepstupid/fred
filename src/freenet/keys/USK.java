@@ -3,14 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
+import freenet.support.Fields;
+import freenet.support.Logger;
+
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.regex.Pattern;
-
-import freenet.support.Fields;
-import freenet.support.Logger;
 
 /**
  * Updatable Subspace Key.

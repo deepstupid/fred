@@ -1,8 +1,8 @@
 package org.spaceroots.mantissa.ode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.io.Serializable;
 
 /**
  * This class stores all information provided by an ODE integrator

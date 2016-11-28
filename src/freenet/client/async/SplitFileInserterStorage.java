@@ -1,28 +1,10 @@
 package freenet.client.async;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
 import freenet.client.ArchiveManager.ARCHIVE_TYPE;
-import freenet.client.ClientMetadata;
-import freenet.client.FECCodec;
-import freenet.client.FailureCodeTracker;
-import freenet.client.InsertContext;
-import freenet.client.InsertException.InsertExceptionMode;
-import freenet.client.Metadata;
+import freenet.client.*;
 import freenet.client.InsertContext.CompatibilityMode;
-import freenet.client.InsertException;
+import freenet.client.InsertException.InsertExceptionMode;
 import freenet.client.Metadata.SplitfileAlgorithm;
-import freenet.client.MetadataParseException;
 import freenet.client.async.SplitFileInserterSegmentStorage.BlockInsert;
 import freenet.client.async.SplitFileInserterSegmentStorage.MissingKeyException;
 import freenet.crypt.ChecksumChecker;
@@ -32,27 +14,20 @@ import freenet.crypt.MasterSecret;
 import freenet.keys.CHKBlock;
 import freenet.keys.ClientCHK;
 import freenet.node.KeysFetchingLocally;
-import freenet.support.HexUtil;
-import freenet.support.Logger;
-import freenet.support.MemoryLimitedJobRunner;
-import freenet.support.RandomArrayIterator;
-import freenet.support.Ticker;
+import freenet.support.*;
 import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
 import freenet.support.api.LockableRandomAccessBuffer;
-import freenet.support.api.LockableRandomAccessBufferFactory;
 import freenet.support.api.LockableRandomAccessBuffer.RAFLock;
+import freenet.support.api.LockableRandomAccessBufferFactory;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
-import freenet.support.io.ArrayBucket;
-import freenet.support.io.ArrayBucketFactory;
-import freenet.support.io.BucketTools;
-import freenet.support.io.FilenameGenerator;
-import freenet.support.io.PersistentFileTracker;
-import freenet.support.io.NullBucket;
-import freenet.support.io.RAFInputStream;
-import freenet.support.io.ResumeFailedException;
-import freenet.support.io.StorageFormatException;
+import freenet.support.io.*;
 import freenet.support.math.MersenneTwister;
+
+import java.io.*;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Similar to SplitFileFetcherStorage. The status of a splitfile insert,

@@ -1,16 +1,11 @@
 package freenet.crypt;
 
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-
 import freenet.client.async.ReadBucketAndFreeInputStream;
 import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
 import freenet.support.io.PrependLengthOutputStream;
+
+import java.io.*;
 
 /** Simple utility to check and write checksums. */
 public abstract class ChecksumChecker {

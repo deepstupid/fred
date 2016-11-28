@@ -1,8 +1,14 @@
 package com.onionnetworks.io;
 
-import com.onionnetworks.util.*;
-import java.io.*;
-import java.util.*;
+import com.onionnetworks.util.Buffer;
+import com.onionnetworks.util.Range;
+import com.onionnetworks.util.RangeSet;
+import com.onionnetworks.util.Tuple;
+
+import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class CommitRaf extends FilterRAF {
 
@@ -68,7 +74,7 @@ public class CommitRaf extends FilterRAF {
 	
 	// Iterate through the blocked readers and fill their buffers.
 	for (Iterator it = buffers.keySet().iterator();it.hasNext();) {
-	    Object key = (Object) it.next();
+	    Object key = it.next();
 	    Tuple t = (Tuple) buffers.get(key);
 	    Range r2 = (Range) t.getLeft();
 	    Buffer buf = (Buffer) t.getRight();

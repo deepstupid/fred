@@ -1,12 +1,12 @@
 package freenet.crypt;
 
+import freenet.support.Logger;
+
 import java.io.FilterOutputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-
-import freenet.support.Logger;
 
 public class MultiHashOutputStream extends FilterOutputStream {
 

@@ -1,8 +1,5 @@
 package freenet.clients.fcp;
 
-import java.io.File;
-import java.util.Date;
-
 import freenet.client.FetchException;
 import freenet.client.FetchException.FetchExceptionMode;
 import freenet.client.InsertContext;
@@ -11,6 +8,9 @@ import freenet.clients.fcp.ClientRequest.Persistence;
 import freenet.keys.FreenetURI;
 import freenet.support.Logger;
 import freenet.support.api.Bucket;
+
+import java.io.File;
+import java.util.Date;
 
 /** Cached status of a download of a file i.e. a ClientGet */
 public class DownloadRequestStatus extends RequestStatus {

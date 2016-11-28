@@ -1,8 +1,8 @@
 package org.spaceroots.mantissa;
 
 import java.text.MessageFormat;
-import java.util.ResourceBundle;
 import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 /** This class is the base class for all specific exceptions thrown by
  * the mantissa classes.

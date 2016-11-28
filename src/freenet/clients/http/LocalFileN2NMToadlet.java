@@ -3,13 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http;
 
-import java.io.File;
-import java.util.Hashtable;
-import java.util.Set;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.node.NodeClientCore;
 import freenet.support.HTMLNode;
+
+import java.io.File;
+import java.util.Hashtable;
+import java.util.Set;
 
 public class LocalFileN2NMToadlet extends LocalFileBrowserToadlet {
 

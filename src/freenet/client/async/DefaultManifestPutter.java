@@ -3,17 +3,17 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import freenet.client.InsertContext;
 import freenet.keys.FreenetURI;
 import freenet.support.ContainerSizeEstimator;
-import freenet.support.Logger;
 import freenet.support.ContainerSizeEstimator.ContainerSize;
+import freenet.support.Logger;
 import freenet.support.api.ManifestElement;
 import freenet.support.io.ResumeFailedException;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * <P>The default manifest putter. It should be choosen if no alternative putter

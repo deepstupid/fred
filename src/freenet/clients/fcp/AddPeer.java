@@ -3,30 +3,20 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Arrays;
-
 import freenet.io.comm.PeerParseException;
 import freenet.io.comm.ReferenceSignatureVerificationException;
 import freenet.node.DarknetPeerNode.FRIEND_TRUST;
 import freenet.node.DarknetPeerNode.FRIEND_VISIBILITY;
-import freenet.node.FSParseException;
-import freenet.node.Node;
-import freenet.node.OpennetDisabledException;
-import freenet.node.PeerNode;
-import freenet.node.PeerTooOldException;
+import freenet.node.*;
 import freenet.support.MediaType;
 import freenet.support.SimpleFieldSet;
 import freenet.support.io.Closer;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Arrays;
 
 public class AddPeer extends FCPMessage {
 

@@ -1,7 +1,5 @@
 package freenet.node.useralerts;
 
-import java.io.File;
-
 import freenet.clients.fcp.FCPMessage;
 import freenet.clients.fcp.FeedMessage;
 import freenet.l10n.NodeL10n;
@@ -9,6 +7,8 @@ import freenet.node.NodeClientCore;
 import freenet.support.HTMLNode;
 import freenet.support.Logger;
 import freenet.support.io.FilenameGenerator;
+
+import java.io.File;
 
 /** Tell the user when there is insufficient disk space for either short term (transient requests, 
  * request completion) or long term (starting persistent requests).

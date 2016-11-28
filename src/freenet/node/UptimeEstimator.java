@@ -3,22 +3,15 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.DecimalFormat;
-
 import freenet.support.Fields;
 import freenet.support.Logger;
 import freenet.support.Ticker;
 import freenet.support.io.Closer;
+
+import java.io.*;
+import java.text.DecimalFormat;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
  * A class to estimate the node's average uptime. Every 5 minutes (with a fixed offset), we write

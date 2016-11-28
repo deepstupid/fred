@@ -3,38 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.RandomAccessFile;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.util.List;
-
-import freenet.client.ArchiveContext;
-import freenet.client.ClientMetadata;
-import freenet.client.DefaultMIMETypes;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.FetchResult;
 import freenet.client.InsertContext.CompatibilityMode;
 import freenet.client.async.BinaryBlobWriter.BinaryBlobAlreadyClosedException;
-import freenet.client.events.EnterFiniteCooldownEvent;
-import freenet.client.events.ExpectedFileSizeEvent;
-import freenet.client.events.ExpectedHashesEvent;
-import freenet.client.events.ExpectedMIMEEvent;
-import freenet.client.events.SendingToNetworkEvent;
-import freenet.client.events.SplitfileCompatibilityModeEvent;
-import freenet.client.events.SplitfileProgressEvent;
+import freenet.client.events.*;
 import freenet.client.filter.ContentFilter;
 import freenet.client.filter.FilterMIMEType;
 import freenet.client.filter.UnsafeContentTypeException;
@@ -47,13 +20,12 @@ import freenet.support.api.Bucket;
 import freenet.support.compress.CompressionOutputSizeException;
 import freenet.support.compress.Compressor;
 import freenet.support.compress.DecompressorThreadManager;
-import freenet.support.io.Closer;
-import freenet.support.io.FileBucket;
-import freenet.support.io.FileUtil;
-import freenet.support.io.InsufficientDiskSpaceException;
-import freenet.support.io.NullOutputStream;
-import freenet.support.io.ResumeFailedException;
-import freenet.support.io.StorageFormatException;
+import freenet.support.io.*;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * A high level data request. Follows redirects, downloads splitfiles, etc. Similar to what you get from FCP,

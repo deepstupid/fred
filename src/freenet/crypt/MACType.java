@@ -3,9 +3,8 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
-import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.Mac;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Keeps track of properties of different Message Authentication Code 

@@ -1,5 +1,7 @@
 package freenet.node.simulator;
 
+import freenet.support.Fields;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,8 +12,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import freenet.support.Fields;
 
 /** Base class for long-term tests that use a CSV file to store status */
 public class LongTermTest {

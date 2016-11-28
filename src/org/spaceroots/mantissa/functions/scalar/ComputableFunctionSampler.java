@@ -1,8 +1,8 @@
 package org.spaceroots.mantissa.functions.scalar;
 
-import java.io.Serializable;
-
 import org.spaceroots.mantissa.functions.FunctionException;
+
+import java.io.Serializable;
 
 /** This class is a wrapper allowing to sample a
  * {@link ComputableFunction}.

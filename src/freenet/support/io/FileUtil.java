@@ -3,26 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.io;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
-import java.security.SecureRandom;
-import java.util.Random;
-
+import freenet.client.DefaultMIMETypes;
+import freenet.node.NodeStarter;
+import freenet.support.LogThresholdCallback;
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
+import freenet.support.StringValidityChecker;
 import org.bouncycastle.crypto.BufferedBlockCipher;
 import org.bouncycastle.crypto.engines.AESFastEngine;
 import org.bouncycastle.crypto.io.CipherInputStream;
@@ -30,13 +16,13 @@ import org.bouncycastle.crypto.modes.SICBlockCipher;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 
-import freenet.client.DefaultMIMETypes;
-import freenet.node.NodeStarter;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.SizeUtil;
-import freenet.support.StringValidityChecker;
-import freenet.support.Logger.LogLevel;
+import java.io.*;
+import java.lang.reflect.Method;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.util.Random;
 
 final public class FileUtil {
 

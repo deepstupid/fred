@@ -1,10 +1,10 @@
 package freenet.support;
 
+import freenet.node.FastRunnable;
+
 import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import freenet.node.FastRunnable;
 
 /**
  * Ticker implemented using Timer's.

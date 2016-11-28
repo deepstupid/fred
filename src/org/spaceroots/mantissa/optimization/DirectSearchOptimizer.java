@@ -1,11 +1,6 @@
 package org.spaceroots.mantissa.optimization;
 
-import org.spaceroots.mantissa.random.RandomVectorGenerator;
-import org.spaceroots.mantissa.random.UncorrelatedRandomVectorGenerator;
-import org.spaceroots.mantissa.random.CorrelatedRandomVectorGenerator;
-import org.spaceroots.mantissa.random.UniformRandomGenerator;
-import org.spaceroots.mantissa.random.VectorialSampleStatistics;
-import org.spaceroots.mantissa.random.NotPositiveDefiniteMatrixException;
+import org.spaceroots.mantissa.random.*;
 
 import java.util.Arrays;
 import java.util.Comparator;

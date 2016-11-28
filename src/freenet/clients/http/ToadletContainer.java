@@ -3,16 +3,16 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http;
 
-import java.io.File;
-import java.net.InetAddress;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import freenet.clients.http.FProxyFetchInProgress.REFILTER_POLICY;
 import freenet.clients.http.PageMaker.THEME;
 import freenet.pluginmanager.FredPluginL10n;
 import freenet.support.HTMLNode;
 import freenet.support.api.BucketFactory;
+
+import java.io.File;
+import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /** Interface for toadlet containers. Toadlets should register here. */
 public interface ToadletContainer {

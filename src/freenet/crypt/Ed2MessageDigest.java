@@ -3,9 +3,9 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
-import java.security.MessageDigest;
-
 import org.bitpedia.collider.core.Ed2Handler;
+
+import java.security.MessageDigest;
 
 /**
 ** Implementation of {@link MessageDigest} backed by a {@link Ed2Handler}.

@@ -1,10 +1,10 @@
 package freenet.node;
 
-import java.lang.ref.WeakReference;
-
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
+
+import java.lang.ref.WeakReference;
 
 class PeerNodeBackoffStatusChecker implements Runnable {
 	final WeakReference<PeerNode> ref;

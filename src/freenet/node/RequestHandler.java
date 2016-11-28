@@ -4,14 +4,7 @@
 package freenet.node;
 
 import freenet.crypt.DSAPublicKey;
-import freenet.io.comm.AsyncMessageCallback;
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.Message;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.PeerParseException;
-import freenet.io.comm.PeerRestartedException;
-import freenet.io.comm.ReferenceSignatureVerificationException;
+import freenet.io.comm.*;
 import freenet.io.xfer.BlockTransmitter;
 import freenet.io.xfer.BlockTransmitter.BlockTransmitterCompletion;
 import freenet.io.xfer.BlockTransmitter.ReceiverAbortHandler;
@@ -19,20 +12,15 @@ import freenet.io.xfer.BulkTransmitter;
 import freenet.io.xfer.BulkTransmitter.AllSentCallback;
 import freenet.io.xfer.PartiallyReceivedBlock;
 import freenet.io.xfer.WaitedTooLongException;
-import freenet.keys.CHKBlock;
-import freenet.keys.Key;
-import freenet.keys.KeyBlock;
-import freenet.keys.NodeCHK;
-import freenet.keys.NodeSSK;
-import freenet.keys.SSKBlock;
+import freenet.keys.*;
 import freenet.node.OpennetManager.ConnectionType;
 import freenet.node.OpennetManager.NoderefCallback;
 import freenet.node.OpennetManager.WaitedTooLongForOpennetNoderefException;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
 import freenet.support.SimpleFieldSet;
 import freenet.support.TimeUtil;
-import freenet.support.Logger.LogLevel;
 import freenet.support.io.NativeThread;
 
 /**

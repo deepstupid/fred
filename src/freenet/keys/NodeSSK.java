@@ -3,13 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.util.Arrays;
-
 import freenet.crypt.DSAPublicKey;
 import freenet.crypt.SHA256;
 import freenet.store.BlockMetadata;
@@ -17,6 +10,13 @@ import freenet.store.GetPubkey;
 import freenet.support.Fields;
 import freenet.support.HexUtil;
 import freenet.support.Logger;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.util.Arrays;
 
 /**
  * An SSK is a Signed Subspace Key.

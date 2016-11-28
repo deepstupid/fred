@@ -3,25 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-
-import freenet.client.ClientMetadata;
-import freenet.client.DefaultMIMETypes;
-import freenet.client.InsertBlock;
-import freenet.client.InsertContext;
-import freenet.client.InsertContext.CompatibilityMode;
-import freenet.client.InsertException;
-import freenet.client.InsertException.InsertExceptionMode;
-import freenet.client.Metadata;
-import freenet.client.MetadataUnresolvedException;
 import freenet.client.ArchiveManager.ARCHIVE_TYPE;
+import freenet.client.*;
+import freenet.client.InsertContext.CompatibilityMode;
+import freenet.client.InsertException.InsertExceptionMode;
 import freenet.client.Metadata.DocumentType;
 import freenet.client.Metadata.SimpleManifestComposer;
 import freenet.client.events.SplitfileProgressEvent;
@@ -33,8 +18,11 @@ import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
 import freenet.support.api.ManifestElement;
 import freenet.support.api.RandomAccessBucket;
-import freenet.support.io.BucketTools;
 import freenet.support.io.ResumeFailedException;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * <P>Base class for site insertion.

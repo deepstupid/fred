@@ -1,7 +1,7 @@
 package org.spaceroots.mantissa.quadrature.scalar;
 
-import org.spaceroots.mantissa.functions.scalar.ComputableFunction;
 import org.spaceroots.mantissa.functions.FunctionException;
+import org.spaceroots.mantissa.functions.scalar.ComputableFunction;
 
 /** This interface represents an integrator for scalar functions.
 

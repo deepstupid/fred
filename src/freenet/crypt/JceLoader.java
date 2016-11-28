@@ -1,19 +1,14 @@
 package freenet.crypt;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import freenet.support.Logger;
+import freenet.support.io.Closer;
+
+import javax.crypto.KeyAgreement;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.security.Provider;
 import java.security.Security;
 import java.security.Signature;
-
-import javax.crypto.KeyAgreement;
-
-import freenet.support.Logger;
-import freenet.support.io.Closer;
 
 public class JceLoader {
 	static public final Provider BouncyCastle;

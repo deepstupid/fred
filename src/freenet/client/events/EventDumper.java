@@ -3,10 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.events;
 
+import freenet.client.async.ClientContext;
+
 import java.io.IOException;
 import java.io.Writer;
-
-import freenet.client.async.ClientContext;
 
 public class EventDumper implements ClientEventListener {
 

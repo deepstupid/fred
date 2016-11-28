@@ -1,16 +1,16 @@
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.HOURS;
+import freenet.l10n.NodeL10n;
+import freenet.support.HTMLNode;
+import freenet.support.LRUMap;
+import freenet.support.io.InetAddressComparator;
 
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 
-import freenet.l10n.NodeL10n;
-import freenet.support.HTMLNode;
-import freenet.support.LRUMap;
-import freenet.support.io.InetAddressComparator;
+import static java.util.concurrent.TimeUnit.HOURS;
 
 /** Tracks announcements by IP address to identify nodes that announce repeatedly. */
 public class SeedAnnounceTracker {

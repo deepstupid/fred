@@ -19,15 +19,15 @@
 
 package freenet.io.comm;
 
+import freenet.io.WritableToDataOutputStream;
+import freenet.support.transport.ip.HostnameSyntaxException;
+import freenet.support.transport.ip.IPUtil;
+
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
-import freenet.io.WritableToDataOutputStream;
-import freenet.support.transport.ip.HostnameSyntaxException;
-import freenet.support.transport.ip.IPUtil;
 
 /**
  * @author ian

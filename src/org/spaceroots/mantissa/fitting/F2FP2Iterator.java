@@ -1,11 +1,11 @@
 package org.spaceroots.mantissa.fitting;
 
-import java.io.Serializable;
-
-import org.spaceroots.mantissa.functions.FunctionException;
 import org.spaceroots.mantissa.functions.ExhaustedSampleException;
+import org.spaceroots.mantissa.functions.FunctionException;
 import org.spaceroots.mantissa.functions.vectorial.SampledFunctionIterator;
 import org.spaceroots.mantissa.functions.vectorial.VectorialValuedPair;
+
+import java.io.Serializable;
 
 /** This class provides sampled values of the function t -> [f(t)^2, f'(t)^2].
 

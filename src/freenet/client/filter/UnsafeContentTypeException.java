@@ -3,11 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.filter;
 
-import java.io.IOException;
-import java.util.List;
-
 import freenet.client.FetchException;
 import freenet.client.FetchException.FetchExceptionMode;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Thrown by the filter when it cannot guarantee the safety of the data, because it is an unknown type,

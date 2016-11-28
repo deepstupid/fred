@@ -1,8 +1,9 @@
 package org.spaceroots.mantissa.quadrature.vectorial;
 
-import org.spaceroots.mantissa.functions.vectorial.*;
-import org.spaceroots.mantissa.functions.FunctionException;
 import org.spaceroots.mantissa.functions.ExhaustedSampleException;
+import org.spaceroots.mantissa.functions.FunctionException;
+import org.spaceroots.mantissa.functions.vectorial.SampledFunctionIterator;
+import org.spaceroots.mantissa.functions.vectorial.VectorialValuedPair;
 
 /** This class implements a Riemann integrator as a sample.
 

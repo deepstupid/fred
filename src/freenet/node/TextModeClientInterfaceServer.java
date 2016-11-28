@@ -3,14 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.net.SocketException;
-import java.util.Arrays;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.config.Config;
 import freenet.config.InvalidConfigValueException;
@@ -23,6 +15,14 @@ import freenet.support.Logger;
 import freenet.support.api.BooleanCallback;
 import freenet.support.api.IntCallback;
 import freenet.support.api.StringCallback;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.SocketException;
+import java.util.Arrays;
 
 public class TextModeClientInterfaceServer implements Runnable {
 

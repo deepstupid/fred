@@ -3,12 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.File;
-
 import freenet.client.DefaultMIMETypes;
 import freenet.support.SimpleFieldSet;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.io.FileBucket;
+
+import java.io.File;
 
 public class DiskDirPutFile extends DirPutFile {
 

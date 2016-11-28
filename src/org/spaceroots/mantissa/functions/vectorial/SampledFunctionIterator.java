@@ -1,7 +1,7 @@
 package org.spaceroots.mantissa.functions.vectorial;
 
-import org.spaceroots.mantissa.functions.FunctionException;
 import org.spaceroots.mantissa.functions.ExhaustedSampleException;
+import org.spaceroots.mantissa.functions.FunctionException;
 
 /** This interface provides iteration services over vectorial functions
  * samples.

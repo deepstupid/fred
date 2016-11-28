@@ -3,13 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.pluginmanager;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import freenet.node.FSParseException;
 import freenet.support.Base64;
 import freenet.support.IllegalBase64Exception;
 import freenet.support.SimpleFieldSet;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is a PluginStore. Plugins can use that to store all kinds of primary

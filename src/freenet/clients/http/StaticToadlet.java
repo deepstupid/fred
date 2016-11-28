@@ -1,5 +1,11 @@
 package freenet.clients.http;
 
+import freenet.client.DefaultMIMETypes;
+import freenet.l10n.NodeL10n;
+import freenet.support.api.Bucket;
+import freenet.support.api.HTTPRequest;
+import freenet.support.io.FileBucket;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,12 +13,6 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.Date;
-
-import freenet.client.DefaultMIMETypes;
-import freenet.l10n.NodeL10n;
-import freenet.support.api.Bucket;
-import freenet.support.api.HTTPRequest;
-import freenet.support.io.FileBucket;
 
 /**
  * Static Toadlet.

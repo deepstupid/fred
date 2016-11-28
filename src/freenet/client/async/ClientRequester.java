@@ -3,13 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.WeakHashMap;
-
 import freenet.crypt.ChecksumChecker;
 import freenet.keys.FreenetURI;
 import freenet.node.RequestClient;
@@ -20,6 +13,13 @@ import freenet.support.CurrentTimeUTC;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.io.ResumeFailedException;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.WeakHashMap;
 
 /** A high level request or insert. This may create any number of low-level requests of inserts,
  * for example a request may follow redirects, download splitfiles and unpack containers, while an

@@ -1,11 +1,11 @@
 package freenet.clients.fcp;
 
-import java.io.UnsupportedEncodingException;
-
 import freenet.node.Node;
 import freenet.support.SimpleFieldSet;
 import freenet.support.api.Bucket;
 import freenet.support.io.ArrayBucket;
+
+import java.io.UnsupportedEncodingException;
 
 public class FeedMessage extends MultipleDataCarryingMessage {
 

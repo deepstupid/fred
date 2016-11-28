@@ -1,22 +1,12 @@
 package freenet.clients.fcp;
 
-import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.Map;
-
 import freenet.client.InsertContext;
 import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
 import freenet.client.async.BaseClientPutter;
 import freenet.client.async.ClientContext;
 import freenet.client.async.ClientPutCallback;
-import freenet.client.events.ClientEvent;
-import freenet.client.events.ClientEventListener;
-import freenet.client.events.FinishedCompressionEvent;
-import freenet.client.events.ExpectedHashesEvent;
-import freenet.client.events.SplitfileProgressEvent;
-import freenet.client.events.StartedCompressionEvent;
-import freenet.clients.fcp.ClientRequest.Persistence;
+import freenet.client.events.*;
 import freenet.keys.FreenetURI;
 import freenet.keys.InsertableClientSSK;
 import freenet.node.NodeClientCore;
@@ -24,6 +14,10 @@ import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
+
+import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Base class for ClientPut and ClientPutDir.

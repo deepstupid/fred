@@ -9,9 +9,9 @@ import java.util.EventListener;
  */
 public interface ExceptionHandler extends EventListener {
 
-    public static final String HANDLE_EXCEPTION = "handleException";
+    String HANDLE_EXCEPTION = "handleException";
     
-    public static final String[] EVENTS = new String[] { HANDLE_EXCEPTION };
+    String[] EVENTS = new String[] { HANDLE_EXCEPTION };
 
-    public void handleException(ExceptionEvent ev);
+    void handleException(ExceptionEvent ev);
 }

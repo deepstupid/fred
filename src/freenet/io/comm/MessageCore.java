@@ -18,25 +18,15 @@
  */
 package freenet.io.comm;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Map;
-
 import freenet.io.comm.MessageFilter.MATCHED;
 import freenet.node.PeerNode;
-import freenet.support.Executor;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.Ticker;
-import freenet.support.TimeUtil;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
+
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class MessageCore {
 

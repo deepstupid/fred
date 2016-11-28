@@ -1,33 +1,9 @@
 package freenet.clients.http;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import freenet.client.ClientMetadata;
-import freenet.client.DefaultMIMETypes;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.FetchResult;
-import freenet.client.async.CacheFetchResult;
-import freenet.client.async.ClientContext;
-import freenet.client.async.ClientGetCallback;
-import freenet.client.async.ClientGetter;
-import freenet.client.async.PersistenceDisabledException;
-import freenet.client.events.ClientEvent;
-import freenet.client.events.ClientEventListener;
-import freenet.client.events.ExpectedFileSizeEvent;
-import freenet.client.events.ExpectedMIMEEvent;
-import freenet.client.events.SendingToNetworkEvent;
-import freenet.client.events.SplitfileProgressEvent;
+import freenet.client.async.*;
+import freenet.client.events.*;
 import freenet.client.filter.ContentFilter;
 import freenet.client.filter.FilterMIMEType;
 import freenet.client.filter.UnknownContentTypeException;
@@ -39,6 +15,17 @@ import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.io.Closer;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /** 
  * Fetching a page for a browser.

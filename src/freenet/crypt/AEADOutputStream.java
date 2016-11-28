@@ -1,11 +1,5 @@
 package freenet.crypt;
 
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.SecureRandom;
-import java.util.Random;
-
 import org.bouncycastle.crypto.BlockCipher;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.engines.AESEngine;
@@ -13,6 +7,12 @@ import org.bouncycastle.crypto.engines.AESLightEngine;
 import org.bouncycastle.crypto.modes.AEADBlockCipher;
 import org.bouncycastle.crypto.params.AEADParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
+
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.security.SecureRandom;
+import java.util.Random;
 
 /** Uses bouncycastle's AEAD code. BC provides Cipher*Stream but they don't work with 
  * authenticating. FIXME This probably needs an internal buffer. Shouldn't be too inefficient 

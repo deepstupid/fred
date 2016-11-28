@@ -4,11 +4,7 @@
 package freenet.node;
 
 import freenet.client.InsertException;
-import freenet.client.async.ChosenBlock;
-import freenet.client.async.ClientContext;
-import freenet.client.async.ClientRequestScheduler;
-import freenet.client.async.ClientRequestSchedulerGroup;
-import freenet.client.async.ClientRequester;
+import freenet.client.async.*;
 import freenet.keys.CHKBlock;
 import freenet.keys.ClientKey;
 import freenet.keys.KeyBlock;

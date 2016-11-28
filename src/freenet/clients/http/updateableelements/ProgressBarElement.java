@@ -1,18 +1,13 @@
 package freenet.clients.http.updateableelements;
 
-import java.text.NumberFormat;
-
 import freenet.client.FetchContext;
-import freenet.clients.http.FProxyFetchInProgress;
-import freenet.clients.http.FProxyFetchResult;
-import freenet.clients.http.FProxyFetchTracker;
-import freenet.clients.http.FProxyFetchWaiter;
-import freenet.clients.http.SimpleToadletServer;
-import freenet.clients.http.ToadletContext;
+import freenet.clients.http.*;
 import freenet.keys.FreenetURI;
 import freenet.l10n.NodeL10n;
 import freenet.support.Base64;
 import freenet.support.HTMLNode;
+
+import java.text.NumberFormat;
 
 /** A pushed element that renders the progress bar when loading a page. */
 public class ProgressBarElement extends BaseUpdateableElement {

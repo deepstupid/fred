@@ -3,8 +3,8 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.transport.ip;
 
-import java.net.InetAddress;
 import java.net.Inet6Address;
+import java.net.InetAddress;
 
 public class IPUtil {
 

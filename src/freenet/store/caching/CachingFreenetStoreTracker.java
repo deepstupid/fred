@@ -1,9 +1,9 @@
 package freenet.store.caching;
 
-import java.util.ArrayList;
-
 import freenet.support.Logger;
 import freenet.support.Ticker;
+
+import java.util.ArrayList;
 
 /**
  * Tracks the memory used by a bunch of CachingFreenetStore's, and writes blocks to disk when full or 

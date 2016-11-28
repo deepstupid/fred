@@ -3,10 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
-import java.io.Serializable;
-
 import freenet.keys.FreenetURI;
 import freenet.support.api.RandomAccessBucket;
+
+import java.io.Serializable;
 
 /**
  * Class to contain everything needed for an insert.

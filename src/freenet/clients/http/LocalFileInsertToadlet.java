@@ -3,13 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.util.Hashtable;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.keys.FreenetURI;
 import freenet.node.NodeClientCore;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.Hashtable;
 
 public class LocalFileInsertToadlet extends LocalFileBrowserToadlet {
 

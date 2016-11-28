@@ -19,12 +19,12 @@
 
 package freenet.io.comm;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import freenet.node.PrioRunnable;
 import freenet.support.Executor;
 import freenet.support.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ian

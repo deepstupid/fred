@@ -3,10 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
-import java.io.IOException;
-
 import freenet.support.api.Bucket;
 import freenet.support.io.BucketTools;
+
+import java.io.IOException;
 
 /**
  * Class to contain the result of a key fetch.

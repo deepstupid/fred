@@ -3,9 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.io.xfer;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 import freenet.io.comm.MessageCore;
 import freenet.io.comm.RetrievalException;
 import freenet.support.BitArray;
@@ -13,6 +10,9 @@ import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.RandomAccessBuffer;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Equivalent of PartiallyReceivedBlock, for large(ish) file transfers.

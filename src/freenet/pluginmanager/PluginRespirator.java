@@ -1,12 +1,5 @@
 package freenet.pluginmanager;
 
-import java.io.IOException;
-import java.lang.ref.ReferenceQueue;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.UUID;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.client.async.PersistenceDisabledException;
 import freenet.client.filter.FilterCallback;
@@ -23,6 +16,13 @@ import freenet.support.HTMLNode;
 import freenet.support.URIPreEncoder;
 import freenet.support.api.HTTPRequest;
 import freenet.support.plugins.helpers1.WebInterfaceToadlet;
+
+import java.io.IOException;
+import java.lang.ref.ReferenceQueue;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class PluginRespirator {
 	private static final ArrayList<SessionManager> sessionManagers = new ArrayList<SessionManager>(4);

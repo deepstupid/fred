@@ -15,6 +15,16 @@
  */
 package freenet.crypt;
 
+import freenet.config.InvalidConfigValueException;
+import freenet.config.SubConfig;
+import freenet.support.Logger;
+import freenet.support.api.BooleanCallback;
+import freenet.support.api.StringCallback;
+import freenet.support.io.Closer;
+
+import javax.net.ServerSocketFactory;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,28 +32,11 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.Key;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.UnrecoverableKeyException;
+import java.net.ServerSocket;
+import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.Arrays;
-
-import javax.net.ServerSocketFactory;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-
-import freenet.config.InvalidConfigValueException;
-import freenet.config.SubConfig;
-import freenet.support.Logger;
-import freenet.support.api.BooleanCallback;
-import freenet.support.api.StringCallback;
-import freenet.support.io.Closer;
-import java.net.ServerSocket;
 
 public class SSL {
 

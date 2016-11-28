@@ -1,13 +1,13 @@
 package freenet.client.async;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import freenet.node.PrioRunnable;
 import freenet.support.Executor;
 import freenet.support.Logger;
 import freenet.support.Ticker;
 import freenet.support.io.NativeThread;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** Runs PersistentJob's and periodically, or on demand, suspends all jobs and calls 
  * innerCheckpoint(). */

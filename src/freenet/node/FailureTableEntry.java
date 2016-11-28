@@ -1,15 +1,15 @@
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.HOURS;
+import freenet.keys.Key;
+import freenet.support.LogThresholdCallback;
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import freenet.keys.Key;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.Logger.LogLevel;
+import static java.util.concurrent.TimeUnit.HOURS;
 
 /** Tracks recent requests for a specific key. If we have recently routed to a specific 
  * node, and failed, we should not route to it again, unless it is at a higher HTL. 

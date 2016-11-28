@@ -3,11 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import freenet.client.ArchiveManager.ARCHIVE_TYPE;
 import freenet.support.api.ManifestElement;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Helper class to estaminate the container size,

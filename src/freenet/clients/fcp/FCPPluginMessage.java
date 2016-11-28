@@ -3,12 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.util.UUID;
-
 import freenet.pluginmanager.FredPluginFCPMessageHandler;
 import freenet.support.SimpleFieldSet;
 import freenet.support.StringValidityChecker;
 import freenet.support.api.Bucket;
+
+import java.util.UUID;
 
 /**
  * Container class for both incoming and outgoing FCP messages.

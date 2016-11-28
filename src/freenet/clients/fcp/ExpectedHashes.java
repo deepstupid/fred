@@ -1,12 +1,12 @@
 package freenet.clients.fcp;
 
-import java.io.Serializable;
-
 import freenet.client.events.ExpectedHashesEvent;
 import freenet.crypt.HashResult;
 import freenet.node.Node;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
+
+import java.io.Serializable;
 
 public class ExpectedHashes extends FCPMessage implements Serializable {
 

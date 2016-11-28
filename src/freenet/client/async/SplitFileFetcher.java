@@ -1,19 +1,8 @@
 package freenet.client.async;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.List;
-
-import freenet.client.ClientMetadata;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
 import freenet.client.InsertContext.CompatibilityMode;
-import freenet.client.Metadata;
-import freenet.client.MetadataParseException;
 import freenet.crypt.CRCChecksumChecker;
 import freenet.crypt.ChecksumChecker;
 import freenet.crypt.ChecksumFailedException;
@@ -23,11 +12,10 @@ import freenet.node.BaseSendableGet;
 import freenet.support.Logger;
 import freenet.support.api.LockableRandomAccessBuffer;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
-import freenet.support.io.BucketTools;
-import freenet.support.io.InsufficientDiskSpaceException;
-import freenet.support.io.PooledFileRandomAccessBuffer;
-import freenet.support.io.ResumeFailedException;
-import freenet.support.io.StorageFormatException;
+import freenet.support.io.*;
+
+import java.io.*;
+import java.util.List;
 
 /** Splitfile fetcher based on keeping as much state as possible, and in particular the downloaded blocks,
  * in a single file.

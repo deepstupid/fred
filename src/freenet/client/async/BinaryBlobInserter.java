@@ -1,18 +1,10 @@
 package freenet.client.async;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import freenet.client.FailureCodeTracker;
 import freenet.client.InsertContext;
 import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
-import freenet.keys.CHKBlock;
-import freenet.keys.ClientKey;
-import freenet.keys.Key;
-import freenet.keys.KeyBlock;
-import freenet.keys.SSKBlock;
+import freenet.keys.*;
 import freenet.node.LowLevelPutException;
 import freenet.node.RequestClient;
 import freenet.node.SendableRequestItem;
@@ -20,6 +12,10 @@ import freenet.node.SimpleSendableInsert;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
+
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class BinaryBlobInserter implements ClientPutState {
 

@@ -3,6 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
+import freenet.client.FetchException.FetchExceptionMode;
+import freenet.client.InsertException.InsertExceptionMode;
+import freenet.support.Logger;
+import freenet.support.SimpleFieldSet;
+import freenet.support.io.StorageFormatException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,12 +16,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.InsertException.InsertExceptionMode;
-import freenet.support.Logger;
-import freenet.support.SimpleFieldSet;
-import freenet.support.io.StorageFormatException;
 
 /**
  * Essentially a map of integer to incrementible integer.

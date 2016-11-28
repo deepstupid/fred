@@ -1,9 +1,8 @@
 package freenet.client.async;
 
-import java.io.File;
-import java.io.FileDescriptor;
-
 import freenet.client.ClientMetadata;
+
+import java.io.File;
 
 /** If a request will return the downloaded data to a file (not a temporary file), and if the data
  * doesn't need decompressing or filtering, and if we are doing the final stage of the download, we

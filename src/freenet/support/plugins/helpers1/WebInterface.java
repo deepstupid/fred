@@ -3,12 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.plugins.helpers1;
 
-import java.util.Vector;
-
 import freenet.clients.http.PageMaker;
 import freenet.clients.http.Toadlet;
 import freenet.clients.http.ToadletContainer;
 import freenet.pluginmanager.FredPluginL10n;
+
+import java.util.Vector;
 
 public class WebInterface {
 

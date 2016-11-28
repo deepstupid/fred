@@ -3,18 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http.bookmark;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import freenet.client.async.ClientContext;
 import freenet.client.async.USKCallback;
 import freenet.clients.http.FProxyToadlet;
@@ -31,6 +19,18 @@ import freenet.support.Logger.LogLevel;
 import freenet.support.SimpleFieldSet;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 public class BookmarkManager implements RequestClient {
 

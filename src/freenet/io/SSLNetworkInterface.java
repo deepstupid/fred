@@ -16,14 +16,13 @@
 
 package freenet.io;
 
+import freenet.crypt.SSL;
+import freenet.support.Executor;
+
+import javax.net.ssl.SSLServerSocket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Arrays;
-
-import javax.net.ssl.SSLServerSocket;
-
-import freenet.crypt.SSL;
-import freenet.support.Executor;
 
 /**
  * An SSL extension to the {@link NetworkInterface} 

@@ -3,23 +3,9 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.util.Arrays;
-import java.util.Date;
-
-import freenet.client.ClientMetadata;
-import freenet.client.DefaultMIMETypes;
-import freenet.client.InsertContext;
-import freenet.client.InsertException;
+import freenet.client.*;
 import freenet.client.InsertException.InsertExceptionMode;
-import freenet.client.Metadata;
 import freenet.client.Metadata.DocumentType;
-import freenet.client.MetadataUnresolvedException;
 import freenet.client.async.BinaryBlob;
 import freenet.client.async.ClientContext;
 import freenet.client.async.ClientPutter;
@@ -27,16 +13,17 @@ import freenet.clients.fcp.RequestIdentifier.RequestType;
 import freenet.crypt.SHA256;
 import freenet.keys.FreenetURI;
 import freenet.node.NodeClientCore;
-import freenet.support.Base64;
-import freenet.support.CurrentTimeUTC;
-import freenet.support.IllegalBase64Exception;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.io.Closer;
 import freenet.support.io.ResumeFailedException;
+
+import java.io.*;
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.Date;
 
 public class ClientPut extends ClientPutBase {
 

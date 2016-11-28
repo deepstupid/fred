@@ -3,12 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
-import java.util.LinkedList;
-
 import freenet.keys.FreenetURI;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
+
+import java.util.LinkedList;
 
 /**
  * Tracks all files currently in the cache from a given key.

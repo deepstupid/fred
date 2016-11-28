@@ -1,18 +1,11 @@
 package freenet.clients.http;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import freenet.client.DefaultMIMETypes;
 import freenet.client.HighLevelSimpleClient;
 import freenet.client.filter.ContentFilter;
+import freenet.client.filter.ContentFilter.FilterStatus;
 import freenet.client.filter.FilterOperation;
 import freenet.client.filter.UnsafeContentTypeException;
-import freenet.client.filter.ContentFilter.FilterStatus;
 import freenet.l10n.NodeL10n;
 import freenet.node.NodeClientCore;
 import freenet.support.HTMLNode;
@@ -24,6 +17,10 @@ import freenet.support.api.HTTPUploadedFile;
 import freenet.support.io.Closer;
 import freenet.support.io.FileBucket;
 import freenet.support.io.FileUtil;
+
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Allows the user to run the content filter on a file and view the result.

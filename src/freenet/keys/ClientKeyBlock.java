@@ -3,10 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
-import java.io.IOException;
-
 import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
+
+import java.io.IOException;
 
 /** A KeyBlock with a ClientKey. Can be decoded. Not a child of KeyBlock because of issues with equals().
  */

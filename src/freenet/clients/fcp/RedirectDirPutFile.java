@@ -1,15 +1,14 @@
 package freenet.clients.fcp;
 
-import java.net.MalformedURLException;
-
 import freenet.keys.FreenetURI;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
-import freenet.support.SimpleFieldSet;
 import freenet.support.Logger.LogLevel;
-import freenet.support.api.Bucket;
+import freenet.support.SimpleFieldSet;
 import freenet.support.api.ManifestElement;
 import freenet.support.api.RandomAccessBucket;
+
+import java.net.MalformedURLException;
 
 public class RedirectDirPutFile extends DirPutFile {
 

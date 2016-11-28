@@ -15,24 +15,6 @@
  */
 package freenet.io;
 
-import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.InetAddress;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import freenet.io.comm.Peer;
 import freenet.l10n.NodeL10n;
 import freenet.node.FSParseException;
@@ -40,6 +22,13 @@ import freenet.node.ProgramDirectory;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
 import freenet.support.io.FileUtil;
+
+import java.io.*;
+import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import static java.util.concurrent.TimeUnit.*;
 
 /**
  * Track packet traffic to/from specific peers and IP addresses, in order to

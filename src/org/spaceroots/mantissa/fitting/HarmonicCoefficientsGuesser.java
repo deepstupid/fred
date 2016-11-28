@@ -1,15 +1,13 @@
 package org.spaceroots.mantissa.fitting;
 
-import java.io.Serializable;
-
-import org.spaceroots.mantissa.functions.FunctionException;
+import org.spaceroots.mantissa.estimation.EstimationException;
 import org.spaceroots.mantissa.functions.ExhaustedSampleException;
+import org.spaceroots.mantissa.functions.FunctionException;
 import org.spaceroots.mantissa.functions.vectorial.SampledFunctionIterator;
 import org.spaceroots.mantissa.functions.vectorial.VectorialValuedPair;
-
 import org.spaceroots.mantissa.quadrature.vectorial.EnhancedSimpsonIntegratorSampler;
 
-import org.spaceroots.mantissa.estimation.EstimationException;
+import java.io.Serializable;
 
 /** This class guesses harmonic coefficients from a sample.
 

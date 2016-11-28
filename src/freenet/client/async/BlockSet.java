@@ -3,12 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.util.Set;
-
 import freenet.keys.ClientKey;
 import freenet.keys.ClientKeyBlock;
 import freenet.keys.Key;
 import freenet.keys.KeyBlock;
+
+import java.util.Set;
 
 /**
  * A set of KeyBlock's.

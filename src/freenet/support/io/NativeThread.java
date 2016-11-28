@@ -6,7 +6,6 @@ package freenet.support.io;
 
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
-
 import freenet.support.Logger;
 
 /**

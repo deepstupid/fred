@@ -1,12 +1,12 @@
 package freenet.store;
 
-import java.io.IOException;
-
 import freenet.crypt.CryptFormatException;
 import freenet.crypt.DSAPublicKey;
 import freenet.keys.KeyVerifyException;
 import freenet.keys.PubkeyVerifyException;
 import freenet.support.Logger;
+
+import java.io.IOException;
 
 public class PubkeyStore extends StoreCallback<DSAPublicKey> {
 

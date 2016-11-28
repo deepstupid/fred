@@ -1,12 +1,11 @@
 package freenet.client;
 
-import java.lang.ref.SoftReference;
-
 import com.onionnetworks.fec.PureCode;
 import com.onionnetworks.util.Buffer;
-
 import freenet.client.InsertContext.CompatibilityMode;
 import freenet.support.LRUMap;
+
+import java.lang.ref.SoftReference;
 
 public class OnionFECCodec extends FECCodec {
 

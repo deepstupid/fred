@@ -3,13 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
 import freenet.client.async.BlockSet;
 import freenet.client.events.ClientEventProducer;
 import freenet.client.events.SimpleEventProducer;
@@ -18,6 +11,13 @@ import freenet.client.filter.TagReplacerCallback;
 import freenet.node.RequestScheduler;
 import freenet.support.api.BucketFactory;
 import freenet.support.io.StorageFormatException;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /** Context for a Fetcher. Contains all the settings a Fetcher needs to know 
  * about. FIXME these should be final or private, with getters/setters and 

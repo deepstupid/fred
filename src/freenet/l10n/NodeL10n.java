@@ -4,6 +4,7 @@
 package freenet.l10n;
 
 import freenet.l10n.BaseL10n.LANGUAGE;
+
 import java.io.File;
 
 /**

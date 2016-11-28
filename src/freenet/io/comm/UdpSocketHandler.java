@@ -5,20 +5,6 @@ import com.sun.jna.Native;
 import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
-
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.DatagramSocketImpl;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.util.Random;
-
 import freenet.io.AddressTracker;
 import freenet.io.comm.Peer.LocalAddressException;
 import freenet.node.Node;
@@ -26,6 +12,13 @@ import freenet.node.PrioRunnable;
 import freenet.support.Logger;
 import freenet.support.io.NativeThread;
 import freenet.support.transport.ip.IPUtil;
+
+import java.io.FileDescriptor;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.net.*;
+import java.util.Random;
 
 public class UdpSocketHandler implements PrioRunnable, PacketSocketHandler, PortForwardSensitiveSocketHandler {
 

@@ -1,15 +1,6 @@
 package freenet.node.simulator;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import freenet.client.ClientMetadata;
-import freenet.client.FetchException;
-import freenet.client.HighLevelSimpleClient;
-import freenet.client.InsertBlock;
-import freenet.client.InsertException;
+import freenet.client.*;
 import freenet.crypt.RandomSource;
 import freenet.keys.FreenetURI;
 import freenet.node.Node;
@@ -17,12 +8,17 @@ import freenet.node.NodeInitException;
 import freenet.node.NodeStarter;
 import freenet.support.Executor;
 import freenet.support.Logger;
-import freenet.support.PooledExecutor;
-import freenet.support.TimeUtil;
 import freenet.support.Logger.LogLevel;
 import freenet.support.LoggerHook.InvalidThresholdException;
+import freenet.support.PooledExecutor;
+import freenet.support.TimeUtil;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.io.FileUtil;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class BootstrapPushPullTest {
 

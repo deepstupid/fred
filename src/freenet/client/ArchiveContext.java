@@ -3,10 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
+import freenet.keys.FreenetURI;
+
 import java.io.Serializable;
 import java.util.HashSet;
-
-import freenet.keys.FreenetURI;
 
 /**
  * @author amphibian (Matthew Toseland)

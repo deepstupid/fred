@@ -1,10 +1,10 @@
 package freenet.clients.fcp;
 
-import java.io.UnsupportedEncodingException;
-
 import freenet.support.api.Bucket;
 import freenet.support.io.ArrayBucket;
 import freenet.support.io.NullBucket;
+
+import java.io.UnsupportedEncodingException;
 
 public class TextFeedMessage extends N2NFeedMessage {
 

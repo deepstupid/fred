@@ -3,41 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.util.Arrays;
-
 import freenet.client.FailureCodeTracker;
 import freenet.client.InsertContext;
-import freenet.client.InsertException;
 import freenet.client.InsertContext.CompatibilityMode;
+import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
 import freenet.crypt.RandomSource;
-import freenet.keys.CHKEncodeException;
-import freenet.keys.ClientCHKBlock;
-import freenet.keys.ClientKey;
-import freenet.keys.ClientKeyBlock;
-import freenet.keys.ClientSSK;
-import freenet.keys.ClientSSKBlock;
-import freenet.keys.FreenetURI;
-import freenet.keys.InsertableClientSSK;
-import freenet.keys.KeyBlock;
-import freenet.keys.KeyDecodeException;
-import freenet.keys.KeyEncodeException;
-import freenet.keys.KeyVerifyException;
-import freenet.keys.SSKBlock;
-import freenet.keys.SSKEncodeException;
-import freenet.node.KeysFetchingLocally;
-import freenet.node.LowLevelPutException;
-import freenet.node.Node;
-import freenet.node.NodeClientCore;
-import freenet.node.RequestClient;
-import freenet.node.RequestScheduler;
-import freenet.node.SendableInsert;
-import freenet.node.SendableRequestItem;
-import freenet.node.SendableRequestItemKey;
-import freenet.node.SendableRequestSender;
+import freenet.keys.*;
+import freenet.node.*;
 import freenet.store.KeyCollisionException;
 import freenet.support.Fields;
 import freenet.support.LogThresholdCallback;
@@ -47,6 +20,11 @@ import freenet.support.api.Bucket;
 import freenet.support.compress.InvalidCompressionCodecException;
 import freenet.support.io.BucketTools;
 import freenet.support.io.ResumeFailedException;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.util.Arrays;
 
 /**
  * Insert a single block.

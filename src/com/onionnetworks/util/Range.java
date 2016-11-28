@@ -144,13 +144,9 @@ public class Range {
     }
     
     public boolean equals(Object obj) {
-	if (obj instanceof Range &&
-	    ((Range) obj).min == min && ((Range) obj).max == max &&
-            ((Range) obj).negInf == negInf && ((Range) obj).posInf == posInf) {
-	    return true;
-	} else {
-	    return false;
-	}
+        return obj instanceof Range &&
+                ((Range) obj).min == min && ((Range) obj).max == max &&
+                ((Range) obj).negInf == negInf && ((Range) obj).posInf == posInf;
     }
     
     public String toString() {

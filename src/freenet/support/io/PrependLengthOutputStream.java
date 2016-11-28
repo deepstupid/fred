@@ -1,12 +1,12 @@
 package freenet.support.io;
 
+import freenet.support.api.Bucket;
+import freenet.support.api.BucketFactory;
+
 import java.io.DataOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import freenet.support.api.Bucket;
-import freenet.support.api.BucketFactory;
 
 /** Write to a temporary Bucket. On close, if not abort()'ed, write length and then copy the 
  * data. Does not close the underlying Bucket. */

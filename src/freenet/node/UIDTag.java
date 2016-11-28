@@ -1,13 +1,13 @@
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
+import freenet.support.LogThresholdCallback;
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
 
-import freenet.support.Logger;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger.LogLevel;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Base class for tags representing a running request. These store enough information

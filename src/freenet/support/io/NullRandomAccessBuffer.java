@@ -1,10 +1,10 @@
 package freenet.support.io;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import freenet.client.async.ClientContext;
 import freenet.support.api.LockableRandomAccessBuffer;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class NullRandomAccessBuffer implements LockableRandomAccessBuffer {
     

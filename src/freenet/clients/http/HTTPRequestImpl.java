@@ -3,41 +3,20 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
-import java.util.Map.Entry;
-
-import javax.naming.SizeLimitExceededException;
-
-import freenet.support.Fields;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.MultiValueTable;
-import freenet.support.SimpleReadOnlyArrayBucket;
-import freenet.support.URLEncoder;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.api.Bucket;
-import freenet.support.api.BucketFactory;
-import freenet.support.api.HTTPRequest;
-import freenet.support.api.HTTPUploadedFile;
-import freenet.support.api.RandomAccessBucket;
+import freenet.support.api.*;
 import freenet.support.io.BucketTools;
 import freenet.support.io.Closer;
 import freenet.support.io.LineReadingInputStream;
+
+import javax.naming.SizeLimitExceededException;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Used for passing all HTTP request information to the FredPlugin that handles

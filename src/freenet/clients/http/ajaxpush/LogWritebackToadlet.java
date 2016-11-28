@@ -1,8 +1,5 @@
 package freenet.clients.http.ajaxpush;
 
-import java.io.IOException;
-import java.net.URI;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.clients.http.RedirectException;
 import freenet.clients.http.Toadlet;
@@ -13,6 +10,9 @@ import freenet.support.Logger;
 import freenet.support.URLDecoder;
 import freenet.support.URLEncodedFormatException;
 import freenet.support.api.HTTPRequest;
+
+import java.io.IOException;
+import java.net.URI;
 
 /** This toadlet is used to let the client write to the logs */
 public class LogWritebackToadlet extends Toadlet {

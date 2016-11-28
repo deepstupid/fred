@@ -3,11 +3,7 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support;
 
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 

@@ -1,36 +1,18 @@
 package freenet.support;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.BufferedOutputStream;
-import java.io.Closeable;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.ArrayDeque;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Deque;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.zip.GZIPOutputStream;
-
 import freenet.node.SemiOrderedShutdownHook;
 import freenet.node.Version;
 import freenet.support.io.FileUtil;
+
+import java.io.*;
+import java.net.InetAddress;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.zip.GZIPOutputStream;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Converted the old StandardLogger to Ian's loggerhook interface.

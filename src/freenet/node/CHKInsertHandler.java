@@ -3,17 +3,7 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageFilter;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.PeerContext;
-import freenet.io.comm.RetrievalException;
-import freenet.io.comm.SlowAsyncMessageFilterCallback;
+import freenet.io.comm.*;
 import freenet.io.xfer.AbortedException;
 import freenet.io.xfer.BlockReceiver;
 import freenet.io.xfer.BlockReceiver.BlockReceiverCompletion;
@@ -26,9 +16,11 @@ import freenet.store.KeyCollisionException;
 import freenet.support.HexUtil;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
-import freenet.support.ShortBuffer;
 import freenet.support.Logger.LogLevel;
+import freenet.support.ShortBuffer;
 import freenet.support.io.NativeThread;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * @author amphibian

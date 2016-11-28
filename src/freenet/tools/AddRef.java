@@ -3,20 +3,16 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.tools;
 
+import freenet.clients.fcp.*;
+import freenet.support.SimpleFieldSet;
+import freenet.support.io.LineReadingInputStream;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-
-import freenet.clients.fcp.AddPeer;
-import freenet.clients.fcp.FCPMessage;
-import freenet.clients.fcp.FCPServer;
-import freenet.clients.fcp.MessageInvalidException;
-import freenet.clients.fcp.NodeHelloMessage;
-import freenet.support.SimpleFieldSet;
-import freenet.support.io.LineReadingInputStream;
 
 public class AddRef {
 

@@ -2,15 +2,15 @@
  * Public License, version 2 (or at your option any later version). See
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
- 
-import java.net.InetAddress;
-import java.util.Map;
 
 import freenet.clients.http.DarknetConnectionsToadlet;
 import freenet.io.comm.FreenetInetAddress;
 import freenet.io.comm.Peer;
 import freenet.io.xfer.PacketThrottle;
 import freenet.node.PeerNode.IncomingLoadSummaryStats;
+
+import java.net.InetAddress;
+import java.util.Map;
 
 /**
  * Contains various status information for a {@link PeerNode}. Used e.g. in

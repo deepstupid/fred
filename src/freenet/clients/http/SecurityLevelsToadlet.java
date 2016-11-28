@@ -3,22 +3,12 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.clients.http.wizardsteps.PageHelper;
 import freenet.clients.http.wizardsteps.WizardL10n;
 import freenet.l10n.NodeL10n;
-import freenet.node.MasterKeysFileSizeException;
-import freenet.node.MasterKeysWrongPasswordException;
-import freenet.node.Node;
+import freenet.node.*;
 import freenet.node.Node.AlreadySetPasswordException;
-import freenet.node.NodeClientCore;
-import freenet.node.SecurityLevels;
 import freenet.node.SecurityLevels.NETWORK_THREAT_LEVEL;
 import freenet.node.SecurityLevels.PHYSICAL_THREAT_LEVEL;
 import freenet.support.HTMLNode;
@@ -29,6 +19,12 @@ import freenet.support.MultiValueTable;
 import freenet.support.api.HTTPRequest;
 import freenet.support.io.FileUtil;
 import freenet.support.io.FileUtil.OperatingSystem;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * The security levels page.

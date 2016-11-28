@@ -1,15 +1,15 @@
 package freenet.pluginmanager;
 
-import static java.util.Collections.unmodifiableCollection;
+import freenet.keys.FreenetURI;
+import freenet.node.updater.NodeUpdater;
+import freenet.node.updater.PluginJarUpdater;
 
 import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import freenet.keys.FreenetURI;
-import freenet.node.updater.NodeUpdater;
-import freenet.node.updater.PluginJarUpdater;
+import static java.util.Collections.unmodifiableCollection;
 
 /**
  * Container for Freenet’s official plugins.

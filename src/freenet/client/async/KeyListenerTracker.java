@@ -3,22 +3,21 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import static java.lang.String.format;
-
-import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.List;
-
 import freenet.crypt.RandomSource;
 import freenet.crypt.SHA256;
 import freenet.keys.Key;
 import freenet.keys.KeyBlock;
 import freenet.keys.NodeSSK;
 import freenet.node.SendableGet;
-import freenet.node.SendableRequest;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
+
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.String.format;
 
 /**
  * <p>Tracks exactly which keys we are listening for. This is 

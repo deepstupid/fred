@@ -3,14 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import freenet.client.InsertContext;
 import freenet.keys.FreenetURI;
 import freenet.support.Logger;
 import freenet.support.api.ManifestElement;
 import freenet.support.io.ResumeFailedException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <P>plain/dumb manifest putter: every file item is a redirect (no containers at all)

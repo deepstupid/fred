@@ -1,9 +1,9 @@
 package freenet.client.async;
 
+import freenet.crypt.ChecksumChecker;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
-
-import freenet.crypt.ChecksumChecker;
 
 /** Fetches which may be persistent need getClientDetail() so that we can save that data to the 
  * file a splitfile download is using, so that it can be recovered later.

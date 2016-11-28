@@ -1,11 +1,11 @@
 package freenet.node.useralerts;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import freenet.clients.fcp.FCPMessage;
 import freenet.clients.fcp.FeedMessage;
 import freenet.support.HTMLNode;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public abstract class StoringUserEvent<T extends StoringUserEvent<T>> extends AbstractUserEvent {
 

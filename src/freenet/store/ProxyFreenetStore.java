@@ -1,10 +1,10 @@
 package freenet.store;
 
-import java.io.IOException;
-
 import freenet.node.stats.StoreAccessStats;
 import freenet.node.useralerts.UserAlertManager;
 import freenet.support.Ticker;
+
+import java.io.IOException;
 
 public class ProxyFreenetStore<T extends StorableBlock> implements FreenetStore<T> {
 	

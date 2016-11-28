@@ -1,17 +1,12 @@
 package freenet.crypt;
 
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import freenet.support.Fields;
+import freenet.support.io.FileUtil;
+
+import java.io.*;
 import java.util.Arrays;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
-
-import freenet.support.Fields;
-import freenet.support.io.FileUtil;
 
 public class CRCChecksumChecker extends ChecksumChecker {
 

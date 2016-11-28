@@ -1,11 +1,11 @@
 package freenet.clients.http;
 
-import java.io.File;
-import java.util.Hashtable;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.node.NodeClientCore;
 import freenet.support.HTMLNode;
+
+import java.io.File;
+import java.util.Hashtable;
 
 /**
  * Local file browser for the content filter toadlet.

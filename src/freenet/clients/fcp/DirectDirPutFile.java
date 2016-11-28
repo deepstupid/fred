@@ -1,14 +1,14 @@
 package freenet.clients.fcp;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import freenet.support.SimpleFieldSet;
 import freenet.support.api.BucketFactory;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.io.BucketTools;
 import freenet.support.io.NullBucket;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Specialized DirPutFile for direct uploads.

@@ -1,23 +1,5 @@
 package freenet.clients.http;
 
-import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.clients.fcp.AddPeer;
 import freenet.clients.http.geoip.IPConverter;
@@ -26,30 +8,24 @@ import freenet.io.comm.PeerParseException;
 import freenet.io.comm.ReferenceSignatureVerificationException;
 import freenet.io.xfer.PacketThrottle;
 import freenet.l10n.NodeL10n;
-import freenet.node.DarknetPeerNode;
-import freenet.node.DarknetPeerNode.FRIEND_VISIBILITY;
+import freenet.node.*;
 import freenet.node.DarknetPeerNode.FRIEND_TRUST;
-import freenet.node.FSParseException;
-import freenet.node.Node;
-import freenet.node.NodeClientCore;
-import freenet.node.NodeFile;
-import freenet.node.NodeStats;
-import freenet.node.PeerManager;
-import freenet.node.PeerNode;
+import freenet.node.DarknetPeerNode.FRIEND_VISIBILITY;
 import freenet.node.PeerNode.IncomingLoadSummaryStats;
-import freenet.node.PeerNodeStatus;
-import freenet.node.Version;
-import freenet.node.updater.NodeUpdateManager;
-import freenet.support.Fields;
-import freenet.support.HTMLNode;
-import freenet.support.Logger;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.MultiValueTable;
-import freenet.support.SimpleFieldSet;
-import freenet.support.SizeUtil;
-import freenet.support.TimeUtil;
 import freenet.support.api.HTTPRequest;
 import freenet.support.io.Closer;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.*;
 
 /** Base class for DarknetConnectionsToadlet and OpennetConnectionsToadlet */
 public abstract class ConnectionsToadlet extends Toadlet {

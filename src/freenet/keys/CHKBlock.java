@@ -3,11 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
-import java.security.MessageDigest;
-import java.util.Arrays;
-
 import freenet.crypt.SHA256;
 import freenet.support.Fields;
+
+import java.security.MessageDigest;
+import java.util.Arrays;
 
 /**
  * @author amphibian

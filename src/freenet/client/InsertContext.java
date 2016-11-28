@@ -3,15 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
+import freenet.client.Metadata.SplitfileAlgorithm;
+import freenet.client.events.ClientEventProducer;
+import freenet.client.events.SimpleEventProducer;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import freenet.client.Metadata.SplitfileAlgorithm;
-import freenet.client.events.ClientEventProducer;
-import freenet.client.events.SimpleEventProducer;
-import freenet.support.compress.Compressor;
 
 /** Context object for an insert operation, including both simple and multi-file inserts.
  * 

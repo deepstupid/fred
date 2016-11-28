@@ -1,10 +1,6 @@
 package freenet.client;
 
-import freenet.client.async.BaseClientPutter;
-import freenet.client.async.ClientContext;
-import freenet.client.async.ClientGetCallback;
-import freenet.client.async.ClientGetter;
-import freenet.client.async.ClientPutCallback;
+import freenet.client.async.*;
 import freenet.keys.FreenetURI;
 import freenet.node.RequestClient;
 import freenet.support.Logger;

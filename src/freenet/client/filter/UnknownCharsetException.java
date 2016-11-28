@@ -1,8 +1,8 @@
 package freenet.client.filter;
 
-import java.io.UnsupportedEncodingException;
-
 import freenet.l10n.NodeL10n;
+
+import java.io.UnsupportedEncodingException;
 
 public class UnknownCharsetException extends DataFilterException {
 	private static final long serialVersionUID = 1L;

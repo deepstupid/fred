@@ -1,22 +1,17 @@
 package freenet.store.caching;
 
-import java.io.IOException;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import freenet.keys.KeyVerifyException;
 import freenet.node.SemiOrderedShutdownHook;
-import freenet.store.BlockMetadata;
-import freenet.store.FreenetStore;
-import freenet.store.KeyCollisionException;
-import freenet.store.ProxyFreenetStore;
-import freenet.store.StorableBlock;
-import freenet.store.StoreCallback;
+import freenet.store.*;
 import freenet.support.ByteArrayWrapper;
 import freenet.support.LRUMap;
 import freenet.support.Logger;
 import freenet.support.Ticker;
 import freenet.support.io.NativeThread;
+
+import java.io.IOException;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * CachingFreenetStore

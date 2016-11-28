@@ -1,8 +1,11 @@
 package com.onionnetworks.util;
 
 import java.io.*;
-import java.util.*;
 import java.net.URL;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 /**
  * This class is used for deploying native libraries that are stored inside

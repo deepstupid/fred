@@ -1,10 +1,10 @@
 package freenet.support.io;
 
+import freenet.support.api.LockableRandomAccessBuffer;
+
 import java.io.IOException;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import freenet.support.api.LockableRandomAccessBuffer;
 
 /** Proxy LockableRandomAccessBuffer allowing changing the pointer to the underlying RAT. */
 abstract class SwitchableProxyRandomAccessBuffer implements LockableRandomAccessBuffer {

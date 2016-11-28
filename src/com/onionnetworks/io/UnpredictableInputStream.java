@@ -1,6 +1,8 @@
 package com.onionnetworks.io;
 
-import java.io.*;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
 /**

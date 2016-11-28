@@ -19,12 +19,12 @@ apply plugin: 'java'
 repositories {
     jcenter()
     mavenLocal() // TODO: use lib/ instead?
-    ivy {
-        url 'https://downloads.freenetproject.org/'
-        layout 'pattern', {
-            artifact '/latest/[module][revision].[ext]'
-        }
-    }
+//    ivy {
+//        url 'https://downloads.freenetproject.org/'
+//        layout 'pattern', {
+//            artifact '/latest/[module][revision].[ext]'
+//        }
+//    }
 }
 
 sourceSets {
@@ -127,6 +127,7 @@ task copyResourcesToClasses2 {
             into sourceSets.main.output.classesDir
             include 'freenet/l10n/*properties'
             include 'freenet/l10n/iso-*.tab'
+            include 'com/onionnetworks/fec/*.properties'
             include 'freenet/clients/http/staticfiles/**'
             include '../dependencies.properties'
         }

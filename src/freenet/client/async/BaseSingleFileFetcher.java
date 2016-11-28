@@ -4,19 +4,8 @@
 package freenet.client.async;
 
 import freenet.client.FetchContext;
-import freenet.keys.ClientKey;
-import freenet.keys.ClientKeyBlock;
-import freenet.keys.ClientSSK;
-import freenet.keys.Key;
-import freenet.keys.KeyBlock;
-import freenet.keys.KeyVerifyException;
-import freenet.node.KeysFetchingLocally;
-import freenet.node.LowLevelGetException;
-import freenet.node.NullSendableRequestItem;
-import freenet.node.RequestClient;
-import freenet.node.RequestScheduler;
-import freenet.node.SendableGet;
-import freenet.node.SendableRequestItem;
+import freenet.keys.*;
+import freenet.node.*;
 import freenet.support.Logger;
 import freenet.support.TimeUtil;
 

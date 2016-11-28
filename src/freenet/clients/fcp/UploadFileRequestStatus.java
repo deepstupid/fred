@@ -1,12 +1,12 @@
 package freenet.clients.fcp;
 
-import java.io.File;
-import java.util.Date;
-
 import freenet.client.InsertException.InsertExceptionMode;
 import freenet.clients.fcp.ClientPut.COMPRESS_STATE;
 import freenet.clients.fcp.ClientRequest.Persistence;
 import freenet.keys.FreenetURI;
+
+import java.io.File;
+import java.util.Date;
 
 /** Cached status of a file upload */
 public class UploadFileRequestStatus extends UploadRequestStatus {

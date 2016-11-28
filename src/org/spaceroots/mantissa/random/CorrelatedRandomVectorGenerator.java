@@ -1,8 +1,8 @@
 package org.spaceroots.mantissa.random;
 
 import org.spaceroots.mantissa.MantissaException;
-import org.spaceroots.mantissa.linalg.Matrix;
 import org.spaceroots.mantissa.linalg.GeneralMatrix;
+import org.spaceroots.mantissa.linalg.Matrix;
 import org.spaceroots.mantissa.linalg.SymetricalMatrix;
 
 import java.io.Serializable;

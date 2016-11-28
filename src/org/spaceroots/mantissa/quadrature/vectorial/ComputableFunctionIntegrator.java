@@ -1,7 +1,7 @@
 package org.spaceroots.mantissa.quadrature.vectorial;
 
-import org.spaceroots.mantissa.functions.vectorial.ComputableFunction;
 import org.spaceroots.mantissa.functions.FunctionException;
+import org.spaceroots.mantissa.functions.vectorial.ComputableFunction;
 
 /** This interface represents an integrator for vectorial functions.
 

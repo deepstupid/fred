@@ -7,19 +7,14 @@ import freenet.crypt.RandomSource;
 import freenet.io.comm.NotConnectedException;
 import freenet.io.comm.PeerParseException;
 import freenet.io.comm.ReferenceSignatureVerificationException;
-import freenet.node.FSParseException;
-import freenet.node.Node;
-import freenet.node.NodeInitException;
-import freenet.node.NodeStarter;
-import freenet.node.PeerNode;
 import freenet.node.DarknetPeerNode.FRIEND_TRUST;
 import freenet.node.DarknetPeerNode.FRIEND_VISIBILITY;
-import freenet.node.PeerTooOldException;
+import freenet.node.*;
 import freenet.support.Executor;
 import freenet.support.Logger;
-import freenet.support.PooledExecutor;
 import freenet.support.Logger.LogLevel;
 import freenet.support.LoggerHook.InvalidThresholdException;
+import freenet.support.PooledExecutor;
 
 /**
  * @author amphibian

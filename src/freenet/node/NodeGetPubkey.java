@@ -3,8 +3,6 @@
  */
 package freenet.node;
 
-import java.io.IOException;
-
 import freenet.crypt.DSAPublicKey;
 import freenet.store.BlockMetadata;
 import freenet.store.GetPubkey;
@@ -13,6 +11,8 @@ import freenet.support.ByteArrayWrapper;
 import freenet.support.HexUtil;
 import freenet.support.LRUMap;
 import freenet.support.Logger;
+
+import java.io.IOException;
 
 public class NodeGetPubkey implements GetPubkey {
 	private static volatile boolean logMINOR;

@@ -18,12 +18,12 @@
 
 package freenet.support.io;
 
+import freenet.support.Logger;
+import freenet.support.api.Bucket;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.zip.ZipFile;
-
-import freenet.support.Logger;
-import freenet.support.api.Bucket;
 
 /**
  * Closes various resources. The resources are checked for being

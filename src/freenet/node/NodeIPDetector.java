@@ -1,23 +1,9 @@
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import freenet.config.InvalidConfigValueException;
 import freenet.config.SubConfig;
 import freenet.io.comm.FreenetInetAddress;
 import freenet.io.comm.Peer;
-import freenet.io.comm.UdpSocketHandler;
 import freenet.l10n.NodeL10n;
 import freenet.node.useralerts.IPUndetectedUserAlert;
 import freenet.node.useralerts.InvalidAddressOverrideUserAlert;
@@ -36,6 +22,14 @@ import freenet.support.io.NativeThread;
 import freenet.support.transport.ip.HostnameSyntaxException;
 import freenet.support.transport.ip.IPAddressDetector;
 import freenet.support.transport.ip.IPUtil;
+
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.*;
+import java.util.Map.Entry;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Detect the IP address of the node. Doesn't return port numbers, doesn't have access to per-port

@@ -15,13 +15,13 @@
  */
 package freenet.io;
 
+import freenet.io.AddressIdentifier.AddressType;
+import freenet.support.Logger;
+
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import freenet.io.AddressIdentifier.AddressType;
-import freenet.support.Logger;
 
 /** Implementation of allowedHosts */
 public class AllowedHosts {

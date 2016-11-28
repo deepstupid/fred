@@ -3,6 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
+import freenet.crypt.*;
+import freenet.crypt.ciphers.Rijndael;
+import freenet.keys.Key.Compressed;
+import freenet.support.Logger;
+import freenet.support.api.Bucket;
+import freenet.support.compress.InvalidCompressionCodecException;
+import freenet.support.math.MersenneTwister;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.params.DSAPrivateKeyParameters;
 import org.bouncycastle.crypto.signers.DSASigner;
@@ -13,22 +20,6 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.util.Arrays;
-
-import freenet.crypt.DSAGroup;
-import freenet.crypt.DSAPrivateKey;
-import freenet.crypt.DSAPublicKey;
-import freenet.crypt.Global;
-import freenet.crypt.PCFBMode;
-import freenet.crypt.RandomSource;
-import freenet.crypt.SHA256;
-import freenet.crypt.UnsupportedCipherException;
-import freenet.crypt.Util;
-import freenet.crypt.ciphers.Rijndael;
-import freenet.keys.Key.Compressed;
-import freenet.support.Logger;
-import freenet.support.api.Bucket;
-import freenet.support.compress.InvalidCompressionCodecException;
-import freenet.support.math.MersenneTwister;
 
 /** A ClientSSK that has a private key and therefore can be inserted. */
 public class InsertableClientSSK extends ClientSSK {

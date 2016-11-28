@@ -3,13 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import freenet.io.comm.ByteCounter;
 import freenet.io.comm.DMT;
 import freenet.io.comm.Message;
@@ -17,19 +10,17 @@ import freenet.io.comm.NotConnectedException;
 import freenet.io.xfer.BlockTransmitter;
 import freenet.io.xfer.BlockTransmitter.BlockTransmitterCompletion;
 import freenet.io.xfer.PartiallyReceivedBlock;
-import freenet.keys.CHKBlock;
-import freenet.keys.Key;
-import freenet.keys.KeyBlock;
-import freenet.keys.NodeCHK;
-import freenet.keys.NodeSSK;
-import freenet.keys.SSKBlock;
-import freenet.support.LRUMap;
-import freenet.support.ListUtils;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.SerialExecutor;
+import freenet.keys.*;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
 import freenet.support.io.NativeThread;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 // FIXME it is ESSENTIAL that we delete the ULPR data on requestors etc once we have found the key.
 // Otherwise it will be much too easy to trace a request if an attacker busts the node afterwards.

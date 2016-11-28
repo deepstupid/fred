@@ -3,8 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node.simulator;
 
-import java.io.File;
-
 import freenet.crypt.DummyRandomSource;
 import freenet.crypt.RandomSource;
 import freenet.node.LocationManager;
@@ -12,12 +10,14 @@ import freenet.node.Node;
 import freenet.node.NodeStarter;
 import freenet.support.Executor;
 import freenet.support.Logger;
-import freenet.support.PooledExecutor;
 import freenet.support.Logger.LogLevel;
+import freenet.support.PooledExecutor;
 import freenet.support.io.FileUtil;
 import freenet.support.math.BootstrappingDecayingRunningAverage;
 import freenet.support.math.RunningAverage;
 import freenet.support.math.SimpleRunningAverage;
+
+import java.io.File;
 
 /**
  * @author amphibian

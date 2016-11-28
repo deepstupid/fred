@@ -1,9 +1,5 @@
 package freenet.client.async;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import freenet.client.FECCodec;
 import freenet.client.FetchException;
 import freenet.client.FetchException.FetchExceptionMode;
@@ -16,8 +12,11 @@ import freenet.support.Logger;
 import freenet.support.MemoryLimitedChunk;
 import freenet.support.MemoryLimitedJob;
 import freenet.support.MemoryLimitedJobRunner;
-import freenet.support.io.NativeThread;
 import freenet.support.io.StorageFormatException;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 /** Cross-segments are "in parallel" with the main segments, an interlaced Reed-Solomon scheme 
  * similar to that used on CD's, allowing us to fill in blocks from other segments. There are 3

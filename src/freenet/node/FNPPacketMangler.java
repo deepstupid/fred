@@ -26,7 +26,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * @author amphibian

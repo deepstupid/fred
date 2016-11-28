@@ -3,18 +3,8 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http;
 
-import java.io.IOException;
-import java.net.URI;
-
 import freenet.client.HighLevelSimpleClient;
-import freenet.config.Config;
-import freenet.config.ConfigCallback;
-import freenet.config.EnumerableOptionCallback;
-import freenet.config.InvalidConfigValueException;
-import freenet.config.NodeNeedRestartException;
-import freenet.config.Option;
-import freenet.config.SubConfig;
-import freenet.config.WrapperConfig;
+import freenet.config.*;
 import freenet.l10n.NodeL10n;
 import freenet.node.Node;
 import freenet.node.NodeClientCore;
@@ -29,6 +19,9 @@ import freenet.support.MultiValueTable;
 import freenet.support.URLEncoder;
 import freenet.support.api.BooleanCallback;
 import freenet.support.api.HTTPRequest;
+
+import java.io.IOException;
+import java.net.URI;
 
 /**
  * Node Configuration Toadlet. Accessible from <code>http://.../config/</code>.

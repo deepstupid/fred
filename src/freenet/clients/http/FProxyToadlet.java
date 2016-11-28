@@ -1,43 +1,10 @@
 package freenet.clients.http;
 
-import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.SocketException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import freenet.client.DefaultMIMETypes;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.FetchResult;
-import freenet.client.HighLevelSimpleClient;
 import freenet.client.async.ClientContext;
-import freenet.client.filter.ContentFilter;
-import freenet.client.filter.FoundURICallback;
-import freenet.client.filter.FilterMIMEType;
-import freenet.client.filter.PushingTagReplacerCallback;
-import freenet.client.filter.UnsafeContentTypeException;
-import freenet.clients.http.ajaxpush.DismissAlertToadlet;
-import freenet.clients.http.ajaxpush.LogWritebackToadlet;
-import freenet.clients.http.ajaxpush.PushDataToadlet;
-import freenet.clients.http.ajaxpush.PushFailoverToadlet;
-import freenet.clients.http.ajaxpush.PushKeepaliveToadlet;
-import freenet.clients.http.ajaxpush.PushLeavingToadlet;
-import freenet.clients.http.ajaxpush.PushNotificationToadlet;
-import freenet.clients.http.ajaxpush.PushTesterToadlet;
+import freenet.client.filter.*;
+import freenet.clients.http.ajaxpush.*;
 import freenet.clients.http.updateableelements.ProgressBarElement;
 import freenet.clients.http.updateableelements.ProgressInfoElement;
 import freenet.config.Config;
@@ -50,16 +17,7 @@ import freenet.node.*;
 import freenet.node.SecurityLevels.NETWORK_THREAT_LEVEL;
 import freenet.node.SecurityLevels.PHYSICAL_THREAT_LEVEL;
 import freenet.pluginmanager.PluginInfoWrapper;
-import freenet.support.HTMLEncoder;
-import freenet.support.HTMLNode;
-import freenet.support.HexUtil;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.MediaType;
-import freenet.support.MultiValueTable;
-import freenet.support.SizeUtil;
-import freenet.support.URIPreEncoder;
-import freenet.support.URLEncoder;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
@@ -68,6 +26,16 @@ import freenet.support.io.BucketTools;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
 import freenet.support.io.NoFreeBucket;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.SocketException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public final class FProxyToadlet extends Toadlet implements RequestClient {
 

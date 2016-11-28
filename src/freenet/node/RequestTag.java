@@ -1,10 +1,10 @@
 package freenet.node;
 
-import java.lang.ref.WeakReference;
-
 import freenet.keys.NodeCHK;
 import freenet.support.Logger;
 import freenet.support.TimeUtil;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Tag for a request.

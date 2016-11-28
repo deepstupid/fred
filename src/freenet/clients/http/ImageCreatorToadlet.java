@@ -1,8 +1,12 @@
 package freenet.clients.http;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import freenet.client.HighLevelSimpleClient;
+import freenet.support.MultiValueTable;
+import freenet.support.api.Bucket;
+import freenet.support.api.HTTPRequest;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -11,13 +15,6 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.sql.Date;
 import java.text.ParseException;
-
-import javax.imageio.ImageIO;
-
-import freenet.client.HighLevelSimpleClient;
-import freenet.support.MultiValueTable;
-import freenet.support.api.Bucket;
-import freenet.support.api.HTTPRequest;
 
 /** This toadlet creates a PNG image with the specified text. */
 public class ImageCreatorToadlet extends Toadlet {

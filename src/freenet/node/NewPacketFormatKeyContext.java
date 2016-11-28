@@ -1,16 +1,16 @@
 package freenet.node;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
-
 import freenet.io.xfer.PacketThrottle;
 import freenet.node.NewPacketFormat.SentPacket;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
-import freenet.support.SentTimeCache;
 import freenet.support.Logger.LogLevel;
+import freenet.support.SentTimeCache;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 /** NewPacketFormat's context for each SessionKey. Specifically, packet numbers are unique
  * to a SessionKey, because the packet number is used in encrypting the packet. Hence this

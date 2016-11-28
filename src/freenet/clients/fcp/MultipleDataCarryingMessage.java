@@ -1,15 +1,15 @@
 package freenet.clients.fcp;
 
+import freenet.support.SimpleFieldSet;
+import freenet.support.api.Bucket;
+import freenet.support.api.BucketFactory;
+import freenet.support.io.BucketTools;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import freenet.support.SimpleFieldSet;
-import freenet.support.api.Bucket;
-import freenet.support.api.BucketFactory;
-import freenet.support.io.BucketTools;
 
 public abstract class MultipleDataCarryingMessage extends BaseDataCarryingMessage {
 

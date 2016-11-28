@@ -8,8 +8,8 @@ import freenet.config.Option;
 import freenet.config.SubConfig;
 import freenet.node.Node;
 import freenet.support.Logger;
-import freenet.support.SimpleFieldSet;
 import freenet.support.Logger.LogLevel;
+import freenet.support.SimpleFieldSet;
 
 public class ModifyConfig extends FCPMessage {
 

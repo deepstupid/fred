@@ -1,11 +1,11 @@
 package freenet.clients.http;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import freenet.clients.http.updateableelements.BaseUpdateableElement;
 import freenet.clients.http.updateableelements.PushDataManager;
 import freenet.support.Ticker;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /** This manager object will push elements at a fixed interval */
 public class IntervalPusherManager {

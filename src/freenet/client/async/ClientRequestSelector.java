@@ -1,37 +1,16 @@
 package freenet.client.async;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import freenet.client.FetchContext;
 import freenet.crypt.RandomSource;
 import freenet.keys.ClientKey;
 import freenet.keys.Key;
-import freenet.node.BaseSendableGet;
-import freenet.node.KeysFetchingLocally;
-import freenet.node.Node;
-import freenet.node.RequestClient;
-import freenet.node.RequestScheduler;
-import freenet.node.RequestStarter;
-import freenet.node.SendableGet;
-import freenet.node.SendableInsert;
-import freenet.node.SendableRequest;
-import freenet.node.SendableRequestItem;
-import freenet.node.SendableRequestItemKey;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
+import freenet.node.*;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
-import freenet.support.RandomGrabArray;
-import freenet.support.RandomGrabArrayWithObject;
 import freenet.support.RemoveRandom.RemoveRandomReturn;
-import freenet.support.RemoveRandomParent;
-import freenet.support.SectoredRandomGrabArray;
-import freenet.support.SectoredRandomGrabArraySimple;
-import freenet.support.TimeUtil;
+
+import java.lang.ref.WeakReference;
+import java.util.*;
 
 /** The global request queue. Both transient and persistent requests are kept on this in-RAM 
  * structure, which supports choosing a request to run. See KeyListenerTracker for the code

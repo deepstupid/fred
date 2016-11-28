@@ -3,40 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
 import freenet.client.FetchContext;
 import freenet.client.FetchException;
 import freenet.client.FetchException.FetchExceptionMode;
 import freenet.client.FetchResult;
 import freenet.client.InsertContext;
-import freenet.client.async.BinaryBlob;
-import freenet.client.async.BinaryBlobWriter;
-import freenet.client.async.ClientContext;
-import freenet.client.async.ClientGetCallback;
-import freenet.client.async.ClientGetter;
-import freenet.client.async.ClientRequester;
-import freenet.client.async.CompatibilityAnalyser;
-import freenet.client.async.PersistenceDisabledException;
-import freenet.client.async.PersistentClientCallback;
-import freenet.client.async.PersistentJob;
-import freenet.client.events.ClientEvent;
-import freenet.client.events.ClientEventListener;
-import freenet.client.events.EnterFiniteCooldownEvent;
-import freenet.client.events.ExpectedFileSizeEvent;
-import freenet.client.events.ExpectedHashesEvent;
-import freenet.client.events.ExpectedMIMEEvent;
-import freenet.client.events.SendingToNetworkEvent;
-import freenet.client.events.SplitfileCompatibilityModeEvent;
-import freenet.client.events.SplitfileProgressEvent;
+import freenet.client.async.*;
+import freenet.client.events.*;
 import freenet.clients.fcp.RequestIdentifier.RequestType;
 import freenet.crypt.ChecksumChecker;
 import freenet.crypt.ChecksumFailedException;
@@ -48,13 +21,17 @@ import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
-import freenet.support.io.ArrayBucketFactory;
-import freenet.support.io.BucketTools;
-import freenet.support.io.FileBucket;
-import freenet.support.io.NativeThread;
-import freenet.support.io.NullBucket;
-import freenet.support.io.ResumeFailedException;
-import freenet.support.io.StorageFormatException;
+import freenet.support.io.*;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 /**
  * A simple client fetch. This can of course fetch arbitrarily large

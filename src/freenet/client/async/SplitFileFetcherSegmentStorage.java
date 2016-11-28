@@ -1,37 +1,25 @@
 package freenet.client.async;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.ref.SoftReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
 import freenet.client.FetchException;
 import freenet.client.FetchException.FetchExceptionMode;
 import freenet.client.Metadata.SplitfileAlgorithm;
 import freenet.client.async.PersistentJobRunner.CheckpointLock;
 import freenet.crypt.ChecksumFailedException;
-import freenet.keys.CHKBlock;
-import freenet.keys.CHKDecodeException;
-import freenet.keys.CHKEncodeException;
-import freenet.keys.CHKVerifyException;
-import freenet.keys.ClientCHK;
-import freenet.keys.ClientCHKBlock;
-import freenet.keys.Key;
-import freenet.keys.NodeCHK;
+import freenet.keys.*;
 import freenet.node.KeysFetchingLocally;
 import freenet.support.Logger;
 import freenet.support.MemoryLimitedChunk;
 import freenet.support.MemoryLimitedJob;
 import freenet.support.MemoryLimitedJobRunner;
 import freenet.support.api.LockableRandomAccessBuffer.RAFLock;
-import freenet.support.io.NativeThread;
 import freenet.support.io.StorageFormatException;
+
+import java.io.*;
+import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 /** Represents a single segment, in memory and on disk. Handles storage and decoding. Note that the
  * on-disk data, and therefore the read-in metadata, may be inaccurate; we check everything 

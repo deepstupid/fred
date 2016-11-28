@@ -1,13 +1,13 @@
 package freenet.client;
 
-import java.io.Serializable;
-
 import freenet.client.ArchiveManager.ARCHIVE_TYPE;
 import freenet.client.async.ClientContext;
 import freenet.keys.FreenetURI;
 import freenet.support.Logger;
 import freenet.support.api.Bucket;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
+
+import java.io.Serializable;
 
 class ArchiveHandlerImpl implements ArchiveHandler, Serializable {
 

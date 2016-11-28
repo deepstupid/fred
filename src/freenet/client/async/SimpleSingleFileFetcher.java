@@ -3,9 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.io.IOException;
-import java.io.Serializable;
-
 import freenet.client.ClientMetadata;
 import freenet.client.FetchContext;
 import freenet.client.FetchException;
@@ -22,6 +19,9 @@ import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.io.InsufficientDiskSpaceException;
+
+import java.io.IOException;
+import java.io.Serializable;
 
 /** 
  * Fetch a single block file. Used directly for very simple fetches, but also base class for 

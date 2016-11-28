@@ -3,13 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.File;
-
 import freenet.clients.fcp.ClientGet.ReturnType;
 import freenet.clients.fcp.ClientRequest.Persistence;
 import freenet.keys.FreenetURI;
 import freenet.node.Node;
 import freenet.support.SimpleFieldSet;
+
+import java.io.File;
 
 /**
  * Sent by the node to a client when it asks for a list of current requests.

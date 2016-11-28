@@ -3,10 +3,10 @@
  */
 package freenet.crypt;
 
+import org.bitpedia.util.TigerTree;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import org.bitpedia.util.TigerTree;
 
 public enum HashType {
 	// warning: keep in sync with Util.mdProviders!

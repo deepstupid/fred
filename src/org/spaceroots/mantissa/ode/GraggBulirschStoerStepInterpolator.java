@@ -1,8 +1,8 @@
 package org.spaceroots.mantissa.ode;
 
+import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.IOException;
 
 /**
  * This class implements an interpolator for the Gragg-Bulirsch-Stoer

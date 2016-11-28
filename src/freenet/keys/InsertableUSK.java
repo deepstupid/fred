@@ -3,13 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
-import java.net.MalformedURLException;
-
 import freenet.crypt.DSAGroup;
 import freenet.crypt.DSAPrivateKey;
 import freenet.crypt.DSAPublicKey;
 import freenet.crypt.Global;
 import freenet.support.Logger;
+
+import java.net.MalformedURLException;
 
 /**
  * An insertable USK.

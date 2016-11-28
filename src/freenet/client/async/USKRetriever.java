@@ -3,20 +3,8 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.net.MalformedURLException;
-import java.util.List;
-
-import freenet.client.ArchiveContext;
-import freenet.client.ClientMetadata;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.FetchResult;
 import freenet.client.InsertContext.CompatibilityMode;
 import freenet.crypt.HashResult;
 import freenet.keys.FreenetURI;
@@ -25,13 +13,17 @@ import freenet.node.PrioRunnable;
 import freenet.node.RequestClient;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.compress.Compressor;
 import freenet.support.compress.DecompressorThreadManager;
 import freenet.support.io.Closer;
 import freenet.support.io.InsufficientDiskSpaceException;
-import freenet.support.Logger.LogLevel;
 import freenet.support.io.NativeThread;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.util.List;
 
 /**
  * Poll a USK, and when a new slot is found, fetch it. 

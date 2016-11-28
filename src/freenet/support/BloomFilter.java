@@ -1,5 +1,7 @@
 package freenet.support;
 
+import freenet.support.math.MersenneTwister;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,8 +11,6 @@ import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import freenet.support.math.MersenneTwister;
 
 public abstract class BloomFilter {
 	protected ByteBuffer filter;

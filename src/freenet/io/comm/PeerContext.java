@@ -3,11 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.io.comm;
 
-import java.lang.ref.WeakReference;
-
 import freenet.io.xfer.PacketThrottle;
 import freenet.node.MessageItem;
 import freenet.node.OutgoingPacketMangler;
+
+import java.lang.ref.WeakReference;
 
 /**
  * @author amphibian

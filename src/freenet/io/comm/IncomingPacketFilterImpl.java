@@ -3,8 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.io.comm;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import freenet.crypt.EntropySource;
 import freenet.node.FNPPacketMangler;
 import freenet.node.Node;
@@ -13,6 +11,8 @@ import freenet.node.PeerNode;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 public class IncomingPacketFilterImpl implements IncomingPacketFilter {
 

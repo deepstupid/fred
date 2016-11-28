@@ -1,10 +1,10 @@
 package freenet.clients.fcp;
 
+import freenet.support.api.BucketFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import freenet.support.api.BucketFactory;
 
 public abstract class BaseDataCarryingMessage extends FCPMessage {
 

@@ -1,7 +1,7 @@
 package org.spaceroots.mantissa.roots;
 
-import org.spaceroots.mantissa.functions.scalar.ComputableFunction;
 import org.spaceroots.mantissa.functions.FunctionException;
+import org.spaceroots.mantissa.functions.scalar.ComputableFunction;
 
 /** This class implements the Brent algorithm to compute the roots of
  * a function in an interval.

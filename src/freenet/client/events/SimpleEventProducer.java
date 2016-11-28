@@ -3,10 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.events;
 
+import freenet.client.async.ClientContext;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import freenet.client.async.ClientContext;
 
 /**
  * Event handeling for clients. SimpleEventProducer is a simple

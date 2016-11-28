@@ -3,8 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.plugins.helpers1;
 
-import java.util.List;
-
 import freenet.clients.http.InfoboxNode;
 import freenet.clients.http.LinkEnabledCallback;
 import freenet.clients.http.Toadlet;
@@ -14,6 +12,8 @@ import freenet.node.NodeClientCore;
 import freenet.pluginmanager.PluginRespirator;
 import freenet.support.HTMLNode;
 import freenet.support.api.HTTPRequest;
+
+import java.util.List;
 
 public abstract class WebInterfaceToadlet extends Toadlet implements LinkEnabledCallback {
 

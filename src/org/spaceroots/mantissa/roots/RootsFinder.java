@@ -1,7 +1,7 @@
 package org.spaceroots.mantissa.roots;
 
-import org.spaceroots.mantissa.functions.scalar.ComputableFunction;
 import org.spaceroots.mantissa.functions.FunctionException;
+import org.spaceroots.mantissa.functions.scalar.ComputableFunction;
 
 /** This interface specifies root-finding methods for scalar
  * functions.

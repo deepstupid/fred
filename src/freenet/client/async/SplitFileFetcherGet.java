@@ -5,11 +5,7 @@ import freenet.client.FetchException;
 import freenet.client.async.SplitFileFetcherStorage.MyKey;
 import freenet.keys.ClientKey;
 import freenet.keys.Key;
-import freenet.node.KeysFetchingLocally;
-import freenet.node.LowLevelGetException;
-import freenet.node.RequestClient;
-import freenet.node.SendableGet;
-import freenet.node.SendableRequestItem;
+import freenet.node.*;
 import freenet.support.Logger;
 
 /** Actually does the splitfile fetch. Only one fetcher object for an entire splitfile.

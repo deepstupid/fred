@@ -3,13 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import java.util.Arrays;
-
 import freenet.io.comm.AsyncMessageCallback;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
-import freenet.support.SparseBitmap;
 import freenet.support.Logger.LogLevel;
+import freenet.support.SparseBitmap;
+
+import java.util.Arrays;
 
 public class MessageWrapper {
 	private final MessageItem item;

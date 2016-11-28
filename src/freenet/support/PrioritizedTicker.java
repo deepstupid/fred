@@ -1,14 +1,10 @@
 package freenet.support;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
-
 import freenet.node.FastRunnable;
 import freenet.support.Logger.LogLevel;
 import freenet.support.io.NativeThread;
+
+import java.util.*;
 
 public class PrioritizedTicker implements Ticker, Runnable {
 	

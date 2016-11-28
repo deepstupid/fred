@@ -3,15 +3,15 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.store.saltedhash;
 
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import freenet.support.Logger;
-import freenet.support.Logger.LogLevel;
 
 /**
  * Lock Manager

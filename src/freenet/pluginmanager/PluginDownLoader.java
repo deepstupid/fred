@@ -3,10 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.pluginmanager;
 
+import freenet.pluginmanager.PluginManager.PluginProgress;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import freenet.pluginmanager.PluginManager.PluginProgress;
 
 /**
  * load a plugin from wherever 

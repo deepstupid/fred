@@ -1,10 +1,9 @@
 package freenet.support.io;
 
-import java.io.IOException;
-
-import freenet.support.api.Bucket;
 import freenet.support.api.BucketFactory;
 import freenet.support.api.RandomAccessBucket;
+
+import java.io.IOException;
 
 public class NullBucketFactory implements BucketFactory {
 

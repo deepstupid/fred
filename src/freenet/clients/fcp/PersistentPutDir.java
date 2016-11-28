@@ -3,8 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.util.HashMap;
-
 import freenet.client.InsertContext;
 import freenet.client.async.BaseManifestPutter;
 import freenet.clients.fcp.ClientRequest.Persistence;
@@ -16,13 +14,9 @@ import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
 import freenet.support.api.Bucket;
 import freenet.support.api.ManifestElement;
-import freenet.support.io.DelayedFreeBucket;
-import freenet.support.io.DelayedFreeRandomAccessBucket;
-import freenet.support.io.FileBucket;
-import freenet.support.io.NullBucket;
-import freenet.support.io.PaddedEphemerallyEncryptedBucket;
-import freenet.support.io.PersistentTempFileBucket;
-import freenet.support.io.TempBucketFactory;
+import freenet.support.io.*;
+
+import java.util.HashMap;
 
 public class PersistentPutDir extends FCPMessage {
 

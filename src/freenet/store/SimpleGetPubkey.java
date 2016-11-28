@@ -1,10 +1,10 @@
 package freenet.store;
 
-import java.io.IOException;
-
 import freenet.crypt.DSAPublicKey;
 import freenet.support.HexUtil;
 import freenet.support.Logger;
+
+import java.io.IOException;
 
 public class SimpleGetPubkey implements GetPubkey {
 	

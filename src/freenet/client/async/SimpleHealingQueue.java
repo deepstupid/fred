@@ -3,9 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import freenet.client.InsertContext;
 import freenet.client.InsertException;
 import freenet.client.Metadata;
@@ -18,6 +15,9 @@ import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SimpleHealingQueue extends BaseClientPutter implements HealingQueue, PutCompletionCallback {
 	private static final long serialVersionUID = -2884613086588264043L;

@@ -1,13 +1,13 @@
 package freenet.client.async;
 
+import freenet.keys.NodeCHK;
+import freenet.support.Logger;
+import freenet.support.io.StorageFormatException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Random;
-
-import freenet.keys.NodeCHK;
-import freenet.support.Logger;
-import freenet.support.io.StorageFormatException;
 
 /** Tracks which blocks have been completed, how many attempts have been made for which blocks,
  * allows choosing a random block, failing a block etc.

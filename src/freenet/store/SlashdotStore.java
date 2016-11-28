@@ -1,23 +1,19 @@
 package freenet.store;
 
+import freenet.keys.KeyVerifyException;
+import freenet.node.stats.StoreAccessStats;
+import freenet.node.useralerts.UserAlertManager;
+import freenet.support.*;
+import freenet.support.Logger.LogLevel;
+import freenet.support.api.Bucket;
+import freenet.support.io.TempBucketFactory;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import freenet.keys.KeyVerifyException;
-import freenet.node.stats.StoreAccessStats;
-import freenet.node.useralerts.UserAlertManager;
-import freenet.support.ByteArrayWrapper;
-import freenet.support.LRUMap;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.Ticker;
-import freenet.support.Logger.LogLevel;
-import freenet.support.api.Bucket;
-import freenet.support.io.TempBucketFactory;
 
 /** Short-term cache. Used to cache all blocks retrieved in the last 30 minutes (on low 
  * security levels), or just to cache data fetched through ULPRs (on higher security levels).

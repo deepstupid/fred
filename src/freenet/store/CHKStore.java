@@ -1,13 +1,13 @@
 package freenet.store;
 
-import java.io.IOException;
-
 import freenet.crypt.DSAPublicKey;
 import freenet.keys.CHKBlock;
 import freenet.keys.CHKVerifyException;
 import freenet.keys.KeyVerifyException;
 import freenet.keys.NodeCHK;
 import freenet.support.Logger;
+
+import java.io.IOException;
 
 public class CHKStore extends StoreCallback<CHKBlock> {
 

@@ -3,14 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.plugins.helpers1;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import freenet.pluginmanager.PluginNotFoundException;
 import freenet.pluginmanager.PluginReplySender;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
 import freenet.support.api.Bucket;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public abstract class AbstractFCPHandler {
 

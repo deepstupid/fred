@@ -3,14 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.File;
-import java.io.IOException;
-
 import freenet.clients.fcp.FCPConnectionHandler.DDACheckJob;
 import freenet.node.Node;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
 import freenet.support.io.FileUtil;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * client -> node: DDARequest { WantRead=true, WantWrite=true, Dir=/tmp/blah }

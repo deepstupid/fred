@@ -1,9 +1,9 @@
 package freenet.client.async;
 
+import freenet.node.KeysFetchingLocally;
+
 import java.io.IOException;
 import java.util.Random;
-
-import freenet.node.KeysFetchingLocally;
 
 public class SplitFileFetcherSegmentBlockChooser extends CooldownBlockChooser {
 

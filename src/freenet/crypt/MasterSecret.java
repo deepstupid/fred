@@ -3,11 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
-import java.io.Serializable;
-import java.security.InvalidKeyException;
-
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import java.io.Serializable;
+import java.security.InvalidKeyException;
 
 /**
  * MasterSecret is a serializable secret used to derive various keys and ivs for local storage in 

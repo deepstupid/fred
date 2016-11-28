@@ -3,16 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.filter;
 
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import freenet.l10n.NodeL10n;
+
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import freenet.l10n.NodeL10n;
-import freenet.support.io.FileUtil;
 
 /**
  * Content filter for GIF's.

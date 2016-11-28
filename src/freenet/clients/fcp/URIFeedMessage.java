@@ -1,12 +1,12 @@
 package freenet.clients.fcp;
 
-import java.io.UnsupportedEncodingException;
-
 import freenet.keys.FreenetURI;
 import freenet.support.SimpleFieldSet;
 import freenet.support.api.Bucket;
 import freenet.support.io.ArrayBucket;
 import freenet.support.io.NullBucket;
+
+import java.io.UnsupportedEncodingException;
 
 public class URIFeedMessage extends N2NFeedMessage {
 

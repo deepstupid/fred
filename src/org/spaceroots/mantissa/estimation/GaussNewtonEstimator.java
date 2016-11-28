@@ -1,11 +1,11 @@
 package org.spaceroots.mantissa.estimation;
 
-import java.io.Serializable;
-
-import org.spaceroots.mantissa.linalg.Matrix;
 import org.spaceroots.mantissa.linalg.GeneralMatrix;
-import org.spaceroots.mantissa.linalg.SymetricalMatrix;
+import org.spaceroots.mantissa.linalg.Matrix;
 import org.spaceroots.mantissa.linalg.SingularMatrixException;
+import org.spaceroots.mantissa.linalg.SymetricalMatrix;
+
+import java.io.Serializable;
 
 /** This class implements a solver for estimation problems.
 

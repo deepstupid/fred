@@ -3,11 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.util.Date;
-
 import freenet.client.events.SplitfileProgressEvent;
 import freenet.node.Node;
 import freenet.support.SimpleFieldSet;
+
+import java.util.Date;
 
 public class SimpleProgressMessage extends FCPMessage {
 

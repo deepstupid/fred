@@ -1,8 +1,10 @@
 package com.onionnetworks.io;
 
-import com.onionnetworks.util.*;
-import java.io.*;
-import java.util.*;
+import com.onionnetworks.util.Range;
+import com.onionnetworks.util.RangeSet;
+
+import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * This Raf only allows a byte position to be written once.  Any duplicate

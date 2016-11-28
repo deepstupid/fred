@@ -1,9 +1,5 @@
 package freenet.node.updater;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import freenet.client.FetchResult;
 import freenet.clients.http.PproxyToadlet;
 import freenet.keys.FreenetURI;
@@ -18,6 +14,10 @@ import freenet.support.HTMLNode;
 import freenet.support.Logger;
 import freenet.support.api.Bucket;
 import freenet.support.io.BucketTools;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class PluginJarUpdater extends NodeUpdater {
 

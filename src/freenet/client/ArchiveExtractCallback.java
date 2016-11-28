@@ -1,9 +1,9 @@
 package freenet.client;
 
-import java.io.Serializable;
-
 import freenet.client.async.ClientContext;
 import freenet.support.api.Bucket;
+
+import java.io.Serializable;
 
 /** Called when we have extracted an archive, and a specified file either is
  * or isn't in it. */

@@ -1,6 +1,7 @@
 package com.onionnetworks.util;
 
-import java.util.*;
+import java.util.EventListener;
+import java.util.EventObject;
 
 public class InvokingDispatch extends ReflectiveEventDispatch implements
     EventListener{

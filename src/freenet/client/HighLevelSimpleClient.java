@@ -3,9 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
-import java.util.HashMap;
-import java.util.Set;
-
 import freenet.client.async.ClientGetCallback;
 import freenet.client.async.ClientGetter;
 import freenet.client.async.ClientPutCallback;
@@ -14,6 +11,9 @@ import freenet.client.events.ClientEventListener;
 import freenet.keys.FreenetURI;
 import freenet.node.RequestClient;
 import freenet.support.api.Bucket;
+
+import java.util.HashMap;
+import java.util.Set;
 
 public interface HighLevelSimpleClient {
 

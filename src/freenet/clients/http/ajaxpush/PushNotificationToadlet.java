@@ -1,19 +1,15 @@
 package freenet.clients.http.ajaxpush;
 
-import java.io.IOException;
-import java.net.URI;
-
 import freenet.client.HighLevelSimpleClient;
-import freenet.clients.http.RedirectException;
-import freenet.clients.http.SimpleToadletServer;
-import freenet.clients.http.Toadlet;
-import freenet.clients.http.ToadletContext;
-import freenet.clients.http.ToadletContextClosedException;
+import freenet.clients.http.*;
 import freenet.clients.http.updateableelements.PushDataManager;
 import freenet.clients.http.updateableelements.UpdaterConstants;
 import freenet.support.Base64;
 import freenet.support.Logger;
 import freenet.support.api.HTTPRequest;
+
+import java.io.IOException;
+import java.net.URI;
 
 /** This toadlet provides notifications for clients. It will block until one is present. It requires the requestId parameter. */
 public class PushNotificationToadlet extends Toadlet {

@@ -3,15 +3,9 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.io.IOException;
-
-import freenet.client.ClientMetadata;
-import freenet.client.InsertBlock;
-import freenet.client.InsertContext;
+import freenet.client.*;
 import freenet.client.InsertContext.CompatibilityMode;
-import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
-import freenet.client.Metadata;
 import freenet.client.events.SendingToNetworkEvent;
 import freenet.client.events.SplitfileProgressEvent;
 import freenet.crypt.ChecksumChecker;
@@ -24,6 +18,8 @@ import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.io.ResumeFailedException;
+
+import java.io.IOException;
 
 /** A high level insert. */
 public class ClientPutter extends BaseClientPutter implements PutCompletionCallback {

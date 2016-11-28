@@ -1,19 +1,11 @@
 package freenet.tools;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-
 import freenet.support.Logger;
 import freenet.support.LoggerHook;
 import freenet.support.SimpleFieldSet;
 import freenet.support.io.Closer;
+
+import java.io.*;
 
 public class CleanupTranslations {
 

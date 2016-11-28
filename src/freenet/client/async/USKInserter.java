@@ -3,12 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.util.Arrays;
-
 import freenet.client.InsertContext;
 import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
@@ -23,6 +17,12 @@ import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.io.BucketTools;
 import freenet.support.io.ResumeFailedException;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.util.Arrays;
 
 /**
  * Insert a USK. The algorithm is simply to do a thorough search for the latest edition, and insert at the

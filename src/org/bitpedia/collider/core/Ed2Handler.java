@@ -5,8 +5,6 @@
 
 package org.bitpedia.collider.core;
 
-import org.bitpedia.collider.core.Md4Handler;
-
 public class Ed2Handler {
     private static final int EDSEG_SIZE = 9728000;
     private Md4Handler seg;

@@ -19,13 +19,13 @@
 
 package freenet.io.comm;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
 import freenet.support.Logger;
 import freenet.support.Serializer;
 import freenet.support.ShortBuffer;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class MessageType {
 

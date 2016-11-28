@@ -3,8 +3,9 @@
 
 package com.onionnetworks.net;
 
-import java.net.*;
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 public abstract class DatagramSocketFactory {
 

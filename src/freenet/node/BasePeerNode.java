@@ -1,10 +1,10 @@
 package freenet.node;
 
-import java.util.Random;
-
 import freenet.io.comm.Message;
 import freenet.io.comm.Peer.LocalAddressException;
 import freenet.io.comm.PeerContext;
+
+import java.util.Random;
 
 /** Base interface for PeerNode, for purposes of the transport layer. Will be overridden
  * for unit tests to simplify testing. 

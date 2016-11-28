@@ -1,9 +1,9 @@
 package org.spaceroots.mantissa.functions.vectorial;
 
-import java.io.Serializable;
-
-import org.spaceroots.mantissa.functions.FunctionException;
 import org.spaceroots.mantissa.functions.ExhaustedSampleException;
+import org.spaceroots.mantissa.functions.FunctionException;
+
+import java.io.Serializable;
 
 /** This class is a wrapper allowing to iterate over a
  * SampledFunction.

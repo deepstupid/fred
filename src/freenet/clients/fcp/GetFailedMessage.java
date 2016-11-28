@@ -3,12 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-
 import freenet.client.FailureCodeTracker;
 import freenet.client.FetchException;
 import freenet.client.FetchException.FetchExceptionMode;
@@ -17,8 +11,14 @@ import freenet.node.Node;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
-import freenet.support.io.StorageFormatException;
 import freenet.support.SimpleFieldSet;
+import freenet.support.io.StorageFormatException;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.MalformedURLException;
 
 public class GetFailedMessage extends FCPMessage implements Serializable {
 

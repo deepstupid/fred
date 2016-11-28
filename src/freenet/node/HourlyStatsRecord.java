@@ -1,14 +1,14 @@
 package freenet.node;
 
+import freenet.support.HTMLNode;
+import freenet.support.Logger;
+import freenet.support.math.TrivialRunningAverage;
+
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
-import freenet.support.HTMLNode;
-import freenet.support.Logger;
-import freenet.support.math.TrivialRunningAverage;
 
 /** A record of stats during a single hour */
 public class HourlyStatsRecord {

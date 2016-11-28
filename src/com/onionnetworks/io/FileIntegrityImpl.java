@@ -1,7 +1,7 @@
 package com.onionnetworks.io;
 
-import com.onionnetworks.util.Util;
 import com.onionnetworks.util.Buffer;
+import com.onionnetworks.util.Util;
 
 /**
  * This class provides a way to access various structures needed to check

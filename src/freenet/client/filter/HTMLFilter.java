@@ -2,44 +2,18 @@
 
 package freenet.client.filter;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
+import freenet.clients.http.ToadletContextImpl;
+import freenet.l10n.NodeL10n;
+import freenet.support.*;
+import freenet.support.Logger.LogLevel;
+import freenet.support.io.NullWriter;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Stack;
-import java.util.StringTokenizer;
-
-import freenet.clients.http.ToadletContextImpl;
-import freenet.l10n.NodeL10n;
-import freenet.support.HTMLDecoder;
-import freenet.support.HTMLEncoder;
-import freenet.support.Logger;
-import freenet.support.Logger.LogLevel;
-import freenet.support.URLDecoder;
-import freenet.support.URLEncodedFormatException;
-import freenet.support.io.NullWriter;
 
 public class HTMLFilter implements ContentDataFilter, CharsetExtractor {
 

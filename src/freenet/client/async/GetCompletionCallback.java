@@ -3,13 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client.async;
 
-import java.util.List;
-
 import freenet.client.ClientMetadata;
 import freenet.client.FetchException;
-import freenet.support.compress.Compressor;
 import freenet.client.InsertContext.CompatibilityMode;
 import freenet.crypt.HashResult;
+import freenet.support.compress.Compressor;
+
+import java.util.List;
 
 /**
  * Callback called when part of a get request completes - either with a 

@@ -3,36 +3,23 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node.simulator;
 
-import static java.util.concurrent.TimeUnit.DAYS;
-
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.crypt.DummyRandomSource;
 import freenet.io.comm.PeerParseException;
 import freenet.io.comm.ReferenceSignatureVerificationException;
-import freenet.keys.CHKBlock;
-import freenet.keys.CHKDecodeException;
-import freenet.keys.CHKEncodeException;
-import freenet.keys.CHKVerifyException;
-import freenet.keys.ClientCHK;
-import freenet.keys.ClientCHKBlock;
-import freenet.node.FSParseException;
-import freenet.node.Node;
-import freenet.node.NodeInitException;
-import freenet.node.NodeStarter;
-import freenet.node.RequestStarter;
-import freenet.support.Executor;
-import freenet.support.Fields;
-import freenet.support.HexUtil;
-import freenet.support.Logger;
-import freenet.support.PooledExecutor;
+import freenet.keys.*;
+import freenet.node.*;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
 import freenet.support.LoggerHook.InvalidThresholdException;
-import freenet.support.compress.InvalidCompressionCodecException;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
+import freenet.support.compress.InvalidCompressionCodecException;
 import freenet.support.io.FileUtil;
+
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+
+import static java.util.concurrent.TimeUnit.DAYS;
 
 /**
  * Test a busy, bandwidth limited network. Hopefully this should reveal any serious problems with

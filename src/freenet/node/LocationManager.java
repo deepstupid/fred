@@ -3,42 +3,23 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.DAYS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.security.MessageDigest;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Deque;
-import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
-
 import freenet.crypt.RandomSource;
 import freenet.crypt.SHA256;
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageFilter;
-import freenet.io.comm.NotConnectedException;
+import freenet.io.comm.*;
 import freenet.support.Fields;
 import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
 import freenet.support.ShortBuffer;
 import freenet.support.TimeSortedHashtable;
-import freenet.support.Logger.LogLevel;
 import freenet.support.io.Closer;
 import freenet.support.math.BootstrappingDecayingRunningAverage;
+
+import java.io.*;
+import java.security.MessageDigest;
+import java.text.DateFormat;
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.*;
 
 /**
  * @author amphibian

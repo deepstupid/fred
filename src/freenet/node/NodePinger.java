@@ -3,14 +3,14 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import static java.util.concurrent.TimeUnit.DAYS;
-
-import java.util.Arrays;
-
 import freenet.node.NodeStats.PeerLoadStats;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
+
+import java.util.Arrays;
+
+import static java.util.concurrent.TimeUnit.DAYS;
 
 /**
  * Track average round-trip time for each peer node, get a geometric mean.

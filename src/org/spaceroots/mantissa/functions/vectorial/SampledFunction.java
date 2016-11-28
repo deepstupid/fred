@@ -1,8 +1,8 @@
 package org.spaceroots.mantissa.functions.vectorial;
 
-import java.io.Serializable;
-
 import org.spaceroots.mantissa.functions.FunctionException;
+
+import java.io.Serializable;
 
 /** This interface represent sampled vectorial functions.
 

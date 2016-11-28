@@ -1,11 +1,5 @@
 package freenet.clients.http;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.config.InvalidConfigValueException;
 import freenet.config.SubConfig;
@@ -14,6 +8,12 @@ import freenet.node.Node;
 import freenet.support.Logger;
 import freenet.support.api.HTTPRequest;
 import freenet.support.api.StringArrCallback;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Symlinker Toadlet

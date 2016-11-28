@@ -3,10 +3,10 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.support.math;
 
-import java.io.DataOutputStream;
-
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
+
+import java.io.DataOutputStream;
 
 /**
  * Simple running average: linear mean of the last N reports.

@@ -1,8 +1,11 @@
 package com.onionnetworks.util;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.StringTokenizer;
 
 /**
  * This class represents a set of integers in a compact form by using ranges.
@@ -102,11 +105,7 @@ public class RangeSet {
 	    return true;
 	}
 	pos = -(pos+1);
-	if (pos % 2 == 0) {
-	    return false;
-	} else {
-	    return true;
-	}
+        return pos % 2 != 0;
     }
  
     /**

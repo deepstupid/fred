@@ -1,8 +1,5 @@
 package freenet.clients.http.ajaxpush;
 
-import java.io.IOException;
-import java.net.URI;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.clients.http.RedirectException;
 import freenet.clients.http.Toadlet;
@@ -12,6 +9,9 @@ import freenet.clients.http.updateableelements.UpdaterConstants;
 import freenet.support.HTMLDecoder;
 import freenet.support.Logger;
 import freenet.support.api.HTTPRequest;
+
+import java.io.IOException;
+import java.net.URI;
 
 /** This toadlet is used to dismiss alerts from the client side */
 public class DismissAlertToadlet extends Toadlet {

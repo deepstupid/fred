@@ -1,8 +1,5 @@
 package freenet.clients.http;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-
 import freenet.client.FetchContext;
 import freenet.client.FetchException;
 import freenet.client.async.ClientContext;
@@ -11,8 +8,11 @@ import freenet.keys.FreenetURI;
 import freenet.node.RequestClient;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
-import freenet.support.MultiValueTable;
 import freenet.support.Logger.LogLevel;
+import freenet.support.MultiValueTable;
+
+import java.util.ArrayList;
+import java.util.Enumeration;
 
 public class FProxyFetchTracker implements Runnable {
 

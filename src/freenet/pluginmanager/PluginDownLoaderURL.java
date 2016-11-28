@@ -3,6 +3,9 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.pluginmanager;
 
+import freenet.pluginmanager.PluginManager.PluginProgress;
+import freenet.support.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,9 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-
-import freenet.pluginmanager.PluginManager.PluginProgress;
-import freenet.support.Logger;
 
 public class PluginDownLoaderURL extends PluginDownLoader<URL> {
 

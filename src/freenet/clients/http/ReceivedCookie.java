@@ -3,13 +3,13 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http;
 
+import freenet.support.Logger;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Hashtable;
-
-import freenet.support.Logger;
 
 /**
  * A cookie which the server has received from the client.

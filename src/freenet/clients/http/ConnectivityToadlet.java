@@ -15,15 +15,12 @@
  */
 package freenet.clients.http;
 
-import java.io.IOException;
-import java.net.URI;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.io.AddressTracker;
 import freenet.io.AddressTrackerItem;
+import freenet.io.AddressTrackerItem.Gap;
 import freenet.io.InetAddressAddressTrackerItem;
 import freenet.io.PeerAddressTrackerItem;
-import freenet.io.AddressTrackerItem.Gap;
 import freenet.io.comm.UdpSocketHandler;
 import freenet.l10n.NodeL10n;
 import freenet.node.FSParseException;
@@ -32,6 +29,9 @@ import freenet.support.HTMLNode;
 import freenet.support.SimpleFieldSet;
 import freenet.support.TimeUtil;
 import freenet.support.api.HTTPRequest;
+
+import java.io.IOException;
+import java.net.URI;
 
 /**
  * Toadlet displaying information on the node's connectivity status.

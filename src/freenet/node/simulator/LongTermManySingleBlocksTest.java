@@ -1,43 +1,23 @@
 package freenet.node.simulator;
 
-import static java.util.concurrent.TimeUnit.HOURS;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
-
-import freenet.client.ClientMetadata;
-import freenet.client.FetchContext;
-import freenet.client.FetchException;
+import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.FetchWaiter;
-import freenet.client.HighLevelSimpleClient;
-import freenet.client.InsertBlock;
-import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
 import freenet.crypt.RandomSource;
 import freenet.keys.FreenetURI;
-import freenet.node.Node;
-import freenet.node.NodeStarter;
-import freenet.node.RequestClient;
-import freenet.node.RequestClientBuilder;
-import freenet.node.Version;
+import freenet.node.*;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.PooledExecutor;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.HOURS;
 
 /** 
  * Insert 32x single blocks. Pull them individually, with 0 retries, after 2^n-1 

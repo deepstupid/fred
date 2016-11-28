@@ -5,21 +5,15 @@ package freenet.node;
 
 import freenet.crypt.CryptFormatException;
 import freenet.crypt.DSAPublicKey;
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageFilter;
-import freenet.io.comm.NotConnectedException;
-import freenet.io.comm.PeerRestartedException;
+import freenet.io.comm.*;
 import freenet.io.xfer.WaitedTooLongException;
 import freenet.keys.NodeSSK;
 import freenet.keys.SSKBlock;
 import freenet.keys.SSKVerifyException;
 import freenet.store.KeyCollisionException;
 import freenet.support.Logger;
-import freenet.support.ShortBuffer;
 import freenet.support.Logger.LogLevel;
+import freenet.support.ShortBuffer;
 import freenet.support.io.NativeThread;
 
 /**

@@ -7,9 +7,9 @@ import freenet.config.InvalidConfigValueException;
 import freenet.l10n.NodeL10n;
 import freenet.support.api.StringCallback;
 
-import java.util.HashSet;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 
 /**
 ** Represents a program directory, and keeps track of the files that freenet

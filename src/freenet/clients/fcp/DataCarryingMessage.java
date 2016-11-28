@@ -3,10 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import freenet.client.async.PersistenceDisabledException;
 import freenet.support.Logger;
 import freenet.support.api.Bucket;
@@ -16,6 +12,10 @@ import freenet.support.io.BucketTools;
 import freenet.support.io.FileUtil;
 import freenet.support.io.NullBucket;
 import freenet.support.io.NullOutputStream;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 
 public abstract class DataCarryingMessage extends BaseDataCarryingMessage {

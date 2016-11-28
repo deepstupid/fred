@@ -1,10 +1,5 @@
 package freenet.clients.fcp;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-
 import freenet.client.async.ClientContext;
 import freenet.client.async.ClientRequester;
 import freenet.client.async.PersistenceDisabledException;
@@ -21,6 +16,11 @@ import freenet.support.Logger.LogLevel;
 import freenet.support.io.NativeThread;
 import freenet.support.io.ResumeFailedException;
 import freenet.support.io.StorageFormatException;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * A request process carried out by the node for an FCP client.

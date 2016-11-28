@@ -1,13 +1,13 @@
 package freenet.support.io;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
 import freenet.crypt.EncryptedRandomAccessBuffer;
 import freenet.crypt.MasterSecret;
 import freenet.support.Logger;
 import freenet.support.api.LockableRandomAccessBuffer;
 import freenet.support.api.LockableRandomAccessBufferFactory;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 /** Wraps another LockableRandomAccessBufferFactory to enable encryption if currently turned on. */
 public class MaybeEncryptedRandomAccessBufferFactory implements LockableRandomAccessBufferFactory {

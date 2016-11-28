@@ -4,23 +4,11 @@
 
 package freenet.client.async;
 
-import java.io.BufferedInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import freenet.client.ClientMetadata;
 import freenet.client.FetchException;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.filter.ContentFilter;
-import freenet.client.filter.FoundURICallback;
-import freenet.client.filter.LinkFilterExceptionProvider;
-import freenet.client.filter.TagReplacerCallback;
+import freenet.client.filter.*;
 import freenet.client.filter.ContentFilter.FilterStatus;
-import freenet.client.filter.UnsafeContentTypeException;
 import freenet.crypt.HashResult;
 import freenet.crypt.MultiHashInputStream;
 import freenet.keys.FreenetURI;
@@ -28,6 +16,10 @@ import freenet.support.Logger;
 import freenet.support.compress.CompressionOutputSizeException;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
+
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**A thread which does postprocessing of decompressed data, in particular,
  * writing it to its final destination. This thread also handles hashing and

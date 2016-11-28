@@ -1,8 +1,8 @@
 package freenet.node;
 
-import java.util.List;
-
 import freenet.io.comm.Peer;
+
+import java.util.List;
 
 public interface PacketFormat {
 

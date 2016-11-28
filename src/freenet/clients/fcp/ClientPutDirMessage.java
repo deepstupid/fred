@@ -3,8 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.net.MalformedURLException;
-
 import freenet.client.HighLevelSimpleClientImpl;
 import freenet.client.InsertContext;
 import freenet.clients.fcp.ClientRequest.Persistence;
@@ -15,6 +13,8 @@ import freenet.support.HexUtil;
 import freenet.support.SimpleFieldSet;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
 import freenet.support.compress.InvalidCompressionCodecException;
+
+import java.net.MalformedURLException;
 
 /**
  * Put a directory, rather than a file.

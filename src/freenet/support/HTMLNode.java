@@ -1,13 +1,6 @@
 package freenet.support;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class HTMLNode extends ArrayList<HTMLNode> implements XMLCharacterClasses, Cloneable {

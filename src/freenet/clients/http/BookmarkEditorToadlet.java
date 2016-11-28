@@ -1,12 +1,5 @@
 package freenet.clients.http;
 
-import static freenet.clients.http.QueueToadlet.MAX_KEY_LENGTH;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.util.List;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.clients.http.bookmark.Bookmark;
 import freenet.clients.http.bookmark.BookmarkCategory;
@@ -16,14 +9,16 @@ import freenet.keys.FreenetURI;
 import freenet.l10n.NodeL10n;
 import freenet.node.DarknetPeerNode;
 import freenet.node.NodeClientCore;
-import freenet.support.HTMLNode;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.URLDecoder;
-import freenet.support.URLEncodedFormatException;
-import freenet.support.URLEncoder;
+import freenet.support.*;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.HTTPRequest;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.util.List;
+
+import static freenet.clients.http.QueueToadlet.MAX_KEY_LENGTH;
 
 /**
  * BookmarkEditor Toadlet 

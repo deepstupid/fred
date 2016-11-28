@@ -3,13 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.io.comm;
 
-import java.io.DataInput;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import freenet.io.AddressIdentifier;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
@@ -17,6 +10,13 @@ import freenet.support.Logger.LogLevel;
 import freenet.support.transport.ip.HostnameSyntaxException;
 import freenet.support.transport.ip.HostnameUtil;
 import freenet.support.transport.ip.IPUtil;
+
+import java.io.DataInput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Long-term InetAddress. If created with an IP address, then the IP address is primary.

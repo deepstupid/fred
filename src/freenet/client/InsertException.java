@@ -3,8 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.client;
 
-import java.util.HashMap;
-
 import freenet.client.async.TooManyFilesInsertException;
 import freenet.keys.FreenetURI;
 import freenet.l10n.NodeL10n;
@@ -12,6 +10,8 @@ import freenet.node.LowLevelPutException;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
+
+import java.util.HashMap;
 
 /**
  * Thrown when a high-level insert fails. For most failures, there will not be a stack trace, or it 

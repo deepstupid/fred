@@ -4,9 +4,9 @@
 package freenet.node;
 
 import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
 import freenet.support.SizeUtil;
 import freenet.support.Ticker;
-import freenet.support.Logger.LogLevel;
 import freenet.support.math.RunningAverage;
 import freenet.support.math.SimpleRunningAverage;
 

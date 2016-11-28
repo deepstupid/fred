@@ -1,8 +1,8 @@
 package org.spaceroots.mantissa.ode;
 
+import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.IOException;
 
 /** This class represents an interpolator over the last step during an
  * ODE integration for Runge-Kutta and Runge-Kutta-Fehlberg

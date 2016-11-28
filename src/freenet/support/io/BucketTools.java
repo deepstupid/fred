@@ -1,10 +1,13 @@
 package freenet.support.io;
 
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import freenet.crypt.*;
+import freenet.support.LogThresholdCallback;
+import freenet.support.Logger;
+import freenet.support.Logger.LogLevel;
+import freenet.support.api.*;
+import freenet.support.math.MersenneTwister;
+
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -13,24 +16,6 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import freenet.support.math.MersenneTwister;
-
-import freenet.crypt.AEADCryptBucket;
-
-import freenet.client.async.ClientContext;
-import freenet.crypt.EncryptedRandomAccessBucket;
-import freenet.crypt.EncryptedRandomAccessBuffer;
-import freenet.crypt.MasterSecret;
-import freenet.crypt.SHA256;
-import freenet.support.LogThresholdCallback;
-import freenet.support.Logger;
-import freenet.support.Logger.LogLevel;
-import freenet.support.api.Bucket;
-import freenet.support.api.BucketFactory;
-import freenet.support.api.LockableRandomAccessBuffer;
-import freenet.support.api.RandomAccessBucket;
-import freenet.support.api.RandomAccessBuffer;
 
 /**
  * Helper functions for working with Buckets.

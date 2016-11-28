@@ -3,15 +3,15 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.pluginmanager;
 
-import java.lang.ref.WeakReference;
-import java.util.UUID;
-
 import freenet.clients.fcp.FCPConnectionHandler;
 import freenet.clients.fcp.FCPPluginConnection;
 import freenet.node.Node;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
 import freenet.support.api.Bucket;
+
+import java.lang.ref.WeakReference;
+import java.util.UUID;
 
 /**
  * @author saces, xor

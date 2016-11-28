@@ -1,12 +1,12 @@
 package freenet.support.io;
 
+import freenet.client.async.ClientContext;
+import freenet.support.api.LockableRandomAccessBuffer;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
-
-import freenet.client.async.ClientContext;
-import freenet.support.api.LockableRandomAccessBuffer;
 
 public class ByteArrayRandomAccessBuffer implements LockableRandomAccessBuffer, Serializable {
 

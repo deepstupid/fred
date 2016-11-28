@@ -3,24 +3,17 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.http;
 
-import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
 import freenet.support.CurrentTimeUTC;
 import freenet.support.LRUMap;
 import freenet.support.Logger;
 import freenet.support.StringValidityChecker;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.HOURS;
 
 /**
  * A basic session manager for cookie-based HTTP session.

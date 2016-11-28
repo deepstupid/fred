@@ -1,12 +1,12 @@
 package freenet.clients.http;
 
-import java.io.IOException;
-import java.net.URI;
-
 import freenet.client.HighLevelSimpleClient;
 import freenet.l10n.NodeL10n;
 import freenet.support.HTMLNode;
 import freenet.support.api.HTTPRequest;
+
+import java.io.IOException;
+import java.net.URI;
 
 /** This is just documentation, it will be replaced with a plugin wizard eventually. */
 public class InsertFreesiteToadlet extends Toadlet {

@@ -3,20 +3,8 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.security.interfaces.ECPublicKey;
-import java.util.ArrayList;
-import java.util.zip.DeflaterOutputStream;
-
-import freenet.crypt.BlockCipher;
-import freenet.crypt.ECDSA;
+import freenet.crypt.*;
 import freenet.crypt.ECDSA.Curves;
-import freenet.crypt.RandomSource;
-import freenet.crypt.SHA256;
-import freenet.crypt.UnsupportedCipherException;
 import freenet.crypt.ciphers.Rijndael;
 import freenet.io.AddressTracker.Status;
 import freenet.io.comm.FreenetInetAddress;
@@ -30,6 +18,14 @@ import freenet.support.IllegalBase64Exception;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
 import freenet.support.io.Closer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.security.interfaces.ECPublicKey;
+import java.util.ArrayList;
+import java.util.zip.DeflaterOutputStream;
 
 /**
  * Cryptographic and transport level node identity.

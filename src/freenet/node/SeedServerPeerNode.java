@@ -3,15 +3,15 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.node;
 
-import java.net.InetAddress;
-import java.util.ArrayList;
-
 import freenet.io.comm.FreenetInetAddress;
 import freenet.io.comm.Peer;
 import freenet.io.comm.PeerParseException;
 import freenet.io.comm.ReferenceSignatureVerificationException;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
+
+import java.net.InetAddress;
+import java.util.ArrayList;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;

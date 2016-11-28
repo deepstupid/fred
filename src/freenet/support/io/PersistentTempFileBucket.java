@@ -1,14 +1,10 @@
 package freenet.support.io;
 
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Serializable;
-
 import freenet.client.async.ClientContext;
 import freenet.support.Logger;
 import freenet.support.api.RandomAccessBucket;
+
+import java.io.*;
 
 public class PersistentTempFileBucket extends TempFileBucket implements Serializable {
 

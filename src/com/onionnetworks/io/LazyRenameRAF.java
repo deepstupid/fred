@@ -1,7 +1,9 @@
 package com.onionnetworks.io;
 
-import java.io.*;
-import com.onionnetworks.util.*;
+import com.onionnetworks.util.FileUtil;
+
+import java.io.File;
+import java.io.IOException;
 
 public class LazyRenameRAF extends FilterRAF {
 

@@ -4,17 +4,16 @@
 
 package freenet.client.async;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import freenet.support.LogThresholdCallback;
-
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.api.Bucket;
 import freenet.support.io.Closer;
 import freenet.support.io.FileUtil;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**Writes a <code>Bucket</code> to an output stream.*/
 public class SingleFileStreamGenerator implements StreamGenerator {

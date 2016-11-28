@@ -1,16 +1,16 @@
 package freenet.node.useralerts;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import freenet.clients.fcp.FCPMessage;
 import freenet.clients.fcp.FeedMessage;
 import freenet.l10n.NodeL10n;
 import freenet.node.PeerTooOldException;
 import freenet.support.HTMLNode;
 import freenet.support.Logger;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class DroppedOldPeersUserAlert implements UserAlert {
 

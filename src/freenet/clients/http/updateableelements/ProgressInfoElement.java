@@ -1,13 +1,7 @@
 package freenet.clients.http.updateableelements;
 
 import freenet.client.FetchContext;
-import freenet.clients.http.FProxyFetchInProgress;
-import freenet.clients.http.FProxyFetchResult;
-import freenet.clients.http.FProxyFetchTracker;
-import freenet.clients.http.FProxyFetchWaiter;
-import freenet.clients.http.FProxyToadlet;
-import freenet.clients.http.SimpleToadletServer;
-import freenet.clients.http.ToadletContext;
+import freenet.clients.http.*;
 import freenet.clients.http.complexhtmlnodes.SecondCounterNode;
 import freenet.keys.FreenetURI;
 import freenet.support.Base64;

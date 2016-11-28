@@ -1,18 +1,18 @@
 /* -*- Mode: java; c-basic-indent: 4; tab-width: 4 -*- */
 package freenet.crypt;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.util.Arrays;
-
 import freenet.node.FSParseException;
 import freenet.store.StorableBlock;
 import freenet.support.Base64;
 import freenet.support.HexUtil;
 import freenet.support.IllegalBase64Exception;
 import freenet.support.SimpleFieldSet;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.util.Arrays;
 
 public class DSAPublicKey extends CryptoKey implements StorableBlock {
 

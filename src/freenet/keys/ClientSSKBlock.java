@@ -3,9 +3,6 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.keys;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 import freenet.crypt.PCFBMode;
 import freenet.crypt.UnsupportedCipherException;
 import freenet.crypt.ciphers.Rijndael;
@@ -15,6 +12,9 @@ import freenet.support.api.BucketFactory;
 import freenet.support.io.ArrayBucket;
 import freenet.support.io.ArrayBucketFactory;
 import freenet.support.io.BucketTools;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 public class ClientSSKBlock implements ClientKeyBlock {
 	

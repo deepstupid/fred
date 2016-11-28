@@ -2,8 +2,6 @@
  * GPL compatible. */
 package freenet.crypt;
 
-import java.util.Vector;
-
 import org.bouncycastle.crypto.BlockCipher;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.DataLengthException;
@@ -13,6 +11,8 @@ import org.bouncycastle.crypto.params.AEADParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 import org.bouncycastle.util.Arrays;
+
+import java.util.Vector;
 
 /**
  * An implementation of the "work in progress" Internet-Draft <a

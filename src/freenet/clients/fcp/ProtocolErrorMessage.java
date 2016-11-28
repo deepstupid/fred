@@ -3,11 +3,11 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.clients.fcp;
 
-import java.io.Serializable;
-
 import freenet.node.Node;
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
+
+import java.io.Serializable;
 
 /**
  * ProtocolError (some problem parsing the other side's FCP messages, or other

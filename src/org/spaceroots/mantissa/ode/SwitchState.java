@@ -2,10 +2,9 @@ package org.spaceroots.mantissa.ode;
 
 import org.spaceroots.mantissa.functions.FunctionException;
 import org.spaceroots.mantissa.functions.scalar.ComputableFunction;
-
+import org.spaceroots.mantissa.roots.BrentSolver;
 import org.spaceroots.mantissa.roots.ConvergenceChecker;
 import org.spaceroots.mantissa.roots.RootsFinder;
-import org.spaceroots.mantissa.roots.BrentSolver;
 
 /** This class handles the state for one {@link SwitchingFunction
  * switching function} during integration steps.

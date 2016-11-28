@@ -1,6 +1,7 @@
 package com.onionnetworks.io;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 public class ExceptionRAF extends RAF {
 

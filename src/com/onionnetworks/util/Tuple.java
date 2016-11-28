@@ -39,9 +39,6 @@ public class Tuple {
             return false;
         }
         Tuple t = (Tuple) obj;
-        if (left.equals(t.getLeft()) && right.equals(t.getRight())) {
-            return true;
-        }
-        return false;
+        return left.equals(t.getLeft()) && right.equals(t.getRight());
     }
 }

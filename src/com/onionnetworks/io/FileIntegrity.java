@@ -12,7 +12,7 @@ public interface FileIntegrity {
     /**
      * @return the message digest algorithm used to create the the hashes.
      */
-    public String getAlgorithm();
+    String getAlgorithm();
 
     /**
      * Specifies the size of each block.  This size should be a power of 2
@@ -21,12 +21,12 @@ public interface FileIntegrity {
      *
      * @return the block size.
      */
-    public int getBlockSize();
+    int getBlockSize();
 
     /**
      * @return the size of the file.
      */
-    public long getFileSize();
+    long getFileSize();
 
     /**
      * Returns the number of blocks that make up the file.  This value will
@@ -34,16 +34,16 @@ public interface FileIntegrity {
      *
      * @return the block count.
      */
-    public int getBlockCount();
+    int getBlockCount();
 
     /**
      * @return the hash of the specified block.
      */
-    public Buffer getBlockHash(int blockNum);
+    Buffer getBlockHash(int blockNum);
 
     /**
      * @return the hash of the entire file.
      */
-    public Buffer getFileHash();
+    Buffer getFileHash();
 
 }

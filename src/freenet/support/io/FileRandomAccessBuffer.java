@@ -1,16 +1,10 @@
 package freenet.support.io;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.io.Serializable;
-
 import freenet.client.async.ClientContext;
 import freenet.support.Logger;
 import freenet.support.api.LockableRandomAccessBuffer;
+
+import java.io.*;
 
 public class FileRandomAccessBuffer implements LockableRandomAccessBuffer, Serializable {
 

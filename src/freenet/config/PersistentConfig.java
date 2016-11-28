@@ -1,9 +1,9 @@
 package freenet.config;
 
-import java.util.Iterator;
-
 import freenet.support.Logger;
 import freenet.support.SimpleFieldSet;
+
+import java.util.Iterator;
 
 /**
  * Config but supports an initial SimpleFieldSet, from which options are drawn.

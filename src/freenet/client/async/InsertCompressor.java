@@ -1,15 +1,10 @@
 package freenet.client.async;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import freenet.client.InsertException;
 import freenet.client.InsertException.InsertExceptionMode;
 import freenet.crypt.HashResult;
 import freenet.crypt.MultiHashInputStream;
 import freenet.keys.CHKBlock;
-import freenet.keys.SSKBlock;
 import freenet.node.PrioRunnable;
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
@@ -19,10 +14,14 @@ import freenet.support.api.BucketFactory;
 import freenet.support.api.RandomAccessBucket;
 import freenet.support.compress.CompressJob;
 import freenet.support.compress.CompressionOutputSizeException;
-import freenet.support.compress.InvalidCompressionCodecException;
 import freenet.support.compress.Compressor.COMPRESSOR_TYPE;
+import freenet.support.compress.InvalidCompressionCodecException;
 import freenet.support.io.Closer;
 import freenet.support.io.NativeThread;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Compress a file in order to insert it. This class acts as a tag in the database to ensure that inserts

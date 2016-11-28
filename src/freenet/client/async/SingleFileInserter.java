@@ -1,22 +1,12 @@
 package freenet.client.async;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.util.HashMap;
-
-import freenet.client.ClientMetadata;
-import freenet.client.InsertBlock;
-import freenet.client.InsertContext;
-import freenet.client.InsertException;
-import freenet.client.InsertException.InsertExceptionMode;
-import freenet.client.Metadata;
-import freenet.client.MetadataUnresolvedException;
 import freenet.client.ArchiveManager.ARCHIVE_TYPE;
+import freenet.client.*;
 import freenet.client.InsertContext.CompatibilityMode;
+import freenet.client.InsertException.InsertExceptionMode;
 import freenet.client.Metadata.DocumentType;
-import freenet.client.events.FinishedCompressionEvent;
 import freenet.client.events.ExpectedHashesEvent;
+import freenet.client.events.FinishedCompressionEvent;
 import freenet.client.events.StartedCompressionEvent;
 import freenet.crypt.HashResult;
 import freenet.crypt.HashType;
@@ -36,6 +26,11 @@ import freenet.support.io.BucketTools;
 import freenet.support.io.NotPersistentBucket;
 import freenet.support.io.NullOutputStream;
 import freenet.support.io.ResumeFailedException;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.util.HashMap;
 
 /**
  * Attempt to insert a file. May include metadata.

@@ -1,12 +1,12 @@
 package freenet.support;
 
+import freenet.support.Logger.LogLevel;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.BitSet;
-
-import freenet.support.Logger.LogLevel;
 
 /**
  * Number in hexadecimal format are used throughout Freenet.

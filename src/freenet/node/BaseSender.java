@@ -1,14 +1,6 @@
 package freenet.node;
 
-import java.util.HashMap;
-import java.util.HashSet;
-
-import freenet.io.comm.ByteCounter;
-import freenet.io.comm.DMT;
-import freenet.io.comm.DisconnectedException;
-import freenet.io.comm.Message;
-import freenet.io.comm.MessageFilter;
-import freenet.io.comm.NotConnectedException;
+import freenet.io.comm.*;
 import freenet.keys.Key;
 import freenet.keys.NodeCHK;
 import freenet.keys.NodeSSK;
@@ -19,6 +11,9 @@ import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.TimeUtil;
+
+import java.util.HashMap;
+import java.util.HashSet;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 

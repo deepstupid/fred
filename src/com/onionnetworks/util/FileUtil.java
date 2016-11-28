@@ -1,9 +1,12 @@
 package com.onionnetworks.util;
 
+import java.io.EOFException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.BitSet;
 import java.util.StringTokenizer;
-import java.net.URL;
-import java.io.*;
 
 public class FileUtil {
     
