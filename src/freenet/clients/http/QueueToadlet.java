@@ -347,7 +347,7 @@ public class QueueToadlet extends Toadlet implements RequestCompletionCallback, 
 					core.node.killMasterKeysFile();
 					core.node.panic();
 					sendPanicingPage(ctx);
-					core.node.finishPanic();
+					Node.finishPanic();
 					return;
 				} else {
 					sendConfirmPanicPage(ctx);
@@ -357,7 +357,7 @@ public class QueueToadlet extends Toadlet implements RequestCompletionCallback, 
 				core.node.killMasterKeysFile();
 				core.node.panic();
 				sendPanicingPage(ctx);
-				core.node.finishPanic();
+				Node.finishPanic();
 				return;
 			} else if(request.isPartSet("download")) {
 				// Queue a download

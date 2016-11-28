@@ -183,7 +183,7 @@ public class TextModeClientInterface implements Runnable {
         sb.append("MEMSTAT - display some memory usage related informations.\r\n");
         sb.append("SHUTDOWN - exit the program\r\n");
         sb.append("ANNOUNCE[:<location>] - announce to the specified location\r\n");
-        if(n.isUsingWrapper())
+        if(Node.isUsingWrapper())
         	sb.append("RESTART - restart the program\r\n");
         if(core != null && core.directTMCI != this) {
           sb.append("QUIT - close the socket\r\n");
@@ -354,7 +354,7 @@ public class TextModeClientInterface implements Runnable {
                 if(fnam.length() == 0) {
                     fnam = "freenet-download-"+HexUtil.bytesToHex(BucketTools.hash(data), 0, 10);
                     String ext = DefaultMIMETypes.getExtension(cm.getMIMEType());
-                    if((ext != null) && !ext.equals(""))
+                    if((ext != null) && !ext.isEmpty())
                     	fnam += '.' + ext;
                 }
                 File f = new File(downloadsDir, fnam);
@@ -458,7 +458,7 @@ public class TextModeClientInterface implements Runnable {
 		sb.append("Restarting the node.\r\n");
 		w.write(sb.toString());
 		w.flush();
-		n.getNodeStarter().restart();
+		Node.getNodeStarter().restart();
 	} else if(uline.startsWith("QUIT") && (core.directTMCI == this)) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("QUIT command not available in console mode.\r\n");
@@ -761,7 +761,7 @@ public class TextModeClientInterface implements Runnable {
                 content = readLines(reader, true);
             }
             if(content == null) return false;
-            if(content.equals("")) return false;
+            if(content.isEmpty()) return false;
             addPeer(content);
         
         } else if(uline.startsWith("NAME:")) {
@@ -941,7 +941,7 @@ public class TextModeClientInterface implements Runnable {
         	om.announce(target, new AnnouncementCallback() {
         		private void write(String msg) {
         			try {
-        				w.write(("ANNOUNCE:"+target+":"+msg+"\r\n"));
+        				w.write(("ANNOUNCE:"+target+ ':' +msg+"\r\n"));
         				w.flush();
         			} catch (IOException e) {
         				// Ignore
@@ -964,7 +964,7 @@ public class TextModeClientInterface implements Runnable {
 
 				@Override
 				public void nodeFailed(PeerNode pn, String reason) {
-					write("Node failed: "+pn+" "+reason);
+					write("Node failed: "+pn+ ' ' +reason);
 				}
 
 				@Override
@@ -1004,7 +1004,7 @@ public class TextModeClientInterface implements Runnable {
      * Create a map of String -> Bucket for every file in a directory
      * and its subdirs.
      */
-    private HashMap<String, Object> makeBucketsByName(String directory) {
+    private static HashMap<String, Object> makeBucketsByName(String directory) {
     	
     	if (!directory.endsWith("/"))
     		directory = directory + '/';
@@ -1012,7 +1012,7 @@ public class TextModeClientInterface implements Runnable {
     	
     	System.out.println("Listing dir: "+thisdir);
     	
-    	HashMap<String, Object> ret = new HashMap<String, Object>();
+    	HashMap<String, Object> ret = new HashMap<>();
     	
     	File filelist[] = thisdir.listFiles();
     	if(filelist == null)
@@ -1041,7 +1041,7 @@ public class TextModeClientInterface implements Runnable {
      * . on a line by itself. Does some mangling for a fieldset if 
      * isFieldSet. 
      */
-    private String readLines(BufferedReader reader, boolean isFieldSet) {
+    private static String readLines(BufferedReader reader, boolean isFieldSet) {
         StringBuilder sb = new StringBuilder(1000);
         boolean breakflag = false;
         while(true) {
@@ -1122,24 +1122,12 @@ public class TextModeClientInterface implements Runnable {
         PeerNode pn;
         try {
             pn = n.createNewDarknetNode(fs, FRIEND_TRUST.NORMAL, FRIEND_VISIBILITY.NO);
-        } catch (FSParseException e1) {
+        } catch (FSParseException | PeerTooOldException | ReferenceSignatureVerificationException | PeerParseException e1) {
             System.err.println("Did not parse: "+e1);
             Logger.error(this, "Did not parse: "+e1, e1);
             return;
-        } catch (PeerParseException e1) {
-            System.err.println("Did not parse: "+e1);
-            Logger.error(this, "Did not parse: "+e1, e1);
-            return;
-        } catch (ReferenceSignatureVerificationException e1) {
-        	System.err.println("Did not parse: "+e1);
-            Logger.error(this, "Did not parse: "+e1, e1);
-            return;
-		} catch (PeerTooOldException e1) {
-		    System.err.println("Did not parse: "+e1);
-		    Logger.error(this, "Did not parse: "+e1, e1);
-		    return;
         }
-        if(n.peers.addPeer(pn))
+		if(n.peers.addPeer(pn))
             System.out.println("Added peer: "+pn);
         n.peers.writePeersDarknetUrgent();
     }
@@ -1235,7 +1223,7 @@ public class TextModeClientInterface implements Runnable {
     	return false;
     }
 
-    private String sanitize(String fnam) {
+    private static String sanitize(String fnam) {
     	if(fnam == null) return "";
         StringBuilder sb = new StringBuilder(fnam.length());
         for(int i=0;i<fnam.length();i++) {

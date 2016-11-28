@@ -95,7 +95,7 @@ public class RealNodeRequestInsertTest extends RealNodeRoutingTest {
         
         for(int i=0;i<NUMBER_OF_NODES;i++) {
             nodes[i].start(false);
-            System.err.println("Started node "+i+"/"+nodes.length);
+            System.err.println("Started node "+i+ '/' +nodes.length);
         }
         
         waitForAllConnected(nodes);
@@ -131,8 +131,8 @@ public class RealNodeRequestInsertTest extends RealNodeRoutingTest {
     private final Node[] nodes;
     private final RandomSource random;
     private int requestNumber = 0;
-    private RunningAverage requestsAvg = new SimpleRunningAverage(100, 0.0);
-    private String baseString = System.currentTimeMillis() + " ";
+    private final RunningAverage requestsAvg = new SimpleRunningAverage(100, 0.0);
+    private final String baseString = System.currentTimeMillis() + " ";
 	private int insertAttempts = 0;
 	private int fetchSuccesses = 0;
 	private final int targetSuccesses;
@@ -235,7 +235,7 @@ public class RealNodeRequestInsertTest extends RealNodeRoutingTest {
         }
         StringBuilder load = new StringBuilder("Running UIDs for nodes: ");
         int totalRunningUIDsAlt = 0;
-        List<Long> runningUIDsList = new ArrayList<Long>();
+        List<Long> runningUIDsList = new ArrayList<>();
         for(int i=0;i<nodes.length;i++) {
         	load.append(i);
         	load.append(':');

@@ -120,8 +120,8 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 	public static <T extends StorableBlock> SaltedHashFreenetStore<T> construct(File baseDir, String name, StoreCallback<T> callback, Random random,
 	        long maxKeys, boolean useSlotFilter, SemiOrderedShutdownHook shutdownHook, boolean preallocate, boolean resizeOnStart, Ticker exec, byte[] masterKey)
 	        throws IOException {
-		return new SaltedHashFreenetStore<T>(baseDir, name, callback, random, maxKeys, useSlotFilter,
-		        shutdownHook, preallocate, resizeOnStart, masterKey);
+		return new SaltedHashFreenetStore<>(baseDir, name, callback, random, maxKeys, useSlotFilter,
+				shutdownHook, preallocate, resizeOnStart, masterKey);
 	}
 
 	private SaltedHashFreenetStore(File baseDir, String name, StoreCallback<T> callback, Random random, long maxKeys,
@@ -177,7 +177,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 		slotFilterDisabled = !enableSlotFilters;
 		if(!slotFilterDisabled) {
 			slotFilter = new ResizablePersistentIntBuffer(slotFilterFile, size);
-			System.err.println("Slot filter (" + slotFilterFile + ") for " + name + " is loaded (new="+slotFilter.isNew()+").");
+			//System.err.println("Slot filter (" + slotFilterFile + ") for " + name + " is loaded (new="+slotFilter.isNew()+").");
 			if(newStore && slotFilter.isNew())
 				slotFilter.fill(SLOT_CHECKED);
 		} else {
@@ -205,7 +205,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 
 		// finish all resizing before continue
 		if (resizeOnStart && prevStoreSize != 0 && cleanerGlobalLock.tryLock()) {
-			System.out.println("Resizing datastore (" + name + ")");
+			//System.out.println("Resizing datastore (" + name + ")");
 			try {
 				cleanerThread.resizeStore(prevStoreSize, false);
 			} finally {
@@ -265,14 +265,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 		if(ticker == null) {
 			cleanerThread.start();
 		} else
-			ticker.queueTimedJob(new FastRunnable() {
-
-				@Override
-				public void run() {
-					cleanerThread.start();
-				}
-
-			}, "Start cleaner thread", 0, true, false);
+			ticker.queueTimedJob((FastRunnable) () -> cleanerThread.start(), "Start cleaner thread", 0, true, false);
 
 		started = true;
 
@@ -392,7 +385,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 		byte[] fullKey = block.getFullKey();
 
 		if (logMINOR)
-			Logger.minor(this, "Putting " + HexUtil.bytesToHex(routingKey) + " (" + name + ")");
+			Logger.minor(this, "Putting " + HexUtil.bytesToHex(routingKey) + " (" + name + ')');
 
 		try {
 			int retry = 0;
@@ -599,6 +592,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 		private long curOffset = -1;
 
 		private Entry() {
+
 		}
 
 		private Entry(ByteBuffer metaDataBuf, ByteBuffer hdBuf) {
@@ -767,7 +761,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 
 	}
 
-	public boolean slotCacheLikelyMatch(int value, byte[] digestedRoutingKey) {
+	public static boolean slotCacheLikelyMatch(int value, byte[] digestedRoutingKey) {
 		if((value & (SLOT_CHECKED)) == 0) return false;
 		if((value & (SLOT_OCCUPIED)) == 0) return false;
 		int wanted = (digestedRoutingKey[2] & 0xFF) + ((digestedRoutingKey[1] & 0xFF) << 8) +
@@ -787,7 +781,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 		return ret;
 	}
 
-	private boolean slotCacheIsFree(int value) {
+	private static boolean slotCacheIsFree(int value) {
 		return (value & SLOT_OCCUPIED) == 0;
 	}
 
@@ -827,20 +821,26 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 	private Entry readEntry(long offset, byte[] digestedRoutingKey, byte[] routingKey, boolean withData) throws IOException {
 		if(offset >= Integer.MAX_VALUE) throw new IllegalArgumentException();
 		int cache = 0;
-		boolean validCache = false;
-		boolean likelyMatch = false;
+
+		final boolean validCache;
+		final boolean likelyMatch;
 		if(digestedRoutingKey != null && !slotFilterDisabled) {
 			cache = slotFilter.get((int)offset);
 			validCache = (cache & SLOT_CHECKED) != 0;
 			likelyMatch = slotCacheLikelyMatch(cache, digestedRoutingKey);
 			if(USE_SLOT_FILTER && validCache && !likelyMatch) return null;
+		} else {
+			likelyMatch = false;
+			validCache = false;
 		}
+
 		if(validCache && logMINOR) {
 			if(likelyMatch)
 				Logger.minor(this, "Likely match");
 			else
 				Logger.minor(this, "Unlikely match");
 		}
+
 		ByteBuffer mbf = ByteBuffer.allocate(Entry.METADATA_LENGTH);
 
 		do {
@@ -1040,7 +1040,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 			final long newHdLen = (headerBlockLength + dataBlockLength + hdPadding) * storeMaxEntries;
 
 			if (preallocate && (oldMetaLen < newMetaLen || currentHdLen < newHdLen)) {
-				try (WrapperKeepalive wrapperKeepalive = new WrapperKeepalive();)
+				try (WrapperKeepalive wrapperKeepalive = new WrapperKeepalive())
 				{
 					wrapperKeepalive.start();
 					//Fallocate.forChannel(metaFC, newMetaLen).fromOffset(oldMetaLen).execute();
@@ -1346,7 +1346,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 			System.out.println("Resizing datastore "+name);
 
 			BatchProcessor<T> resizeProcesser = new BatchProcessor<T>() {
-				Deque<Entry> oldEntryList = new LinkedList<Entry>();
+				Deque<Entry> oldEntryList = new LinkedList<>();
 
 				@Override
 				public void init() {
@@ -1395,7 +1395,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 						if (oldEntryList.size() > RESIZE_MEMORY_ENTRIES)
 							oldEntryList.poll();
 					} catch (IOException e) {
-						Logger.error(this, "error reading entry (offset=" + entry.curOffset + ")", e);
+						Logger.error(this, "error reading entry (offset=" + entry.curOffset + ')', e);
 					}
 					return null;
 				}
@@ -1446,7 +1446,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 						configLock.writeLock().unlock();
 					}
 
-					Logger.normal(this, "Finish resizing (" + name + ")");
+					Logger.normal(this, "Finish resizing (" + name + ')');
 				}
 
 				public boolean wantFreeEntries() {
@@ -1462,7 +1462,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 		 */
 		private void rebuildBloom(boolean sleep) {
 			if(slotFilterDisabled) return;
-			Logger.normal(this, "Start rebuilding slot filter (" + name + ")");
+			Logger.normal(this, "Start rebuilding slot filter (" + name + ')');
 			
 			BatchProcessor<T> rebuildBloomProcessor = new BatchProcessor<T>() {
 				@Override
@@ -1529,7 +1529,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 						configLock.writeLock().unlock();
 					}
 					System.out.println(name + " cleaner finished successfully.");
-					Logger.normal(this, "Finish rebuilding bloom filter (" + name + ")");
+					Logger.normal(this, "Finish rebuilding bloom filter (" + name + ')');
 				}
 				
 				public boolean wantFreeEntries() {
@@ -1568,7 +1568,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 					}
 
 					if (i++ % 64 == 0)
-						System.err.println(name + " cleaner in progress: " + (entriesTotal - entriesLeft) + "/"
+						System.err.println(name + " cleaner in progress: " + (entriesTotal - entriesLeft) + '/'
 						        + entriesTotal);
 
 					batchProcessEntries(curOffset, RESIZE_MEMORY_ENTRIES, processor);
@@ -1858,7 +1858,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 
 	@Override
 	public void setMaxKeys(long newStoreSize, boolean shrinkNow) throws IOException {
-		Logger.normal(this, "[" + name + "] Resize newStoreSize=" + newStoreSize + ", shinkNow=" + shrinkNow);
+		Logger.normal(this, '[' + name + "] Resize newStoreSize=" + newStoreSize + ", shinkNow=" + shrinkNow);
 
 		if(newStoreSize > Integer.MAX_VALUE) // FIXME 64-bit.
 			throw new IllegalArgumentException("Store size over MAXINT not supported due to ResizablePersistentIntBuffer limitations.");
@@ -1870,7 +1870,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 				return;
 
 			if (prevStoreSize != 0) {
-				Logger.normal(this, "[" + name + "] resize already in progress, ignore resize request");
+				Logger.normal(this, '[' + name + "] resize already in progress, ignore resize request");
 				return;
 			}
 
@@ -1896,7 +1896,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 				while(prevStoreSize == old) {
 					resizeCompleteCondition.awaitUninterruptibly();
 				}
-				System.err.println("Completed shrink, old size was "+old+" new size was "+newStoreSize+" size is now "+storeSize+" (prev="+prevStoreSize+")");
+				System.err.println("Completed shrink, old size was "+old+" new size was "+newStoreSize+" size is now "+storeSize+" (prev="+prevStoreSize+ ')');
 			} finally {
 				configLock.writeLock().unlock();
 			}
@@ -1919,7 +1919,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 	private Map<Long, Condition> lockDigestedKey(byte[] digestedKey, boolean usePrevStoreSize) {
 		// use a set to prevent duplicated offsets,
 		// a sorted set to prevent deadlocks
-		SortedSet<Long> offsets = new TreeSet<Long>();
+		SortedSet<Long> offsets = new TreeSet<>();
 		long[] offsetArray = getOffsetFromDigestedKey(digestedKey, storeSize);
 		for (long offset : offsetArray)
 			offsets.add(offset);
@@ -1929,7 +1929,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 				offsets.add(offset);
 		}
 
-		Map<Long, Condition> locked = new TreeMap<Long, Condition>();
+		Map<Long, Condition> locked = new TreeMap<>();
 		for (long offset : offsets) {
 			Condition condition = lockManager.lockEntry(offset);
 			if (condition == null)
@@ -1949,7 +1949,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 
 	private void unlockDigestedKey(byte[] digestedKey, boolean usePrevStoreSize, Map<Long, Condition> lockMap) {
 		// use a set to prevent duplicated offsets
-		SortedSet<Long> offsets = new TreeSet<Long>();
+		SortedSet<Long> offsets = new TreeSet<>();
 		long[] offsetArray = getOffsetFromDigestedKey(digestedKey, storeSize);
 		for (long offset : offsetArray)
 			offsets.add(offset);
@@ -2021,7 +2021,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 	 * @param storeSize
 	 * @return
 	 */
-	private long[] getOffsetFromDigestedKey(byte[] digestedKey, long storeSize) {
+	private static long[] getOffsetFromDigestedKey(byte[] digestedKey, long storeSize) {
 		long keyValue = Fields.bytesToLong(digestedKey);
 		long[] offsets = new long[OPTION_MAX_PROBE];
 
@@ -2135,11 +2135,10 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 				likelyMatch = slotCacheLikelyMatch(cache, digestedKey);
 				if(validCache && likelyMatch) return true;
 			}
-			
-			if(anyNotValid) return true;
-			
-			return false;
-		} finally {
+
+            return anyNotValid;
+
+        } finally {
 			configLock.readLock().unlock();
 		}
 	}
@@ -2153,7 +2152,7 @@ public class SaltedHashFreenetStore<T extends StorableBlock> implements FreenetS
 
 	@Override
 	public String toString() {
-		return super.toString()+":"+name;
+		return super.toString()+ ':' +name;
 	}
 	
 	@Override

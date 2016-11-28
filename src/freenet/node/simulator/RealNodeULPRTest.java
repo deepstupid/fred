@@ -5,7 +5,6 @@ package freenet.node.simulator;
 
 import freenet.crypt.DummyRandomSource;
 import freenet.io.comm.DMT;
-import freenet.io.comm.Message;
 import freenet.io.comm.PeerParseException;
 import freenet.io.comm.ReferenceSignatureVerificationException;
 import freenet.keys.*;
@@ -177,19 +176,14 @@ public class RealNodeULPRTest extends RealNodeTest {
         
         final boolean[] visited = new boolean[nodes.length];
         
-        NodeDispatcherCallback cb = new NodeDispatcherCallback() {
-
-			@Override
-			public void snoop(Message m, Node n) {
-				if(((!isSSK) && m.getSpec() == DMT.FNPCHKDataRequest) ||
-						(isSSK && m.getSpec() == DMT.FNPSSKDataRequest)) {
-					Key key = (Key) m.getObject(DMT.FREENET_ROUTING_KEY);
-					if(key.equals(nodeKey)) {
-						visited[n.getDarknetPortNumber() - DARKNET_PORT_BASE] = true;
-					}
-				}
-			}
-        	
+        NodeDispatcherCallback cb = (m, n) -> {
+            if(((!isSSK) && m.getSpec() == DMT.FNPCHKDataRequest) ||
+                    (isSSK && m.getSpec() == DMT.FNPSSKDataRequest)) {
+                Key key = (Key) m.getObject(DMT.FREENET_ROUTING_KEY);
+                if(key.equals(nodeKey)) {
+                    visited[n.getDarknetPortNumber() - DARKNET_PORT_BASE] = true;
+                }
+            }
         };
         
         for(Node node: nodes) {
@@ -249,8 +243,8 @@ public class RealNodeULPRTest extends RealNodeTest {
 				if(node.hasKey(fetchKey.getNodeKey(false), true, true))
 					count++;
 			}
-			System.err.println("T="+x+" : "+count+'/'+nodes.length+" have the data on test "+successfulTests+".");
-			Logger.normal(RealNodeULPRTest.class, "T="+x+" : "+count+'/'+nodes.length+" have the data on test "+successfulTests+".");
+			System.err.println("T="+x+" : "+count+'/'+nodes.length+" have the data on test "+successfulTests+ '.');
+			Logger.normal(RealNodeULPRTest.class, "T="+x+" : "+count+'/'+nodes.length+" have the data on test "+successfulTests+ '.');
 			if(x > 300) {
 				System.err.println();
 				System.err.println("TEST FAILED");

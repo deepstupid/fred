@@ -18,12 +18,12 @@ import java.io.IOException;
 
 public class BootstrapSeedTest {
 
-	public static int EXIT_NO_SEEDNODES = 257;
-	public static int EXIT_FAILED_TARGET = 258;
-	public static int EXIT_THREW_SOMETHING = 259;
+	public static final int EXIT_NO_SEEDNODES = 257;
+	public static final int EXIT_FAILED_TARGET = 258;
+	public static final int EXIT_THREW_SOMETHING = 259;
 	
-	public static int DARKNET_PORT = 5006;
-	public static int OPENNET_PORT = 5007;
+	public static final int DARKNET_PORT = 5006;
+	public static final int OPENNET_PORT = 5007;
 	
 	/**
 	 * @param args
@@ -74,7 +74,7 @@ public class BootstrapSeedTest {
         	seconds++;
         	if(opennetConns >= targetPeers) {
         		long timeTaken = System.currentTimeMillis()-startTime;
-        		System.out.println("Completed bootstrap ("+targetPeers+" peers) in "+timeTaken+"ms ("+TimeUtil.formatTime(timeTaken)+")");
+        		System.out.println("Completed bootstrap ("+targetPeers+" peers) in "+timeTaken+"ms ("+TimeUtil.formatTime(timeTaken)+ ')');
         		node.park();
         		System.exit(0);
         	}

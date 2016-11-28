@@ -2,8 +2,8 @@ package freenet.store;
 
 public interface StorableBlock {
 	
-	public byte[] getRoutingKey();
+	byte[] getRoutingKey();
 	
-	public byte[] getFullKey();
+	byte[] getFullKey();
 
 }

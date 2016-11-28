@@ -35,15 +35,15 @@ public class IPUndetectedUserAlert extends AbstractUserAlert {
 			return l10n("unknownAddress", "port", Integer.toString(node.getDarknetPortNumber())) + ' ' + textPortForwardSuggestion();
 	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("IPUndetectedUserAlert."+key);
 	}
 
-	private String l10n(String key, String pattern, String value) {
+	private static String l10n(String key, String pattern, String value) {
 		return NodeL10n.getBase().getString("IPUndetectedUserAlert."+key, pattern, value);
 	}
 
-	private String l10n(String key, String[] patterns, String[] values) {
+	private static String l10n(String key, String[] patterns, String[] values) {
 		return NodeL10n.getBase().getString("IPUndetectedUserAlert."+key, patterns, values);
 	}
 	
@@ -100,9 +100,9 @@ public class IPUndetectedUserAlert extends AbstractUserAlert {
 		int darknetPort = node.getDarknetPortNumber();
 		int opennetPort = node.getOpennetFNPPort();
 		if(opennetPort <= 0) {
-			textNode.addChild("#", " "+l10n("suggestForwardPort", "port", Integer.toString(darknetPort)));
+			textNode.addChild("#", ' ' +l10n("suggestForwardPort", "port", Integer.toString(darknetPort)));
 		} else {
-			textNode.addChild("#", " "+l10n("suggestForwardTwoPorts", new String[] { "port1", "port2" }, 
+			textNode.addChild("#", ' ' +l10n("suggestForwardTwoPorts", new String[] { "port1", "port2" },
 					new String[] { Integer.toString(darknetPort), Integer.toString(opennetPort) }));
 		}
 	}
@@ -114,7 +114,7 @@ public class IPUndetectedUserAlert extends AbstractUserAlert {
 		if(opennetPort <= 0) {
 			return l10n("suggestForwardPort", "port", Integer.toString(darknetPort));
 		} else {
-			return " "+l10n("suggestForwardTwoPorts", new String[] { "port1", "port2" }, 
+			return ' ' +l10n("suggestForwardTwoPorts", new String[] { "port1", "port2" },
 					new String[] { Integer.toString(darknetPort), Integer.toString(opennetPort) });
 		}
 	}

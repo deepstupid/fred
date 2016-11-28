@@ -55,12 +55,7 @@ public class CipherManager {
 	 * Cache for digested keys
 	 */
 	@SuppressWarnings("serial")
-	private Map<ByteArrayWrapper, byte[]> digestRoutingKeyCache = new LinkedHashMap<ByteArrayWrapper, byte[]>() {
-		@Override
-		protected boolean removeEldestEntry(Map.Entry<ByteArrayWrapper, byte[]> eldest) {
-			return size() > 128;
-		}
-	};
+	private final Map<ByteArrayWrapper, byte[]> digestRoutingKeyCache = new ByteArrayWrapperbyteLinkedHashMap();
 
 	/**
 	 * Get digested routing key
@@ -124,10 +119,7 @@ public class CipherManager {
 
 		if (!entry.isEncrypted) {
 			// Already decrypted
-			if (Arrays.equals(entry.plainRoutingKey, routingKey))
-				return true;
-			else
-				return false;
+            return Arrays.equals(entry.plainRoutingKey, routingKey);
 		}
 
 		if (entry.plainRoutingKey != null) {
@@ -176,4 +168,11 @@ public class CipherManager {
 		MasterKeys.clear(salt);
 		MasterKeys.clear(diskSalt);
 	}
+
+    private static class ByteArrayWrapperbyteLinkedHashMap extends LinkedHashMap<ByteArrayWrapper, byte[]> {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<ByteArrayWrapper, byte[]> eldest) {
+            return size() > 128;
+        }
+    }
 }

@@ -15,11 +15,11 @@ public class DarknetPeerNodeStatus extends PeerNodeStatus {
 
 	private final String privateDarknetCommentNote;
 	
-	private FRIEND_TRUST trustLevel;
+	private final FRIEND_TRUST trustLevel;
 
-	private FRIEND_VISIBILITY ourVisibility;
-	private FRIEND_VISIBILITY theirVisibility;
-	private FRIEND_VISIBILITY overallVisibility;
+	private final FRIEND_VISIBILITY ourVisibility;
+	private final FRIEND_VISIBILITY theirVisibility;
+	private final FRIEND_VISIBILITY overallVisibility;
 	
 	public DarknetPeerNodeStatus(DarknetPeerNode peerNode, boolean noHeavy) {
 		super(peerNode, noHeavy);

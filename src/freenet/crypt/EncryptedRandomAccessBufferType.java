@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public enum EncryptedRandomAccessBufferType {
     ChaCha128(1, 12, CryptByteBufferType.ChaCha128, MACType.HMACSHA256, 32)
-    //ChaCha256(2, 12, CryptByteBufferType.ChaCha256, MACType.HMACSHA256, 32);
+    //ChaCha256(2, 12, CryptByteBufferType.ChaCha256, MACType.HMACSHA256, 32)
     ;
 
     public final int bitmask;

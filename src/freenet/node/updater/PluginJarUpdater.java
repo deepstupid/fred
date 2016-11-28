@@ -188,15 +188,15 @@ public class PluginJarUpdater extends NodeUpdater {
 			node.clientCore.alerts.register(toRegister);
 	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("PluginJarUpdater."+key);
 	}
 
-	private String l10n(String key, String name, String value) {
+	private static String l10n(String key, String name, String value) {
 		return NodeL10n.getBase().getString("PluginJarUpdater."+key, name, value);
 	}
 
-	private String l10n(String key, String[] names, String[] values) {
+	private static String l10n(String key, String[] names, String[] values) {
 		return NodeL10n.getBase().getString("PluginJarUpdater."+key, names, values);
 	}
 	
@@ -207,7 +207,7 @@ public class PluginJarUpdater extends NodeUpdater {
 		}
 		synchronized(writeJarSync) {
 			if (!fNew.delete() && fNew.exists()) {
-				System.err.println("Can't delete " + fNew + "!");
+				System.err.println("Can't delete " + fNew + '!');
 			}
 
 			FileOutputStream fos;

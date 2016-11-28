@@ -48,7 +48,7 @@ public class LongTermMHKTest extends LongTermTest {
 		
 		boolean dumpOnly = args.length == 2 && "--dump".equalsIgnoreCase(args[1]);
 		
-		List<String> csvLine = new ArrayList<String>();
+		List<String> csvLine = new ArrayList<>();
 		System.out.println("DATE:" + dateFormat.format(today.getTime()));
 		csvLine.add(dateFormat.format(today.getTime()));
 
@@ -131,7 +131,7 @@ public class LongTermMHKTest extends LongTermTest {
 					uri = thisURI;
 					t2 = System.currentTimeMillis();
 					
-					System.out.println("PUSH-TIME-" + i + ":" + (t2 - t1)+" for "+uri+" for single block");
+					System.out.println("PUSH-TIME-" + i + ':' + (t2 - t1)+" for "+uri+" for single block");
 					csvLine.add(String.valueOf(t2 - t1));
 					csvLine.add(uri.toASCIIString());
 					successes++;
@@ -164,7 +164,7 @@ public class LongTermMHKTest extends LongTermTest {
 					uri = thisURI;
 					t2 = System.currentTimeMillis();
 					
-					System.out.println("PUSH-TIME-" + i + ":" + (t2 - t1)+" for "+uri+" for MHK #"+i);
+					System.out.println("PUSH-TIME-" + i + ':' + (t2 - t1)+" for "+uri+" for MHK #"+i);
 					csvLine.add(String.valueOf(t2 - t1));
 					csvLine.add(uri.toASCIIString());
 					successes++;
@@ -364,7 +364,7 @@ public class LongTermMHKTest extends LongTermTest {
 						client.fetch(mhkURIs[i]);
 						t2 = System.currentTimeMillis();
 						
-						System.out.println("PULL-TIME FOR MHK #"+i+":" + (t2 - t1));
+						System.out.println("PULL-TIME FOR MHK #"+i+ ':' + (t2 - t1));
 						csvLine.add(String.valueOf(t2 - t1));
 					} catch (FetchException e) {
 						if (e.getMode() != FetchExceptionMode.ALL_DATA_NOT_FOUND
@@ -401,18 +401,15 @@ public class LongTermMHKTest extends LongTermTest {
 	
 	private static RandomAccessBucket randomData(Node node) throws IOException {
 	    RandomAccessBucket data = node.clientCore.tempBucketFactory.makeBucket(TEST_SIZE);
-		OutputStream os = data.getOutputStream();
-		try {
-		byte[] buf = new byte[4096];
-		for (long written = 0; written < TEST_SIZE;) {
-			node.fastWeakRandom.nextBytes(buf);
-			int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
-			os.write(buf, 0, toWrite);
-			written += toWrite;
-		}
-		} finally {
-		os.close();
-		}
+        try (OutputStream os = data.getOutputStream()) {
+            byte[] buf = new byte[4096];
+            for (long written = 0; written < TEST_SIZE; ) {
+                node.fastWeakRandom.nextBytes(buf);
+                int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
+                os.write(buf, 0, toWrite);
+                written += toWrite;
+            }
+        }
 		return data;
 	}
 

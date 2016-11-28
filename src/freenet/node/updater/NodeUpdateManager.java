@@ -135,7 +135,7 @@ public class NodeUpdateManager {
 	private boolean updateSeednodes;
 	//private boolean updateInstallers;
 	// FIXME make configurable
-	private boolean updateIPToCountry = true;
+	private final boolean updateIPToCountry = true;
 
 	/** Is there a new main jar ready to deploy? */
 	private volatile boolean hasNewMainJar;
@@ -552,7 +552,7 @@ public class NodeUpdateManager {
 	}
 
 	/** Return the length of the data fetched for the current version, or -1. */
-	private long canAnnounceUOMNew() {
+	private static long canAnnounceUOMNew() {
 		return -1;
 //      Bucket data;
 //		synchronized(this) {
@@ -638,7 +638,7 @@ public class NodeUpdateManager {
 	/**
 	 * Is auto-update enabled?
 	 */
-	public boolean isEnabled() {
+	public static boolean isEnabled() {
 		return false; // (mainUpdater != null);
 	}
 
@@ -1363,11 +1363,11 @@ public class NodeUpdateManager {
 //				UserAlert.CRITICAL_ERROR));
 //	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("NodeUpdateManager." + key);
 	}
 
-	private String l10n(String key, String pattern, String value) {
+	private static String l10n(String key, String pattern, String value) {
 		return NodeL10n.getBase().getString("NodeUpdateManager." + key,
 				pattern, value);
 	}
@@ -1620,11 +1620,11 @@ public class NodeUpdateManager {
 	/**
 	 * What version is the node currently running?
 	 */
-	public int getMainVersion() {
+	public static int getMainVersion() {
 		return Version.buildNumber();
 	}
 
-	public int getExtVersion() {
+	public static int getExtVersion() {
 		return NodeStarter.extBuildNumber;
 	}
 

@@ -17,20 +17,19 @@ import java.io.OutputStream;
 import java.util.Random;
 
 /**
- * Test case for {@link freenet.support.compress.Bzip2Compressor} class.
+ * Test case for {@link freenet.support.compress.LZMA_NEWCompressor} class.
  */
 public class NewLzmaCompressorTest extends TestCase {
 
 	private static final String UNCOMPRESSED_DATA_1 = GzipCompressorTest.UNCOMPRESSED_DATA_1;
 
 	/**
-	 * test BZIP2 compressor's identity and functionality
+	 * test LZMA_NEW compressor's identity and functionality
 	 */
 	public void testNewLzmaCompressor() throws IOException {
-		Compressor.COMPRESSOR_TYPE lzcompressor = Compressor.COMPRESSOR_TYPE.BZIP2;
-		Compressor compressorZero = Compressor.COMPRESSOR_TYPE.getCompressorByMetadataID((short)1);
+		Compressor.COMPRESSOR_TYPE lzcompressor = Compressor.COMPRESSOR_TYPE.LZMA_NEW;
+		Compressor compressorZero = Compressor.COMPRESSOR_TYPE.getCompressorByMetadataID((short)3);
 
-		// check BZIP2 is the second compressor
 		assertEquals(lzcompressor, compressorZero);
 	}
 
@@ -38,7 +37,7 @@ public class NewLzmaCompressorTest extends TestCase {
 
 //	public void testCompress() throws IOException {
 //
-//		// do bzip2 compression
+//		// do LZMA_NEW compression
 //		byte[] compressedData = doCompress(UNCOMPRESSED_DATA_1.getBytes());
 //
 //		// output size same as expected?
@@ -54,7 +53,7 @@ public class NewLzmaCompressorTest extends TestCase {
 //
 //		byte[] compressedData = COMPRESSED_DATA_1;
 //
-//		// do bzip2 decompression with buckets
+//		// do LZMA_NEW decompression with buckets
 //		byte[] uncompressedData = doBucketDecompress(compressedData);
 //
 //		// is the (round-tripped) uncompressed string the same as the original?
@@ -75,7 +74,7 @@ public class NewLzmaCompressorTest extends TestCase {
 
 		int writtenBytes = 0;
 
-		writtenBytes = Compressor.COMPRESSOR_TYPE.BZIP2.decompress(compressedData, 0, compressedData.length, outUncompressedData);
+		writtenBytes = Compressor.COMPRESSOR_TYPE.LZMA_NEW.decompress(compressedData, 0, compressedData.length, outUncompressedData);
 
 		assertEquals(writtenBytes, originalUncompressedData.length);
 		assertEquals(originalUncompressedData.length, outUncompressedData.length);
@@ -103,7 +102,7 @@ public class NewLzmaCompressorTest extends TestCase {
 
 			int writtenBytes = 0;
 
-			writtenBytes = Compressor.COMPRESSOR_TYPE.BZIP2.decompress(compressedData, 0, compressedData.length, outUncompressedData);
+			writtenBytes = Compressor.COMPRESSOR_TYPE.LZMA_NEW.decompress(compressedData, 0, compressedData.length, outUncompressedData);
 
 			assertEquals(writtenBytes, originalUncompressedData.length);
 			assertEquals(originalUncompressedData.length, outUncompressedData.length);
@@ -122,7 +121,7 @@ public class NewLzmaCompressorTest extends TestCase {
 		BucketFactory factory = new ArrayBucketFactory();
 
 		try {
-			Compressor.COMPRESSOR_TYPE.BZIP2.compress(inBucket, factory, 32, 32);
+			Compressor.COMPRESSOR_TYPE.LZMA_NEW.compress(inBucket, factory, 32, 32);
 		} catch (CompressionOutputSizeException e) {
 			// expect this
 			return;
@@ -149,7 +148,7 @@ public class NewLzmaCompressorTest extends TestCase {
 		try {
 			decompressorInput = inBucket.getInputStream();
 			decompressorOutput = outBucket.getOutputStream();
-			Compressor.COMPRESSOR_TYPE.BZIP2.decompress(decompressorInput, decompressorOutput, 4096 + 10, 4096 + 20);
+			Compressor.COMPRESSOR_TYPE.LZMA_NEW.decompress(decompressorInput, decompressorOutput, 4096 + 10, 4096 + 20);
 			decompressorInput.close();
 			decompressorOutput.close();
 		} catch (CompressionOutputSizeException e) {
@@ -170,7 +169,7 @@ public class NewLzmaCompressorTest extends TestCase {
 		BucketFactory factory = new ArrayBucketFactory();
 		Bucket outBucket = null;
 
-		outBucket = Compressor.COMPRESSOR_TYPE.BZIP2.compress(inBucket, factory, uncompressedData.length, uncompressedData.length * 2 + 64);
+		outBucket = Compressor.COMPRESSOR_TYPE.LZMA_NEW.compress(inBucket, factory, uncompressedData.length, uncompressedData.length * 2 + 64);
 
 		InputStream in = null;
 		in = outBucket.getInputStream();

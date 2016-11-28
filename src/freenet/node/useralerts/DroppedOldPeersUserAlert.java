@@ -21,7 +21,7 @@ public class DroppedOldPeersUserAlert implements UserAlert {
     private final long creationTime;
 
     public DroppedOldPeersUserAlert(File droppedPeersFile) {
-        this.droppedOldPeers = new ArrayList<String>();
+        this.droppedOldPeers = new ArrayList<>();
         this.peersBrokenFile = droppedPeersFile;
         creationTime = System.currentTimeMillis();
         this.droppedOldPeersBuild = 0;
@@ -33,7 +33,7 @@ public class DroppedOldPeersUserAlert implements UserAlert {
         if (name == null) {
             name = "(unknown name)";
         } else {
-            name = "\"" + name + "\"";
+            name = '"' + name + '"';
         }
         droppedOldPeers.add(name);
         if (e.buildNumber > droppedOldPeersBuild) {
@@ -56,7 +56,7 @@ public class DroppedOldPeersUserAlert implements UserAlert {
 
     private String getErrorIntro() {
         String[] keys = new String[] { "count", "buildNumber", "buildDate", "filename" };
-        String[] values = new String[] { "" + droppedOldPeers.size(), "" + droppedOldPeersBuild,
+        String[] values = new String[] {String.valueOf(droppedOldPeers.size()), String.valueOf(droppedOldPeersBuild),
                 droppedOldPeersDate.toString(), peersBrokenFile.toString() };
         return l10n("droppingOldFriendFull", keys, values);
     }
@@ -64,7 +64,7 @@ public class DroppedOldPeersUserAlert implements UserAlert {
     @Override
     public String getTitle() {
         String[] keys = new String[] { "count", "buildNumber", "buildDate", "filename" };
-        String[] values = new String[] { "" + droppedOldPeers.size(), "" + droppedOldPeersBuild,
+        String[] values = new String[] {String.valueOf(droppedOldPeers.size()), String.valueOf(droppedOldPeersBuild),
                 droppedOldPeersDate.toString(), peersBrokenFile.toString() };
         return l10n("droppingOldFriendTitle", keys, values);
     }

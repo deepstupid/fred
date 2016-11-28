@@ -84,9 +84,9 @@ public class DiskSpaceUserAlert implements UserAlert {
         Status status = getStatus();
         StringBuffer sb = new StringBuffer();
         sb.append(l10n("notEnoughSpaceIn", "where", getWhere(status).toString()));
-        sb.append(" ");
+        sb.append(' ');
         sb.append(status.getExplanation());
-        sb.append(" ");
+        sb.append(' ');
         sb.append(l10n("action"));
         return sb.toString();
     }

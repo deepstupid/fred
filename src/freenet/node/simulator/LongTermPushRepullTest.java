@@ -44,7 +44,7 @@ public class LongTermPushRepullTest extends LongTermTest {
 		}
 		String uid = args[0];
 
-		List<String> csvLine = new ArrayList<String>(3 + 2 * MAX_N);
+		List<String> csvLine = new ArrayList<>(3 + 2 * MAX_N);
 		System.out.println("DATE:" + dateFormat.format(today.getTime()));
 		csvLine.add(dateFormat.format(today.getTime()));
 
@@ -92,7 +92,7 @@ public class LongTermPushRepullTest extends LongTermTest {
 			
 			RandomAccessBucket data = randomData(node);
 			HighLevelSimpleClient client = node.clientCore.makeClient((short) 0, false, false);
-			FreenetURI uri = new FreenetURI("KSK@" + uid + "-" + dateFormat.format(today.getTime()));
+			FreenetURI uri = new FreenetURI("KSK@" + uid + '-' + dateFormat.format(today.getTime()));
 			System.out.println("PUSHING " + uri);
 			
 			try {
@@ -101,7 +101,7 @@ public class LongTermPushRepullTest extends LongTermTest {
 				client.insert(block, false, null);
 				t2 = System.currentTimeMillis();
 				
-				System.out.println("PUSH-TIME-" + ":" + (t2 - t1));
+				System.out.println("PUSH-TIME-" + ':' + (t2 - t1));
 				csvLine.add(String.valueOf(t2 - t1));
 			} catch (InsertException e) {
 				e.printStackTrace();
@@ -138,7 +138,7 @@ public class LongTermPushRepullTest extends LongTermTest {
 				Calendar targetDate = (Calendar) today.clone();
 				targetDate.add(Calendar.DAY_OF_MONTH, -((1 << i) - 1));
 
-				uri = new FreenetURI("KSK@" + uid + "-" + dateFormat.format(targetDate.getTime()));
+				uri = new FreenetURI("KSK@" + uid + '-' + dateFormat.format(targetDate.getTime()));
 				System.out.println("PULLING " + uri);
 
 				try {
@@ -146,7 +146,7 @@ public class LongTermPushRepullTest extends LongTermTest {
 					client.fetch(uri);
 					t2 = System.currentTimeMillis();
 
-					System.out.println("PULL-TIME-" + i + ":" + (t2 - t1));
+					System.out.println("PULL-TIME-" + i + ':' + (t2 - t1));
 					csvLine.add(String.valueOf(t2 - t1));
 				} catch (FetchException e) {
 					if (e.getMode() != FetchExceptionMode.ALL_DATA_NOT_FOUND
@@ -179,18 +179,15 @@ public class LongTermPushRepullTest extends LongTermTest {
 
 	private static RandomAccessBucket randomData(Node node) throws IOException {
 	    RandomAccessBucket data = node.clientCore.tempBucketFactory.makeBucket(TEST_SIZE);
-		OutputStream os = data.getOutputStream();
-		try {
-		byte[] buf = new byte[4096];
-		for (long written = 0; written < TEST_SIZE;) {
-			node.fastWeakRandom.nextBytes(buf);
-			int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
-			os.write(buf, 0, toWrite);
-			written += toWrite;
-		}
-		} finally {
-		os.close();
-		}
+        try (OutputStream os = data.getOutputStream()) {
+            byte[] buf = new byte[4096];
+            for (long written = 0; written < TEST_SIZE; ) {
+                node.fastWeakRandom.nextBytes(buf);
+                int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
+                os.write(buf, 0, toWrite);
+                written += toWrite;
+            }
+        }
 		return data;
 	}
 }

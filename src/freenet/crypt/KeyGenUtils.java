@@ -174,7 +174,7 @@ public final class KeyGenUtils {
      */
     public static SecretKey getSecretKey(KeyType type, byte[] key){
         if(!type.name().startsWith("HMAC") && key.length != type.keySize >> 3){
-            throw new IllegalArgumentException("Key size does not match KeyType");
+            throw new IllegalArgumentException("Key size (" + key.length + ") does not match KeyType: " + type);
         }
         return new SecretKeySpec(key, type.alg);
     }

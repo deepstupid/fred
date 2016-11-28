@@ -89,13 +89,13 @@ public abstract class UIDTag {
 	public synchronized boolean addRoutedTo(PeerNode peer, boolean offeredKey) {
 		if(logMINOR)
 			Logger.minor(this, "Routing to "+peer+" on "+this+(offeredKey ? " (offered)" : ""), new Exception("debug"));
-		if(routedTo == null) routedTo = new HashSet<PeerNode>();
+		if(routedTo == null) routedTo = new HashSet<>();
 		routedTo.add(peer);
 		if(offeredKey) {
-			if(fetchingOfferedKeyFrom == null) fetchingOfferedKeyFrom = new HashSet<PeerNode>();
+			if(fetchingOfferedKeyFrom == null) fetchingOfferedKeyFrom = new HashSet<>();
 			return fetchingOfferedKeyFrom.add(peer);
 		} else {
-			if(currentlyRoutingTo == null) currentlyRoutingTo = new HashSet<PeerNode>();
+			if(currentlyRoutingTo == null) currentlyRoutingTo = new HashSet<>();
 			return currentlyRoutingTo.add(peer);
 		}
 	}
@@ -344,7 +344,7 @@ public abstract class UIDTag {
 	public synchronized String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(super.toString());
-		sb.append(":");
+		sb.append(':');
 		sb.append(uid);
 		if(unlockedHandler)
 			sb.append(" (unlocked handler)");
@@ -356,13 +356,13 @@ public abstract class UIDTag {
 			sb.append(" (routing to ");
 			for(PeerNode pn : currentlyRoutingTo) {
 				sb.append(pn.shortToString());
-				sb.append(",");
+				sb.append(',');
 			}
 			sb.setLength(sb.length()-1);
-			sb.append(")");
+			sb.append(')');
 		}
 		if(fetchingOfferedKeyFrom != null)
-			sb.append(" (fetch offered keys from ").append(fetchingOfferedKeyFrom.size()).append(")");
+			sb.append(" (fetch offered keys from ").append(fetchingOfferedKeyFrom.size()).append(')');
 		if(sourceRestarted)
 			sb.append(" (source restarted)");
 		if(timedOutButContinued)
@@ -377,7 +377,7 @@ public abstract class UIDTag {
 	 */
 	public synchronized void handlingTimeout(PeerNode next) {
 		if(handlingTimeouts == null)
-			handlingTimeouts = new HashSet<PeerNode>();
+			handlingTimeouts = new HashSet<>();
 		handlingTimeouts.add(next);
 	}
 

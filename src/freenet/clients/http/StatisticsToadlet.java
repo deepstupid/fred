@@ -166,8 +166,8 @@ public class StatisticsToadlet extends Toadlet {
 		if(ctx.isAllowedFullAccess())
 			contentNode.addChild(ctx.getAlertManager().createSummary());
 
-		double swaps = node.getSwaps();
-		double noSwaps = node.getNoSwaps();
+		double swaps = Node.getSwaps();
+		double noSwaps = Node.getNoSwaps();
 
 		HTMLNode overviewTable = contentNode.addChild("table", "class", "column");
 
@@ -187,7 +187,7 @@ public class StatisticsToadlet extends Toadlet {
 		// Statistic gathering box
 		HTMLNode statGatheringContent = ctx.getPageMaker().getInfobox("#", l10n("statisticGatheringTitle"), nextTableCell, "statistics-generating", true);
 		// Generate a Thread-Dump
-		if(node.isUsingWrapper()){
+		if(Node.isUsingWrapper()){
 			HTMLNode threadDumpForm = ctx.addFormChild(statGatheringContent, "/", "threadDumpForm");
 			threadDumpForm.addChild("input", new String[] { "type", "name", "value" }, new String[] { "submit", "getThreadDump", l10n("threadDumpButton")});
 		}
@@ -842,11 +842,11 @@ public class StatisticsToadlet extends Toadlet {
 	private void drawSwapStatsBox(HTMLNode locationSwapInfobox, double location, long nodeUptimeSeconds, double swaps, double noSwaps) {
 		
 		locationSwapInfobox.addChild("div", "class", "infobox-header", "Location swaps");
-		int startedSwaps = node.getStartedSwaps();
-		int swapsRejectedAlreadyLocked = node.getSwapsRejectedAlreadyLocked();
-		int swapsRejectedNowhereToGo = node.getSwapsRejectedNowhereToGo();
-		int swapsRejectedRateLimit = node.getSwapsRejectedRateLimit();
-		int swapsRejectedRecognizedID = node.getSwapsRejectedRecognizedID();
+		int startedSwaps = Node.getStartedSwaps();
+		int swapsRejectedAlreadyLocked = Node.getSwapsRejectedAlreadyLocked();
+		int swapsRejectedNowhereToGo = Node.getSwapsRejectedNowhereToGo();
+		int swapsRejectedRateLimit = Node.getSwapsRejectedRateLimit();
+		int swapsRejectedRecognizedID = Node.getSwapsRejectedRecognizedID();
 		double locChangeSession = node.getLocationChangeSession();
 		int averageSwapTime = node.getAverageOutgoingSwapTime();
 		long sendSwapInterval = node.getSendSwapInterval();

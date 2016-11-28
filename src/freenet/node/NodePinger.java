@@ -70,7 +70,7 @@ public class NodePinger implements Runnable {
 			Logger.minor(this, "Median ping: "+meanPing);
 	}
 	
-	private double calculateMedianPing(PeerNode[] peers) {
+	private static double calculateMedianPing(PeerNode[] peers) {
 		double[] allPeers = new double[peers.length];
         for(int i = 0; i < peers.length; i++) {
             PeerNode peer = peers[i];
@@ -90,7 +90,7 @@ public class NodePinger implements Runnable {
 	final CapacityChecker capacityOutputRealtime = new CapacityChecker(false, true);
 	final CapacityChecker capacityOutputBulk = new CapacityChecker(false, false);
 	
-	class CapacityChecker {
+	static class CapacityChecker {
 		final boolean isInput;
 		final boolean isRealtime;
 		private double min;

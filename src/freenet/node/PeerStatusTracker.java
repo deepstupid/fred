@@ -18,7 +18,7 @@ class PeerStatusTracker<K extends Object> {
 	private final HashMap<K, WeakHashSet<PeerNode>> statuses;
 
 	PeerStatusTracker() {
-		statuses = new HashMap<K, WeakHashSet<PeerNode>>();
+		statuses = new HashMap<>();
 	}
 
 	public synchronized void addStatus(K peerNodeStatus, PeerNode peerNode, boolean noLog) {
@@ -31,9 +31,9 @@ class PeerStatusTracker<K extends Object> {
 			}
 			statuses.remove(peerNodeStatus);
 		} else
-			statusSet = new WeakHashSet<PeerNode>();
+			statusSet = new WeakHashSet<>();
 		if(logMINOR)
-			Logger.minor(this, "addPeerNodeStatus(): adding PeerNode for '" + peerNode.getIdentityString() + "' with status '" + peerNodeStatus + "'");
+			Logger.minor(this, "addPeerNodeStatus(): adding PeerNode for '" + peerNode.getIdentityString() + "' with status '" + peerNodeStatus + '\'');
 		statusSet.add(peerNode);
 		statuses.put(peerNodeStatus, statusSet);
 	}
@@ -52,14 +52,14 @@ class PeerStatusTracker<K extends Object> {
 		if(statusSet != null) {
 			if(!statusSet.remove(peerNode)) {
 				if(!noLog)
-					Logger.error(this, "removePeerNodeStatus(): identity '" + peerNode.getIdentityString() + " for " + peerNode.shortToString() + "' not in peerNodeStatuses with status '" + peerNodeStatus + "'", new Exception("debug"));
+					Logger.error(this, "removePeerNodeStatus(): identity '" + peerNode.getIdentityString() + " for " + peerNode.shortToString() + "' not in peerNodeStatuses with status '" + peerNodeStatus + '\'', new Exception("debug"));
 				return;
 			}
 			if(statusSet.isEmpty())
 				statuses.remove(peerNodeStatus);
 		}
 		if(logMINOR)
-			Logger.minor(this, "removePeerNodeStatus(): removing PeerNode for '" + peerNode.getIdentityString() + "' with status '" + peerNodeStatus + "'");
+			Logger.minor(this, "removePeerNodeStatus(): removing PeerNode for '" + peerNode.getIdentityString() + "' with status '" + peerNodeStatus + '\'');
 	}
 	
 	public synchronized void changePeerNodeStatus(PeerNode peerNode, K oldPeerNodeStatus,

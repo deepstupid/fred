@@ -29,7 +29,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public abstract class NodeUpdater implements ClientGetCallback, USKCallback, RequestClient {
 
 	static private boolean logMINOR;
-	private FetchContext ctx;
+	private final FetchContext ctx;
 	private ClientGetter cg;
 	private FreenetURI URI;
 	private final Ticker ticker;
@@ -129,7 +129,7 @@ public abstract class NodeUpdater implements ClientGetCallback, USKCallback, Req
 
 			realAvailableVersion = found;
 			if(found > maxDeployVersion) {
-				System.err.println("Ignoring "+jarName() + " update edition "+l+": version too new (min "+minDeployVersion+" max "+maxDeployVersion+")");
+				System.err.println("Ignoring "+jarName() + " update edition "+l+": version too new (min "+minDeployVersion+" max "+maxDeployVersion+ ')');
 				found = maxDeployVersion;
 			}
 			
@@ -143,12 +143,7 @@ public abstract class NodeUpdater implements ClientGetCallback, USKCallback, Req
 	}
 
 	private void finishOnFoundEdition(int found) {
-		ticker.queueTimedJob(new Runnable() {
-			@Override
-			public void run() {
-				maybeUpdate();
-			}
-		}, SECONDS.toMillis(60)); // leave some time in case we get later editions
+		ticker.queueTimedJob(this::maybeUpdate, SECONDS.toMillis(60)); // leave some time in case we get later editions
 		// LOCKING: Always take the NodeUpdater lock *BEFORE* the NodeUpdateManager lock
 		if(found <= currentVersion) {
 			System.err.println("Cancelling fetch for "+found+": not newer than current version "+currentVersion);
@@ -162,7 +157,7 @@ public abstract class NodeUpdater implements ClientGetCallback, USKCallback, Req
 
 	public void maybeUpdate() {
 		ClientGetter toStart = null;
-		if(!manager.isEnabled())
+		if(!NodeUpdateManager.isEnabled())
 			return;
 		if(manager.isBlown())
 			return;
@@ -197,7 +192,7 @@ public abstract class NodeUpdater implements ClientGetCallback, USKCallback, Req
 					if(availableVersion > currentVersion)
 						System.err.println("Starting " + jarName() + " fetch for " + availableVersion);
 					tempBlobFile =
-						File.createTempFile(blobFilenamePrefix + availableVersion + "-", ".fblob.tmp", manager.node.clientCore.getPersistentTempDir());
+						File.createTempFile(blobFilenamePrefix + availableVersion + '-', ".fblob.tmp", manager.node.clientCore.getPersistentTempDir());
 					FreenetURI uri = URI.setSuggestedEdition(availableVersion);
 					uri = uri.sskForUSK();
 					cg = new ClientGetter(this,  
@@ -262,13 +257,7 @@ public abstract class NodeUpdater implements ClientGetCallback, USKCallback, Req
 				System.err.println("Cannot update: result either null or empty for " + availableVersion);
 				// Try again
 				if(result == null || result.asBucket() == null || availableVersion > fetchedVersion)
-					node.ticker.queueTimedJob(new Runnable() {
-
-						@Override
-						public void run() {
-							maybeUpdate();
-						}
-					}, 0);
+					node.ticker.queueTimedJob(this::maybeUpdate, 0);
 				return;
 			}
 			blobFile = getBlobFile(fetchedVersion);
@@ -439,26 +428,14 @@ public abstract class NodeUpdater implements ClientGetCallback, USKCallback, Req
 		if(errorCode == FetchExceptionMode.CANCELLED ||
 			!e.isFatal()) {
 			Logger.normal(this, "Rescheduling new request");
-			ticker.queueTimedJob(new Runnable() {
-
-				@Override
-				public void run() {
-					maybeUpdate();
-				}
-			}, 0);
+			ticker.queueTimedJob(this::maybeUpdate, 0);
 		} else {
 			Logger.error(this, "Canceling fetch : " + e.getMessage());
 			System.err.println("Unexpected error fetching update: " + e.getMessage());
 			if(e.isFatal()) {
 				// Wait for the next version
 			} else
-				ticker.queueTimedJob(new Runnable() {
-
-					@Override
-					public void run() {
-						maybeUpdate();
-					}
-				}, HOURS.toMillis(1));
+				ticker.queueTimedJob(this::maybeUpdate, HOURS.toMillis(1));
 		}
 	}
 

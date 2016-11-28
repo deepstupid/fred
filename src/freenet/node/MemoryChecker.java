@@ -13,7 +13,7 @@ import freenet.support.math.SimpleRunningAverage;
 public class MemoryChecker implements Runnable {
 	private volatile boolean goon = false;
 	private final Ticker ps;
-	private int aggressiveGCModificator;
+	private final int aggressiveGCModificator;
 	private RunningAverage avgFreeMemory;
 	
 	public MemoryChecker(Ticker ps, int modificator){

@@ -128,9 +128,9 @@ public class ResizablePersistentIntBuffer {
 	}
 
 	public void put(int offset, int value, boolean noWrite) throws IOException {
-		lock.readLock().lock(); // Only resize needs write lock because it creates a new buffer.
-		if(closed) throw new IllegalStateException("Already shut down");
 		try {
+			lock.readLock().lock(); // Only resize needs write lock because it creates a new buffer.
+			if(closed) throw new IllegalStateException("Already shut down");
 			int persistenceTime = getPersistenceTime();
 			buffer[offset] = value;
 			if(persistenceTime == -1 && !noWrite) {

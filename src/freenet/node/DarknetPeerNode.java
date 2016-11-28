@@ -179,10 +179,10 @@ public class DarknetPeerNode extends PeerNode {
 		privateDarknetCommentFileNumber = -1;
 
 		// Setup the extraPeerDataFileNumbers
-		extraPeerDataFileNumbers = new LinkedHashSet<Integer>();
+		extraPeerDataFileNumbers = new LinkedHashSet<>();
 
 		// Setup the queuedToSendN2NMExtraPeerDataFileNumbers
-		queuedToSendN2NMExtraPeerDataFileNumbers = new LinkedHashSet<Integer>();
+		queuedToSendN2NMExtraPeerDataFileNumbers = new LinkedHashSet<>();
 	}
 
 	/**
@@ -441,7 +441,7 @@ public class DarknetPeerNode extends PeerNode {
 			synchronized(extraPeerDataFileNumbers) {
 				extraPeerDataFileNumbers.add(fileNumber);
 			}
-			readResult = readExtraPeerDataFile(extraPeerDataFile, fileNumber.intValue());
+			readResult = readExtraPeerDataFile(extraPeerDataFile, fileNumber);
 			if(!readResult) {
 				gotError = true;
 			}
@@ -601,7 +601,7 @@ public class DarknetPeerNode extends PeerNode {
 				synchronized(queuedToSendN2NMExtraPeerDataFileNumbers) {
 					fs.putOverwrite("extraPeerDataType", Integer.toString(extraPeerDataType));
 					fs.removeValue("sentTime");
-					queuedToSendN2NMExtraPeerDataFileNumbers.add(Integer.valueOf(fileNumber));
+					queuedToSendN2NMExtraPeerDataFileNumbers.add(fileNumber);
 				}
 			}
 			return true;
@@ -729,7 +729,7 @@ public class DarknetPeerNode extends PeerNode {
 			localFileNumbers = extraPeerDataFileNumbers.toArray(new Integer[extraPeerDataFileNumbers.size()]);
 		}
 		for (Integer localFileNumber : localFileNumbers) {
-			deleteExtraPeerDataFile(localFileNumber.intValue());
+			deleteExtraPeerDataFile(localFileNumber);
 		}
 		extraPeerDataPeerDir.delete();
 	}
@@ -819,7 +819,7 @@ public class DarknetPeerNode extends PeerNode {
 		}
 		Arrays.sort(localFileNumbers);
 		for (Integer localFileNumber : localFileNumbers) {
-			rereadExtraPeerDataFile(localFileNumber.intValue());
+			rereadExtraPeerDataFile(localFileNumber);
 		}
 	}
 
@@ -853,9 +853,9 @@ public class DarknetPeerNode extends PeerNode {
 	// FIXME this should be persistent across node restarts
 
 	/** Files I have offered to this peer */
-	private final HashMap<Long, FileOffer> myFileOffersByUID = new HashMap<Long, FileOffer>();
+	private final HashMap<Long, FileOffer> myFileOffersByUID = new HashMap<>();
 	/** Files this peer has offered to me */
-	private final HashMap<Long, FileOffer> hisFileOffersByUID = new HashMap<Long, FileOffer>();
+	private final HashMap<Long, FileOffer> hisFileOffersByUID = new HashMap<>();
 
 	private void storeOffers() {
 		// FIXME do something
@@ -921,7 +921,7 @@ public class DarknetPeerNode extends PeerNode {
 
 		public void accept() {
 			acceptedOrRejected = true;
-			final String baseFilename = "direct-"+FileUtil.sanitize(getName())+"-"+filename;
+			final String baseFilename = "direct-"+FileUtil.sanitize(getName())+ '-' +filename;
 			final File dest = node.clientCore.downloadsDir().file(baseFilename+".part");
 			destination = node.clientCore.downloadsDir().file(baseFilename);
 			try {
@@ -960,7 +960,7 @@ public class DarknetPeerNode extends PeerNode {
 					if(logMINOR)
 						Logger.minor(this, "Received file");
 				}
-			}, "Receiver for bulk transfer "+uid+":"+filename);
+			}, "Receiver for bulk transfer "+uid+ ':' +filename);
 			sendFileOfferAccepted(uid);
 		}
 
@@ -997,7 +997,7 @@ public class DarknetPeerNode extends PeerNode {
 						Logger.minor(this, "Sent file");
 				}
 
-			}, "Sender for bulk transfer "+uid+":"+filename);
+			}, "Sender for bulk transfer "+uid+ ':' +filename);
 		}
 
 		public void reject() {
@@ -1530,7 +1530,7 @@ public class DarknetPeerNode extends PeerNode {
 		try {
 			fo.send();
 		} catch (DisconnectedException e) {
-			Logger.error(this, "Cannot send because node disconnected: "+e+" for "+uid+":"+fo.filename, e);
+			Logger.error(this, "Cannot send because node disconnected: "+e+" for "+uid+ ':' +fo.filename, e);
 		}
 	}
 
@@ -1601,7 +1601,7 @@ public class DarknetPeerNode extends PeerNode {
 
 	@Override
 	public String userToString() {
-		return ""+getPeer()+" : "+getName();
+		return getPeer()+" : "+getName();
 	}
 
 	@Override
@@ -1806,28 +1806,18 @@ public class DarknetPeerNode extends PeerNode {
 				}
 				return;
 			}
-			node.executor.execute(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						bt.send();
-					} catch (DisconnectedException e) {
-						// :|
-					} finally {
-						synchronized(DarknetPeerNode.this) {
-							sendingFullNoderef = false;
-						}
-					}
-				}
-
-			});
-		} catch (RuntimeException e) {
-			synchronized(this) {
-				sendingFullNoderef = false;
-			}
-			throw e;
-		} catch (Error e) {
+			node.executor.execute(() -> {
+                try {
+                    bt.send();
+                } catch (DisconnectedException e) {
+                    // :|
+                } finally {
+                    synchronized(DarknetPeerNode.this) {
+                        sendingFullNoderef = false;
+                    }
+                }
+            });
+		} catch (RuntimeException | Error e) {
 			synchronized(this) {
 				sendingFullNoderef = false;
 			}
@@ -1902,12 +1892,7 @@ public class DarknetPeerNode extends PeerNode {
 					}
 				}
 			});
-		} catch (RuntimeException e) {
-			synchronized(this) {
-				receivingFullNoderef = false;
-			}
-			throw e;
-		} catch (Error e) {
+		} catch (RuntimeException | Error e) {
 			synchronized(this) {
 				receivingFullNoderef = false;
 			}

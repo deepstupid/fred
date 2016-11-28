@@ -8,8 +8,6 @@ import freenet.io.comm.*;
 import freenet.io.xfer.BlockTransmitter;
 import freenet.io.xfer.BlockTransmitter.BlockTransmitterCompletion;
 import freenet.io.xfer.BlockTransmitter.ReceiverAbortHandler;
-import freenet.io.xfer.BulkTransmitter;
-import freenet.io.xfer.BulkTransmitter.AllSentCallback;
 import freenet.io.xfer.PartiallyReceivedBlock;
 import freenet.io.xfer.WaitedTooLongException;
 import freenet.keys.*;
@@ -237,13 +235,13 @@ public class RequestHandler implements PrioRunnable, ByteCounter, RequestSenderL
 						if(rs != null && rs.isTransferCoalesced()) {
 							if(logMINOR) Logger.minor(this, "Not cancelling transfer because others want the data on "+RequestHandler.this);
 							// We do need to reassign the tag because the RS has the same UID.
-							node.tracker.reassignTagToSelf(tag);
+							RequestTracker.reassignTagToSelf(tag);
 							return false;
 						}
 						if(node.failureTable.peersWantKey(key, source)) {
 							// This may indicate downstream is having trouble communicating with us.
 							Logger.error(this, "Downstream transfer successful but upstream transfer to "+source.shortToString()+" failed. Reassigning tag to self because want the data for peers on "+RequestHandler.this);
-							node.tracker.reassignTagToSelf(tag);
+							RequestTracker.reassignTagToSelf(tag);
 							return false; // Want it
 						}
 						if(node.clientCore != null && node.clientCore.wantKey(key)) {
@@ -270,7 +268,7 @@ public class RequestHandler implements PrioRunnable, ByteCounter, RequestSenderL
 							 * discussion in BlockReceiver's top comments.
 							 */
 							Logger.error(this, "Downstream transfer successful but upstream transfer to "+source.shortToString()+" failed. Reassigning tag to self because want the data for ourselves on "+RequestHandler.this);
-							node.tracker.reassignTagToSelf(tag);
+							RequestTracker.reassignTagToSelf(tag);
 							return false; // Want it
 						}
 						return true;
@@ -317,7 +315,7 @@ public class RequestHandler implements PrioRunnable, ByteCounter, RequestSenderL
 	 * @param success Whether the block transfer succeeded.
 	 */
 	protected void transferFinished(boolean success) {
-		if(logMINOR) Logger.minor(this, "Transfer finished (success="+success+")");
+		if(logMINOR) Logger.minor(this, "Transfer finished (success="+success+ ')');
 		if(success) {
 			status = rs.getStatus();
 			// Run off-thread because, on the onRequestSenderFinished path, RequestSender won't start to wait for the noderef until we return!
@@ -413,7 +411,7 @@ public class RequestHandler implements PrioRunnable, ByteCounter, RequestSenderL
 			node.failureTable.onFinalFailure(key, null, htl, htl, -1, -1, source);
 			PeerNode routedLast = rs == null ? null : rs.routedLast();
 			// A certain number of these are normal.
-			Logger.normal(this, "requestsender took too long to respond to requestor (" + TimeUtil.formatTime((now - searchStartTime), 2, true) + "/" + (rs == null ? "null" : rs.getStatusString()) + ") routed to " + (routedLast == null ? "null" : routedLast.shortToString()));
+			Logger.normal(this, "requestsender took too long to respond to requestor (" + TimeUtil.formatTime((now - searchStartTime), 2, true) + '/' + (rs == null ? "null" : rs.getStatusString()) + ") routed to " + (routedLast == null ? "null" : routedLast.shortToString()));
 			// We need to send the RejectedOverload (or whatever) anyway, for two-stage timeout.
 			// Otherwise the downstream node will assume it's our fault.
 		}
@@ -645,7 +643,7 @@ public class RequestHandler implements PrioRunnable, ByteCounter, RequestSenderL
 	 */
 	private void sendTerminal(Message msg) {
 		if(logMINOR)
-			Logger.minor(this, "sendTerminal(" + msg + ")", new Exception("debug"));
+			Logger.minor(this, "sendTerminal(" + msg + ')', new Exception("debug"));
 		if(sendTerminalCalled)
 			throw new IllegalStateException("sendTerminal should only be called once");
 		else
@@ -871,9 +869,7 @@ public class RequestHandler implements PrioRunnable, ByteCounter, RequestSenderL
 				Logger.normal(this, "Asked for opennet ref but didn't want it for " + this + " :\n" + ref);
 			else
 				Logger.normal(this, "Added opennet noderef in " + this);
-		} catch(FSParseException e) {
-			Logger.error(this, "Could not parse opennet noderef for " + this + " from " + source, e);
-		} catch(PeerParseException e) {
+		} catch(FSParseException | PeerParseException e) {
 			Logger.error(this, "Could not parse opennet noderef for " + this + " from " + source, e);
 		} catch(ReferenceSignatureVerificationException e) {
 			Logger.error(this, "Bad signature on opennet noderef for " + this + " from " + source + " : " + e, e);
@@ -926,21 +922,14 @@ public class RequestHandler implements PrioRunnable, ByteCounter, RequestSenderL
 					if(OpennetManager.validateNoderef(newNoderef, 0, newNoderef.length, source, false) != null) {
 						try {
 							if(logMINOR) Logger.minor(this, "Relaying noderef from source to data source for "+RequestHandler.this);
-							om.sendOpennetRef(true, uid, dataSource, newNoderef, RequestHandler.this, new AllSentCallback() {
-
-								@Override
-								public void allSent(
-										BulkTransmitter bulkTransmitter,
-										boolean anyFailed) {
-									// As soon as the originator receives the three blocks, he can reuse the slot.
-									tag.finishedWaitingForOpennet(dataSource);
-									tag.unlockHandler();
-									applyByteCounts();
-									// Note that sendOpennetRef() does not wait for an acknowledgement or even for the blocks to have been sent!
-									// So this will be called well after gotNoderef() exits.
-								}
-								
-							});
+							om.sendOpennetRef(true, uid, dataSource, newNoderef, RequestHandler.this, (bulkTransmitter, anyFailed) -> {
+                                // As soon as the originator receives the three blocks, he can reuse the slot.
+                                tag.finishedWaitingForOpennet(dataSource);
+                                tag.unlockHandler();
+                                applyByteCounts();
+                                // Note that sendOpennetRef() does not wait for an acknowledgement or even for the blocks to have been sent!
+                                // So this will be called well after gotNoderef() exits.
+                            });
 						} catch(NotConnectedException e) {
 							// How sad
 						}
@@ -975,7 +964,7 @@ public class RequestHandler implements PrioRunnable, ByteCounter, RequestSenderL
 	}
 	private int sentBytes;
 	private int receivedBytes;
-	private volatile Object bytesSync = new Object();
+	private final Object bytesSync = new Object();
 
 	@Override
 	public void sentBytes(int x) {

@@ -29,10 +29,10 @@ public class UserAlertManager implements Comparator<UserAlert> {
 
 	public UserAlertManager(NodeClientCore core) {
 		this.core = core;
-		alerts = new HashSet<UserAlert>();
-		subscribers = new CopyOnWriteArraySet<FCPConnectionHandler>();
-		events = new HashMap<UserEvent.Type, UserEvent>();
-		unregisteredEventTypes = new HashSet<UserEvent.Type>();
+		alerts = new HashSet<>();
+		subscribers = new CopyOnWriteArraySet<>();
+		events = new HashMap<>();
+		unregisteredEventTypes = new HashSet<>();
 		lastUpdated = System.currentTimeMillis();
 	}
 
@@ -71,13 +71,10 @@ public class UserAlertManager implements Comparator<UserAlert> {
 	private void notifySubscribers(final UserAlert alert) {
 		// Run off-thread, because of locking, and because client
 		// callbacks may take some time
-		core.clientContext.mainExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				for (FCPConnectionHandler subscriber : subscribers)
-					subscriber.outputHandler.queue(alert.getFCPMessage());
-			}
-		}, "UserAlertManager callback executor");
+		core.clientContext.mainExecutor.execute(() -> {
+            for (FCPConnectionHandler subscriber : subscribers)
+                subscriber.outputHandler.queue(alert.getFCPMessage());
+        }, "UserAlertManager callback executor");
 	}
 
 	public void unregister(UserAlert alert) {
@@ -340,17 +337,17 @@ public class UserAlertManager implements Comparator<UserAlert> {
 		summaryBox.addChild("div", "class", "infobox-header", l10n("alertsTitle"));
 		HTMLNode summaryContent = summaryBox.addChild("div", "class", "infobox-content");
 		if(!oneLine) {
-			summaryContent.addChild("#", alertSummaryString.toString() + separator + " ");
+			summaryContent.addChild("#", alertSummaryString.toString() + separator + ' ');
 			NodeL10n.getBase().addL10nSubstitution(summaryContent, "UserAlertManager.alertsOnAlertsPage",
 				new String[] { "link" }, new HTMLNode[] { ALERTS_LINK });
 		} else {
-			summaryContent.addChild("a", "href", "/alerts/", NodeL10n.getBase().getString("StatusBar.alerts") + " " + alertSummaryString.toString());
+			summaryContent.addChild("a", "href", "/alerts/", NodeL10n.getBase().getString("StatusBar.alerts") + ' ' + alertSummaryString.toString());
 		}
 		summaryBox.addAttribute("id", "messages-summary-box");
 		return summaryBox;
 	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("UserAlertManager."+key);
 	}
 
@@ -368,14 +365,11 @@ public class UserAlertManager implements Comparator<UserAlert> {
                 subscribers.add(subscriber);
 		// Run off-thread, because of locking, and because client
 		// callbacks may take some time
-		core.clientContext.mainExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				for (UserAlert alert : getAlerts())
-                                        if(alert.isValid())
-					    subscriber.outputHandler.queue(alert.getFCPMessage());
-			}
-		}, "UserAlertManager callback executor");
+		core.clientContext.mainExecutor.execute(() -> {
+            for (UserAlert alert : getAlerts())
+if(alert.isValid())
+                    subscriber.outputHandler.queue(alert.getFCPMessage());
+        }, "UserAlertManager callback executor");
 		subscribers.add(subscriber);
 	}
 
@@ -384,11 +378,11 @@ public class UserAlertManager implements Comparator<UserAlert> {
 	}
 
 	//Formats a Unix timestamp according to RFC 3339
-	private String formatTime(long time) {
+	private static String formatTime(long time) {
 		final Format format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 		String date = format.format(new Date(time));
 		//Z doesn't include a colon between the hour and the minutes
-		return date.substring(0, 22) + ":" + date.substring(22);
+		return date.substring(0, 22) + ':' + date.substring(22);
 	}
 
 	public String getAtom(String startURI) {
@@ -398,7 +392,7 @@ public class UserAlertManager implements Comparator<UserAlert> {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		sb.append("<feed xmlns=\"http://www.w3.org/2005/Atom\">\n");
-		sb.append("\n");
+		sb.append('\n');
 		sb.append("  <title>").append(l10n("feedTitle")).append("</title>\n");
 		sb.append("  <link href=\"").append(feedURI).append("\" rel=\"self\"/>\n");
 		sb.append("  <link href=\"").append(startURI).append("\"/>\n");
@@ -409,10 +403,10 @@ public class UserAlertManager implements Comparator<UserAlert> {
 		for(int i = alerts.length - 1; i >= 0; i--) {
 			UserAlert alert = alerts[i];
 			if (alert.isValid()) {
-				sb.append("\n");
+				sb.append('\n');
 				sb.append("  <entry>\n");
 				sb.append("    <title>").append(alert.getTitle()).append("</title>\n");
-				sb.append("    <link href=\"").append(messagesURI).append("#").append(alert.anchor()).append("\"/>\n");
+				sb.append("    <link href=\"").append(messagesURI).append('#').append(alert.anchor()).append("\"/>\n");
 				sb.append("    <summary>").append(alert.getShortText()).append("</summary>\n");
 				sb.append("    <content type=\"text\">").append(alert.getText()).append("</content>\n");
 				sb.append("    <id>urn:feed:").append(alert.anchor()).append("</id>\n");

@@ -35,9 +35,9 @@ public class RevocationChecker implements ClientGetCallback, RequestClient {
 	private boolean logMINOR;
 
 	//private NodeUpdateManager manager;
-	private NodeClientCore core;
+	private final NodeClientCore core;
 	private int revocationDNFCounter;
-	private FetchContext ctxRevocation;
+	private final FetchContext ctxRevocation;
 	private ClientGetter revocationGetter;
 	private boolean wasAggressive;
 	/** Last time at which we got 3 DNFs on the revocation key */
@@ -45,7 +45,7 @@ public class RevocationChecker implements ClientGetCallback, RequestClient {
 	// Kept separately from NodeUpdateManager.hasBeenBlown because there are local problems that can blow the key.
 	private volatile boolean blown;
 	
-	private File blobFile;
+	private final File blobFile;
 	/** The original binary blob bucket. */
 	private ArrayBucket blobBucket;
 
@@ -136,7 +136,7 @@ public class RevocationChecker implements ClientGetCallback, RequestClient {
 							manager.getRevocationURI(), ctxRevocation, 
 							aggressive ? RequestStarter.MAXIMUM_PRIORITY_CLASS : RequestStarter.IMMEDIATE_SPLITFILE_PRIORITY_CLASS, 
 							null, new BinaryBlobWriter(new ArrayBucket()), null);
-					if(logMINOR) Logger.minor(this, "Queued another revocation fetcher (count="+revocationDNFCounter+")");
+					if(logMINOR) Logger.minor(this, "Queued another revocation fetcher (count="+revocationDNFCounter+ ')');
 				}
 			}
 			if(toCancel != null)
@@ -308,21 +308,14 @@ public class RevocationChecker implements ClientGetCallback, RequestClient {
 			if(errorCode == FetchExceptionMode.RECENTLY_FAILED) {
 				// Try again in 1 second.
 				// This ensures we don't constantly start them, fail them, and start them again.
-				this.manager.node.ticker.queueTimedJob(new Runnable() {
-
-					@Override
-					public void run() {
-						start(wasAggressive, false);
-					}
-
-				}, SECONDS.toMillis(1));
+				this.manager.node.ticker.queueTimedJob(() -> start(wasAggressive, false), SECONDS.toMillis(1));
 			} else {
 				start(wasAggressive, false);
 			}
 		}
 	}
 	
-	private String l10n(String key, String[] pattern, String[] value) {
+	private static String l10n(String key, String[] pattern, String[] value) {
 		return NodeL10n.getBase().getString("RevocationChecker." + key,
 				pattern, value);
 	}

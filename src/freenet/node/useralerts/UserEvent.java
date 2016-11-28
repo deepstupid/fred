@@ -4,7 +4,7 @@ public interface UserEvent extends UserAlert {
 	public enum Type {
 		Announcer(true), GetCompleted, PutCompleted, PutDirCompleted;
 
-		private boolean unregisterIndefinitely;
+		private final boolean unregisterIndefinitely;
 
 		private Type(boolean unregisterIndefinetely) {
 			this.unregisterIndefinitely = unregisterIndefinetely;

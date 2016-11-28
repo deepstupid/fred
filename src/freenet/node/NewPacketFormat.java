@@ -100,7 +100,7 @@ public class NewPacketFormat implements PacketFormat {
 
 		startedByPrio = new ArrayList<>(DMT.NUM_PRIORITIES);
 		for(int i = 0; i < DMT.NUM_PRIORITIES; i++) {
-			startedByPrio.add(new HashMap<Integer, MessageWrapper>());
+			startedByPrio.add(new HashMap<>());
 		}
 
 		// Make sure the numbers are within the ranges we want
@@ -415,7 +415,7 @@ public class NewPacketFormat implements PacketFormat {
 		return p;
 	}
 
-	private boolean seqNumGreaterThan(long i1, long i2, int serialBits) {
+	private static boolean seqNumGreaterThan(long i1, long i2, int serialBits) {
 		//halfValue is half the window of possible numbers, so this returns true if the distance from
 		//i2->i1 is smaller than i1->i2. See RFC1982 for details and limitations.
 
@@ -517,7 +517,7 @@ public class NewPacketFormat implements PacketFormat {
 				for(MessageFragment frag : packet.getFragments()) {
 					if(fragments == null) fragments = String.valueOf(frag.messageID);
 					else fragments = fragments + ", " + frag.messageID;
-					fragments += " ("+frag.fragmentOffset+"->"+(frag.fragmentOffset+frag.fragmentLength-1)+")";
+					fragments += " ("+frag.fragmentOffset+"->"+(frag.fragmentOffset+frag.fragmentLength-1)+ ')';
 				}
 
 				Logger.minor(this, "Sending packet " + packet.getSequenceNumber() + " ("
@@ -902,7 +902,7 @@ addOldLoop:			for(Map<Integer, MessageWrapper> started : startedByPrio) {
 	 */
 	public static final int MAX_MESSAGE_SIZE = 4096;
 	
-	private int maxSendBufferSize() {
+	private static int maxSendBufferSize() {
 		return MAX_RECEIVE_BUFFER_SIZE;
 	}
 
@@ -1250,7 +1250,7 @@ addOldLoop:			for(Map<Integer, MessageWrapper> started : startedByPrio) {
 			this.messageLength = messageLength;
 
 			if(buffer.length > messageLength) {
-				Logger.warning(this, "Buffer is larger than set message length! (" + buffer.length + ">" + messageLength + ")");
+				Logger.warning(this, "Buffer is larger than set message length! (" + buffer.length + '>' + messageLength + ')');
 			}
 
 			return resize(messageLength);

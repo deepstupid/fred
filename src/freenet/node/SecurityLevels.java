@@ -55,11 +55,11 @@ public class SecurityLevels {
 	}
 	
 	NETWORK_THREAT_LEVEL networkThreatLevel;
-	FRIENDS_THREAT_LEVEL friendsThreatLevel;
+	final FRIENDS_THREAT_LEVEL friendsThreatLevel;
 	PHYSICAL_THREAT_LEVEL physicalThreatLevel;
 	
-	private MyCallback<NETWORK_THREAT_LEVEL> networkThreatLevelCallback;
-	private MyCallback<PHYSICAL_THREAT_LEVEL> physicalThreatLevelCallback;
+	private final MyCallback<NETWORK_THREAT_LEVEL> networkThreatLevelCallback;
+	private final MyCallback<PHYSICAL_THREAT_LEVEL> physicalThreatLevelCallback;
 	
 	public SecurityLevels(Node node, PersistentConfig config) {
 		this.node = node;
@@ -168,12 +168,12 @@ public class SecurityLevels {
 		physicalThreatLevelCallback.addListener(listener);
 	}
 	
-	private abstract class MyCallback<T> extends StringCallback implements EnumerableOptionCallback {
+	private abstract static class MyCallback<T> extends StringCallback implements EnumerableOptionCallback {
 
 		private final ArrayList<SecurityLevelListener<T>> listeners;
 		
 		MyCallback() {
-			listeners = new ArrayList<SecurityLevelListener<T>>();
+			listeners = new ArrayList<>();
 		}
 		
 		public void addListener(SecurityLevelListener<T> listener) {
@@ -294,15 +294,15 @@ public class SecurityLevels {
 		return null;
 	}
 	
-	private String l10n(String string) {
+	private static String l10n(String string) {
 		return NodeL10n.getBase().getString("SecurityLevels."+string);
 	}
 
-	private String l10n(String string, String pattern, String value) {
+	private static String l10n(String string, String pattern, String value) {
 		return NodeL10n.getBase().getString("SecurityLevels."+string, pattern, value);
 	}
 
-	private String l10n(String string, String[] patterns, String[] values) {
+	private static String l10n(String string, String[] patterns, String[] values) {
 		return NodeL10n.getBase().getString("SecurityLevels."+string, patterns, values);
 	}
 

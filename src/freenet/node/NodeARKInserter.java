@@ -59,14 +59,7 @@ public class NodeARKInserter implements ClientPutCallback, RequestClient {
 	public void update() {
 		// Called by detector code, which is critical and convoluted.
 		// Run off-thread, break locks, avoid stalling caller.
-		node.executor.execute(new Runnable() {
-
-			@Override
-			public void run() {
-				innerUpdate();
-			}
-			
-		});
+		node.executor.execute(this::innerUpdate);
 	}
 	
 	private void innerUpdate() {
@@ -80,7 +73,7 @@ public class NodeARKInserter implements ClientPutCallback, RequestClient {
 		if(entries != null) {
 			SimpleFieldSet fs = new SimpleFieldSet(true);
 			fs.putOverwrite("physical.udp", entries);
-			if(logMINOR) Logger.minor(this, darknetOpennetString + " ref's physical.udp is '" + fs.toString() + "'");
+			if(logMINOR) Logger.minor(this, darknetOpennetString + " ref's physical.udp is '" + fs.toString() + '\'');
 			node.peers.locallyBroadcastDiffNodeRef(fs, !crypto.isOpennet, crypto.isOpennet);
 		} else {
 			if(logMINOR) Logger.minor(this, darknetOpennetString + " ref's physical.udp is null");
@@ -184,9 +177,7 @@ public class NodeARKInserter implements ClientPutCallback, RequestClient {
 						for(int i=0;i<all.length;i++)
 							peers[i] = new Peer(all[i], false);
 						lastInsertedPeers = peers;
-					} catch (PeerParseException e1) {
-						Logger.error(this, "Error parsing own " + darknetOpennetString + " ref: "+e1+" : "+fs.get("physical.udp"), e1);
-					} catch (UnknownHostException e1) {
+					} catch (PeerParseException | UnknownHostException e1) {
 						Logger.error(this, "Error parsing own " + darknetOpennetString + " ref: "+e1+" : "+fs.get("physical.udp"), e1);
 					}
 				}

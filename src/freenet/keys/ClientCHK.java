@@ -264,6 +264,8 @@ public class ClientCHK extends ClientKey implements Serializable {
 	
 	@Override
 	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (hashCode!=o.hashCode()) return false;
 		if(!(o instanceof ClientCHK)) return false;
 		ClientCHK key = (ClientCHK) o;
 		if(controlDocument != key.controlDocument) return false;

@@ -2,9 +2,6 @@ package freenet.node.simulator;
 
 import freenet.client.*;
 import freenet.client.FetchException.FetchExceptionMode;
-import freenet.client.async.ClientContext;
-import freenet.client.events.ClientEvent;
-import freenet.client.events.ClientEventListener;
 import freenet.crypt.RandomSource;
 import freenet.keys.FreenetURI;
 import freenet.node.Node;
@@ -76,7 +73,7 @@ public class LongTermPushPullTest extends LongTermTest {
 			System.exit(0);
 		}
 
-		List<String> csvLine = new ArrayList<String>(3 + 2 * MAX_N);
+		List<String> csvLine = new ArrayList<>(3 + 2 * MAX_N);
 		System.out.println("DATE:" + dateFormat.format(today.getTime()));
 		csvLine.add(dateFormat.format(today.getTime()));
 
@@ -124,16 +121,9 @@ public class LongTermPushPullTest extends LongTermTest {
 			for (int i = 0; i <= MAX_N; i++) {
 			    RandomAccessBucket data = randomData(node);
 				HighLevelSimpleClient client = node.clientCore.makeClient((short) 0, false, false);
-				FreenetURI uri = new FreenetURI("KSK@" + uid + "-" + dateFormat.format(today.getTime()) + "-" + i);
+				FreenetURI uri = new FreenetURI("KSK@" + uid + '-' + dateFormat.format(today.getTime()) + '-' + i);
 				System.out.println("PUSHING " + uri);
-				client.addEventHook(new ClientEventListener() {
-
-					@Override
-					public void receive(ClientEvent ce, ClientContext context) {
-						System.out.println(ce.getDescription());
-					}
-					
-				});
+				client.addEventHook((ce, context) -> System.out.println(ce.getDescription()));
 
 				try {
 					InsertBlock block = new InsertBlock(data, new ClientMetadata(), uri);
@@ -141,7 +131,7 @@ public class LongTermPushPullTest extends LongTermTest {
 					client.insert(block, false, null);
 					t2 = System.currentTimeMillis();
 
-					System.out.println("PUSH-TIME-" + i + ":" + (t2 - t1));
+					System.out.println("PUSH-TIME-" + i + ':' + (t2 - t1));
 					csvLine.add(String.valueOf(t2 - t1));
 				} catch (InsertException e) {
 					e.printStackTrace();
@@ -179,7 +169,7 @@ public class LongTermPushPullTest extends LongTermTest {
 				Calendar targetDate = (Calendar) today.clone();
 				targetDate.add(Calendar.DAY_OF_MONTH, -((1 << i) - 1));
 
-				FreenetURI uri = new FreenetURI("KSK@" + uid + "-" + dateFormat.format(targetDate.getTime()) + "-" + i);
+				FreenetURI uri = new FreenetURI("KSK@" + uid + '-' + dateFormat.format(targetDate.getTime()) + '-' + i);
 				System.out.println("PULLING " + uri);
 
 				try {
@@ -187,7 +177,7 @@ public class LongTermPushPullTest extends LongTermTest {
 					client.fetch(uri);
 					t2 = System.currentTimeMillis();
 
-					System.out.println("PULL-TIME-" + i + ":" + (t2 - t1));
+					System.out.println("PULL-TIME-" + i + ':' + (t2 - t1));
 					csvLine.add(String.valueOf(t2 - t1));
 				} catch (FetchException e) {
 					if (e.getMode() != FetchExceptionMode.ALL_DATA_NOT_FOUND
@@ -223,7 +213,7 @@ public class LongTermPushPullTest extends LongTermTest {
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis, ENCODING));
 		String line = null;
 		Calendar prevDate = null;
-		TreeMap<GregorianCalendar,DumpElement> map = new TreeMap<GregorianCalendar,DumpElement>();
+		TreeMap<GregorianCalendar,DumpElement> map = new TreeMap<>();
 		while((line = br.readLine()) != null) {
 			DumpElement element;
 			//System.out.println("LINE: "+line);
@@ -284,7 +274,7 @@ public class LongTermPushPullTest extends LongTermTest {
 			long successTime = 0;
 			int noMatch = 0;
 			int insertFailure = 0;
-			Map<String,Integer> failureModes = new HashMap<String,Integer>();
+			Map<String,Integer> failureModes = new HashMap<>();
 			for(Entry<GregorianCalendar,DumpElement> entry : map.entrySet()) {
 				GregorianCalendar date = entry.getKey();
 				DumpElement element = entry.getValue();
@@ -376,17 +366,14 @@ public class LongTermPushPullTest extends LongTermTest {
 
 	private static RandomAccessBucket randomData(Node node) throws IOException {
 	    RandomAccessBucket data = node.clientCore.tempBucketFactory.makeBucket(TEST_SIZE);
-		OutputStream os = data.getOutputStream();
-		try {
-		byte[] buf = new byte[4096];
-		for (long written = 0; written < TEST_SIZE;) {
-			node.fastWeakRandom.nextBytes(buf);
-			int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
-			os.write(buf, 0, toWrite);
-			written += toWrite;
-		}
-		} finally {
-		os.close();
+		try (OutputStream os = data.getOutputStream()) {
+			byte[] buf = new byte[4096];
+			for (long written = 0; written < TEST_SIZE; ) {
+				node.fastWeakRandom.nextBytes(buf);
+				int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
+				os.write(buf, 0, toWrite);
+				written += toWrite;
+			}
 		}
 		return data;
 	}

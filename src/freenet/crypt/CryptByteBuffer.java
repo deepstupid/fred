@@ -33,7 +33,7 @@ import java.util.Arrays;
 @SuppressWarnings("deprecation") // Suppresses warnings about RijndaelPCFB being deprecated
 public final class CryptByteBuffer implements Serializable{
     private static final long serialVersionUID = 6143338995971755362L;
-    private final CryptByteBufferType type;
+    public final CryptByteBufferType type;
     private final SecretKey key;
     private IvParameterSpec iv;
 
@@ -77,9 +77,11 @@ public final class CryptByteBuffer implements Serializable{
             if(type.cipherName.equals("RIJNDAEL")){
                 blockCipher = new Rijndael(type.keyType.keySize, type.blockSize);
                 blockCipher.initialize(key.getEncoded());
-                if(type == CryptByteBufferType.RijndaelPCFB){
-                    encryptPCFB = PCFBMode.create(blockCipher, this.iv.getIV());
-                    decryptPCFB = PCFBMode.create(blockCipher, this.iv.getIV());
+                if(type == CryptByteBufferType.RijndaelPCFB || type== CryptByteBufferType.RijndaelECB){
+                    encryptPCFB = PCFBMode.create(blockCipher, iv!=null ? this.iv.getIV() : null);
+                    decryptPCFB = PCFBMode.create(blockCipher, iv!=null ? this.iv.getIV() : null);
+                } else {
+                    throw new UnsupportedCipherException(type.toString());
                 }
             } else{
                 encryptCipher = Cipher.getInstance(type.algName);
@@ -88,7 +90,8 @@ public final class CryptByteBuffer implements Serializable{
                 encryptCipher.init(Cipher.ENCRYPT_MODE, this.key, this.iv);
                 decryptCipher.init(Cipher.DECRYPT_MODE, this.key, this.iv);
             }
-        } catch (UnsupportedCipherException | NoSuchAlgorithmException | NoSuchPaddingException e) {
+        } catch (InvalidKeyException | UnsupportedCipherException | NoSuchAlgorithmException | NoSuchPaddingException e) {
+            e.printStackTrace();
             throw new Error(e); // Should be impossible as we bundle BC
         }
     }

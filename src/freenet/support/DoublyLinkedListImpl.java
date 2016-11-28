@@ -137,7 +137,7 @@ public class DoublyLinkedListImpl<T extends DoublyLinkedList.Item<? extends T>> 
      */
     @Override
     public final T head() {
-        return size == 0 ? null : _firstItem;
+        return /*size == 0 ? null : */_firstItem;
     }
 
     /**
@@ -145,7 +145,7 @@ public class DoublyLinkedListImpl<T extends DoublyLinkedList.Item<? extends T>> 
      */
     @Override
     public final T tail() {
-        return size == 0 ? null : _lastItem;
+        return _lastItem; //size == 0 ? null : _lastItem;
     }
 
 
@@ -212,7 +212,8 @@ public class DoublyLinkedListImpl<T extends DoublyLinkedList.Item<? extends T>> 
      */
     @Override
     public final T pop() {
-        return size == 0 ? null : remove(_lastItem);
+        T l = _lastItem;
+        return l == null ? null : remove(l);
     }
 
     /**

@@ -89,7 +89,7 @@ public abstract class BaseSender implements ByteCounter {
     	return lastNode;
     }
     
-    protected HashSet<PeerNode> nodesRoutedTo = new HashSet<PeerNode>();
+    protected final HashSet<PeerNode> nodesRoutedTo = new HashSet<>();
     
     private long timeSentRequest;
     
@@ -165,7 +165,7 @@ public abstract class BaseSender implements ByteCounter {
 			 */
         	next.sendSync(req, this, realTimeFlag);
                 next.reportRoutedTo(key.toNormalizedDouble(), source == null, realTimeFlag, source, nodesRoutedTo, htl);
-			node.peers.incrementSelectionSamples(System.currentTimeMillis(), next);
+			PeerManager.incrementSelectionSamples(System.currentTimeMillis(), next);
         } catch (NotConnectedException e) {
         	Logger.minor(this, "Not connected");
         	next.noLongerRoutingTo(origTag, false);
@@ -289,7 +289,7 @@ loadWaiterLoop:
     						(expectedAcceptState == RequestLikelyAcceptedState.GUARANTEED)) {
     					// We routed it, thinking it was GUARANTEED.
     					// It was rejected, and as far as we know it's still GUARANTEED. :(
-    					Logger.warning(this, "Rejected overload (last time) yet expected state was "+lastExpectedAcceptState+" is now "+expectedAcceptState+" from "+next.shortToString()+" ("+next.getVersionNumber()+")");
+    					Logger.warning(this, "Rejected overload (last time) yet expected state was "+lastExpectedAcceptState+" is now "+expectedAcceptState+" from "+next.shortToString()+" ("+next.getVersionNumber()+ ')');
     					next.rejectedGuaranteed(realTimeFlag);
     					next.noLongerRoutingTo(origTag, false);
     					expectedAcceptState = null;
@@ -652,7 +652,7 @@ loadWaiterLoop:
     						Logger.normal(this, "Rejected overload yet expected state was "+expectedAcceptState);
     					nodesRoutedTo.remove(next);
     					next.noLongerRoutingTo(origTag, false);
-    					if(softRejectCount == null) softRejectCount = new HashMap<PeerNode, Integer>();
+    					if(softRejectCount == null) softRejectCount = new HashMap<>();
     					Integer i = softRejectCount.get(next);
     					if(i == null) softRejectCount.put(next, 1);
     					else {

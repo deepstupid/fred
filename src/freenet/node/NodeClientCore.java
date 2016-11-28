@@ -596,56 +596,50 @@ public class NodeClientCore implements Persistable {
 		}
 
 		node.securityLevels.addPhysicalThreatLevelListener(
-				new SecurityLevelListener<PHYSICAL_THREAT_LEVEL>() {
-
-					@Override
-					public void onChange(PHYSICAL_THREAT_LEVEL oldLevel,
-							     PHYSICAL_THREAT_LEVEL newLevel) {
-						if (newLevel == PHYSICAL_THREAT_LEVEL.LOW) {
-							if (tempBucketFactory.isEncrypting()) {
-								tempBucketFactory
-										.setEncryption(false);
-							}
-							if (persistentTempBucketFactory != null) {
-								if (persistentTempBucketFactory
-										.isEncrypting()) {
-									persistentTempBucketFactory
-											.setEncryption(false);
-								}
-							}
-							persistentRAFFactory.setEncryption(false);
-						} else { // newLevel >= PHYSICAL_THREAT_LEVEL.NORMAL
-							if (!tempBucketFactory.isEncrypting()) {
-								tempBucketFactory
-										.setEncryption(true);
-							}
-							if (persistentTempBucketFactory != null) {
-								if (!persistentTempBucketFactory
-										.isEncrypting()) {
-									persistentTempBucketFactory
-											.setEncryption(true);
-								}
-							}
-							persistentRAFFactory.setEncryption(true);
-						}
-						if (clientLayerPersister.hasLoaded()) {
-							// May need to change filenames for client.dat* or even create them.
-							try {
-								initStorage(NodeClientCore.this.node
-											    .getDatabaseKey());
-							} catch (MasterKeysWrongPasswordException e) {
-								NodeClientCore.this.node
-										.setDatabaseAwaitingPassword();
-							}
-						}
-					}
-
-				});
+				(oldLevel, newLevel) -> {
+                    if (newLevel == PHYSICAL_THREAT_LEVEL.LOW) {
+                        if (tempBucketFactory.isEncrypting()) {
+                            tempBucketFactory
+                                    .setEncryption(false);
+                        }
+                        if (persistentTempBucketFactory != null) {
+                            if (persistentTempBucketFactory
+                                    .isEncrypting()) {
+                                persistentTempBucketFactory
+                                        .setEncryption(false);
+                            }
+                        }
+                        persistentRAFFactory.setEncryption(false);
+                    } else { // newLevel >= PHYSICAL_THREAT_LEVEL.NORMAL
+                        if (!tempBucketFactory.isEncrypting()) {
+                            tempBucketFactory
+                                    .setEncryption(true);
+                        }
+                        if (persistentTempBucketFactory != null) {
+                            if (!persistentTempBucketFactory
+                                    .isEncrypting()) {
+                                persistentTempBucketFactory
+                                        .setEncryption(true);
+                            }
+                        }
+                        persistentRAFFactory.setEncryption(true);
+                    }
+                    if (clientLayerPersister.hasLoaded()) {
+                        // May need to change filenames for client.dat* or even create them.
+                        try {
+                            initStorage(NodeClientCore.this.node
+                                            .getDatabaseKey());
+                        } catch (MasterKeysWrongPasswordException e) {
+                            NodeClientCore.this.node
+                                    .setDatabaseAwaitingPassword();
+                        }
+                    }
+                });
 
 		// Downloads directory
 
 		this.downloadsDir =
-				node.setupProgramDir(nodeConfig, "downloadsDir",
+				Node.setupProgramDir(nodeConfig, "downloadsDir",
 						     node.userDir().file("downloads").getPath(),
 						     "NodeClientCore.downloadsDir",
 						     "NodeClientCore.downloadsDirLong",
@@ -765,10 +759,7 @@ public class NodeClientCore implements Persistable {
 			clientContext.setDownloadCache(fcpServer);
 			if (!killedDatabase())
 				fcpServer.load();
-		} catch (IOException e) {
-			throw new NodeInitException(NodeInitException.EXIT_COULD_NOT_START_FCP,
-						    "Could not start FCP: " + e);
-		} catch (InvalidConfigValueException e) {
+		} catch (IOException | InvalidConfigValueException e) {
 			throw new NodeInitException(NodeInitException.EXIT_COULD_NOT_START_FCP,
 						    "Could not start FCP: " + e);
 		}
@@ -963,9 +954,17 @@ public class NodeClientCore implements Persistable {
 		downloadAllowedDirs = new File[val.length];
 		for(i = 0; i < downloadAllowedDirs.length; i++) {
 			String s = val[i];
-			if(s.equals("downloads")) includeDownloadDir = true;
-			else if(s.equals("all")) downloadAllowedEverywhere = true;
-			else downloadAllowedDirs[x++] = new File(val[i]);
+			switch (s) {
+				case "downloads":
+					includeDownloadDir = true;
+					break;
+				case "all":
+					downloadAllowedEverywhere = true;
+					break;
+				default:
+					downloadAllowedDirs[x++] = new File(val[i]);
+					break;
+			}
 		}
 		if(x != i) {
 			downloadAllowedDirs = Arrays.copyOf(downloadAllowedDirs, x);
@@ -1276,10 +1275,7 @@ public class NodeClientCore implements Persistable {
 			// Else it has started a request.
 			if(logMINOR)
 				Logger.minor(this, "Started " + o + " for " + uid + " for " + key);
-		} catch(RuntimeException e) {
-			Logger.error(this, "Caught error trying to start request: " + e, e);
-			listener.onNotStarted(true);
-		} catch(Error e) {
+		} catch(RuntimeException | Error e) {
 			Logger.error(this, "Caught error trying to start request: " + e, e);
 			listener.onNotStarted(true);
 		}
@@ -1917,7 +1913,7 @@ public class NodeClientCore implements Persistable {
 		node.config.store();
 	}
 
-	public boolean isTestnetEnabled() {
+	public static boolean isTestnetEnabled() {
 		return Node.isTestnetEnabled();
 	}
 
@@ -1941,7 +1937,7 @@ public class NodeClientCore implements Persistable {
 		return new GenericReadFilterCallback(uri, cb,null, toadletContainer);
 	}
 
-	public int maxBackgroundUSKFetchers() {
+	public static int maxBackgroundUSKFetchers() {
 		return maxBackgroundUSKFetchers;
 	}
 
@@ -2054,7 +2050,7 @@ public class NodeClientCore implements Persistable {
 		// slots and CPU. FIXME SECURITY/NETWORK: Reconsider if we ever decide
 		// not to decrement on the originator.
 		short origHTL = node.decrementHTL(null, node.maxHTL());
-		node.peers.closerPeer(null, new HashSet<PeerNode>(), key.toNormalizedDouble(), true, false, -1, null, 2.0, key, origHTL, 0, true, realTime, r, false, System.currentTimeMillis(), node.enableNewLoadManagement(realTime));
+		node.peers.closerPeer(null, new HashSet<>(), key.toNormalizedDouble(), true, false, -1, null, 2.0, key, origHTL, 0, true, realTime, r, false, System.currentTimeMillis(), node.enableNewLoadManagement(realTime));
 		return r.recentlyFailed();
 	}
 

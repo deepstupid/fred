@@ -47,7 +47,7 @@ public class LongTermPushPullCHKTest extends LongTermTest {
 		}
 		String uid = args[0];
 
-		List<String> csvLine = new ArrayList<String>(3 + 2 * MAX_N);
+		List<String> csvLine = new ArrayList<>(3 + 2 * MAX_N);
 		System.out.println("DATE:" + dateFormat.format(today.getTime()));
 		csvLine.add(dateFormat.format(today.getTime()));
 
@@ -106,7 +106,7 @@ public class LongTermPushPullCHKTest extends LongTermTest {
 					if(i == 0) todaysInsert = uri;
 					t2 = System.currentTimeMillis();
 
-					System.out.println("PUSH-TIME-" + i + ":" + (t2 - t1)+" for "+uri);
+					System.out.println("PUSH-TIME-" + i + ':' + (t2 - t1)+" for "+uri);
 					csvLine.add(String.valueOf(t2 - t1));
 					csvLine.add(uri.toASCIIString());
 				} catch (InsertException e) {
@@ -165,7 +165,7 @@ public class LongTermPushPullCHKTest extends LongTermTest {
 					client.fetch(uri);
 					t2 = System.currentTimeMillis();
 
-					System.out.println("PULL-TIME-" + i + ":" + (t2 - t1));
+					System.out.println("PULL-TIME-" + i + ':' + (t2 - t1));
 					csvLine.add(String.valueOf(t2 - t1));
 				} catch (FetchException e) {
 					if (e.getMode() != FetchExceptionMode.ALL_DATA_NOT_FOUND
@@ -198,40 +198,34 @@ public class LongTermPushPullCHKTest extends LongTermTest {
 	private static FreenetURI getHistoricURI(String uid, int i, Calendar targetDate) throws IOException {
 		// Quick and dirty, since we only have 1...8 it's not worth caching it.
 		File file = new File(uid + ".csv");
-		FileInputStream fis = new FileInputStream(file);
-		try {
-			InputStreamReader isr = new InputStreamReader(fis, ENCODING);
-			BufferedReader br = new BufferedReader(isr);
-			String line = null;
-			String dateString = dateFormat.format(targetDate.getTime());
-			while((line = br.readLine()) != null) {
-				String[] split = line.split("!");
-				if(split.length == 0) continue;
-				if(!dateString.equals(split[0])) continue;
-				int fieldnum = 3 + i * 2;
-				if(line.length() >= fieldnum) continue; // Possible ran twice???
-				return new FreenetURI(split[fieldnum]);
-			}
-			return null;
-		} finally {
-			fis.close();
-		}
+        try (FileInputStream fis = new FileInputStream(file)) {
+            InputStreamReader isr = new InputStreamReader(fis, ENCODING);
+            BufferedReader br = new BufferedReader(isr);
+            String line = null;
+            String dateString = dateFormat.format(targetDate.getTime());
+            while ((line = br.readLine()) != null) {
+                String[] split = line.split("!");
+                if (split.length == 0) continue;
+                if (!dateString.equals(split[0])) continue;
+                int fieldnum = 3 + i * 2;
+                if (line.length() >= fieldnum) continue; // Possible ran twice???
+                return new FreenetURI(split[fieldnum]);
+            }
+            return null;
+        }
 	}
 
 	private static RandomAccessBucket randomData(Node node) throws IOException {
 	    RandomAccessBucket data = node.clientCore.tempBucketFactory.makeBucket(TEST_SIZE);
-		OutputStream os = data.getOutputStream();
-		try {
-		byte[] buf = new byte[4096];
-		for (long written = 0; written < TEST_SIZE;) {
-			node.fastWeakRandom.nextBytes(buf);
-			int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
-			os.write(buf, 0, toWrite);
-			written += toWrite;
-		}
-		} finally {
-		os.close();
-		}
+        try (OutputStream os = data.getOutputStream()) {
+            byte[] buf = new byte[4096];
+            for (long written = 0; written < TEST_SIZE; ) {
+                node.fastWeakRandom.nextBytes(buf);
+                int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
+                os.write(buf, 0, toWrite);
+                written += toWrite;
+            }
+        }
 		return data;
 	}
 }

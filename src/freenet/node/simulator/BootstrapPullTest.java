@@ -28,17 +28,17 @@ import java.net.Socket;
  */
 public class BootstrapPullTest {
 
-	public static int TEST_SIZE = 1024*1024;
+	public static final int TEST_SIZE = 1024*1024;
 
-	public static int EXIT_NO_SEEDNODES = 257;
-	public static int EXIT_FAILED_TARGET = 258;
-	public static int EXIT_INSERT_FAILED = 259;
-	public static int EXIT_FETCH_FAILED = 260;
-	public static int EXIT_INSERTER_PROBLEM = 261;
-	public static int EXIT_THREW_SOMETHING = 262;
+	public static final int EXIT_NO_SEEDNODES = 257;
+	public static final int EXIT_FAILED_TARGET = 258;
+	public static final int EXIT_INSERT_FAILED = 259;
+	public static final int EXIT_FETCH_FAILED = 260;
+	public static final int EXIT_INSERTER_PROBLEM = 261;
+	public static final int EXIT_THREW_SOMETHING = 262;
 
-	public static int DARKNET_PORT = 5000;
-	public static int OPENNET_PORT = 5001;
+	public static final int DARKNET_PORT = 5000;
+	public static final int OPENNET_PORT = 5001;
 
 	/**
 	 * @param args

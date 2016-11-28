@@ -22,7 +22,7 @@ public class MeaningfulNodeNameUserAlert extends AbstractUserAlert {
 		return l10n("noNodeNickTitle");
 	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("MeaningfulNodeNameUserAlert."+key);
 	}
 

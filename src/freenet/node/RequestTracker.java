@@ -56,31 +56,31 @@ public class RequestTracker {
 	RequestTracker(PeerManager peers, Ticker ticker) {
 		this.peers = peers;
 		this.ticker = ticker;
-		runningCHKGetUIDsRT = new HashMap<Long,RequestTag>();
-		runningLocalCHKGetUIDsRT = new HashMap<Long,RequestTag>();
-		runningSSKGetUIDsRT = new HashMap<Long,RequestTag>();
-		runningLocalSSKGetUIDsRT = new HashMap<Long,RequestTag>();
-		runningCHKPutUIDsRT = new HashMap<Long,InsertTag>();
-		runningLocalCHKPutUIDsRT = new HashMap<Long,InsertTag>();
-		runningSSKPutUIDsRT = new HashMap<Long,InsertTag>();
-		runningLocalSSKPutUIDsRT = new HashMap<Long,InsertTag>();
-		runningCHKOfferReplyUIDsRT = new HashMap<Long,OfferReplyTag>();
-		runningSSKOfferReplyUIDsRT = new HashMap<Long,OfferReplyTag>();
+		runningCHKGetUIDsRT = new HashMap<>();
+		runningLocalCHKGetUIDsRT = new HashMap<>();
+		runningSSKGetUIDsRT = new HashMap<>();
+		runningLocalSSKGetUIDsRT = new HashMap<>();
+		runningCHKPutUIDsRT = new HashMap<>();
+		runningLocalCHKPutUIDsRT = new HashMap<>();
+		runningSSKPutUIDsRT = new HashMap<>();
+		runningLocalSSKPutUIDsRT = new HashMap<>();
+		runningCHKOfferReplyUIDsRT = new HashMap<>();
+		runningSSKOfferReplyUIDsRT = new HashMap<>();
 
-		runningCHKGetUIDsBulk = new HashMap<Long,RequestTag>();
-		runningLocalCHKGetUIDsBulk = new HashMap<Long,RequestTag>();
-		runningSSKGetUIDsBulk = new HashMap<Long,RequestTag>();
-		runningLocalSSKGetUIDsBulk = new HashMap<Long,RequestTag>();
-		runningCHKPutUIDsBulk = new HashMap<Long,InsertTag>();
-		runningLocalCHKPutUIDsBulk = new HashMap<Long,InsertTag>();
-		runningSSKPutUIDsBulk = new HashMap<Long,InsertTag>();
-		runningLocalSSKPutUIDsBulk = new HashMap<Long,InsertTag>();
-		runningCHKOfferReplyUIDsBulk = new HashMap<Long,OfferReplyTag>();
-		runningSSKOfferReplyUIDsBulk = new HashMap<Long,OfferReplyTag>();
+		runningCHKGetUIDsBulk = new HashMap<>();
+		runningLocalCHKGetUIDsBulk = new HashMap<>();
+		runningSSKGetUIDsBulk = new HashMap<>();
+		runningLocalSSKGetUIDsBulk = new HashMap<>();
+		runningCHKPutUIDsBulk = new HashMap<>();
+		runningLocalCHKPutUIDsBulk = new HashMap<>();
+		runningSSKPutUIDsBulk = new HashMap<>();
+		runningLocalSSKPutUIDsBulk = new HashMap<>();
+		runningCHKOfferReplyUIDsBulk = new HashMap<>();
+		runningSSKOfferReplyUIDsBulk = new HashMap<>();
 		
-		transferringRequestSendersRT = new HashMap<NodeCHK, RequestSender>();
-		transferringRequestSendersBulk = new HashMap<NodeCHK, RequestSender>();
-		transferringRequestHandlers = new HashSet<Long>();
+		transferringRequestSendersRT = new HashMap<>();
+		transferringRequestSendersBulk = new HashMap<>();
+		transferringRequestHandlers = new HashSet<>();
 	}
 
 	public boolean lockUID(UIDTag tag) {
@@ -361,7 +361,7 @@ public class RequestTracker {
 						count++;
 					} else if(logDEBUG) Logger.debug(this, "Not counting "+entry.getKey());
 				}
-				if(logMINOR) Logger.minor(this, "Counted for "+(local?"local":"remote")+" "+(ssk?"ssk":"chk")+" "+(insert?"insert":"request")+" "+(offer?"offer":"")+" : "+count+" of "+map.size()+" for "+source);
+				if(logMINOR) Logger.minor(this, "Counted for "+(local?"local":"remote")+ ' ' +(ssk?"ssk":"chk")+ ' ' +(insert?"insert":"request")+ ' ' +(offer?"offer":"")+" : "+count+" of "+map.size()+" for "+source);
 				counter.total += count;
 				counter.expectedTransfersIn += transfersIn;
 				counter.expectedTransfersOut += transfersOut;
@@ -416,7 +416,7 @@ public class RequestTracker {
 		}
 	}
 	
-	public class WaitingForSlots {
+	public static class WaitingForSlots {
 		int local;
 		int remote;
 	}
@@ -454,7 +454,7 @@ public class RequestTracker {
 		}
 	}
 
-	void reassignTagToSelf(UIDTag tag) {
+	static void reassignTagToSelf(UIDTag tag) {
 		// The tag remains remote, but we flag it as adopted.
 		tag.reassignToSelf();
 	}
@@ -517,7 +517,7 @@ public class RequestTracker {
 		ticker.queueTimedJob(deadUIDChecker, TIMEOUT);
 	}
 
-	private Runnable deadUIDChecker = new Runnable() {
+	private final Runnable deadUIDChecker = new Runnable() {
 		@Override
 		public void run() {
 			try {
@@ -568,8 +568,8 @@ public class RequestTracker {
 		onRestartOrDisconnect(pn, runningCHKOfferReplyUIDsBulk);
 	}
 
-	private void onRestartOrDisconnect(PeerNode pn,
-			HashMap<Long, ? extends UIDTag> uids) {
+	private static void onRestartOrDisconnect(PeerNode pn,
+                                              HashMap<Long, ? extends UIDTag> uids) {
 		synchronized(uids) {
 			for(UIDTag tag : uids.values()) {
 				if(tag.isSource(pn))
@@ -760,7 +760,7 @@ public class RequestTracker {
 		addRunningUIDs(runningCHKOfferReplyUIDsBulk, list);
 	}
 	
-	private void addRunningUIDs(HashMap<Long, ? extends UIDTag> runningUIDs, List<Long> list) {
+	private static void addRunningUIDs(HashMap<Long, ? extends UIDTag> runningUIDs, List<Long> list) {
 		synchronized(runningUIDs) {
 			list.addAll(runningUIDs.keySet());
 		}
@@ -773,7 +773,7 @@ public class RequestTracker {
 		this.runningSSKPutUIDsBulk.size() + this.runningSSKOfferReplyUIDsBulk.size() + this.runningCHKOfferReplyUIDsBulk.size();
 	}
 
-	private ArrayList<Long> completedBuffer = new ArrayList<Long>();
+	private final ArrayList<Long> completedBuffer = new ArrayList<>();
 
 	// Every this many slots, we tell all the PeerMessageQueue's to remove the old Items for the ID's in question.
 	// This prevents memory DoS amongst other things.

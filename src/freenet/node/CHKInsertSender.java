@@ -27,7 +27,7 @@ public final class CHKInsertSender extends BaseSender implements PrioRunnable, A
 		/** Node we are waiting for response from */
 		final PeerNode pn;
 		/** We may be sending data to that node */
-		BlockTransmitter bt;
+        final BlockTransmitter bt;
 		/** Have we received notice of the downstream success
 		 * or failure of dependant transfers from that node?
 		 * Includes timing out. */
@@ -145,7 +145,7 @@ public final class CHKInsertSender extends BaseSender implements PrioRunnable, A
 			synchronized(backgroundTransfers) {
 				if(finishedWaiting) {
 					if(!(killed || kill))
-						Logger.error(this, "Finished waiting already yet receivedNotice("+success+","+timeout+","+kill+")", new Exception("error"));
+						Logger.error(this, "Finished waiting already yet receivedNotice("+success+ ',' +timeout+ ',' +kill+ ')', new Exception("error"));
 					return false;
 				}
 				if(killed) {
@@ -158,7 +158,7 @@ public final class CHKInsertSender extends BaseSender implements PrioRunnable, A
 				} else {
 					if (receivedCompletionNotice) {
 						// Two stage timeout.
-						if(logMINOR) Logger.minor(this, "receivedNotice("+success+"), already had receivedNotice("+completionSucceeded+")");
+						if(logMINOR) Logger.minor(this, "receivedNotice("+success+"), already had receivedNotice("+completionSucceeded+ ')');
 						if(timeout) {
 							// Fatal timeout.
 							finishedWaiting = true;
@@ -274,7 +274,7 @@ public final class CHKInsertSender extends BaseSender implements PrioRunnable, A
 		
 		@Override
 		public String toString() {
-			return super.toString()+":"+uid+":"+pn;
+			return super.toString()+ ':' +uid+ ':' +pn;
 		}
 
 		/** Called when we have received an InsertReply, RouteNotFound or other
@@ -309,7 +309,7 @@ public final class CHKInsertSender extends BaseSender implements PrioRunnable, A
         this.prb = prb;
         this.fromStore = fromStore;
         this.startTime = System.currentTimeMillis();
-        this.backgroundTransfers = new ArrayList<BackgroundTransfer>();
+        this.backgroundTransfers = new ArrayList<>();
         this.forkOnCacheable = forkOnCacheable;
         this.preferInsert = preferInsert;
         this.ignoreLowBackoff = ignoreLowBackoff;

@@ -166,7 +166,7 @@ public abstract class AbstractUserAlert implements UserAlert {
 		return false;
 	}
 
-	public boolean isEvent() {
+	public static boolean isEvent() {
 		return false;
 	}
 

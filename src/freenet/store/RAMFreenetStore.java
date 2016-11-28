@@ -73,12 +73,12 @@ public class RAMFreenetStore<T extends StorableBlock> implements FreenetStore<T>
 	}
 
 	@Override
-	public synchronized long getMaxKeys() {
+	public long getMaxKeys() {
 		return maxKeys;
 	}
 
 	@Override
-	public synchronized long hits() {
+	public long hits() {
 		return hits;
 	}
 
@@ -88,7 +88,7 @@ public class RAMFreenetStore<T extends StorableBlock> implements FreenetStore<T>
 	}
 
 	@Override
-	public synchronized long misses() {
+	public long misses() {
 		return misses;
 	}
 
@@ -105,7 +105,7 @@ public class RAMFreenetStore<T extends StorableBlock> implements FreenetStore<T>
 			if(callback.collisionPossible()) {
 				boolean equals = Arrays.equals(oldBlock.data, data) &&
 					Arrays.equals(oldBlock.header, header) &&
-					(storeFullKeys ? Arrays.equals(oldBlock.fullKey, fullKey) : true);
+					(!storeFullKeys || Arrays.equals(oldBlock.fullKey, fullKey));
 				if(equals) {
 					if(!isOldBlock)
 						oldBlock.oldBlock = false;

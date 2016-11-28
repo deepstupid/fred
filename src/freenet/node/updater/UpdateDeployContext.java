@@ -18,8 +18,8 @@ public class UpdateDeployContext {
 	public static class UpdateCatastropheException extends Exception {
 
 		private static final long serialVersionUID = 1L;
-		File oldConfig;
-		File newConfig;
+		final File oldConfig;
+		final File newConfig;
 		
 		UpdateCatastropheException(File oldConfig, File newConfig) {
 			super(l10n("updateCatastrophe", new String[] { "old", "new" },
@@ -75,7 +75,7 @@ public class UpdateDeployContext {
 		backupMainJar = new File(mainJar.getParent(), "freenet.jar.bak");
 	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("UpdateDeployContext."+key);
 	}
 
@@ -325,7 +325,7 @@ public class UpdateDeployContext {
 		
 		while((line = br.readLine()) != null) {
 			
-			if(line.equals("#" + markerComment))
+			if(line.equals('#' + markerComment))
 				return CHANGED.ALREADY;
 			
 			if(line.startsWith("wrapper.java.maxmemory=")) {

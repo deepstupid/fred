@@ -130,9 +130,9 @@ public class RequestStarterGroup {
 		schedulerConfig.finishedInitialization();
 	}
 	
-	private void registerSchedulerConfig(SubConfig schedulerConfig,
-			String name, ClientRequestScheduler csBulk,
-			ClientRequestScheduler csRT, boolean forSSKs, boolean forInserts) throws InvalidConfigValueException {
+	private static void registerSchedulerConfig(SubConfig schedulerConfig,
+                                                String name, ClientRequestScheduler csBulk,
+                                                ClientRequestScheduler csRT, boolean forSSKs, boolean forInserts) throws InvalidConfigValueException {
 		PrioritySchedulerCallback callback = new PrioritySchedulerCallback();
 		schedulerConfig.register(name+"_priority_policy", ClientRequestScheduler.PRIORITY_SOFT, name.hashCode(), true, false,
 				"RequestStarterGroup.scheduler"+(forSSKs?"SSK" : "CHK")+(forInserts?"Inserts":"Requests"),

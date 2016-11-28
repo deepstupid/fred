@@ -46,7 +46,7 @@ public class CachingFreenetStoreTracker {
 		this.maxSize = maxSize;
 		this.period = period;
 		this.queuedJob = false;
-		this.cachingStores = new ArrayList<CachingFreenetStore<?>>();
+		this.cachingStores = new ArrayList<>();
 		this.ticker = ticker;
 	}
 
@@ -105,14 +105,11 @@ public class CachingFreenetStoreTracker {
     private synchronized void pushOffThreadNow() {
         if(runningJob) return;
         runningJob = true;
-        this.ticker.queueTimedJob(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    pushAllCachingStores();
-                } finally {
-                    runningJob = false;
-                }
+        this.ticker.queueTimedJob(() -> {
+            try {
+                pushAllCachingStores();
+            } finally {
+                runningJob = false;
             }
         }, 0);
     }

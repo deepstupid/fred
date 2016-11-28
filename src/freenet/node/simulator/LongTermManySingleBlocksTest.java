@@ -30,7 +30,7 @@ public class LongTermManySingleBlocksTest extends LongTermTest {
 
 		private final HighLevelSimpleClient client;
 		private int runningInserts;
-		private ArrayList<BatchInsert> inserts = new ArrayList<BatchInsert>();
+		private final ArrayList<BatchInsert> inserts = new ArrayList<>();
 		
 		public InsertBatch(HighLevelSimpleClient client) {
 			this.client = client;
@@ -152,7 +152,7 @@ public class LongTermManySingleBlocksTest extends LongTermTest {
 		}
 		String uid = args[0];
 		
-		List<String> csvLine = new ArrayList<String>();
+		List<String> csvLine = new ArrayList<>();
 		System.out.println("DATE:" + dateFormat.format(today.getTime()));
 		csvLine.add(dateFormat.format(today.getTime()));
 
@@ -354,7 +354,7 @@ loopOverLines:
 					try {
 						delta = Integer.parseInt(split[token]);
 					} catch (NumberFormatException e) {
-						System.err.println("Unable to parse token "+token+" = \""+token+"\"");
+						System.err.println("Unable to parse token "+token+" = \""+token+ '"');
 						System.err.println("This is supposed to be a delta");
 						System.err.println("Skipping the rest of the line for date "+dateFormat.format(calendar.getTime()));
 						continue loopOverLines;
@@ -365,7 +365,7 @@ loopOverLines:
 					int totalSuccesses = 0;
 					int totalFetches = 0;
 					for(int i=0;i<INSERTED_BLOCKS;i++) {
-						if(split[token].equals(""))
+						if(split[token].isEmpty())
 							continue;
 						int mhkFetchTime = -1;
 						totalFetches++;
@@ -420,18 +420,15 @@ loopOverLines:
 	
 	private static RandomAccessBucket randomData(Node node) throws IOException {
 	    RandomAccessBucket data = node.clientCore.tempBucketFactory.makeBucket(TEST_SIZE);
-		OutputStream os = data.getOutputStream();
-		try {
-		byte[] buf = new byte[4096];
-		for (long written = 0; written < TEST_SIZE;) {
-			node.fastWeakRandom.nextBytes(buf);
-			int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
-			os.write(buf, 0, toWrite);
-			written += toWrite;
-		}
-		} finally {
-		os.close();
-		}
+        try (OutputStream os = data.getOutputStream()) {
+            byte[] buf = new byte[4096];
+            for (long written = 0; written < TEST_SIZE; ) {
+                node.fastWeakRandom.nextBytes(buf);
+                int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
+                os.write(buf, 0, toWrite);
+                written += toWrite;
+            }
+        }
 		return data;
 	}
 

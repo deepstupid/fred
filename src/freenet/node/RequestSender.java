@@ -67,7 +67,7 @@ public final class RequestSender extends BaseSender implements PrioRunnable {
     /** If true, only try to fetch the key from nodes which have offered it */
     private boolean tryOffersOnly;
     
-	private final ArrayList<RequestSenderListener> listeners=new ArrayList<RequestSenderListener>();
+	private final ArrayList<RequestSenderListener> listeners= new ArrayList<>();
 	
     // Terminal status
     // Always set finished AFTER setting the reason flag
@@ -364,7 +364,7 @@ public final class RequestSender extends BaseSender implements PrioRunnable {
             
             if(next == null) {
 				if (logMINOR && rejectOverloads>0)
-					Logger.minor(this, "no more peers, but overloads ("+rejectOverloads+"/"+routeAttempts+" overloaded)");
+					Logger.minor(this, "no more peers, but overloads ("+rejectOverloads+ '/' +routeAttempts+" overloaded)");
                 // Backtrack
                 finish(ROUTE_NOT_FOUND, null, false);
                 node.failureTable.onFinalFailure(key, null, htl, origHTL, -1, -1, source);
@@ -381,7 +381,7 @@ public final class RequestSender extends BaseSender implements PrioRunnable {
     	int time = timeSinceSent();
     	if(time > FailureTable.REJECT_TIME) {
     		if(time < searchTimeout + SECONDS.toMillis(10)) return FailureTable.REJECT_TIME;
-    		Logger.error(this, "Very long time since sent: "+time+" ("+TimeUtil.formatTime(time, 2, true)+")");
+    		Logger.error(this, "Very long time since sent: "+time+" ("+TimeUtil.formatTime(time, 2, true)+ ')');
     		return FailureTable.REJECT_TIME;
     	}
     	return time;
@@ -518,7 +518,7 @@ public final class RequestSender extends BaseSender implements PrioRunnable {
 		
 		@Override
 		public String toString() {
-			return super.toString()+":"+waitingFor+":"+noReroute+":"+RequestSender.this;
+			return super.toString()+ ':' +waitingFor+ ':' +noReroute+ ':' +RequestSender.this;
 		}
     	
     };
@@ -870,7 +870,7 @@ public final class RequestSender extends BaseSender implements PrioRunnable {
 								Logger.normal(this, "Transfer failed (disconnect): "+e, e);
 							else
 								// A certain number of these are normal, it's better to track them through statistics than call attention to them in the logs.
-								Logger.normal(this, "Transfer for offer failed ("+e.getReason()+"/"+RetrievalException.getErrString(e.getReason())+"): "+e+" from "+pn, e);
+								Logger.normal(this, "Transfer for offer failed ("+e.getReason()+ '/' +RetrievalException.getErrString(e.getReason())+"): "+e+" from "+pn, e);
 							if(offers != null) {
 								finish(GET_OFFER_TRANSFER_FAILED, pn, true);
 							}
@@ -1170,7 +1170,7 @@ public final class RequestSender extends BaseSender implements PrioRunnable {
     					Logger.normal(this, "Transfer failed (disconnect): "+e, e);
     				else
     					// A certain number of these are normal, it's better to track them through statistics than call attention to them in the logs.
-    					Logger.normal(this, "Transfer failed ("+e.getReason()+"/"+RetrievalException.getErrString(e.getReason())+"): "+e+" from "+next, e);
+    					Logger.normal(this, "Transfer failed ("+e.getReason()+ '/' +RetrievalException.getErrString(e.getReason())+"): "+e+" from "+next, e);
     				if(RequestSender.this.source == null)
     					Logger.normal(this, "Local transfer failed: "+e.getReason()+" : "+RetrievalException.getErrString(e.getReason())+"): "+e+" from "+next, e);
     				// We do an ordinary backoff in all cases.
@@ -1525,9 +1525,9 @@ public final class RequestSender extends BaseSender implements PrioRunnable {
     	}
     }
     
-	private static MedianMeanRunningAverage avgTimeTaken = new MedianMeanRunningAverage();
+	private static final MedianMeanRunningAverage avgTimeTaken = new MedianMeanRunningAverage();
 	
-	private static MedianMeanRunningAverage avgTimeTakenTransfer = new MedianMeanRunningAverage();
+	private static final MedianMeanRunningAverage avgTimeTakenTransfer = new MedianMeanRunningAverage();
 	
 	private long transferTime;
 	
@@ -1716,14 +1716,7 @@ public final class RequestSender extends BaseSender implements PrioRunnable {
                 if (source == null) {
                     long delay = randomDelayFinishOpennetLocal();
                     if (logMINOR) Logger.minor(this, "Delaying opennet completion for "+TimeUtil.formatTime(delay, 2, true));
-                    node.ticker.queueTimedJob(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            ackOpennet(next);
-                        }
-
-                    }, delay);
+                    node.ticker.queueTimedJob(() -> ackOpennet(next), delay);
                 } else if (origTag.shouldStop()) {
 					// Can't pass it on.
 					origTag.finishedWaitingForOpennet(next);
@@ -1738,11 +1731,7 @@ public final class RequestSender extends BaseSender implements PrioRunnable {
     		om.sendOpennetRef(true, uid, next, om.crypto.myCompressedFullRef(), this);
 			origTag.finishedWaitingForOpennet(next);
 
-		} catch (FSParseException e) {
-			Logger.error(this, "Could not parse opennet noderef for "+this+" from "+next, e);
-    		ackOpennet(next);
-			return false;
-		} catch (PeerParseException e) {
+		} catch (FSParseException | PeerParseException e) {
 			Logger.error(this, "Could not parse opennet noderef for "+this+" from "+next, e);
     		ackOpennet(next);
 			return false;
@@ -2040,7 +2029,7 @@ public final class RequestSender extends BaseSender implements PrioRunnable {
 		return incomingSearchTimeout;
 	}
 
-	BlockReceiverTimeoutHandler myTimeoutHandler = new BlockReceiverTimeoutHandler() {
+	final BlockReceiverTimeoutHandler myTimeoutHandler = new BlockReceiverTimeoutHandler() {
 
 		/** The data receive has failed. A block timed out. The PRB will be cancelled as
 		 * soon as we return, and that will cause the source node to consider the request

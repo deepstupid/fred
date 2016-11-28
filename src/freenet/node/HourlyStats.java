@@ -10,10 +10,10 @@ import java.util.TimeZone;
 public class HourlyStats {
 	private HourlyStatsRecord prevRecord;
 	private HourlyStatsRecord currentRecord;
-	private HourlyStatsRecord totalRecord;
+	private final HourlyStatsRecord totalRecord;
 
-	private Calendar lastHourlyTime;
-	private Calendar currentTime;
+	private final Calendar lastHourlyTime;
+	private final Calendar currentTime;
 
 	private final Node node;
 

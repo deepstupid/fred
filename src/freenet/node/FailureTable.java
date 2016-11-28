@@ -236,7 +236,7 @@ public class FailureTable {
 		
 		@Override
 		public String toString() {
-			return super.toString()+"("+offers.length+")";
+			return super.toString()+ '(' +offers.length+ ')';
 		}
 	}
 	
@@ -324,12 +324,7 @@ public class FailureTable {
 				return; // we haven't asked for it
 			}
 		}
-		offerExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				innerOnOffer(key, peer, authenticator);
-			}
-		}, "onOffer()");
+		offerExecutor.execute(() -> innerOnOffer(key, peer, authenticator), "onOffer()");
 	}
 
 	/**
@@ -509,10 +504,8 @@ public class FailureTable {
 					try {
 						source.sendSync(data, senderCounter, realTimeFlag);
 						senderCounter.sentPayload(dataLength);
-					} catch (NotConnectedException e) {
+					} catch (NotConnectedException | SyncSendWaitedTooLongException e) {
 						// :(
-					} catch (SyncSendWaitedTooLongException e) {
-						// Impossible
 					} finally {
 						tag.unlockHandler();
 					}
@@ -538,14 +531,7 @@ public class FailureTable {
         		new PartiallyReceivedBlock(Node.PACKETS_IN_BLOCK, Node.PACKET_SIZE, block.getRawData());
         	final BlockTransmitter bt =
         		new BlockTransmitter(node.usm, node.getTicker(), source, uid, prb, senderCounter, BlockTransmitter.NEVER_CASCADE,
-        				new BlockTransmitterCompletion() {
-
-					@Override
-					public void blockTransferFinished(boolean success) {
-						tag.unlockHandler();
-					}
-					
-				}, realTimeFlag, node.nodeStats);
+                        success -> tag.unlockHandler(), realTimeFlag, node.nodeStats);
         	node.executor.execute(new PrioRunnable() {
 
 				@Override
@@ -588,8 +574,8 @@ public class FailureTable {
 
 		OfferList(BlockOfferList offerList) {
 			this.offerList = offerList;
-			recentOffers = new ArrayList<BlockOffer>();
-			expiredOffers = new ArrayList<BlockOffer>();
+			recentOffers = new ArrayList<>();
+			expiredOffers = new ArrayList<>();
 			long now = System.currentTimeMillis();
 			for(BlockOffer offer: offerList.offers) {
 				if(!offer.isExpired(now))

@@ -27,27 +27,27 @@ public class UptimeEstimator implements Runnable {
 	 */
 	static final long PERIOD = MINUTES.toMillis(5);
 
-	Ticker ticker;
+	final Ticker ticker;
 
 	/** For each 5 minute slot in the last 48 hours, were we online? */
-	private boolean[] wasOnline = new boolean[48*12]; //48 hours * 12 5-minute slots/hour
+	private final boolean[] wasOnline = new boolean[48*12]; //48 hours * 12 5-minute slots/hour
 	/** Whether the node was online for each 5 minute slot in the last week, */
-	private boolean[] wasOnlineWeek = new boolean[7*24*12]; //7 days/week * 24 hours/day * 12 5-minute slots/hour
+	private final boolean[] wasOnlineWeek = new boolean[7*24*12]; //7 days/week * 24 hours/day * 12 5-minute slots/hour
 
 	/** Which slot are we up to? We rotate around the array. Slots before us are before us,
 	 * slots after us are also before us (it wraps around). */
 	private int slot;
 
 	/** The file we are writing to */
-	private File logFile;
+	private final File logFile;
 
 	/** The previous file. We have read this. When logFile reaches 48 hours, we dump the prevFile,
 	 * move the logFile over it, and write to a new logFile.
 	 */
-	private File prevFile;
+	private final File prevFile;
 
 	/** We write to disk every 5 minutes. The offset is derived from the node's identity. */
-	private long timeOffset;
+	private final long timeOffset;
 
 	public UptimeEstimator(ProgramDirectory runDir, Ticker ticker, byte[] bs) {
 		this.ticker = ticker;

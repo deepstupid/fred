@@ -70,7 +70,7 @@ public class ConfigToadlet extends Toadlet implements LinkEnabledCallback {
 			HTMLNode alertNode = new HTMLNode("div");
 			alertNode.addChild("#", l10n("needRestart"));
 
-			if (node.isUsingWrapper()) {
+			if (Node.isUsingWrapper()) {
 				alertNode.addChild("br");
 				HTMLNode restartForm = alertNode.addChild(
 						"form",
@@ -369,7 +369,7 @@ public class ConfigToadlet extends Toadlet implements LinkEnabledCallback {
 				content.addChild("br");
 				content.addChild("#", l10n("needRestart"));
 
-				if (node.isUsingWrapper()) {
+				if (Node.isUsingWrapper()) {
 					content.addChild("br");
 					HTMLNode restartForm = ctx.addFormChild(content, "/",
 							"restartForm");

@@ -70,29 +70,7 @@ public class NullFreenetStore<T extends StorableBlock> implements FreenetStore<T
 
 	@Override
 	public StoreAccessStats getSessionAccessStats() {
-		return new StoreAccessStats() {
-
-			@Override
-			public long hits() {
-				return 0;
-			}
-
-			@Override
-			public long misses() {
-				return 0;
-			}
-
-			@Override
-			public long falsePos() {
-				return 0;
-			}
-
-			@Override
-			public long writes() {
-				return 0;
-			}
-			
-		};
+		return new MyStoreAccessStats();
 	}
 
 	@Override
@@ -119,4 +97,28 @@ public class NullFreenetStore<T extends StorableBlock> implements FreenetStore<T
 	public void close() {
 		// Do nothing
 	}
+
+    private static class MyStoreAccessStats implements StoreAccessStats {
+
+        @Override
+        public long hits() {
+            return 0;
+        }
+
+        @Override
+        public long misses() {
+            return 0;
+        }
+
+        @Override
+        public long falsePos() {
+            return 0;
+        }
+
+        @Override
+        public long writes() {
+            return 0;
+        }
+
+    }
 }

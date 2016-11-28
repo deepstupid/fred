@@ -132,6 +132,8 @@ public class CHKBlock implements KeyBlock {
 	
 	@Override
 	public boolean equals(Object o) {
+        if (this == o) return true;
+        if (hashCode!=o.hashCode()) return false;
 		if(!(o instanceof CHKBlock)) return false;
 		CHKBlock block = (CHKBlock) o;
 		if(!chk.equals(block.chk)) return false;

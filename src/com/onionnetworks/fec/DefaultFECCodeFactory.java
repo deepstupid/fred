@@ -2,7 +2,6 @@ package com.onionnetworks.fec;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -39,11 +38,11 @@ public class DefaultFECCodeFactory extends FECCodeFactory {
         // Load in the properties file.
         fecProperties = new Properties();
         try {
-            try {
-                System.out.println( DefaultFECCodeFactory.class.getResource("./").toURI() );
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                System.out.println( DefaultFECCodeFactory.class.getResource("./").toURI() );
+//            } catch (URISyntaxException e) {
+//                e.printStackTrace();
+//            }
 
             fecProperties.load(DefaultFECCodeFactory.class.getResourceAsStream("fec.properties"));
 //                    DefaultFECCodeFactory.class.getResourceAsStream(

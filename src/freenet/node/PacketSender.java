@@ -213,12 +213,12 @@ public class PacketSender implements Runnable {
 
 				// Is the node dead?
 				// It might be disconnected in terms of FNP but trying to reconnect via JFK's, so we need to use the time when we last got a *data* packet.
-				if(now - pn.lastReceivedDataPacketTime() > pn.maxTimeBetweenReceivedPackets()) {
+				if(now - pn.lastReceivedDataPacketTime() > PeerNode.maxTimeBetweenReceivedPackets()) {
 					Logger.normal(this, "Disconnecting from " + pn + " - haven't received packets recently");
 					// Hopefully this is a transient network glitch, but stuff will have already started to timeout, so lets dump the pending messages.
 					pn.disconnected(true, false);
 					continue;
-				} else if(now - pn.lastReceivedAckTime() > pn.maxTimeBetweenReceivedAcks() && !pn.isDisconnecting()) {
+				} else if(now - pn.lastReceivedAckTime() > PeerNode.maxTimeBetweenReceivedAcks() && !pn.isDisconnecting()) {
 					// FIXME better to disconnect immediately??? Or check canSend()???
 					Logger.normal(this, "Disconnecting from " + pn + " - haven't received acks recently");
 					// Do it properly.
@@ -251,7 +251,7 @@ public class PacketSender implements Runnable {
 								if(urgentSendPeers != null)
 									urgentSendPeers.clear();
 								else
-									urgentSendPeers = new ArrayList<PeerNode>();
+									urgentSendPeers = new ArrayList<>();
 							}
 							if(sendTime <= lowestUrgentSendTime)
 								urgentSendPeers.add(pn);
@@ -261,7 +261,7 @@ public class PacketSender implements Runnable {
 								if(urgentFullPacketPeers != null)
 									urgentFullPacketPeers.clear();
 								else
-									urgentFullPacketPeers = new ArrayList<PeerNode>();
+									urgentFullPacketPeers = new ArrayList<>();
 							}
 							if(sendTime <= lowestFullPacketSendTime)
 								urgentFullPacketPeers.add(pn);
@@ -276,7 +276,7 @@ public class PacketSender implements Runnable {
 								if(ackPeers != null)
 									ackPeers.clear();
 								else
-									ackPeers = new ArrayList<PeerNode>();
+									ackPeers = new ArrayList<>();
 							}
 							if(ackTime <= lowestAckTime)
 								ackPeers.add(pn);
@@ -306,7 +306,7 @@ public class PacketSender implements Runnable {
 					if(handshakePeers != null)
 						handshakePeers.clear();
 					else
-						handshakePeers = new ArrayList<PeerNode>();
+						handshakePeers = new ArrayList<>();
 				}
 				if(handshakeTime <= lowestHandshakeTime)
 					handshakePeers.add(pn);
@@ -482,11 +482,11 @@ public class PacketSender implements Runnable {
 		}
 	}
 
-	protected String l10n(String key, String[] patterns, String[] values) {
+	protected static String l10n(String key, String[] patterns, String[] values) {
 		return NodeL10n.getBase().getString("PacketSender."+key, patterns, values);
 	}
 
-	protected String l10n(String key, String pattern, String value) {
+	protected static String l10n(String key, String pattern, String value) {
 		return NodeL10n.getBase().getString("PacketSender."+key, pattern, value);
 	}
 }

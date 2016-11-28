@@ -24,7 +24,7 @@ public enum CryptByteBufferType implements Serializable{
     AESCTR(16, 16, "AES/CTR/NoPadding", KeyType.AES256),
     ChaCha128(32, 8, "CHACHA", KeyType.ChaCha128),
     ChaCha256(64, 8, "CHACHA", KeyType.ChaCha256);
-
+;
 
     /** Bitmask for aggregation. */
     public final int bitmask;

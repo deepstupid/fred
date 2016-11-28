@@ -33,7 +33,7 @@ public class TextModeClientInterfaceServer implements Runnable {
     int port;
     String bindTo;
     String allowedHosts;
-    boolean isEnabled;
+    final boolean isEnabled;
     private static boolean ssl = false;
     final NetworkInterface networkInterface;
 

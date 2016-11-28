@@ -317,7 +317,7 @@ public class WelcomeToadlet extends Toadlet {
 
 				@Override
                         public void run() {
-                            node.getNodeStarter().restart();
+                            Node.getNodeStarter().restart();
                         }
                     }, 1);
             return;
@@ -496,7 +496,7 @@ public class WelcomeToadlet extends Toadlet {
             shutdownForm.addChild("input", new String[]{"type", "name"}, new String[]{"hidden", "exit"});
             
             shutdownForm.addChild("input", new String[]{"type", "value"}, new String[]{"submit", l10n("shutdownNode")});
-            if (node.isUsingWrapper()) {
+            if (Node.isUsingWrapper()) {
                 HTMLNode restartForm = ctx.addFormChild(versionContent, ".", "restartForm");
                 restartForm.addChild("input", new String[]{"type", "name"}, new String[]{"hidden", "restart"});
                 restartForm.addChild("input", new String[]{"type", "name", "value"}, new String[]{"submit", "restart2", l10n("restartNode")});

@@ -102,15 +102,15 @@ public class PeerManagerUserAlert extends AbstractUserAlert {
 		return getTitle();
 	}
 	
-	private String l10n(String key, String pattern, String value) {
+	private static String l10n(String key, String pattern, String value) {
 		return NodeL10n.getBase().getString("PeerManagerUserAlert."+key, pattern, value);
 	}
 
-	private String l10n(String key, String[] pattern, String[] value) {
+	private static String l10n(String key, String[] pattern, String[] value) {
 		return NodeL10n.getBase().getString("PeerManagerUserAlert."+key, pattern, value);
 	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("PeerManagerUserAlert."+key);
 	}
 

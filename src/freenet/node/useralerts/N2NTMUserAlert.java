@@ -91,15 +91,15 @@ public class N2NTMUserAlert extends AbstractUserAlert {
 		return l10n("delete");
 	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("N2NTMUserAlert." + key);
 	}
 
-	private String l10n(String key, String[] patterns, String[] values) {
+	private static String l10n(String key, String[] patterns, String[] values) {
 		return NodeL10n.getBase().getString("N2NTMUserAlert." + key, patterns, values);
 	}
 
-	private String l10n(String key, String pattern, String value) {
+	private static String l10n(String key, String pattern, String value) {
 		return NodeL10n.getBase().getString("N2NTMUserAlert." + key, pattern, value);
 	}
 

@@ -76,7 +76,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 	* The FIFO itself
 	* Get a lock on dhContextFIFO before touching it!
 	*/
-	private final LinkedList<ECDHLightContext> ecdhContextFIFO = new LinkedList<ECDHLightContext>();
+	private final LinkedList<ECDHLightContext> ecdhContextFIFO = new LinkedList<>();
 	private ECDHLightContext ecdhContextToBePrunned;
 	private static final ECDH.Curves ecdhCurveToUse = ECDH.Curves.P256;
 	private long jfkECDHLastGenerationTimestamp = 0;
@@ -94,12 +94,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 	/** The amount of data sent before we ask for a rekey */
 	public static final int AMOUNT_OF_BYTES_ALLOWED_BEFORE_WE_REKEY = 1024 * 1024 * 1024;
 	/** The Runnable in charge of rekeying on a regular basis */
-	private final Runnable transientKeyRekeyer = new Runnable() {
-		@Override
-		public void run() {
-			maybeResetTransientKey();
-		}
-	};
+	private final Runnable transientKeyRekeyer = this::maybeResetTransientKey;
 
         private long lastConnectivityStatusUpdate;
         private Status lastConnectivityStatus;
@@ -109,7 +104,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		this.node = node;
 		this.crypto = crypt;
 		this.sock = sock;
-		authenticatorCache = new HashMap<ByteArrayWrapper, byte[]>();
+		authenticatorCache = new HashMap<>();
 	}
 
 	/**
@@ -443,7 +438,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		 * a different setupType. */
 		final int setupType = payload[3];
 
-		if(logMINOR) Logger.minor(this, "Received anonymous auth packet (phase="+packetType+", v="+version+", nt="+negType+", setup type="+setupType+") from "+replyTo+"");
+		if(logMINOR) Logger.minor(this, "Received anonymous auth packet (phase=" + packetType + ", v=" + version + ", nt=" + negType + ", setup type=" + setupType + ") from " + replyTo);
 
 		if(version != 1) {
 			Logger.error(this, "Decrypted auth packet but invalid version: "+version);
@@ -467,20 +462,15 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		// Therefore, we can only get packets of phase 1 and 3 here.
 
 		if(packetType == 0 || packetType == 2) {
-			this.authHandlingThread.execute(new Runnable() {
-
-				@Override
-				public void run() {
-					if(packetType == 0) {
-						// Phase 1
-						processJFKMessage1(payload,4,null,replyTo, true, setupType, negType);
-					} else if(packetType == 2) {
-						// Phase 3
-						processJFKMessage3(payload, 4, null, replyTo, false, true, setupType, negType);
-					}
-				}
-				
-			});
+			this.authHandlingThread.execute(() -> {
+                if(packetType == 0) {
+                    // Phase 1
+                    processJFKMessage1(payload,4,null,replyTo, true, setupType, negType);
+                } else if(packetType == 2) {
+                    // Phase 3
+                    processJFKMessage3(payload, 4, null, replyTo, false, true, setupType, negType);
+                }
+            });
 		} else {
 			Logger.error(this, "Invalid phase "+packetType+" for anonymous-initiator (we are the responder) from "+replyTo);
 		}
@@ -503,7 +493,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		/** Setup type. See above. */
 		final int setupType = payload[3];
 
-		if(logMINOR) Logger.minor(this, "Received anonymous auth packet (phase="+packetType+", v="+version+", nt="+negType+", setup type="+setupType+") from "+replyTo+"");
+		if(logMINOR) Logger.minor(this, "Received anonymous auth packet (phase=" + packetType + ", v=" + version + ", nt=" + negType + ", setup type=" + setupType + ") from " + replyTo);
 
 		if(version != 1) {
 			Logger.error(this, "Decrypted auth packet but invalid version: "+version);
@@ -527,20 +517,15 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		// Therefore, we can only get packets of phase 2 and 4 here.
 
 		if(packetType == 1 || packetType == 3) {
-			authHandlingThread.execute(new Runnable() {
-				
-				@Override
-				public void run() {
-					if(packetType == 1) {
-						// Phase 2
-						processJFKMessage2(payload, 4, pn, replyTo, true, setupType, negType);
-					} else if(packetType == 3) {
-						// Phase 4
-						processJFKMessage4(payload, 4, pn, replyTo, false, true, setupType, negType);
-					}
-				}
-				
-			});
+			authHandlingThread.execute(() -> {
+                if(packetType == 1) {
+                    // Phase 2
+                    processJFKMessage2(payload, 4, pn, replyTo, true, setupType, negType);
+                } else if(packetType == 3) {
+                    // Phase 4
+                    processJFKMessage4(payload, 4, pn, replyTo, false, true, setupType, negType);
+                }
+            });
 		} else {
 			Logger.error(this, "Invalid phase "+packetType+" for anonymous-initiator (we are the initiator) from "+replyTo);
 		}
@@ -571,7 +556,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 			if (last>0) {
 				delta = TimeUtil.formatTime(now-last, 2, true)+" ago";
 			}
-			Logger.minor(this, "Received auth packet for "+pn.getPeer()+" (phase="+packetType+", v="+version+", nt="+negType+") (last packet sent "+delta+") from "+replyTo+"");
+			Logger.minor(this, "Received auth packet for " + pn.getPeer() + " (phase=" + packetType + ", v=" + version + ", nt=" + negType + ") (last packet sent " + delta + ") from " + replyTo);
 		}
 
 		/* Format:
@@ -621,44 +606,40 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 			if(packetType<0 || packetType>3) {
 				Logger.error(this,"Unknown PacketType" + packetType + "from" + replyTo + "from" +pn);
 				return ;
-			} else authHandlingThread.execute(new Runnable() {
+			} else authHandlingThread.execute(() -> {
+                if(packetType==0) {
+                    /*
+                     * Initiator- This is a straightforward DiffieHellman exponential.
+                     * The Initiator Nonce serves two purposes;it allows the initiator to use the same
+                     * exponentials during different sessions while ensuring that the resulting
+                     * session key will be different,can be used to differentiate between
+                     * parallel sessions
+                     */
+                    processJFKMessage1(payload,3,pn,replyTo,false,-1,negType);
 
-				@Override
-				public void run() {
-					if(packetType==0) {
-						/*
-						 * Initiator- This is a straightforward DiffieHellman exponential.
-						 * The Initiator Nonce serves two purposes;it allows the initiator to use the same
-						 * exponentials during different sessions while ensuring that the resulting
-						 * session key will be different,can be used to differentiate between
-						 * parallel sessions
-						 */
-						processJFKMessage1(payload,3,pn,replyTo,false,-1,negType);
-
-					} else if(packetType==1) {
-						/*
-						 * Responder replies with a signed copy of his own exponential, a random
-						 * nonce and an authenticator calculated from a transient hash key private
-						 * to the responder.
-						 */
-						processJFKMessage2(payload,3,pn,replyTo,false,-1,negType);
-					} else if(packetType==2) {
-						/*
-						 * Initiator echoes the data sent by the responder.These messages are
-						 * cached by the Responder.Receiving a duplicate message simply causes
-						 * the responder to Re-transmit the corresponding message4
-						 */
-						processJFKMessage3(payload, 3, pn, replyTo, oldOpennetPeer, false, -1, negType);
-					} else if(packetType==3) {
-						/*
-						 * Encrypted message of the signature on both nonces, both exponentials
-						 * using the same keys as in the previous message.
-						 * The signature is non-message recovering
-						 */
-						processJFKMessage4(payload, 3, pn, replyTo, oldOpennetPeer, false, -1, negType);
-					}
-				}
-			});
+                } else if(packetType==1) {
+                    /*
+                     * Responder replies with a signed copy of his own exponential, a random
+                     * nonce and an authenticator calculated from a transient hash key private
+                     * to the responder.
+                     */
+                    processJFKMessage2(payload,3,pn,replyTo,false,-1,negType);
+                } else if(packetType==2) {
+                    /*
+                     * Initiator echoes the data sent by the responder.These messages are
+                     * cached by the Responder.Receiving a duplicate message simply causes
+                     * the responder to Re-transmit the corresponding message4
+                     */
+                    processJFKMessage3(payload, 3, pn, replyTo, oldOpennetPeer, false, -1, negType);
+                } else if(packetType==3) {
+                    /*
+                     * Encrypted message of the signature on both nonces, both exponentials
+                     * using the same keys as in the previous message.
+                     * The signature is non-message recovering
+                     */
+                    processJFKMessage4(payload, 3, pn, replyTo, oldOpennetPeer, false, -1, negType);
+                }
+            });
 		} else {
 			Logger.error(this, "Decrypted auth packet but unknown negotiation type "+negType+" from "+replyTo+" possibly from "+pn);
 			return;
@@ -734,7 +715,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 	}
 	
 	private long lastLoggedNoContexts = -1;
-	private static long LOG_NO_CONTEXTS_INTERVAL = MINUTES.toMillis(1);
+	private static final long LOG_NO_CONTEXTS_INTERVAL = MINUTES.toMillis(1);
 
 	private void handleNoContextsException(NoContextsException e,
 			freenet.node.FNPPacketMangler.NoContextsException.CONTEXT context) {
@@ -754,7 +735,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		logLoudErrorNoContexts();
 	}
 
-	private void logLoudErrorNoContexts() {
+	private static void logLoudErrorNoContexts() {
 		// If this is happening regularly post-startup then it's unlikely that reading the disk will help.
 		// FIXME localise this, give a useralert etc.
 		// RNG exhaustion shouldn't happen for Windows users at all, and may not happen on Linux depending on the JVM version, so lets leave it for now.
@@ -908,7 +889,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 	 * used by the responder to verify that the round-trip has been done
 	 *
 	 */
-	private byte[] assembleJFKAuthenticator(byte[] gR, byte[] gI, byte[] nR, byte[] nI, byte[] address) {
+	private static byte[] assembleJFKAuthenticator(byte[] gR, byte[] gI, byte[] nR, byte[] nI, byte[] address) {
 		byte[] authData=new byte[gR.length + gI.length + nR.length + nI.length + address.length];
 		int offset = 0;
 
@@ -1265,7 +1246,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 			OpennetManager opennet = node.getOpennet();
 			OpennetPeerNode opn = (OpennetPeerNode) pn;
 			if(opennet == null) {
-				Logger.normal(this, "Dumping incoming old-opennet peer as opennet just turned off: "+pn+".");
+				Logger.normal(this, "Dumping incoming old-opennet peer as opennet just turned off: "+pn+ '.');
 				return;
 			}
 			/* When an old-opennet-peer connects, add it at the top of the LRU, so that it isn't
@@ -1335,19 +1316,10 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 			try {
 				seed = new SeedClientPeerNode(ref, node, crypto);
 				// Don't tell tracker yet as we don't have the address yet.
-			} catch (FSParseException e) {
+			} catch (FSParseException | PeerTooOldException | ReferenceSignatureVerificationException | PeerParseException e) {
 				Logger.error(this, "Invalid seed client noderef: "+e+" from "+from, e);
 				return null;
-			} catch (PeerParseException e) {
-				Logger.error(this, "Invalid seed client noderef: "+e+" from "+from, e);
-				return null;
-			} catch (ReferenceSignatureVerificationException e) {
-				Logger.error(this, "Invalid seed client noderef: "+e+" from "+from, e);
-				return null;
-			} catch (PeerTooOldException e) {
-                Logger.error(this, "Invalid seed client noderef: "+e+" from "+from, e);
-                return null;
-            }
+			}
 			if(seed.equals(pn)) {
 				Logger.normal(this, "Already connected to seednode");
 				return pn;
@@ -1492,7 +1464,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		    OpennetPeerNode opn = (OpennetPeerNode) pn;
 			OpennetManager opennet = node.getOpennet();
 			if(opennet == null) {
-				Logger.normal(this, "Dumping incoming old-opennet peer as opennet just turned off: "+pn+".");
+				Logger.normal(this, "Dumping incoming old-opennet peer as opennet just turned off: "+pn+ '.');
 				return true;
 			}
 			/* When an old-opennet-peer connects, add it at the top of the LRU, so that it isn't
@@ -1742,7 +1714,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 //			Logger.error(this,"Message3 timeout error:Sending packet for "+pn.getPeer());
 	}
 
-	private int getInitialMessageID(byte[] identity) {
+	private static int getInitialMessageID(byte[] identity) {
 		MessageDigest md = SHA256.getMessageDigest();
 		md.update(identity);
 		// Similar to JFK keygen, should be safe enough.
@@ -1756,7 +1728,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 		return Fields.bytesToInt(hashed, 0);
 	}
 
-	private int getInitialMessageID(byte[] identity, byte[] otherIdentity) {
+	private static int getInitialMessageID(byte[] identity, byte[] otherIdentity) {
 		MessageDigest md = SHA256.getMessageDigest();
 		md.update(identity);
 		md.update(otherIdentity);
@@ -2139,7 +2111,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 	/*
 	 * Prepare DH parameters of message2 for them to be signed (useful in message3 to check the sig)
 	 */
-	private byte[] assembleDHParams(byte[] nonceInitiator,byte[] nonceResponder,byte[] initiatorExponential, byte[] responderExponential, byte[] id, byte[] sa) {
+	private static byte[] assembleDHParams(byte[] nonceInitiator, byte[] nonceResponder, byte[] initiatorExponential, byte[] responderExponential, byte[] id, byte[] sa) {
 		byte[] result = new byte[nonceInitiator.length + nonceResponder.length + initiatorExponential.length + responderExponential.length + id.length + sa.length];
 		int offset = 0;
 
@@ -2166,7 +2138,7 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 
 	// FIXME this is our Key Derivation Function for JFK.
 	// FIXME we should move it to freenet/crypt/
-	private byte[] computeJFKSharedKey(byte[] exponential, byte[] nI, byte[] nR, String what) {
+	private static byte[] computeJFKSharedKey(byte[] exponential, byte[] nI, byte[] nR, String what) {
 		assert("0".equals(what) || "1".equals(what) || "2".equals(what) || "3".equals(what)
 				|| "4".equals(what) || "5".equals(what) || "6".equals(what) || "7".equals(what));
 		byte[] number = null;
@@ -2261,15 +2233,15 @@ public class FNPPacketMangler implements OutgoingPacketMangler {
 	}
 	
 	/** @returns the modulus length in bytes for a given negType */
-	private int getModulusLength(int negType) {
+	private static int getModulusLength(int negType) {
 	        return ecdhCurveToUse.modulusSize;
 	}
 	
-	private int getSignatureLength(int negType) {
+	private static int getSignatureLength(int negType) {
 	       return ECDSA.Curves.P256.maxSigSize;
 	}
 	
-	private int getNonceSize(int negType) {
+	private static int getNonceSize(int negType) {
 		return 16;
 	}
 }

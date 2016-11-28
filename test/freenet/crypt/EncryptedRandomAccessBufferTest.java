@@ -79,10 +79,13 @@ public class EncryptedRandomAccessBufferTest {
         EncryptedRandomAccessBuffer erat = new EncryptedRandomAccessBuffer(types[0], barat, secret, true);
         erat.close();
         ByteArrayRandomAccessBuffer barat2 = new ByteArrayRandomAccessBuffer(bytes);
-        thrown.expect(IOException.class);
-        thrown.expectMessage("This is not an EncryptedRandomAccessBuffer"); // Different header lengths.
-        EncryptedRandomAccessBuffer erat2 = new EncryptedRandomAccessBuffer(types[1], barat2, 
-                secret, false);
+
+        if (types.length > 1) {
+            thrown.expect(IOException.class);
+            thrown.expectMessage("This is not an EncryptedRandomAccessBuffer"); // Different header lengths.
+            EncryptedRandomAccessBuffer erat2 = new EncryptedRandomAccessBuffer(types[1], barat2,
+                    secret, false);
+        }
     }
     
     @Test

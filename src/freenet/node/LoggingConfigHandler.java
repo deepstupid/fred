@@ -37,7 +37,7 @@ public class LoggingConfigHandler {
 		@Override
 		public String[] getPossibleValues() {
 			LogLevel[] priorities = LogLevel.values();
-			ArrayList<String> values = new ArrayList<String>(priorities.length+1);
+			ArrayList<String> values = new ArrayList<>(priorities.length + 1);
 			for(LogLevel p : priorities)
 				values.add(p.name());
 			
@@ -323,7 +323,7 @@ public class LoggingConfigHandler {
 		}
 	}
 	
-	protected void preSetLogDir(File f) throws InvalidConfigValueException {
+	protected static void preSetLogDir(File f) throws InvalidConfigValueException {
 		boolean exists = f.exists();
 		if(exists && !f.isDirectory())
 			throw new InvalidConfigValueException("Cannot overwrite a file with a log directory");
@@ -337,7 +337,7 @@ public class LoggingConfigHandler {
 	
 	class Deleter implements Runnable {
 		
-		File logDir;
+		final File logDir;
 		
 		public Deleter(File logDir) {
 			this.logDir = logDir;
@@ -360,7 +360,7 @@ public class LoggingConfigHandler {
 			File[] files = dir.listFiles();
 			for(File f: files) {
 				String s = f.getName();
-				if(s.startsWith("freenet-") && (s.indexOf(".log") != -1)) {
+				if(s.startsWith("freenet-") && (s.contains(".log"))) {
 					if(f.isFile()) {
 						if(!f.delete()) failed = true;
 					} else if(f.isDirectory()) {

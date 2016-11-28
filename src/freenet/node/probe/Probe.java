@@ -313,12 +313,10 @@ public class Probe implements ByteCounter {
 				//TODO: Store config here as it has changed?
 				node.config.store();
 			}
-		} catch (InvalidConfigValueException e) {
-			Logger.error(Probe.class, "node.identifier set() unexpectedly threw.", e);
-		} catch (NodeNeedRestartException e) {
+		} catch (InvalidConfigValueException | NodeNeedRestartException e) {
 			Logger.error(Probe.class, "node.identifier set() unexpectedly threw.", e);
 		}
-	}
+    }
 
 	/**
 	 * Sends an outgoing probe request.
@@ -363,9 +361,9 @@ public class Probe implements ByteCounter {
 		final Type type;
 		if (Type.isValid(typeCode)) {
 			type = Type.valueOf(typeCode);
-			if (logDEBUG) Logger.debug(Probe.class, "Probe type is " + type.name() + ".");
+			if (logDEBUG) Logger.debug(Probe.class, "Probe type is " + type.name() + '.');
 		} else {
-			if (logMINOR) Logger.minor(Probe.class, "Invalid probe type " + typeCode + ".");
+			if (logMINOR) Logger.minor(Probe.class, "Invalid probe type " + typeCode + '.');
 			listener.onError(Error.UNRECOGNIZED_TYPE, typeCode, true);
 			return;
 		}
@@ -380,7 +378,7 @@ public class Probe implements ByteCounter {
 			if (logMINOR) {
 				Logger.minor(Probe.class, "Received out-of-bounds HTL of " + htl + " from " +
 				    source.getIdentityString() + " (" + source.userToString() + "); interpreting as " +
-				    MAX_HTL + ".");
+				    MAX_HTL + '.');
 			}
 			htl = MAX_HTL;
 		}
@@ -714,7 +712,7 @@ public class Probe implements ByteCounter {
 	/**
 	 * Filter listener which determines the type of result and calls the appropriate probe listener method.
 	 */
-	private class ResultListener implements AsyncMessageFilterCallback {
+	private static class ResultListener implements AsyncMessageFilterCallback {
 
 		private final Listener listener;
 

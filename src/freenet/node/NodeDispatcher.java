@@ -23,7 +23,6 @@ import freenet.support.io.NativeThread;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -85,7 +84,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 		this.probe = new Probe(node);
 	}
 
-	ByteCounter pingCounter = new ByteCounter() {
+	final ByteCounter pingCounter = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -280,7 +279,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 		return false;
 	}
 
-	private void rejectRequest(Message m, ByteCounter ctr) {
+	private static void rejectRequest(Message m, ByteCounter ctr) {
 		long uid = m.getLong(DMT.UID);
 		Message msg = DMT.createFNPRejectedOverload(uid, true, false, false);
 		// Send the load status anyway, hopefully this is a temporary problem.
@@ -299,7 +298,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 		return true;
 	}
 
-	private boolean handleUptime(Message m, PeerNode source) {
+	private static boolean handleUptime(Message m, PeerNode source) {
 		byte uptime = m.getByte(DMT.UPTIME_PERCENT_48H);
 		source.setUptime(uptime);
 		return true;
@@ -363,13 +362,10 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 			return true;
 		}
 		
-		} catch (Error e) {
+		} catch (Error | RuntimeException e) {
 			tag.unlockHandler();
 			throw e;
-		} catch (RuntimeException e) {
-			tag.unlockHandler();
-			throw e;
-		} // Otherwise, sendOfferedKey is responsible for unlocking. 
+		}  // Otherwise, sendOfferedKey is responsible for unlocking.
 		
 		// Accept it.
 		
@@ -383,12 +379,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 
 	private void handleDisconnect(final Message m, final PeerNode source) {
 		// Wait for 1 second to ensure that the ack gets sent first.
-		node.getTicker().queueTimedJob(new Runnable() {
-			@Override
-			public void run() {
-				finishDisconnect(m, source);
-			}
-		}, 1000);
+		node.getTicker().queueTimedJob(() -> finishDisconnect(m, source), 1000);
 	}
 	
 	private void finishDisconnect(final Message m, final PeerNode source) {
@@ -419,7 +410,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 		node.receivedNodeToNodeMessage(source, type, messageData, true);
 	}
 
-	private boolean handleTime(Message m, PeerNode source) {
+	private static boolean handleTime(Message m, PeerNode source) {
 		long delta = m.getLong(DMT.TIME) - System.currentTimeMillis();
 		source.setTimeDelta(delta);
 		return true;
@@ -452,7 +443,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 		
 	};
 	
-	private final ArrayBlockingQueue<Message> requestQueue = new ArrayBlockingQueue<Message>(100);
+	private final ArrayBlockingQueue<Message> requestQueue = new ArrayBlockingQueue<>(100);
 	
 	private void handleDataRequest(Message m, PeerNode source, boolean isSSK) {
 		// FIXME check probablyInStore and if not, we can handle it inline.
@@ -717,7 +708,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 			}
 			AnnouncementCallback cb = null;
 			if(logMINOR) {
-				final String origin = source.toString()+" (htl "+htl+")";
+				final String origin = source.toString()+" (htl "+htl+ ')';
 				// Log the progress of the announcement.
 				// This is similar to Announcer's logging.
 				cb = new AnnouncementCallback() {
@@ -791,21 +782,21 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 		}
 	}
 
-	final Hashtable<Long, RoutedContext> routedContexts = new Hashtable<Long, RoutedContext>();
+	final Hashtable<Long, RoutedContext> routedContexts = new Hashtable<>();
 
 	static class RoutedContext {
-		long createdTime;
-		long accessTime;
-		PeerNode source;
+		final long createdTime;
+		final long accessTime;
+		final PeerNode source;
 		final HashSet<PeerNode> routedTo;
-		Message msg;
-		short lastHtl;
+		final Message msg;
+		final short lastHtl;
 		final byte[] identity;
 
 		RoutedContext(Message msg, PeerNode source, byte[] identity) {
 			createdTime = accessTime = System.currentTimeMillis();
 			this.source = source;
-			routedTo = new HashSet<PeerNode>();
+			routedTo = new HashSet<>();
 			this.msg = msg;
 			lastHtl = msg.getShort(DMT.HTL);
 			this.identity = identity;
@@ -823,13 +814,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 	public void run() {
 		long now=System.currentTimeMillis();
 		synchronized (routedContexts) {
-			Iterator<RoutedContext> i = routedContexts.values().iterator();
-			while (i.hasNext()) {
-				RoutedContext rc = i.next();
-				if (now-rc.createdTime > STALE_CONTEXT) {
-					i.remove();
-				}
-			}
+			routedContexts.values().removeIf(rc -> now - rc.createdTime > STALE_CONTEXT);
 		}
 		node.getTicker().queueTimedJob(this, STALE_CONTEXT_CHECK);
 	}
@@ -840,7 +825,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 	private boolean handleRoutedRejected(Message m) {
 		if(!node.enableRoutedPing()) return true;
 		long id = m.getLong(DMT.UID);
-		Long lid = Long.valueOf(id);
+		Long lid = id;
 		RoutedContext rc = routedContexts.get(lid);
 		if(rc == null) {
 			// Gah
@@ -880,7 +865,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 		if(logMINOR) Logger.minor(this, "handleRouted("+m+ ')');
 
 		long id = m.getLong(DMT.UID);
-		Long lid = Long.valueOf(id);
+		Long lid = id;
 		short htl = m.getShort(DMT.HTL);
 		byte[] identity = ((ShortBuffer) m.getObject(DMT.NODE_IDENTITY)).getData();
 		if(source != null) htl = source.decrementHTL(htl);
@@ -924,7 +909,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 		if(!node.enableRoutedPing()) return true;
 		long id = m.getLong(DMT.UID);
 		if(logMINOR) Logger.minor(this, "Got reply: "+m);
-		Long lid = Long.valueOf(id);
+		Long lid = id;
 		RoutedContext ctx = routedContexts.get(lid);
 		if(ctx == null) {
 			Logger.error(this, "Unrecognized routed reply: "+m);
@@ -981,7 +966,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 	/**
 	 * Prepare a routed-to-node message for forwarding.
 	 */
-	private Message preForward(Message m, short newHTL) {
+	private static Message preForward(Message m, short newHTL) {
 		m = m.cloneAndDropSubMessages();
 		m.set(DMT.HTL, newHTL); // update htl
 		if(m.getSpec() == DMT.FNPRoutedPing) {
@@ -1000,7 +985,7 @@ public class NodeDispatcher implements Dispatcher, Runnable {
 	 */
 	private boolean dispatchRoutedMessage(Message m, PeerNode src, long id) {
 		if(m.getSpec() == DMT.FNPRoutedPing) {
-			if(logMINOR) Logger.minor(this, "RoutedPing reached other side! ("+id+")");
+			if(logMINOR) Logger.minor(this, "RoutedPing reached other side! ("+id+ ')');
 			int x = m.getInt(DMT.COUNTER);
 			Message reply = DMT.createFNPRoutedPong(id, x);
 			if(logMINOR) Logger.minor(this, "Replying - counter = "+x+" for "+id);

@@ -74,7 +74,7 @@ public class ConfigurablePersister extends Persister {
 		}
 	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("ConfigurablePersister."+key);
 	}
 

@@ -48,7 +48,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 	/** Histogram for request locations. */
 	private static class RequestsByLocation {
 		private final int[] bins;
-		private int count = 0;
+		private final int count = 0;
 
 		/** Constructs a request location histogram with the given number of bins. */
 		RequestsByLocation(int numBins) {
@@ -480,18 +480,13 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		// This is a *network* level setting, because it affects the rate at which we initiate local
 		// requests, which could be seen by distant nodes.
 
-		node.securityLevels.addNetworkThreatLevelListener(new SecurityLevelListener<NETWORK_THREAT_LEVEL>() {
-
-			@Override
-			public void onChange(NETWORK_THREAT_LEVEL oldLevel, NETWORK_THREAT_LEVEL newLevel) {
-				if(newLevel == NETWORK_THREAT_LEVEL.MAXIMUM)
-					ignoreLocalVsRemoteBandwidthLiability = true;
-				if(oldLevel == NETWORK_THREAT_LEVEL.MAXIMUM)
-					ignoreLocalVsRemoteBandwidthLiability = false;
-				// Otherwise leave it as it was. It defaults to false.
-			}
-
-		});
+		node.securityLevels.addNetworkThreatLevelListener((oldLevel, newLevel) -> {
+            if(newLevel == NETWORK_THREAT_LEVEL.MAXIMUM)
+                ignoreLocalVsRemoteBandwidthLiability = true;
+            if(oldLevel == NETWORK_THREAT_LEVEL.MAXIMUM)
+                ignoreLocalVsRemoteBandwidthLiability = false;
+            // Otherwise leave it as it was. It defaults to false.
+        });
 		
 		statsConfig.register("enableNewLoadManagementRT", false, sortOrder++, true, false, "Node.enableNewLoadManagementRT", "Node.enableNewLoadManagementRTLong", new BooleanCallback() {
 
@@ -621,14 +616,14 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		hourlyStatsRT = new HourlyStats(node);
 		hourlyStatsBulk = new HourlyStats(node);
 
-		avgMandatoryBackoffTimesRT = new Hashtable<String, TrivialRunningAverage>();
-		avgMandatoryBackoffTimesBulk = new Hashtable<String, TrivialRunningAverage>();
-		avgRoutingBackoffTimesRT = new Hashtable<String, TrivialRunningAverage>();
-		avgRoutingBackoffTimesBulk = new Hashtable<String, TrivialRunningAverage>();
-		avgTransferBackoffTimesRT = new Hashtable<String, TrivialRunningAverage>();
-		avgTransferBackoffTimesBulk = new Hashtable<String, TrivialRunningAverage>();
+		avgMandatoryBackoffTimesRT = new Hashtable<>();
+		avgMandatoryBackoffTimesBulk = new Hashtable<>();
+		avgRoutingBackoffTimesRT = new Hashtable<>();
+		avgRoutingBackoffTimesBulk = new Hashtable<>();
+		avgTransferBackoffTimesRT = new Hashtable<>();
+		avgTransferBackoffTimesBulk = new Hashtable<>();
 
-		avgDatabaseJobExecutionTimes = new Hashtable<String, TrivialRunningAverage>();
+		avgDatabaseJobExecutionTimes = new Hashtable<>();
 		
 		if(!NodeStarter.isTestingVM()) {
 			// Normal mode
@@ -644,21 +639,16 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		statsConfig.finishedInitialization();
 	}
 
-	protected String l10n(String key) {
+	protected static String l10n(String key) {
 		return NodeL10n.getBase().getString("NodeStats."+key);
 	}
 
-	protected String l10n(String key, String[] patterns, String[] values) {
+	protected static String l10n(String key, String[] patterns, String[] values) {
 		return NodeL10n.getBase().getString("NodeStats."+key, patterns, values);
 	}
 
 	public void start() throws NodeInitException {
-		node.executor.execute(new Runnable() {
-			@Override
-			public void run() {
-				nodePinger.start();
-			}
-		}, "Starting NodePinger");
+		node.executor.execute(nodePinger::start, "Starting NodePinger");
 		persister.start();
 		noisyRejectStatsUpdater.run();
 	}
@@ -782,7 +772,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		public String toString() {
 			return peer.toString()+":output:{lower="+outputBandwidthLowerLimit+",upper="+outputBandwidthUpperLimit+",this="+outputBandwidthPeerLimit+"},input:lower="+inputBandwidthLowerLimit+",upper="+inputBandwidthUpperLimit+",peer="+inputBandwidthPeerLimit+"},requests:"+
 				"in:"+expectedTransfersInCHK+"chk/"+expectedTransfersInSSK+"ssk:out:"+
-				expectedTransfersOutCHK+"chk/"+expectedTransfersOutSSK+"ssk transfers="+maxTransfersOut+"/"+maxTransfersOutPeerLimit+"/"+maxTransfersOutLowerLimit+"/"+maxTransfersOutUpperLimit;
+				expectedTransfersOutCHK+"chk/"+expectedTransfersOutSSK+"ssk transfers="+maxTransfersOut+ '/' +maxTransfersOutPeerLimit+ '/' +maxTransfersOutLowerLimit+ '/' +maxTransfersOutUpperLimit;
 		}
 		
 		public PeerLoadStats(PeerNode peer, int transfersPerInsert, boolean realTimeFlag) {
@@ -893,7 +883,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		
 	}
 	
-	class RunningRequestsSnapshot {
+	static class RunningRequestsSnapshot {
 		
 		final int expectedTransfersOutCHK;
 		final int expectedTransfersInCHK;
@@ -1123,7 +1113,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		}
 		@Override
 		public String toString() {
-			return (soft ? "SOFT" : "HARD") + ":" + name;
+			return (soft ? "SOFT" : "HARD") + ':' + name;
 		}
 	}
 	
@@ -1305,7 +1295,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		}
 		
 		synchronized(this) {
-			if(logMINOR) Logger.minor(this, "Accepting request? (isSSK="+isSSK+")");
+			if(logMINOR) Logger.minor(this, "Accepting request? (isSSK="+isSSK+ ')');
 			lastAcceptedRequest = now;
 		}
 		
@@ -1326,29 +1316,29 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 //		tag.slowDown();
 //	}
 
-	private int getLimitSeconds(boolean realTimeFlag) {
+	private static int getLimitSeconds(boolean realTimeFlag) {
 		return realTimeFlag ? BANDWIDTH_LIABILITY_LIMIT_SECONDS_REALTIME : BANDWIDTH_LIABILITY_LIMIT_SECONDS_BULK;
 	}
 
-	public int calculateMaxTransfersOut(PeerNode peer, boolean realTime,
-			double nonOverheadFraction, int maxTransfersOutUpperLimit) {
+	public static int calculateMaxTransfersOut(PeerNode peer, boolean realTime,
+											   double nonOverheadFraction, int maxTransfersOutUpperLimit) {
 		if(peer == null) return Integer.MAX_VALUE;
 		else return Math.min(maxTransfersOutUpperLimit, peer.calculateMaxTransfersOut(getAcceptableBlockTime(realTime), nonOverheadFraction));
 	}
 
-	private int getAcceptableBlockTime(boolean realTime) {
+	private static int getAcceptableBlockTime(boolean realTime) {
 		return realTime ? 2 : 15;
 	}
 
 	static final double ONE_PEER_MAX_PEERS_EQUIVALENT = 2.0;
 	
-	public double getLowerLimit(double upperLimit, int peerCount) {
+	public static double getLowerLimit(double upperLimit, int peerCount) {
 		// Bandwidth scheduling is now unfair, based on deadlines.
 		// Therefore we can allocate a large chunk of our capacity to a single peer.
 		return upperLimit / 2;
 	}
 
-	public int outwardTransfersPerInsert() {
+	public static int outwardTransfersPerInsert() {
 		// FIXME compute an average
 		return 1;
 	}
@@ -1479,7 +1469,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 			double peerUsedBytes = getPeerBandwidthLiability(peerRequestsSnapshot, source, isSSK, transfersPerInsert, input);
 			if(peerUsedBytes > thisAllocation) {
 				rejected(name+" bandwidth liability: fairness between peers", isLocal, isInsert, isSSK, isOfferReply, realTimeFlag);
-				return name+" bandwidth liability: fairness between peers (peer "+source+" used "+peerUsedBytes+" allowed "+thisAllocation+")";
+				return name+" bandwidth liability: fairness between peers (peer "+source+" used "+peerUsedBytes+" allowed "+thisAllocation+ ')';
 			// FIXME slowdown
 //			} else {
 //				double slowDownLimit = thisAllocation * SOFT_REJECT_MAX_BANDWIDTH_USAGE;
@@ -1510,7 +1500,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 			RunningRequestsSnapshot peerRequestsSnapshot, boolean isLocal, boolean realTime,
 			boolean isInsert, boolean isSSK, boolean isOfferReply, UIDTag tag) {
 		if(logMINOR) Logger.minor(this, "Max transfers: congestion control limit "+maxOutputTransfers+
-				" upper "+maxTransfersOutUpperLimit+" lower "+maxTransfersOutLowerLimit+" peer "+maxTransfersOutPeerLimit+" "+(realTime ? "(rt)" : "(bulk)"));
+				" upper "+maxTransfersOutUpperLimit+" lower "+maxTransfersOutLowerLimit+" peer "+maxTransfersOutPeerLimit+ ' ' +(realTime ? "(rt)" : "(bulk)"));
 		int peerOutTransfers = peerRequestsSnapshot.totalOutTransfers();
 		int totalOutTransfers = requestsSnapshot.totalOutTransfers();
 		if(peerOutTransfers > maxOutputTransfers && !isLocal) {
@@ -1607,7 +1597,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 	}
 
 	private void rejected(String reason, boolean isLocal, boolean isInsert, boolean isSSK, boolean isOfferReply, boolean isRealTime) {
-		reason += " "+(isRealTime?" (rt)":" (bulk)");
+		reason += ' ' +(isRealTime?" (rt)":" (bulk)");
 		if(logMINOR) Logger.minor(this, "Rejecting (local="+isLocal+") isSSK="+isSSK+" isInsert="+isInsert+" : "+reason);
 		if(!isLocal) preemptiveRejectReasons.inc(reason);
 		else this.localPreemptiveRejectReasons.inc(reason);
@@ -1714,7 +1704,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 	public int getOpennetSizeEstimate(long timestamp) {
 		if (node.opennet == null)
 			return 0;
-		return node.opennet.getNetworkSizeEstimate(timestamp);
+		return OpennetManager.getNetworkSizeEstimate(timestamp);
 	}
 	public int getDarknetSizeEstimate(long timestamp) {
 		return node.lm.getNetworkSizeEstimate( timestamp );
@@ -1934,7 +1924,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 	public SimpleFieldSet exportVolatileFieldSet() {
 		SimpleFieldSet fs = new SimpleFieldSet(true);
 		long now = System.currentTimeMillis();
-		fs.put("isUsingWrapper", node.isUsingWrapper());
+		fs.put("isUsingWrapper", Node.isUsingWrapper());
 		long nodeUptimeSeconds = 0;
 		synchronized(this) {
 			fs.put("startupTime", node.startupTime);
@@ -2095,8 +2085,8 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 			}
 		}
 
-		double swaps = node.getSwaps();
-		double noSwaps = node.getNoSwaps();
+		double swaps = Node.getSwaps();
+		double noSwaps = Node.getNoSwaps();
 		double numberOfRemotePeerLocationsSeenInSwaps = node.getNumberOfRemotePeerLocationsSeenInSwaps();
 		fs.put("numberOfRemotePeerLocationsSeenInSwaps", numberOfRemotePeerLocationsSeenInSwaps);
 		double avgConnectedPeersPerNode = 0.0;
@@ -2105,11 +2095,11 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		}
 		fs.put("avgConnectedPeersPerNode", avgConnectedPeersPerNode);
 
-		int startedSwaps = node.getStartedSwaps();
-		int swapsRejectedAlreadyLocked = node.getSwapsRejectedAlreadyLocked();
-		int swapsRejectedNowhereToGo = node.getSwapsRejectedNowhereToGo();
-		int swapsRejectedRateLimit = node.getSwapsRejectedRateLimit();
-		int swapsRejectedRecognizedID = node.getSwapsRejectedRecognizedID();
+		int startedSwaps = Node.getStartedSwaps();
+		int swapsRejectedAlreadyLocked = Node.getSwapsRejectedAlreadyLocked();
+		int swapsRejectedNowhereToGo = Node.getSwapsRejectedNowhereToGo();
+		int swapsRejectedRateLimit = Node.getSwapsRejectedRateLimit();
+		int swapsRejectedRecognizedID = Node.getSwapsRejectedRecognizedID();
 		double locationChangePerSession = node.getLocationChangeSession();
 		double locationChangePerSwap = 0.0;
 		double locationChangePerMinute = 0.0;
@@ -2232,7 +2222,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		return fs;
 	}
 
-	public boolean isTestnetEnabled() {
+	public static boolean isTestnetEnabled() {
 		return Node.isTestnetEnabled();
 	}
 
@@ -2339,7 +2329,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 
 	public synchronized void insertSentBytes(boolean ssk, int x) {
 		if(logDEBUG)
-			Logger.debug(this, "insertSentBytes("+ssk+", "+x+")");
+			Logger.debug(this, "insertSentBytes("+ssk+", "+x+ ')');
 		if(ssk)
 			sskInsertSentBytes += x;
 		else
@@ -2394,7 +2384,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 	private long offerKeysRcvdBytes;
 	private long offerKeysSentBytes;
 
-	ByteCounter sendOffersCtr = new ByteCounter() {
+	final ByteCounter sendOffersCtr = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -2526,7 +2516,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 
 	private long routingStatusBytesSent;
 
-	ByteCounter setRoutingStatusCtr = new ByteCounter() {
+	final ByteCounter setRoutingStatusCtr = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -2582,7 +2572,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		return pingBytesSent;
 	}
 
-	public ByteCounter sskRequestCtr = new ByteCounter() {
+	public final ByteCounter sskRequestCtr = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -2605,7 +2595,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 
 	};
 
-	public ByteCounter chkRequestCtr = new ByteCounter() {
+	public final ByteCounter chkRequestCtr = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -2628,7 +2618,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 
 	};
 
-	public ByteCounter sskInsertCtr = new ByteCounter() {
+	public final ByteCounter sskInsertCtr = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -2651,7 +2641,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 
 	};
 
-	public ByteCounter chkInsertCtr = new ByteCounter() {
+	public final ByteCounter chkInsertCtr = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -2677,7 +2667,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 	private long probeRequestSentBytes;
 	private long probeRequestRcvdBytes;
 
-	public ByteCounter probeRequestCtr = new ByteCounter() {
+	public final ByteCounter probeRequestCtr = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -2707,7 +2697,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 	private long routedMessageBytesRcvd;
 	private long routedMessageBytesSent;
 
-	public ByteCounter routedMessageCtr = new ByteCounter() {
+	public final ByteCounter routedMessageCtr = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -2752,7 +2742,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 	private long initialMessagesBytesReceived;
 	private long initialMessagesBytesSent;
 
-	ByteCounter initialMessagesCtr = new ByteCounter() {
+	final ByteCounter initialMessagesCtr = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -2782,7 +2772,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 	private long changedIPBytesReceived;
 	private long changedIPBytesSent;
 
-	ByteCounter changedIPCtr = new ByteCounter() {
+	final ByteCounter changedIPCtr = new ByteCounter() {
 
 		@Override
 		public void receivedBytes(int x) {
@@ -3050,7 +3040,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 			hourlyStatsBulk.fillRemoteRequestHTLsBox(html);
 	}
 
-	private String sanitizeDBJobType(String jobType) {
+	private static String sanitizeDBJobType(String jobType) {
 		int typeBeginIndex = jobType.lastIndexOf('.'); // Only use the actual class name, exclude the packages
 		int typeEndIndex = jobType.indexOf('@');
 
@@ -3433,7 +3423,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 	}
 
 
-	private double cappedDistance(DecayingKeyspaceAverage avgLocation, StoreCallback<?> store) {
+	private static double cappedDistance(DecayingKeyspaceAverage avgLocation, StoreCallback<?> store) {
 		double cachePercent = 1.0 * avgLocation.countReports() / store.keyCount();
 		//Cap the reported value at 100%, as the decaying average does not account beyond that anyway.
 		if (cachePercent > 1.0) {
@@ -3609,7 +3599,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		return (int)Math.max(1, Math.ceil((totalAnnounceForwards*1.0)/totalAnnouncements));
 	}
 
-	private final HashSet<Long> runningAnnouncements = new HashSet<Long>();
+	private final HashSet<Long> runningAnnouncements = new HashSet<>();
 
 	// FIXME make configurable, more sophisticated.
 	
@@ -3667,10 +3657,10 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		return 2 * maxPingTime;
 	}
 	
-	private RunningAverage nlmDelayRTLocal = new TrivialRunningAverage();
-	private RunningAverage nlmDelayRTRemote = new TrivialRunningAverage();
-	private RunningAverage nlmDelayBulkLocal = new TrivialRunningAverage();
-	private RunningAverage nlmDelayBulkRemote = new TrivialRunningAverage();
+	private final RunningAverage nlmDelayRTLocal = new TrivialRunningAverage();
+	private final RunningAverage nlmDelayRTRemote = new TrivialRunningAverage();
+	private final RunningAverage nlmDelayBulkLocal = new TrivialRunningAverage();
+	private final RunningAverage nlmDelayBulkRemote = new TrivialRunningAverage();
 
 	public void reportNLMDelay(long waitTime, boolean realTime, boolean local) {
 		if(realTime) {
@@ -3720,7 +3710,7 @@ public class NodeStats implements Persistable, BlockTimeCallback {
 		}
 	}
 
-	private Object slotTimeoutsSync = new Object();
+	private final Object slotTimeoutsSync = new Object();
 	private long fatalTimeoutsInWaitLocal;
 	private long fatalTimeoutsInWaitRemote;
 	private long allocatedSlotLocal;

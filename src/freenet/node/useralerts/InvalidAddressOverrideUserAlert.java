@@ -28,7 +28,7 @@ public class InvalidAddressOverrideUserAlert extends AbstractUserAlert {
 		return l10n("unknownAddress");
 	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("InvalidAddressOverrideUserAlert."+key);
 	}
 

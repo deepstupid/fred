@@ -70,7 +70,7 @@ public class NodeCrypto {
 	/** The ECDSA/P256 signature of the above fieldset */
 	private String myReferenceECDSASignature = null;
 	/** A synchronization object used while signing the reference fieldset */
-	private volatile Object referenceSync = new Object();
+	private final Object referenceSync = new Object();
 
 	/**
 	 * Get port number from a config, create socket and packet mangler
@@ -137,13 +137,7 @@ public class NodeCrypto {
 
 		anonSetupCipher = new Rijndael(256,256);
 
-		} catch (NodeInitException e) {
-			config.stopping(this);
-			throw e;
-		} catch (RuntimeException e) {
-			config.stopping(this);
-			throw e;
-		} catch (Error e) {
+		} catch (NodeInitException | Error | RuntimeException e) {
 			config.stopping(this);
 			throw e;
 		} catch (UnsupportedCipherException e) {
@@ -398,7 +392,7 @@ public class NodeCrypto {
 		obuf[offset++] = 0x01; // compressed noderef
 		System.arraycopy(buf, 0, obuf, offset, buf.length);
 		if(logMINOR)
-			Logger.minor(this, "myCompressedRef("+setup+","+heavySetup+") returning "+obuf.length+" bytes");
+			Logger.minor(this, "myCompressedRef("+setup+ ',' +heavySetup+") returning "+obuf.length+" bytes");
 		return obuf;
 	}
 
@@ -504,7 +498,7 @@ public class NodeCrypto {
 						continue;
 					}
 					Logger.error(this, "Dropping peer "+pn+" because don't want connection due to others on the same IP address!");
-					System.out.println("Disconnecting permanently from your friend \""+((DarknetPeerNode)pn).getName()+"\" because your friend \""+((DarknetPeerNode)peerNode).getName()+"\" is using the same IP address "+address+"!");
+					System.out.println("Disconnecting permanently from your friend \""+((DarknetPeerNode)pn).getName()+"\" because your friend \""+((DarknetPeerNode)peerNode).getName()+"\" is using the same IP address "+address+ '!');
 				}
 				node.peers.disconnectAndRemove(pn, true, true, pn.isOpennet());
 			}
@@ -519,7 +513,7 @@ public class NodeCrypto {
 	}
 
 	public PeerNode[] getAnonSetupPeerNodes() {
-		ArrayList<PeerNode> v = new ArrayList<PeerNode>();
+		ArrayList<PeerNode> v = new ArrayList<>();
 		for(PeerNode pn: node.peers.myPeers()) {
 			if(pn.handshakeUnknownInitiator() && pn.getOutgoingMangler() == packetMangler)
 				v.add(pn);
@@ -555,7 +549,7 @@ public class NodeCrypto {
 	}
 	
 	public boolean wantAnonAuthChangeIP() {
-		return node.wantAnonAuthChangeIP(isOpennet);
+		return Node.wantAnonAuthChangeIP(isOpennet);
 	}
 
 }

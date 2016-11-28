@@ -17,10 +17,7 @@ import freenet.support.transport.ip.IPUtil;
 
 import java.io.*;
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -63,8 +60,8 @@ public class Announcer {
 	Announcer(OpennetManager om) {
 		this.om = om;
 		this.node = om.node;
-		announcedToIdentities = new HashSet<ByteArrayWrapper>();
-		announcedToIPs = new HashSet<InetAddress>();
+		announcedToIdentities = new HashSet<>();
+		announcedToIPs = new HashSet<>();
 		logMINOR = Logger.shouldLog(LogLevel.MINOR, this);
 	}
 
@@ -127,11 +124,7 @@ public class Announcer {
          * TODO: If the seed nodes file is found it does not unregister the STATUS_NO_SEEDNODES
          * event.
          */
-				node.getTicker().queueTimedJob(new Runnable() {
-					public void run() {
-						maybeSendAnnouncement();
-					}
-				}, Announcer.RETRY_MISSING_SEEDNODES_DELAY);
+				node.getTicker().queueTimedJob(this::maybeSendAnnouncement, Announcer.RETRY_MISSING_SEEDNODES_DELAY);
 				return;
 			} else {
 				registerEvent(STATUS_CONNECTING_SEEDNODES);
@@ -251,7 +244,7 @@ public class Announcer {
 	}
 
 	public static List<SimpleFieldSet> readSeednodes(File file) {
-		List<SimpleFieldSet> list = new ArrayList<SimpleFieldSet>();
+		List<SimpleFieldSet> list = new ArrayList<>();
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
@@ -294,7 +287,7 @@ public class Announcer {
 		return target;
 	}
 
-	private SimpleUserAlert announcementDisabledAlert = 
+	private final SimpleUserAlert announcementDisabledAlert =
 		new SimpleUserAlert(false, l10n("announceDisabledTooOldTitle"), l10n("announceDisabledTooOld"), l10n("announceDisabledTooOldShort"), UserAlert.CRITICAL_ERROR) {
 		
 		@Override
@@ -313,7 +306,7 @@ public class Announcer {
 		public String getText() {
 			StringBuilder sb = new StringBuilder();
 			sb.append(l10n("announceDisabledTooOld"));
-			sb.append(" ");
+			sb.append(' ');
 //			if(!node.nodeUpdater.isEnabled()) {
 //				sb.append(l10n("announceDisabledTooOldUpdateDisabled", new String[] { "config", "/config" }, new String[] { "", "" }));
 //			}
@@ -418,19 +411,9 @@ public class Announcer {
 					node.peers.disconnectAndRemove(pn, true, true, false);
 				}
 				// Re-check every minute. Something bad might happen (e.g. cpu starvation), causing us to have to reseed.
-				node.getTicker().queueTimedJob(new Runnable() {
-					@Override
-					public void run() {
-						maybeSendAnnouncement();
-					}
-				}, "Check whether we need to announce", RETRY_DELAY, false, true);
+				node.getTicker().queueTimedJob(Announcer.this::maybeSendAnnouncement, "Check whether we need to announce", RETRY_DELAY, false, true);
 			} else {
-				node.getTicker().queueTimedJob(new Runnable() {
-					@Override
-					public void run() {
-						maybeSendAnnouncement();
-					}
-				}, "Check whether we need to announce", RETRY_DELAY, false, true);
+				node.getTicker().queueTimedJob(Announcer.this::maybeSendAnnouncement, "Check whether we need to announce", RETRY_DELAY, false, true);
 				if(running != 0)
 					maybeSendAnnouncement();
 			}
@@ -440,14 +423,7 @@ public class Announcer {
 
 	public void maybeSendAnnouncementOffThread() {
 		if(enoughPeers()) return;
-		node.getTicker().queueTimedJob(new Runnable() {
-
-			@Override
-			public void run() {
-				maybeSendAnnouncement();
-			}
-
-		}, 0);
+		node.getTicker().queueTimedJob(this::maybeSendAnnouncement, 0);
 	}
 
 	protected void maybeSendAnnouncement() {
@@ -537,8 +513,7 @@ public class Announcer {
 	}
 
 	private synchronized void addAnnouncedIPs(InetAddress[] addrs) {
-		for (InetAddress addr : addrs)
-	        announcedToIPs.add(addr);
+        Collections.addAll(announcedToIPs, addrs);
 	}
 
 	/**
@@ -603,14 +578,7 @@ public class Announcer {
 						startTime = System.currentTimeMillis() + COOLING_OFF_PERIOD;
 						sentAnnouncements = 0;
 						// Wait for COOLING_OFF_PERIOD before trying again
-						node.getTicker().queueTimedJob(new Runnable() {
-
-							@Override
-							public void run() {
-								maybeSendAnnouncement();
-							}
-
-						}, COOLING_OFF_PERIOD);
+						node.getTicker().queueTimedJob(Announcer.this::maybeSendAnnouncement, COOLING_OFF_PERIOD);
 					} else if(runningAnnouncements == 0) {
 						sentAnnouncements = 0;
 						announceNow = true;
@@ -785,15 +753,15 @@ public class Announcer {
 
 	}
 
-	private String l10n(String key) {
+	private static String l10n(String key) {
 		return NodeL10n.getBase().getString("Announcer."+key);
 	}
 
-	protected String l10n(String key, String[] patterns, String[] values) {
+	protected static String l10n(String key, String[] patterns, String[] values) {
 		return NodeL10n.getBase().getString("Announcer."+key, patterns, values);
 	}
 
-	private String l10n(String key, String pattern, String value) {
+	private static String l10n(String key, String pattern, String value) {
 		return NodeL10n.getBase().getString("Announcer."+key, pattern, value);
 	}
 

@@ -286,9 +286,7 @@ public class CHKInsertHandler implements PrioRunnable, ByteCounter {
             msg = DMT.createFNPRejectedOverload(uid, true, true, realTimeFlag);
             try {
 				source.sendSync(msg, this, realTimeFlag);
-			} catch (NotConnectedException e) {
-				// Ignore
-			} catch (SyncSendWaitedTooLongException e) {
+			} catch (NotConnectedException | SyncSendWaitedTooLongException e) {
 				// Ignore
 			}
             finish(CHKInsertSender.INTERNAL_ERROR);
@@ -338,7 +336,7 @@ public class CHKInsertHandler implements PrioRunnable, ByteCounter {
 
     			@Override
     			public void onTimeout() {
-    				Logger.error(this, "No DataInsert for "+CHKInsertHandler.this+" from "+source+" ("+source.getVersionNumber()+")");
+    				Logger.error(this, "No DataInsert for "+CHKInsertHandler.this+" from "+source+" ("+source.getVersionNumber()+ ')');
     				// Fatal timeout. Something is seriously busted.
     				// We've waited long enough that we know it's not just a connectivity problem - if it was we'd have disconnected by now.
     	    		source.fatalTimeout();
@@ -361,18 +359,15 @@ public class CHKInsertHandler implements PrioRunnable, ByteCounter {
     			
     		}, this);
     		return;
-    	} catch (NotConnectedException e) {
+    	} catch (NotConnectedException | DisconnectedException e) {
     		if(logMINOR) Logger.minor(this, "Lost connection to source");
 			return;
-    	} catch (DisconnectedException e) {
-    		if(logMINOR) Logger.minor(this, "Lost connection to source");
-			return;
-		}
-	}
+    	}
+    }
 
 	private boolean canCommit = false;
     private boolean sentCompletion = false;
-    private Object sentCompletionLock = new Object();
+    private final Object sentCompletionLock = new Object();
     
     /**
      * If canCommit, and we have received all the data, and it
@@ -605,7 +600,7 @@ public class CHKInsertHandler implements PrioRunnable, ByteCounter {
         				Logger.normal(this, "Failed to retrieve (disconnect): "+e+" for "+CHKInsertHandler.this, e);
         			else
         				// Annoying, but we have stats for this; no need to call attention to it, it's unlikely to be a bug.
-        				Logger.normal(this, "Failed to retrieve ("+e.getReason()+"/"+RetrievalException.getErrString(e.getReason())+"): "+e+" for "+CHKInsertHandler.this, e);
+        				Logger.normal(this, "Failed to retrieve ("+e.getReason()+ '/' +RetrievalException.getErrString(e.getReason())+"): "+e+" for "+CHKInsertHandler.this, e);
         			
         			if(!prb.abortedLocally())
         				node.nodeStats.failedBlockReceive(false, false, realTimeFlag, false);
@@ -670,7 +665,7 @@ public class CHKInsertHandler implements PrioRunnable, ByteCounter {
 		return NativeThread.HIGH_PRIORITY;
 	}
 	
-	private BlockReceiverTimeoutHandler myTimeoutHandler = new BlockReceiverTimeoutHandler() {
+	private final BlockReceiverTimeoutHandler myTimeoutHandler = new BlockReceiverTimeoutHandler() {
 
 		/** We timed out waiting for a block from the request sender. We do not know 
 		 * whether it is the fault of the request sender or that of some previous node.

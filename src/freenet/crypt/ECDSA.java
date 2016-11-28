@@ -13,8 +13,11 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ECDSA {
+    private static final Pattern ECDSA = Pattern.compile("ECDSA", Pattern.LITERAL);
     public final Curves curve;
     private final KeyPair key;
 
@@ -193,7 +196,7 @@ public class ECDSA {
                 // FIXME: we hardcode bouncycastle here because right now that's the only that works
                 // verifying with a legacy non-deterministic (SHA256withECDSA) sig
                 // will *not* work with a bouncycastle SHA256withECDDSA verifier
-                Signature sig = Signature.getInstance(curve.defaultHashAlgorithm.replace("ECDSA", "ECDDSA"), JceLoader.BouncyCastle);
+                Signature sig = Signature.getInstance(ECDSA.matcher(curve.defaultHashAlgorithm).replaceAll(Matcher.quoteReplacement("ECDDSA")), JceLoader.BouncyCastle);
                 sig.initSign(key.getPrivate());
     			for(byte[] d: data)
     				sig.update(d);

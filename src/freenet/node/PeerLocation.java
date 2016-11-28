@@ -70,7 +70,7 @@ public class PeerLocation {
 		for (int i = 0; i < newLocs.length; i++) {
 			final double loc = newLocs[i];
 			if (!Location.isValid(loc)) {
-				Logger.error(this, "Invalid location update for " + this + " (" + loc + ")", new Exception("error"));
+				Logger.error(this, "Invalid location update for " + this + " (" + loc + ')', new Exception("error"));
 				// Ignore it
 				return false;
 			}

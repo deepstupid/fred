@@ -22,18 +22,18 @@ import java.io.OutputStream;
 
 public class BootstrapPushPullTest {
 
-	public static int TEST_SIZE = 1024*1024;
+	public static final int TEST_SIZE = 1024*1024;
 	
-	public static int EXIT_NO_SEEDNODES = 257;
-	public static int EXIT_FAILED_TARGET = 258;
-	public static int EXIT_INSERT_FAILED = 259;
-	public static int EXIT_FETCH_FAILED = 260;
-	public static int EXIT_THREW_SOMETHING = 261;
+	public static final int EXIT_NO_SEEDNODES = 257;
+	public static final int EXIT_FAILED_TARGET = 258;
+	public static final int EXIT_INSERT_FAILED = 259;
+	public static final int EXIT_FETCH_FAILED = 260;
+	public static final int EXIT_THREW_SOMETHING = 261;
 	
-	public static int DARKNET_PORT1 = 5002;
-	public static int OPENNET_PORT1 = 5003;
-	public static int DARKNET_PORT2 = 5004;
-	public static int OPENNET_PORT2 = 5005;
+	public static final int DARKNET_PORT1 = 5002;
+	public static final int OPENNET_PORT1 = 5003;
+	public static final int DARKNET_PORT2 = 5004;
+	public static final int OPENNET_PORT2 = 5005;
 	
 	public static void main(String[] args) throws InvalidThresholdException, IOException, NodeInitException, InterruptedException {
 		Node node = null;
@@ -69,18 +69,15 @@ public class BootstrapPushPullTest {
 		}
         System.err.println("Creating test data: "+TEST_SIZE+" bytes.");
         RandomAccessBucket data = node.clientCore.tempBucketFactory.makeBucket(TEST_SIZE);
-        OutputStream os = data.getOutputStream();
-		try {
-        byte[] buf = new byte[4096];
-        for(long written = 0; written < TEST_SIZE;) {
-        	node.fastWeakRandom.nextBytes(buf);
-        	int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
-        	os.write(buf, 0, toWrite);
-        	written += toWrite;
-        }
-		} finally {
-        os.close();
-		}
+            try (OutputStream os = data.getOutputStream()) {
+                byte[] buf = new byte[4096];
+                for (long written = 0; written < TEST_SIZE; ) {
+                    node.fastWeakRandom.nextBytes(buf);
+                    int toWrite = (int) Math.min(TEST_SIZE - written, buf.length);
+                    os.write(buf, 0, toWrite);
+                    written += toWrite;
+                }
+            }
         System.err.println("Inserting test data.");
         HighLevelSimpleClient client = node.clientCore.makeClient((short)0, false, false);
         InsertBlock block = new InsertBlock(data, new ClientMetadata(), FreenetURI.EMPTY_CHK_URI);

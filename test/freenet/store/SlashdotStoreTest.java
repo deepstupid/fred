@@ -1,30 +1,20 @@
 package freenet.store;
 
-import junit.framework.TestCase;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Random;
-
 import freenet.crypt.DummyRandomSource;
 import freenet.crypt.RandomSource;
-import freenet.keys.CHKBlock;
-import freenet.keys.CHKDecodeException;
-import freenet.keys.CHKEncodeException;
-import freenet.keys.CHKVerifyException;
-import freenet.keys.ClientCHK;
-import freenet.keys.ClientCHKBlock;
+import freenet.keys.*;
 import freenet.support.PooledExecutor;
 import freenet.support.SimpleReadOnlyArrayBucket;
 import freenet.support.SpeedyTicker;
 import freenet.support.TrivialTicker;
 import freenet.support.api.Bucket;
 import freenet.support.compress.Compressor;
-import freenet.support.io.ArrayBucketFactory;
-import freenet.support.io.BucketTools;
-import freenet.support.io.FileUtil;
-import freenet.support.io.FilenameGenerator;
-import freenet.support.io.TempBucketFactory;
+import freenet.support.io.*;
+import junit.framework.TestCase;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
 
 public class SlashdotStoreTest extends TestCase {
 	
@@ -61,6 +51,7 @@ public class SlashdotStoreTest extends TestCase {
 		ClientCHK key = block.getClientKey();
 		
 		CHKBlock verify = store.fetch(key.getNodeCHK(), false, false, null);
+		assertNotNull(key.getCryptoAlgorithm() + " algorithm", verify);
 		String data = decodeBlock(verify, key);
 		assertEquals(test, data);
 	}

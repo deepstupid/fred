@@ -1,42 +1,39 @@
 package freenet.node.stats;
 
-public abstract class StoreAccessStats {
+public interface StoreAccessStats {
 	
-	public abstract long hits();
+	long hits();
 	
-	public abstract long misses();
+	long misses();
 	
-	public abstract long falsePos();
+	long falsePos();
 	
-	public abstract long writes();
+	long writes();
 	
-	public long readRequests() {
+	default long readRequests() {
 		return hits() + misses();
 	}
 
-	public long successfulReads() {
+	default long successfulReads() {
 		if (readRequests() > 0)
 			return hits();
 		else
 			return 0;
 	}
 
-	public double successRate() throws StatsNotAvailableException {
+	default double successRate() throws StatsNotAvailableException {
 		if (readRequests() > 0)
 			return (100.0 * hits() / readRequests());
 		else
 			throw new StatsNotAvailableException();
 	}
 
-	public double accessRate(long nodeUptimeSeconds) {
+	default double accessRate(long nodeUptimeSeconds) {
 		return (1.0 * readRequests() / nodeUptimeSeconds);
 	}
 
-	public double writeRate(long nodeUptimeSeconds) {
+	default double writeRate(long nodeUptimeSeconds) {
 		return (1.0 * writes() / nodeUptimeSeconds);
 	}
-
-
-
 
 }
