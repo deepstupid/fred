@@ -251,12 +251,10 @@ public class SSL {
 					keystore.setKeyEntry("freenet", privKey, keyPass.toCharArray(), chain);
 					storeKeyStore();
 					createSSLContext();
-				} catch (ClassNotFoundException cnfe) {
+				} catch (ClassNotFoundException | NoSuchMethodException cnfe) {
 					throw new UnsupportedOperationException("The JVM you are using does not support generating strong SSL certificates", cnfe);
-				} catch (NoSuchMethodException nsme) {
-					throw new UnsupportedOperationException("The JVM you are using does not support generating strong SSL certificates", nsme);
 				}
-			} finally {
+            } finally {
 				Closer.close(fis);
 			}
 		}

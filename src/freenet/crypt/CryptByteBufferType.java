@@ -40,7 +40,7 @@ public enum CryptByteBufferType implements Serializable{
      * @param bitmask
      * @param keyType The type of key the alg requires
      */
-    private CryptByteBufferType(int bitmask, KeyType keyType){
+    CryptByteBufferType(int bitmask, KeyType keyType){
         this.bitmask = bitmask;
         this.keyType = keyType;
         this.cipherName = keyType.alg;
@@ -57,7 +57,7 @@ public enum CryptByteBufferType implements Serializable{
      * @param keyType The type of key the alg requires
      * @param blockSize The blocksize the alg uses
      */
-    private CryptByteBufferType(int bitmask, KeyType keyType, int blockSize){
+    CryptByteBufferType(int bitmask, KeyType keyType, int blockSize){
         this.bitmask = bitmask;
         this.ivSize = null;
         this.keyType = keyType;
@@ -73,7 +73,7 @@ public enum CryptByteBufferType implements Serializable{
      * @param ivSize Size of the iv
      * @param keyType The type of key the alg requires
      */
-    private CryptByteBufferType(int bitmask, int ivSize, KeyType keyType){
+    CryptByteBufferType(int bitmask, int ivSize, KeyType keyType){
         this.bitmask = bitmask;
         this.keyType = keyType;
         this.cipherName = keyType.alg;
@@ -91,7 +91,7 @@ public enum CryptByteBufferType implements Serializable{
      * @param algName The name the java provider uses for the alg
      * @param keyType The type of key the alg requires
      */
-    private CryptByteBufferType(int bitmask, int ivSize, String algName, KeyType keyType){
+    CryptByteBufferType(int bitmask, int ivSize, String algName, KeyType keyType){
         this.bitmask = bitmask;
         this.ivSize = ivSize;
         this.cipherName = keyType.alg;

@@ -498,11 +498,9 @@ public final class CryptByteBuffer implements Serializable{
         try {
             encryptCipher.init(Cipher.ENCRYPT_MODE, this.key, this.iv);
             decryptCipher.init(Cipher.DECRYPT_MODE, this.key, this.iv);
-        } catch (InvalidKeyException e) {
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
             throw new IllegalArgumentException(e); // Definitely a bug ...
-        } catch (InvalidAlgorithmParameterException e) {
-            throw new IllegalArgumentException(e); // Definitely a bug ...
-        } 
+        }
         return iv;
     }
 

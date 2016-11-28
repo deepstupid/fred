@@ -31,7 +31,7 @@ public enum KeyType {
      * @param alg The name of the algorithm KeyGenerator should use to create a key
      * @param keySize The size of the key that KeyGenerator should generate
      */
-    private KeyType(String alg, int keySize){
+    KeyType(String alg, int keySize){
         this.alg = alg;
         this.keySize = keySize;
         this.ivSize = keySize;
@@ -43,7 +43,7 @@ public enum KeyType {
      * @param keySize The size of the key that KeyGenerator should generate
      * @param ivSize The size of the iv that should be generated
      */
-    private KeyType(String alg, int keySize, int ivSize){
+    KeyType(String alg, int keySize, int ivSize){
         this.alg = alg;
         this.keySize = keySize;
         this.ivSize = ivSize;

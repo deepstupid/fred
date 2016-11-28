@@ -3,18 +3,16 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
-import java.nio.ByteBuffer;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
+import freenet.support.Fields;
+import org.bouncycastle.crypto.generators.Poly1305KeyGenerator;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-
-import org.bouncycastle.crypto.generators.Poly1305KeyGenerator;
-
-import freenet.support.Fields;
+import java.nio.ByteBuffer;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 
 /**
  * The MessageAuthCode class will generate the Message Authentication Code of a given set
@@ -136,7 +134,7 @@ public final class MessageAuthCode {
      * Checks to make sure the provided key is a valid Poly1305 key
      * @param encodedKey Key to check
      */
-    private final void checkPoly1305Key(byte[] encodedKey){
+    private void checkPoly1305Key(byte[] encodedKey){
         if(type != MACType.Poly1305AES){
             throw new UnsupportedTypeException(type);
         }

@@ -36,8 +36,8 @@ public enum EncryptedRandomAccessBufferType {
      * @param macType Alg to use for MAC generation
      * @param macLen The length of the MAC output in bytes
      */
-    private EncryptedRandomAccessBufferType(int bitmask, int magAndVerLen, CryptByteBufferType type, 
-            MACType macType, int macLen){
+    EncryptedRandomAccessBufferType(int bitmask, int magAndVerLen, CryptByteBufferType type,
+                                    MACType macType, int macLen){
         this.bitmask = bitmask;
         this.encryptType = type;
         this.encryptKey = type.keyType;
@@ -50,14 +50,14 @@ public enum EncryptedRandomAccessBufferType {
     /**
      * Returns an instance of the SkippingStreamCipher the goes with the current enum value.
      */
-    public final SkippingStreamCipher get(){
+    public static SkippingStreamCipher get(){
         return new ChaChaEngine();
     }
 
     private static final Map<Integer, EncryptedRandomAccessBufferType> byBitmask;
     
     static {
-        byBitmask = new HashMap<Integer, EncryptedRandomAccessBufferType>();
+        byBitmask = new HashMap<>(values().length);
         for(EncryptedRandomAccessBufferType type : values())
             byBitmask.put(type.bitmask, type);
     }

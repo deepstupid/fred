@@ -195,7 +195,7 @@ public class OCBBlockCipher_v149
 
         this.L_Dollar = OCB_double(L_Asterisk);
 
-        this.L = new Vector<byte[]>();
+        this.L = new Vector<>();
         this.L.addElement(OCB_double(L_Dollar));
 
         /*
@@ -444,7 +444,7 @@ public class OCBBlockCipher_v149
         reset(true);
     }
 
-    protected void clear(byte[] bs)
+    protected static void clear(byte[] bs)
     {
         if (bs != null)
         {

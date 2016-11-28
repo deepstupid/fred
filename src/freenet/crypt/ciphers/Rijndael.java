@@ -204,14 +204,14 @@ public class Rijndael implements BlockCipher {
 	}
 
 	@Override
-	public synchronized final void encipher(byte[] block, byte[] result) {
+	public final void encipher(byte[] block, byte[] result) {
 		if(block.length != blocksize/8)
 			throw new IllegalArgumentException();
 		Rijndael_Algorithm.blockEncrypt(block, result, 0, sessionKey, blocksize/8);
 	}
 
 	@Override
-	public synchronized final void decipher(byte[] block, byte[] result) {
+	public final void decipher(byte[] block, byte[] result) {
 		if(block.length != blocksize/8)
 			throw new IllegalArgumentException();
 		Rijndael_Algorithm.blockDecrypt(block, result, 0, sessionKey, blocksize/8);

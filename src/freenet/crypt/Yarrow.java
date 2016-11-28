@@ -3,32 +3,19 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
-import static java.util.concurrent.TimeUnit.HOURS;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
 import freenet.support.LogThresholdCallback;
 import freenet.support.Logger;
 import freenet.support.Logger.LogLevel;
 import freenet.support.io.Closer;
+
+import java.io.*;
+import java.net.InetAddress;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.*;
+
+import static java.util.concurrent.TimeUnit.HOURS;
 
 /**
  * An implementation of the Yarrow PRNG in Java.
@@ -278,21 +265,22 @@ public class Yarrow extends RandomSource implements PersistentRandomSource {
     }
 
     private void write_seed(File filename, boolean force) {
-		if(!force)
-			synchronized(this) {
-				long now = System.currentTimeMillis();
-				if(now - timeLastWroteSeed <= HOURS.toMillis(1) /* once per hour */)
+		if(!force) {
+			long now = System.currentTimeMillis();
+			synchronized (this) {
+				if (now - timeLastWroteSeed <= HOURS.toMillis(1) /* once per hour */)
 					return;
 				else
 					timeLastWroteSeed = now;
 			}
+		}
 
 		FileOutputStream fos = null;
 		BufferedOutputStream bos = null;
 		DataOutputStream dos = null;
 		try {
 			fos = new FileOutputStream(filename);
-			bos = new BufferedOutputStream(fos);
+			bos = new BufferedOutputStream(fos, 32*8);
 			dos = new DataOutputStream(bos);
 
 			for(int i = 0; i < 32; i++)
@@ -316,18 +304,22 @@ public class Yarrow extends RandomSource implements PersistentRandomSource {
 	private int output_count,  fetch_counter;
 
 	private void generator_init(String cipher) {
-		cipher_ctx = Util.getCipherByName(cipher);
-		output_buffer = new byte[cipher_ctx.getBlockSize() / 8];
-		counter = new byte[cipher_ctx.getBlockSize() / 8];
-		allZeroString = new byte[cipher_ctx.getBlockSize() / 8];
-		tmp = new byte[cipher_ctx.getKeySize() / 8];
+		BlockCipher x;
+
+		this.cipher_ctx = x = Util.getCipherByName(cipher);
+		int blockSize = x.getBlockSize();
+		output_buffer = new byte[blockSize / 8];
+		counter = new byte[blockSize / 8];
+		allZeroString = new byte[blockSize / 8];
+		tmp = new byte[x.getKeySize() / 8];
 
 		fetch_counter = output_buffer.length;
 	}
 
 	private void counterInc() {
-		for(int i = counter.length - 1; i >= 0; i--)
-			if(++counter[i] != 0)
+		byte[] c = this.counter;
+		for(int i = c.length - 1; i >= 0; i--)
+			if(++c[i] != 0)
 				break;
 	}
 
@@ -353,17 +345,19 @@ public class Yarrow extends RandomSource implements PersistentRandomSource {
 
 	// Fetches count bytes of randomness into the shared buffer, returning
 	// an offset to the bytes
-	private synchronized int getBytes(int count) {
+	private int getBytes(int count) {
+		while (true) {
 
-		if(fetch_counter + count > output_buffer.length) {
-			fetch_counter = 0;
-			generateOutput();
-			return getBytes(count);
+			if (fetch_counter + count > output_buffer.length) {
+				fetch_counter = 0;
+				generateOutput();
+				continue;
+			}
+
+			int rv = fetch_counter;
+			fetch_counter += count;
+			return rv;
 		}
-
-		int rv = fetch_counter;
-		fetch_counter += count;
-		return rv;
 	}
 	static final int bitTable[][] = {{0, 0x0}, {
 			1, 0x1
@@ -436,18 +430,20 @@ public class Yarrow extends RandomSource implements PersistentRandomSource {
 	// So don't try to simplify it... Thanks. :)
 	// When this was not synchronized, we were getting repeats...
 	@Override
-	protected synchronized int next(int bits) {
+	protected int next(int bits) {
 		int[] parameters = bitTable[bits];
 		int offset = getBytes(parameters[0]);
 
-		int val = output_buffer[offset];
+		byte[] o = this.output_buffer;
+
+		int val = o[offset];
 
 		if(parameters[0] == 4)
-			val += (output_buffer[offset + 1] << 24) + (output_buffer[offset + 2] << 16) + (output_buffer[offset + 3] << 8);
+			val += (o[offset + 1] << 24) + (o[offset + 2] << 16) + (o[offset + 3] << 8);
 		else if(parameters[0] == 3)
-			val += (output_buffer[offset + 1] << 16) + (output_buffer[offset + 2] << 8);
+			val += (o[offset + 1] << 16) + (o[offset + 2] << 8);
 		else if(parameters[0] == 2)
-			val += output_buffer[offset + 2] << 8;
+			val += o[offset + 2] << 8;
 
 		return val & parameters[1];
 	}
@@ -462,7 +458,7 @@ public class Yarrow extends RandomSource implements PersistentRandomSource {
 	private void accumulator_init(String digest) throws NoSuchAlgorithmException {
 		fast_pool = MessageDigest.getInstance(digest, Util.mdProviders.get(digest));
 		slow_pool = MessageDigest.getInstance(digest, Util.mdProviders.get(digest));
-		entropySeen = new HashMap<EntropySource, int[]>();
+		entropySeen = new HashMap<>();
 	}
 
 	@Override
@@ -572,7 +568,7 @@ public class Yarrow extends RandomSource implements PersistentRandomSource {
 		return actualEntropy;
 	}
 
-	private int estimateEntropy(EntropySource source, long newVal) {
+	private static int estimateEntropy(EntropySource source, long newVal) {
 		int delta = (int) (newVal - source.lastVal);
 		int delta2 = delta - source.lastDelta;
 		source.lastDelta = delta;

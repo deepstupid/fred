@@ -34,7 +34,7 @@ public class JceLoader {
 		p = null;
 		if (checkUse("use.NSS","false")) {
 			try {
-				p = (new NSSLoader()).load(checkUse("prefer.NSS"));
+				p = NSSLoader.load(checkUse("prefer.NSS"));
 			} catch(Throwable e) {
 				// FIXME what about Windows/MacOSX/etc?
 				final String msg = "Unable to load SunPKCS11-NSScrypto provider. This is NOT fatal error, Freenet will work, but some performance degradation possible. Consider installing libnss3 package.";
@@ -45,7 +45,7 @@ public class JceLoader {
 		p = null;
 		if (checkUse("use.BC.I.know.what.I.am.doing")) {
 			try {
-				p = (new BouncyCastleLoader()).load();
+				p = BouncyCastleLoader.load();
 			} catch(Throwable e) {
 				final String msg = "SERIOUS PROBLEM: Unable to load or use BouncyCastle provider.";
 				System.err.println(msg);
@@ -60,7 +60,7 @@ public class JceLoader {
 	}
 	static private class BouncyCastleLoader {
 		private BouncyCastleLoader() {}
-		private Provider load() throws Throwable {
+		private static Provider load() throws Throwable {
 			Provider p = Security.getProvider("BC");
 			if (p == null) {
 				try {
@@ -86,7 +86,7 @@ public class JceLoader {
 	}
 	static private class NSSLoader {
 		private NSSLoader() {}
-		private Provider load(boolean atfirst) throws Throwable {
+		private static Provider load(boolean atfirst) throws Throwable {
 			Provider nssProvider = null;
 			for(Provider p: java.security.Security.getProviders()) {
 				if (p.getName().matches("^SunPKCS11-(?i)NSS.*$")) {

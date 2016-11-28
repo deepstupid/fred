@@ -148,6 +148,7 @@ task copyTestResourcesToClasses2 {
 	    into sourceSets.test.output.classesDir
             include 'freenet/client/filter/*/**'
             include 'freenet/crypt/ciphers/rijndael-gladman-test-data/**'
+            include 'test/freenet/crypt/ciphers/rijndael-gladman-test-data/**'
             include 'freenet/l10n/*properties'
         }
     }

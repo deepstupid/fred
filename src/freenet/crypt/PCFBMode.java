@@ -178,7 +178,6 @@ public class PCFBMode {
 			buf[off++] ^= feedback_register[registerPointer];
 			feedback_register[registerPointer++] = b;
 		}
-        return;
     }
 
     /**
@@ -219,7 +218,6 @@ public class PCFBMode {
 			/* handle final partial block */
 			buf[off] = (feedback_register[registerPointer++] ^= buf[off]);
 		}
-        return;
     }
         
     // Refills the encrypted buffer with data.

@@ -3,6 +3,9 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
+import freenet.support.HexUtil;
+import freenet.support.Logger;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,9 +14,6 @@ import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import freenet.support.HexUtil;
-import freenet.support.Logger;
 
 public abstract class CryptoKey implements CryptoElement, Serializable {
 
@@ -56,7 +56,7 @@ public abstract class CryptoKey implements CryptoElement, Serializable {
 	public abstract byte[] fingerprint();
 	public abstract byte[] asBytes();
 
-	protected byte[] fingerprint(BigInteger[] quantities) {
+	protected static byte[] fingerprint(BigInteger[] quantities) {
 		synchronized (shactx) {
 			for (BigInteger quantity: quantities) {
 				byte[] mpi = Util.MPIbytes(quantity);

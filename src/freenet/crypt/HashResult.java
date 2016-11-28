@@ -1,19 +1,16 @@
 package freenet.crypt;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.util.Arrays;
-
 import freenet.support.HexUtil;
 import freenet.support.Logger;
 
+import java.io.*;
+import java.util.Arrays;
+
 public class HashResult implements Comparable<HashResult>, Cloneable, Serializable {
 
-    private static final long serialVersionUID = 1L;
-    /** The type of hash. */
+	private static final long serialVersionUID = 1L;
+	public static final HashResult[] EMPTY_HASH_RESULTS = new HashResult[0];
+	/** The type of hash. */
 	public final HashType type;
 	/** The result of the hash. Immutable. */
 	private final byte[] result;
@@ -58,7 +55,7 @@ public class HashResult implements Comparable<HashResult>, Cloneable, Serializab
 	}
 
 	public static void write(HashResult[] hashes, DataOutputStream dos) throws IOException {
-	    if(hashes == null) hashes = new HashResult[0];
+	    if(hashes == null) hashes = EMPTY_HASH_RESULTS;
 		int bitmask = 0;
 		for(HashResult hash : hashes)
 			bitmask |= hash.type.bitmask;
@@ -80,8 +77,10 @@ public class HashResult implements Comparable<HashResult>, Cloneable, Serializab
 
 	@Override
 	public int compareTo(HashResult h) {
-		if(type.bitmask == h.type.bitmask) return 0;
-		if(type.bitmask > h.type.bitmask) return 1;
+		int a = type.bitmask;
+		int b = h.type.bitmask;
+		if(a == b) return 0;
+		if(a > b) return 1;
 		/* else if(type.bitmask < h.type.bitmask) */ return -1;
 	}
 

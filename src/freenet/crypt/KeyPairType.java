@@ -31,7 +31,7 @@ public enum KeyPairType {
     /**
      * Creates the DSA enum value. 
      */
-    private KeyPairType(){
+    KeyPairType(){
         alg = name();
         specName = alg;
         modulusSize = 128;
@@ -44,7 +44,7 @@ public enum KeyPairType {
      * @param specName The elliptic curve to use. 
      * @param modulusSize Expected size of a DER encoded pubkey in bytes
      */
-    private KeyPairType(String alg, String specName, int modulusSize){
+    KeyPairType(String alg, String specName, int modulusSize){
         this.alg = alg;
         this.specName = specName;
         this.modulusSize = modulusSize;

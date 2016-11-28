@@ -1,10 +1,5 @@
 package freenet.crypt;
 
-import java.io.DataInputStream;
-import java.io.FilterInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.bouncycastle.crypto.BlockCipher;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.engines.AESEngine;
@@ -12,6 +7,11 @@ import org.bouncycastle.crypto.engines.AESLightEngine;
 import org.bouncycastle.crypto.modes.AEADBlockCipher;
 import org.bouncycastle.crypto.params.AEADParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
+
+import java.io.DataInputStream;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class AEADInputStream extends FilterInputStream {
     
@@ -66,59 +66,62 @@ public class AEADInputStream extends FilterInputStream {
     public int read(byte[] buf) throws IOException {
         return read(buf, 0, buf.length);
     }
-    
+
     @Override
     public int read(byte[] buf, int offset, int length) throws IOException {
-        if(length < 0) return -1;
-        if(length == 0) return 0;
-        if(excessEnd != 0) {
-            length = Math.min(length, excessEnd - excessPtr);
-            if(length > 0) {
-                System.arraycopy(excess, excessPtr, buf, offset, length);
-                excessPtr += length;
-                if(excessEnd == excessPtr) {
-                    excessEnd = 0;
-                    excessPtr = 0;
+        read:
+        while (true) {
+            if (length < 0) return -1;
+            if (length == 0) return 0;
+            if (excessEnd != 0) {
+                length = Math.min(length, excessEnd - excessPtr);
+                if (length > 0) {
+                    System.arraycopy(excess, excessPtr, buf, offset, length);
+                    excessPtr += length;
+                    if (excessEnd == excessPtr) {
+                        excessEnd = 0;
+                        excessPtr = 0;
+                    }
+                    return length;
                 }
-                return length;
             }
-        }
-        if(finished) return -1;
-        // FIXME OPTIMISE Can we avoid allocating new buffers here? We can't safely use in=out when
-        // calling cipher.processBytes().
-        while(true) {
-            byte[] temp = new byte[length];
-            int read = in.read(temp);
-            if(read == 0) return read; // Nasty ambiguous case.
-            if(read < 0) {
-                // End of stream.
-                // The last few bytes will still be in the cipher's buffer and have to be retrieved by doFinal().
-                try {
-                    excessEnd = cipher.doFinal(excess, 0);
-                } catch (InvalidCipherTextException e) {
-                    throw new AEADVerificationFailedException();
+            if (finished) return -1;
+            // FIXME OPTIMISE Can we avoid allocating new buffers here? We can't safely use in=out when
+            // calling cipher.processBytes().
+            while (true) {
+                byte[] temp = new byte[length];
+                int read = in.read(temp);
+                if (read == 0) return read; // Nasty ambiguous case.
+                if (read < 0) {
+                    // End of stream.
+                    // The last few bytes will still be in the cipher's buffer and have to be retrieved by doFinal().
+                    try {
+                        excessEnd = cipher.doFinal(excess, 0);
+                    } catch (InvalidCipherTextException e) {
+                        throw new AEADVerificationFailedException();
+                    }
+                    finished = true;
+                    if (excessEnd > 0) {
+                        continue read;
+                    } else
+                        return -1;
                 }
-                finished = true;
-                if(excessEnd > 0)
-                    return read(buf, offset, length);
-                else
-                    return -1;
-            }
-            if(read <= 0) return read;
-            assert(read <= length);
-            int outLength = cipher.getUpdateOutputSize(read);
-            if(outLength > length) {
-                byte[] outputTemp = new byte[outLength];
-                int decryptedBytes = cipher.processBytes(temp, 0, read, outputTemp, 0);
-                assert(decryptedBytes == outLength);
-                System.arraycopy(outputTemp, 0, buf, offset, length);
-                excessEnd = outLength - length;
-                assert(excessEnd < excess.length);
-                System.arraycopy(outputTemp, length, excess, 0, excessEnd);
-                return length;
-            } else {
-                int decryptedBytes = cipher.processBytes(temp, 0, read, buf, offset);
-                if(decryptedBytes > 0) return decryptedBytes;
+                if (read <= 0) return read;
+                assert (read <= length);
+                int outLength = cipher.getUpdateOutputSize(read);
+                if (outLength > length) {
+                    byte[] outputTemp = new byte[outLength];
+                    int decryptedBytes = cipher.processBytes(temp, 0, read, outputTemp, 0);
+                    assert (decryptedBytes == outLength);
+                    System.arraycopy(outputTemp, 0, buf, offset, length);
+                    excessEnd = outLength - length;
+                    assert (excessEnd < excess.length);
+                    System.arraycopy(outputTemp, length, excess, 0, excessEnd);
+                    return length;
+                } else {
+                    int decryptedBytes = cipher.processBytes(temp, 0, read, buf, offset);
+                    if (decryptedBytes > 0) return decryptedBytes;
+                }
             }
         }
     }

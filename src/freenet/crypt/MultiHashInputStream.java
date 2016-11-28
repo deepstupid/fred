@@ -34,8 +34,9 @@ public class MultiHashInputStream extends FilterInputStream {
 	
 	public MultiHashInputStream(InputStream proxy, long generateHashes) {
 		super(proxy);
-		ArrayList<Digester> digesters = new ArrayList<Digester>();
-		for(HashType type : HashType.values()) {
+		HashType[] values = HashType.values();
+		ArrayList<Digester> digesters = new ArrayList<>(values.length);
+		for(HashType type : values) {
 			if((generateHashes & type.bitmask) == type.bitmask) {
 				try {
 					digesters.add(new Digester(type));

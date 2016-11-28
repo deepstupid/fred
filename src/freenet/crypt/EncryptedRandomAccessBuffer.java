@@ -76,8 +76,8 @@ public final class EncryptedRandomAccessBuffer implements LockableRandomAccessBu
     }
 
     private void setup(MasterSecret masterKey, boolean newFile) throws IOException, GeneralSecurityException {
-        this.cipherRead = this.type.get();
-        this.cipherWrite = this.type.get();
+        this.cipherRead = EncryptedRandomAccessBufferType.get();
+        this.cipherWrite = EncryptedRandomAccessBufferType.get();
 
         MasterSecret masterSecret = masterKey;
 
@@ -307,9 +307,7 @@ public final class EncryptedRandomAccessBuffer implements LockableRandomAccessBu
                     headerEncIV);
             unencryptedBaseKey = KeyGenUtils.getSecretKey(type.encryptKey,
                     crypt.decryptCopy(encryptedKey));
-        } catch (InvalidKeyException e) {
-            throw new IOException("Error reading encryption keys from header.");
-        } catch (InvalidAlgorithmParameterException e) {
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
             throw new IOException("Error reading encryption keys from header.");
         }
 
@@ -330,7 +328,7 @@ public final class EncryptedRandomAccessBuffer implements LockableRandomAccessBu
 
         public final String input;
 
-        private kdfInput(){
+        kdfInput(){
             this.input = name();
         }
 

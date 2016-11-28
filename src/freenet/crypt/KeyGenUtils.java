@@ -48,9 +48,7 @@ public final class KeyGenUtils {
             KeyPairGenerator kg = KeyPairGenerator.getInstance(type.alg);
             kg.initialize(type.spec);
             return kg.generateKeyPair();
-        } catch (NoSuchAlgorithmException e) {
-            throw new Error(e); // Impossible?
-        } catch (InvalidAlgorithmParameterException e) {
+        } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
             throw new Error(e); // Impossible?
         }
     }
@@ -130,9 +128,7 @@ public final class KeyGenUtils {
             // FIXME verify that the keys are consistent if assertions/logging enabled??
 
             return getKeyPair(pubK, privK);
-        } catch (UnsupportedTypeException e) {
-            throw new Error(e); // Should be impossible
-        } catch (NoSuchAlgorithmException e) {
+        } catch (UnsupportedTypeException | NoSuchAlgorithmException e) {
             throw new Error(e); // Should be impossible
         } catch (InvalidKeySpecException e) {
             throw new IllegalArgumentException(e);

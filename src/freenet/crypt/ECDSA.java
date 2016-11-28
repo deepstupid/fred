@@ -1,16 +1,11 @@
 package freenet.crypt;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.Provider;
-import java.security.PublicKey;
-import java.security.Signature;
-import java.security.SignatureException;
+import freenet.node.FSParseException;
+import freenet.support.Base64;
+import freenet.support.Logger;
+import freenet.support.SimpleFieldSet;
+
+import java.security.*;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 import java.security.spec.ECGenParameterSpec;
@@ -18,11 +13,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
-
-import freenet.node.FSParseException;
-import freenet.support.Base64;
-import freenet.support.Logger;
-import freenet.support.SimpleFieldSet;
 
 public class ECDSA {
     public final Curves curve;
@@ -85,7 +75,7 @@ public class ECDSA {
 				throw new Error("Verification failed");
 		}
 
-        private Curves(String name, String defaultHashAlgorithm, int modulusSize, int maxSigSize) {
+        Curves(String name, String defaultHashAlgorithm, int modulusSize, int maxSigSize) {
             this.spec = new ECGenParameterSpec(name);
 			Signature sig = null;
 			KeyFactory kf = null;
@@ -128,14 +118,10 @@ public class ECDSA {
             } catch (InvalidAlgorithmParameterException e) {
                 Logger.error(ECDSA.class, "InvalidAlgorithmParameterException : "+e.getMessage(),e);
                 e.printStackTrace();
-            } catch (InvalidKeyException e) {
-				throw new Error(e);
-            } catch (InvalidKeySpecException e) {
-				throw new Error(e);
-            } catch (SignatureException e) {
+            } catch (InvalidKeyException | SignatureException | InvalidKeySpecException e) {
 				throw new Error(e);
             }
-			this.kgProvider = kg.getProvider();
+            this.kgProvider = kg.getProvider();
 			this.kfProvider = kf.getProvider();
 			this.sigProvider = sig.getProvider();
             this.keygen = kg;
@@ -144,7 +130,7 @@ public class ECDSA {
             this.maxSigSize = maxSigSize;
             Logger.normal(this, name +": using "+kgProvider+" for KeyPairGenerator(EC)");
             Logger.normal(this, name +": using "+kfProvider+" for KeyFactory(EC)");
-            Logger.normal(this, name +": using "+sigProvider+" for Signature("+defaultHashAlgorithm+")");
+            Logger.normal(this, name +": using "+sigProvider+" for Signature("+defaultHashAlgorithm+ ')');
 
         }
         

@@ -1,42 +1,23 @@
 package freenet.crypt;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.EOFException;
-import java.io.FilterInputStream;
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
+import freenet.client.async.ClientContext;
+import freenet.crypt.EncryptedRandomAccessBuffer.kdfInput;
+import freenet.support.Fields;
+import freenet.support.Logger;
+import freenet.support.api.LockableRandomAccessBuffer;
+import freenet.support.api.RandomAccessBucket;
+import freenet.support.io.*;
+import org.bouncycastle.crypto.SkippingStreamCipher;
+import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.params.ParametersWithIV;
+
+import javax.crypto.SecretKey;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.util.Arrays;
-
-import javax.crypto.SecretKey;
-
-import org.bouncycastle.crypto.SkippingStreamCipher;
-import org.bouncycastle.crypto.params.KeyParameter;
-import org.bouncycastle.crypto.params.ParametersWithIV;
-
-import freenet.client.async.ClientContext;
-import freenet.crypt.EncryptedRandomAccessBuffer.kdfInput;
-import freenet.support.Fields;
-import freenet.support.Logger;
-import freenet.support.api.Bucket;
-import freenet.support.api.LockableRandomAccessBuffer;
-import freenet.support.api.RandomAccessBucket;
-import freenet.support.io.BucketTools;
-import freenet.support.io.FilenameGenerator;
-import freenet.support.io.NullInputStream;
-import freenet.support.io.PersistentFileTracker;
-import freenet.support.io.ResumeFailedException;
-import freenet.support.io.StorageFormatException;
-import freenet.support.io.TempFileBucket;
 
 /** A Bucket encrypted using the same format as an EncryptedRandomAccessBuffer, which can therefore
  * be converted easily when needed.
@@ -90,7 +71,7 @@ public class EncryptedRandomAccessBucket implements RandomAccessBucket, Serializ
         this.unencryptedBaseKey = KeyGenUtils.genSecretKey(type.encryptKey);
         writeHeader(os);
         setupKeys();
-        SkippingStreamCipher cipherWrite = this.type.get();
+        SkippingStreamCipher cipherWrite = EncryptedRandomAccessBufferType.get();
         cipherWrite.init(true, cipherParams);
         return cipherWrite;
     }
@@ -108,10 +89,7 @@ public class EncryptedRandomAccessBucket implements RandomAccessBucket, Serializ
             CryptByteBuffer crypt = new CryptByteBuffer(type.encryptType, headerEncKey, 
                     headerEncIV);
             encryptedKey = crypt.encryptCopy(unencryptedBaseKey.getEncoded());
-        } catch (InvalidKeyException e) {
-            throw new GeneralSecurityException("Something went wrong with key generation. please "
-                    + "report", e.fillInStackTrace());
-        } catch (InvalidAlgorithmParameterException e) {
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
             throw new GeneralSecurityException("Something went wrong with key generation. please "
                     + "report", e.fillInStackTrace());
         }
@@ -162,7 +140,7 @@ public class EncryptedRandomAccessBucket implements RandomAccessBucket, Serializ
         if(!verifyHeader(fullHeader))
             throw new GeneralSecurityException("MAC is incorrect");
         setupKeys();
-        SkippingStreamCipher cipherRead = this.type.get();
+        SkippingStreamCipher cipherRead = EncryptedRandomAccessBufferType.get();
         cipherRead.init(false, cipherParams);
         return cipherRead;
     }
@@ -184,12 +162,10 @@ public class EncryptedRandomAccessBucket implements RandomAccessBucket, Serializ
                     headerEncIV);
             unencryptedBaseKey = KeyGenUtils.getSecretKey(type.encryptKey, 
                     crypt.decryptCopy(encryptedKey));
-        } catch (InvalidKeyException e) {
-            throw new IOException("Error reading encryption keys from header.");
-        } catch (InvalidAlgorithmParameterException e) {
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
             throw new IOException("Error reading encryption keys from header.");
         }
-        
+
         byte[] mac = new byte[type.macLen];
         System.arraycopy(footer, offset, mac, 0, type.macLen);
         
@@ -213,7 +189,7 @@ public class EncryptedRandomAccessBucket implements RandomAccessBucket, Serializ
         this.cipherParams = tempPram;
     }
     
-    class MyOutputStream extends FilterOutputStream {
+    static class MyOutputStream extends FilterOutputStream {
         
         private final SkippingStreamCipher cipherWrite;
 
@@ -259,7 +235,7 @@ public class EncryptedRandomAccessBucket implements RandomAccessBucket, Serializ
         }
     }
 
-    class MyInputStream extends FilterInputStream {
+    static class MyInputStream extends FilterInputStream {
         
         private final SkippingStreamCipher cipherRead;
 
@@ -310,7 +286,7 @@ public class EncryptedRandomAccessBucket implements RandomAccessBucket, Serializ
 
     @Override
     public String getName() {
-        return getClass().getName()+":"+underlying.getName();
+        return getClass().getName()+ ':' +underlying.getName();
     }
 
     @Override

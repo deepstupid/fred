@@ -1,25 +1,15 @@
 package freenet.crypt;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.Provider;
-import java.security.PublicKey;
+import freenet.support.Logger;
+
+import javax.crypto.KeyAgreement;
+import java.security.*;
 import java.security.interfaces.ECPublicKey;
 import java.security.spec.ECGenParameterSpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
-
-import javax.crypto.KeyAgreement;
-
-import freenet.crypt.JceLoader;
-import freenet.support.Logger;
 
 public class ECDH {
 
@@ -77,7 +67,7 @@ public class ECDH {
             ka.generateSecret();
 		}
 
-        private Curves(String name, int modulusSize, int derivedSecretSize) {
+        Curves(String name, int modulusSize, int derivedSecretSize) {
             this.spec = new ECGenParameterSpec(name);
             KeyAgreement ka = null;
 			KeyFactory kf = null;
@@ -113,20 +103,10 @@ public class ECDH {
 					ka = KeyAgreement.getInstance("ECDH", JceLoader.BouncyCastle);
 					selftest_genSecret(key, ka);
 				}
-			} catch(NoSuchAlgorithmException e) {
-				System.out.println(e);
-				e.printStackTrace(System.out);
-			} catch(InvalidKeySpecException e) {
-				System.out.println(e);
-				e.printStackTrace(System.out);
-			} catch(InvalidKeyException e) {
-				System.out.println(e);
-				e.printStackTrace(System.out);
-			} catch(InvalidAlgorithmParameterException e) {
-				System.out.println(e);
+			} catch(NoSuchAlgorithmException | InvalidAlgorithmParameterException | InvalidKeyException | InvalidKeySpecException e) {
 				e.printStackTrace(System.out);
 			}
-			this.modulusSize = modulusSize;
+            this.modulusSize = modulusSize;
 			this.derivedSecretSize = derivedSecretSize;
 
 			this.kgProvider = kg.getProvider();
@@ -137,24 +117,29 @@ public class ECDH {
 			Logger.normal(this, name +": using "+kaProvider+" for KeyAgreement(ECDH)");
 		}
         
-        private synchronized KeyPairGenerator getKeyPairGenerator() {
-        	if(keygenCached != null) return keygenCached;
-            KeyPairGenerator kg = null;
-            try {
-                kg = KeyPairGenerator.getInstance("EC", kgProvider);
-                kg.initialize(spec);
-            } catch (NoSuchAlgorithmException e) {
-                Logger.error(ECDH.class, "NoSuchAlgorithmException : "+e.getMessage(),e);
-                e.printStackTrace();
-            } catch (InvalidAlgorithmParameterException e) {
-                Logger.error(ECDH.class, "InvalidAlgorithmParameterException : "+e.getMessage(),e);
-                e.printStackTrace();
+        private KeyPairGenerator getKeyPairGenerator() {
+        	if(keygenCached != null)
+        	    return keygenCached;
+
+        	synchronized(spec) {
+                KeyPairGenerator kg = null;
+                try {
+                    kg = KeyPairGenerator.getInstance("EC", kgProvider);
+                    kg.initialize(spec);
+                } catch (NoSuchAlgorithmException e) {
+                    Logger.error(ECDH.class, "NoSuchAlgorithmException : " + e.getMessage(), e);
+                    e.printStackTrace();
+                } catch (InvalidAlgorithmParameterException e) {
+                    Logger.error(ECDH.class, "InvalidAlgorithmParameterException : " + e.getMessage(), e);
+                    e.printStackTrace();
+                }
+                keygenCached = kg;
+                return kg;
             }
-            keygenCached = kg;
-            return kg;
+
         }
         
-        public synchronized KeyPair generateKeyPair() {
+        public KeyPair generateKeyPair() {
             return getKeyPairGenerator().generateKeyPair();
         }
         
@@ -245,14 +230,15 @@ public class ECDH {
     /** Return the public key as a byte[] in network format */
 	public byte[] getPublicKeyNetworkFormat() {
         byte[] ret = getPublicKey().getEncoded();
-        if(ret.length == curve.modulusSize) {
+        int rl = ret.length;
+        if(rl == curve.modulusSize) {
         	return ret;
-        } else if(ret.length > curve.modulusSize) {
-        	throw new IllegalStateException("Encoded public key too long: should be "+curve.modulusSize+" bytes but is "+ret.length);
+        } else if(rl > curve.modulusSize) {
+        	throw new IllegalStateException("Encoded public key too long: should be "+curve.modulusSize+" bytes but is "+ rl);
         } else {
-        	Logger.warning(this, "Padding public key from "+ret.length+" to "+curve.modulusSize+" bytes");
+        	Logger.warning(this, "Padding public key from "+ rl +" to "+curve.modulusSize+" bytes");
         	byte[] out = new byte[curve.modulusSize];
-        	System.arraycopy(ret, 0, out, 0, ret.length);
+        	System.arraycopy(ret, 0, out, 0, rl);
         	return ret;
         }
 	}

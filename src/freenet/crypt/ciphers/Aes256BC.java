@@ -70,7 +70,7 @@ public class Aes256BC {
         String encrypted = encrypter.encrypt(message);
         String decrypted = encrypter.decrypt(encrypted);
 
-        System.out.println("Encrypt(\"" + message + "\", \"" + password + "\") = \"" + encrypted + "\"");
-        System.out.println("Decrypt(\"" + encrypted + "\", \"" + password + "\") = \"" + decrypted + "\"");
+        System.out.println("Encrypt(\"" + message + "\", \"" + password + "\") = \"" + encrypted + '"');
+        System.out.println("Decrypt(\"" + encrypted + "\", \"" + password + "\") = \"" + decrypted + '"');
     }
 }

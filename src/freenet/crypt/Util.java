@@ -3,28 +3,19 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.security.DigestException;
-import java.security.GeneralSecurityException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.Provider;
-import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 import freenet.crypt.ciphers.Rijndael;
 import freenet.support.HexUtil;
 import freenet.support.Loader;
 import freenet.support.Logger;
 import freenet.support.math.MersenneTwister;
+
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.math.BigInteger;
+import java.security.*;
+import java.util.*;
 
 public class Util {
 
@@ -226,7 +217,7 @@ public class Util {
 
 	static {
 		try {
-			HashMap<String,Provider> mdProviders_internal = new HashMap<String, Provider>();
+			HashMap<String,Provider> mdProviders_internal = new HashMap<>();
 
 			for (String algo: new String[] {
 				"SHA1", "MD5", "SHA-256", "SHA-384", "SHA-512"
@@ -253,10 +244,10 @@ public class Util {
 						}
 					} catch(GeneralSecurityException e) {
 						// ignore
-						Logger.warning(clazz, algo + "@" + sun + " benchmark failed", e);
+						Logger.warning(clazz, algo + '@' + sun + " benchmark failed", e);
 					} catch(Throwable e) {
 						// ignore
-						Logger.error(clazz, algo + "@" + sun + " benchmark failed", e);
+						Logger.error(clazz, algo + '@' + sun + " benchmark failed", e);
 					}
 				}
 				Provider mdProvider = md.getProvider();

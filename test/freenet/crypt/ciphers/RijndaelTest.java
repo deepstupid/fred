@@ -3,6 +3,17 @@
  * http://www.gnu.org/ for further details of the GPL. */
 package freenet.crypt.ciphers;
 
+import freenet.crypt.CTRBlockCipherTest;
+import freenet.crypt.UnsupportedCipherException;
+import freenet.support.HexUtil;
+import freenet.support.io.Closer;
+import junit.framework.TestCase;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,18 +22,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Random;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
-
-import junit.framework.TestCase;
-import freenet.crypt.CTRBlockCipherTest;
-import freenet.crypt.UnsupportedCipherException;
-import freenet.support.HexUtil;
-import freenet.support.io.Closer;
 
 /**
  * @author sdiz
@@ -1931,7 +1930,8 @@ public class RijndaelTest extends TestCase {
 		for(int testNumber : GLADMAN_TEST_NUMBERS) {
 			InputStream is = null;
 			try {
-				is = getClass().getResourceAsStream("/freenet/crypt/ciphers/rijndael-gladman-test-data/ecbn"+type+testNumber+".txt");
+
+				is = getClass().getResourceAsStream("./rijndael-gladman-test-data/ecbn"+type+testNumber+".txt");
 				InputStreamReader isr = new InputStreamReader(is, "ISO-8859-1");
 				BufferedReader br = new BufferedReader(isr);
 				for(int i=0;i<7;i++) br.readLine(); // Skip header
