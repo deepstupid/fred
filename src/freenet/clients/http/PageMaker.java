@@ -1,11 +1,5 @@
 package freenet.clients.http;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import freenet.client.filter.PushingTagReplacerCallback;
 import freenet.l10n.NodeL10n;
 import freenet.node.DarknetPeerNode;
@@ -15,6 +9,12 @@ import freenet.pluginmanager.FredPluginL10n;
 import freenet.support.HTMLNode;
 import freenet.support.Logger;
 import freenet.support.api.HTTPRequest;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /** Simple class to output standard heads and tail for web interface pages. 
 */
@@ -43,7 +43,8 @@ public final class PageMaker {
 		SKY_STATIC("sky-static", "Sky (Static menu)", "", false, false),
 		MINIMALBLUE("minimalblue", "Minimal Blue", "A minimalistic theme in blue", false, false),
 		MINIMALISTIC("minimalist", "Minimalistic", "A very minimalistic theme based on Google's designs", true, true),
-		RABBIT_HOLE("rabbit-hole", "Into the Rabbit Hole", "Simple and clean theme", false, false);
+		RABBIT_HOLE("rabbit-hole", "Into the Rabbit Hole", "Simple and clean theme", false, false),
+		WINTERFACEY("winterfacey", "Winterfacey", "2016th-theme, based on Winterface (Bootstrap)", false, false);
 
 		
 		public static final String[] possibleValues = {
@@ -69,7 +70,8 @@ public final class PageMaker {
 			SKY_STATIC.code,
 			MINIMALBLUE.code,
 			MINIMALISTIC.code,
-			RABBIT_HOLE.code
+			RABBIT_HOLE.code,
+			WINTERFACEY.code
 		};
 		
 		public final String code;  // the internal name

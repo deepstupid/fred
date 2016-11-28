@@ -58,3 +58,5 @@ plugins/
 prng.seed
 update.sh
 temp/
+split-file-inserter-storage-test/
+realNode*Test/
